@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 
 
 @lru_cache(maxsize=250)
-def open_xlsx(filename, sheet=None, droplist=None):
+def open_xlsx(filename, sheet="Sheet1", droplist=None):
+    """Opens xlsx file and returns a pandas dataframe"""
     dataframe = pd.read_excel(filename + ".xlsx", sheet_name=sheet, index_col=None, na_values=['NA'])
     if droplist:
         dataframe = dataframe.drop(list(droplist), axis=1)
@@ -14,7 +15,8 @@ def open_xlsx(filename, sheet=None, droplist=None):
 
 
 @lru_cache(maxsize=250)
-def list_xlsx(filename, sheet=None, droplist=None):
+def list_xlsx(filename, sheet="Sheet1", droplist=None):
+    """Opens xlsx file and returns a python list of contents"""
     dataframe = open_xlsx(filename, sheet, droplist)
     datalist = dataframe.values.tolist()
     return datalist
