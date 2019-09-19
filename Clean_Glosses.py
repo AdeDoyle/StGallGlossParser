@@ -64,6 +64,9 @@ def clean_gloss(gloss):
     numpatitir = numpat.finditer(gloss)
     for i in numpatitir:
         gloss = "".join(gloss.split(i.group()))
+    # replace incorrect characters with appropriate alternatives
+    if "7" in gloss:
+        gloss = "⁊".join(gloss.split("7"))
     # remove all double spacing and spacing at gloss beginning/end
     if "  " in gloss:
         while "  " in gloss:
