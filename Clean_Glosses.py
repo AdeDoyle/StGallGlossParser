@@ -6,7 +6,7 @@ import re
 from Pickle import save_obj
 
 
-# testlist = list()
+testlist = list()
 
 
 @lru_cache(maxsize=3500)
@@ -60,10 +60,12 @@ def clean_gloss(gloss, lowercase=False):
     for rem in remset:
         if rem in gloss:
             gloss = "".join(gloss.split(rem))
-    greekpat = re.compile(r'\.?[αιλμοπρςστυω]+\.?')
-    greekpatitir = greekpat.finditer(gloss)
-    for i in greekpatitir:
-        gloss = "".join(gloss.split(i.group()))
+    # if "-" in gloss:
+    #     gloss = " ".join(gloss.split("-"))
+    # greekpat = re.compile(r'\.?[αιλμοπρςστυω]+\.?')
+    # greekpatitir = greekpat.finditer(gloss)
+    # for i in greekpatitir:
+    #     gloss = "".join(gloss.split(i.group()))
     bracpat = re.compile(r'\(cf\. .*\)')
     bracpatitir = bracpat.finditer(gloss)
     for i in bracpatitir:
@@ -84,13 +86,18 @@ def clean_gloss(gloss, lowercase=False):
     bracpatitir = bracpat.finditer(gloss)
     for i in bracpatitir:
         gloss = "".join(gloss.split(i.group()))
+    alt_bracks = ["[", "]", "{", "}"]
+    for i in alt_bracks:
+        if i in gloss:
+            gloss = "".join(gloss.split(i))
     numpat = re.compile(r'\d{2,10}')
     numpatitir = numpat.finditer(gloss)
     for i in numpatitir:
         gloss = "".join(gloss.split(i.group()))
     # removes unwanted full stops
     abbrevlist = [".i.", " .i.", ".i. ", " .i. "]
-    abbrevpat = re.compile(r' \.[a-záéíóúA-ZÁÉÍÓÚ]+\. ')
+    abbrevpat = re.compile(r' \.[a-záéíóúA-ZÁÉÍÓÚαιλμοπρςστυω]+\. ')
+    # abbrevpat = re.compile(r' \.[a-záéíóúA-ZÁÉÍÓÚ]+\. ')
     abbrevpatitir = abbrevpat.finditer(gloss)
     for i in abbrevpatitir:
         abbrev = i.group()
@@ -135,8 +142,15 @@ def clean_gloss(gloss, lowercase=False):
     # replace incorrect characters with appropriate alternatives
     if "7" in gloss:
         gloss = "⁊".join(gloss.split("7"))
-    dotdict = {"m": "ṁ", "t": "ṫ"}
+    dotdict = {"m": "ṁ", "t": "ṫ", "ä": "a", "ü": "u"}
     overdotpat = re.compile(r'\ẇ')
+    overdotpatitir = overdotpat.finditer(gloss)
+    for i in overdotpatitir:
+        replet = i.group()
+        let = replet[0]
+        replacement = dotdict.get(let)
+        gloss = replacement.join(gloss.split(replet))
+    overdotpat = re.compile(r'[äü]')
     overdotpatitir = overdotpat.finditer(gloss)
     for i in overdotpatitir:
         replet = i.group()
@@ -151,32 +165,57 @@ def clean_gloss(gloss, lowercase=False):
     return gloss
 
 
-# Clean all glosses in the SG. corpus, print each gloss (original, then clean)
-# Count all unique (cleaned) glosses
-sgData = list_xlsx("SG. Combined Data", "Sheet 1")
+# # Pick spreadsheet to draw glosses from (for all testing)
+# sgData = list_xlsx("SG. Combined Data", "Sheet 1")
 
+# # Print a single cleaned gloss from the combined data spreadsheet
 # testgloss = sgData[10025]
 # print(clean_gloss(testgloss[8]))
 
-lastgloss = ""
-glcount = 0
-cleaned_glosses = list()
-for i in sgData:
-    thisgloss = clean_gloss(i[8])
-    if thisgloss != lastgloss:
-        cleaned_glosses.append(thisgloss)
-        # print(i[8])
-        print("{}: {}".format(i[0], thisgloss))
-        lastgloss = thisgloss
-        glcount += 1
+# # Clean all glosses in the SG. corpus, print each gloss (original, then clean)
+# # Count all unique (cleaned) glosses
+# lastgloss = ""
+# glcount = 0
+# cleaned_glosses = list()
+# for i in sgData:
+#     thisgloss = clean_gloss(i[8])
+#     if thisgloss != lastgloss:
+#         cleaned_glosses.append(thisgloss)
+#         # print(i[8])
+#         # print("{}: {}".format(i[0], thisgloss))
+#         lastgloss = thisgloss
+#         glcount += 1
 # print(glcount)
 
-# # print a sorted list of all characters in the cleaned St. Gall corpus
+# # Print a sorted list of all characters in the cleaned St. Gall corpus
 # all_chars = list(set("".join(cleaned_glosses)))
 # print(sorted(all_chars))
 # print(len(all_chars))
 # # for i in testlist:
 # #     print(i)
+
+# # Print a sorted list of all selected sub-strings in the cleaned St. Gall corpus
+# print(len(testlist))
+# all_subs = sorted(list(set(testlist)))
+# # print(all_subs)
+# print(len(all_subs))
+# list1 = list()
+# list2 = list()
+# for i in all_subs:
+#     print(i)
+#     # li = i.split("-")
+#     # list1.append(li[0])
+#     # list2.append(li[1])
+# # print(testlist)
+# # allpres = sorted(list(set(list1)))
+# # print(len(allpres))
+# # for i in allpres:
+# #     print(i)
+# # allposts = sorted(list(set(list2)))
+# # print(len(allposts))
+# # for i in allposts:
+# #     print(i)
+
 
 # # Save a dictionary of glosses with keys = original gloss, and values = cleaned gloss
 # sgData = list_xlsx("SG. Combined Data", "Sheet 1")
