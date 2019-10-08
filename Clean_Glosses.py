@@ -205,4 +205,3 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
 # for i in glosslist:
 #     glossdict[i] = clean_gloss(i)
 # save_obj("Cleaned_Glosses", glossdict)
-
