@@ -27,10 +27,13 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
                     gloss = gloss[:startpos] + gloss[endpos:]
         if tag == "gloss":
             if optag in gloss:
-                for i in range(gloss.count(optag)):
+                glossparts = []
+                while optag in gloss:
                     startpos = gloss.find(optag) + len(optag)
                     endpos = gloss.find(cltag)
-                    gloss = gloss[startpos:endpos]
+                    glossparts.append(gloss[startpos:endpos])
+                    gloss = gloss[endpos + len(cltag):]
+                gloss = "".join(glossparts)
         if tag == "del":
             if optag in gloss:
                 for i in range(gloss.count(optag)):
@@ -74,7 +77,7 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
     bracpatitir = bracpat.finditer(gloss)
     for i in bracpatitir:
         gloss = "".join(gloss.split(i.group()))
-    bracpat = re.compile(r'^\(.*\)')
+    bracpat = re.compile(r'^\(.*?\)')
     bracpatitir = bracpat.finditer(gloss.strip())
     for i in bracpatitir:
         gloss = "".join(gloss.split(i.group()))
@@ -90,7 +93,7 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
     bracpatitir = bracpat.finditer(gloss)
     for i in bracpatitir:
         gloss = "".join(gloss.split(i.group()))
-    alt_bracks = ["[", "]", "{", "}"]
+    alt_bracks = ["[", "]", "{", "}", "(", ")"]
     for i in alt_bracks:
         if i in gloss:
             gloss = "".join(gloss.split(i))
@@ -178,13 +181,21 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
             gloss = "".join(gloss.split(cltag))
     # remove all characters/strings not necessary in gloss
     remset = ("<", ">", "/", "·", ":", "*", "+", "--", ",.", ".,", ",", "..-", ".-", "?", '"', "|", "┼", "↑", "↓", "┤",
-              "├", "¹", "Û", "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)", "(subs.)")
+              "├", "¹", "Û", 'ḃ', 'ḋ', 'ḍ', 'ḥ', 'ṗ', 'ṩ', 'ṭ', 'ṇ̇', "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)",
+              "(subs.)")
     if lowercase:
         remset = ("<", ">", "/", "·", ":", "*", "+", "--", ",.", ".,", ",", "..-", ".-", "?", '"', "|", "┼", "↑", "↓",
-                  "┤", "├", "¹", "û", "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)", "(subs.)")
+                  "┤", "├", "¹", "û", 'ḃ', 'ḋ', 'ḍ', 'ḥ', 'ṗ', 'ṩ', 'ṭ', 'ṇ̇', "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)",
+                  "(subs.)")
     for rem in remset:
         if rem in gloss:
             gloss = "".join(gloss.split(rem))
+    repset = ('ł', 'ȩ', 'cḣo', 'cḥ̇o', 'ḣé', 'tḣ')
+    repdict = {'ł': 'ɫ', 'ȩ': 'e', 'cḣo': 'cho', 'cḥ̇o': 'co', 'ḣé': 'é', 'tḣ': 't'}
+    for rem in repset:
+        if rem in gloss:
+            rep = repdict.get(rem)
+            gloss = rep.join(gloss.split(rem))
     # remove hyphens if explicitly stated as function argument
     if rem_hyphen:
         if "-" in gloss:
@@ -262,7 +273,7 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
 # sgData = list_xlsx("SG. Combined Data", "Sheet 1")
 
 # # Print a single cleaned gloss from the combined data spreadsheet
-# testgloss = sgData[14890]
+# testgloss = sgData[7804]
 # print(clean_gloss(testgloss[8]))
 
 # # Clean all glosses in the SG. corpus, print each gloss (original, then clean)
@@ -281,12 +292,14 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
 #         glcount += 1
 # print(glcount)
 
-# # Print a sorted list of all characters in the cleaned St. Gall corpus
+# # Print a sorted list of all characters in the cleaned St. Gall glosses corpus
 # all_chars = list(set("".join(cleaned_glosses)))
 # print(sorted(all_chars))
 # print(len(all_chars))
-# # for i in testlist:
-# #     print(i)
+
+# # test multiple glosses with clean_gloss() function
+# for i in testlist:
+#     print(i)
 
 # # Print a sorted list of all selected sub-strings in the cleaned St. Gall corpus
 # print(len(testlist))
@@ -328,18 +341,26 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
 
 # # Print a gloss, a given word from it, and that word after cleaning for comparison
 # sgData = list_xlsx("SG. Combined Data", "Sheet 1")
+# cleaned_words = list()
 # for i in sgData[:]:
 #     thisword = i[1]
+#     thisgloss = i[8]
 #     if thisword:
 #         cleaned = clean_word(thisword)
-#         if thisword != cleaned:
-#             # print(i)
-#             print(thisword)
-#             print(cleaned)
-#             print()
-#         # print(thisword)
-#         # print(clean_word(thisword))
-#         # print()
+#         cleaned_words.append(cleaned)
+#         # if thisword != cleaned:
+#         #     print(i)
+#         #     print(thisword)
+#         #     print(cleaned)
+#         #     print()
+#         # # print(thisword)
+#         # # print(clean_word(thisword))
+#         # # print()
+
+# # Print a sorted list of all characters in the cleaned St. Gall words corpus
+# all_chars = list(set("".join(cleaned_words)))
+# print(sorted(all_chars))
+# print(len(all_chars))
 
 
 # # Save a dictionary of words with: keys = original word; and values = cleaned word
