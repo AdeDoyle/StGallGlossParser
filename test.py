@@ -25,6 +25,9 @@ testA2 = list()
 noA3 = list()
 testA3 = list()
 
+POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
+            "UMR", "INT", "SNL", "BRS", "PNC"]
+
 lastnum = False
 for i in analyses:
     glossnum = i[0]
