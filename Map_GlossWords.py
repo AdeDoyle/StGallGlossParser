@@ -1,6 +1,8 @@
 """Level ."""
 
-"""   
+"""
+   Clean POS tags from Bernhard's to Standard
+   
    Find all consecutive cleaned words in each gloss
 
    Use above to isolate OI material
@@ -9,7 +11,7 @@
 
    Match tokenisation of OI material in gloss-lists to words
 
-   Impliment appropriate spacing in gloss-lists based on tokenisation
+   Implement appropriate spacing in gloss-lists based on tokenisation
 
    Sequence gloss-lists
 """
