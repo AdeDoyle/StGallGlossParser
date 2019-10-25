@@ -78,6 +78,11 @@ POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "
 # sorted_rel = sorted(list(set(testRel)))
 
 
+A1_list = open_obj("A1 List.pkl")
+A2_list = open_obj("A2 List.pkl")
+A3_list = open_obj("A3 List.pkl")
+
+
 # # Test contents of POS tag-set and which entries have no tags.
 # print("Entries, no A1: {}".format(len(noA1)))
 # print("Unique A1 Types: {}".format(len(sorted_A1)))
@@ -114,9 +119,6 @@ POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "
 #     print(i)
 # for i in sorted_rel:
 #     print(i)
-
-
-A1_list = open_obj("A1 List.pkl")
 
 
 # Get all entries for a given POS-tag at any level
@@ -156,15 +158,15 @@ def findall_anytag(wordlist, tag_level=1):
 def clean_wordlist(wordlist):
     new_wordlist = list()
     for i in wordlist:
-        new_wordlist.append([i[1]] + i[3:8])
+        new_wordlist.append(i[0:2] + i[3:8])
     return new_wordlist
 
 
-l1_taglist = findall_thistag(analyses, "verb")
-l2_taglist = findall_thistag(l1_taglist, "copula", 2)
-l3_taglist = findall_thistag(l2_taglist, "3sg.pres.ind.", 3)
-l4_taglist = findall_excltag(l3_taglist, "Active", 4)
-l5_taglist = findall_anytag(l3_taglist, 5)
+# l1_taglist = findall_thistag(analyses, "verb")
+# l2_taglist = findall_thistag(l1_taglist, "copula", 2)
+# l3_taglist = findall_thistag(l2_taglist, "3sg.pres.ind.", 3)
+# l4_taglist = findall_excltag(l3_taglist, "Active", 4)
+# l5_taglist = findall_anytag(l3_taglist, 5)
 
 # for tag in clean_wordlist(l1_taglist):
 #     print(tag)
@@ -175,5 +177,38 @@ l5_taglist = findall_anytag(l3_taglist, 5)
 # for tag in clean_wordlist(l4_taglist):
 #     print(tag)
 # for tag in clean_wordlist(l5_taglist):
+#     print(tag)
+
+
+# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+# alltag_combos = list()
+# for entry in analyses:
+#     tag_combo = entry[3:8]
+#     if tag_combo not in alltag_combos:
+#         alltag_combos.append(tag_combo)
+# sorted_tag_combos = list()
+# for t1 in A1_list:
+#     for t2 in A2_list:
+#         for t3 in A3_list:
+#             for actpas in ["Active", "Pass", "Passive", False]:
+#                 for rel in ["Maybe", "Y", False]:
+#                     possible_combo = [t1, t2, t3, actpas, rel]
+#                     if possible_combo in alltag_combos:
+#                         sorted_tag_combos.append(possible_combo)
+# # save_obj("All POS Combos Used.pkl", sorted_tag_combos)
+
+ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
+# print(len(ordered_tagcombos))
+for tag in ordered_tagcombos:
+    count = 0
+    for an in analyses:
+        if tag == an[3:8]:
+            count += 1
+    print(count)
+
+
+# test_taglist = findall_thistag(analyses, A1_list[2])
+# # test_taglist = findall_anytag(test_taglist, 4)
+# for tag in clean_wordlist(test_taglist):
 #     print(tag)
 
