@@ -5,6 +5,7 @@ from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
 import re
+import matplotlib.pyplot as plt
 
 
 glossdict = open_obj("Clean_GlossDict.pkl")
@@ -197,14 +198,46 @@ def clean_wordlist(wordlist):
 #                         sorted_tag_combos.append(possible_combo)
 # # save_obj("All POS Combos Used.pkl", sorted_tag_combos)
 
-ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
-# print(len(ordered_tagcombos))
-for tag in ordered_tagcombos:
-    count = 0
-    for an in analyses:
-        if tag == an[3:8]:
-            count += 1
-    print(count)
+
+# # Count total potential POS tag combinations
+# ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
+# print("Total Tags: {}".format(len(ordered_tagcombos)))
+#
+# # Count, print and graph the number of POS tag combinations which are used a given number of times
+# # e.g. if there are 18 tags used only once, 10 tags used 5 times, and 2 tags used 50 times, count and graph this info.
+# tag_usage = list()
+# for tag in ordered_tagcombos:
+#     count = 0
+#     for an in analyses:
+#         if tag == an[3:8]:
+#             count += 1
+#     tag_usage.append(count)
+# tags_usecount = list()
+# alltagcount = sorted(tag_usage)
+# uniquetagscount = sorted(set(tag_usage))
+# for i in uniquetagscount:
+#     tagusecount = alltagcount.count(i)
+#     tags_usecount.append([i, tagusecount])
+# X = list()
+# Y = list()
+# for i in range(650):
+#     for j in tags_usecount:
+#         usecount = j[0]
+#         if usecount == i:
+#             countnum = j[1]
+#             X.append(usecount)
+#             Y.append(countnum)
+#             print("No. of tags used {} time(s): {}".format(usecount, countnum))
+#         elif usecount < i:
+#             X.append(i)
+#             Y.append(0)
+#         else:
+#             break
+# plt.plot(X, Y)
+# plt.title("Graph of Tag Usage in St. Gall Glosses")
+# plt.xlabel("Times Used")
+# plt.ylabel("Number of Tags Used X Times")
+# plt.show()
 
 
 # test_taglist = findall_thistag(analyses, A1_list[2])
