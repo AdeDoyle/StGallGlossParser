@@ -201,10 +201,10 @@ def clean_wordlist(wordlist):
 #     return "Done!"
 
 
-notlist = [i[3:8] for i in analyses if i[3:8] not in open_obj("All POS Combos Used.pkl")]
-print(notlist[0])
-for i in open_obj("All POS Combos Used.pkl"):
-    print(i)
+# notlist = [i[3:8] for i in analyses if i[3:8] not in open_obj("All POS Combos Used.pkl")]
+# print(notlist[0])
+# for i in open_obj("All POS Combos Used.pkl"):
+#     print(i)
 
 
 # loop_tags(analyses)
@@ -228,9 +228,11 @@ for i in open_obj("All POS Combos Used.pkl"):
 #     print(tag)
 
 
-# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
-# alltag_combos = list()
-# for entry in analyses:
+# Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+alltag_combos = list()
+for entry in analyses:
+    if not entry[3]:
+        print(entry)
 #     tag_combo = entry[3:8]
 #     if tag_combo not in alltag_combos:
 #         alltag_combos.append(tag_combo)
