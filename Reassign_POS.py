@@ -67,17 +67,17 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 #     vb_rel = i[7]
 #     if not A1:
 #         noA1.append(i)
-#         testA1.append(False)
+#         # testA1.append(False)
 #     elif A1.strip() not in testA1:
 #         testA1.append(A1.strip())
 #     if not A2:
 #         noA2.append(i)
-#         testA2.append(False)
+#         # testA2.append(False)
 #     elif A2.strip() not in testA2:
 #         testA2.append(A2.strip())
 #     if not A3:
 #         noA3.append(i)
-#         testA3.append(False)
+#         # testA3.append(False)
 #     elif A3.strip() not in testA3:
 #         A3_clean = A3.strip()
 #         if A3_clean[0] != "*":
@@ -86,12 +86,12 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 #             testA3.append("*")
 #     if vb_actpas:
 #         testActPas.append(vb_actpas.strip())
-#     else:
-#         vb_actpas.append(False)
+#     # else:
+#     #     testActPas.append(False)
 #     if vb_rel:
 #         testRel.append(vb_rel.strip())
-#     else:
-#         vb_rel.append(False)
+#     # else:
+#     #     testRel.append(False)
 #     # output = [word, A1, A2, A3, vb_actpas, vb_actpas]
 #     # if glossnum == lastnum:
 #     #     print(output)
@@ -102,19 +102,23 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 
 # # Sort lists of Bernhard's original POS-tags, levels 1-3, as well as verb information (active/passive and relativity)
 # # Save these sorted lists
-# sorted_A1 = sorted(list(set(testA1)))
+# sorted_A1 = sorted(list(set(testA1))) + [False]
 # # save_obj("A1 List", sorted_A1)
-# sorted_A2 = sorted(list(set(testA2)))
+# sorted_A2 = sorted(list(set(testA2))) + [False]
 # # save_obj("A2 List", sorted_A2)
-# sorted_A3 = sorted(list(set(testA3)))
+# sorted_A3 = sorted(list(set(testA3))) + [False]
 # # save_obj("A3 List", sorted_A3)
-# sorted_actpas = sorted(list(set(testActPas)))
-# sorted_rel = sorted(list(set(testRel)))
+# sorted_actpas = sorted(list(set(testActPas))) + [False]
+# # save_obj("Active_Passive List", sorted_actpas)
+# sorted_rel = sorted(list(set(testRel))) + [False]
+# # save_obj("Relative Options List", sorted_rel)
 
 
 A1_list = open_obj("A1 List.pkl")
 A2_list = open_obj("A2 List.pkl")
 A3_list = open_obj("A3 List.pkl")
+actpas_list = open_obj("Active_Passive List.pkl")
+rel_list = open_obj("Relative Options List.pkl")
 
 
 # # Test contents of POS tag-set and which entries have no tags.
@@ -274,8 +278,8 @@ def clean_wordlist(wordlist):
 # for t1 in A1_list:
 #     for t2 in A2_list:
 #         for t3 in A3_list:
-#             for actpas in ["Active", "Pass", "Passive", False]:
-#                 for rel in ["Maybe", "Y", False]:
+#             for actpas in actpas_list:
+#                 for rel in rel_list:
 #                     possible_combo = [t1, t2, t3, actpas, rel]
 #                     if possible_combo in alltag_combos:
 #                         sorted_tag_combos.append(possible_combo)
