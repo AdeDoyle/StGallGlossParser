@@ -228,14 +228,19 @@ def clean_wordlist(wordlist):
 #     print(tag)
 
 
-# Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
-alltag_combos = list()
-for entry in analyses:
-    if not entry[3]:
-        print(entry)
+# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+# alltag_combos = list()
+# for entry in analyses:
 #     tag_combo = entry[3:8]
-#     if tag_combo not in alltag_combos:
-#         alltag_combos.append(tag_combo)
+#     tag_combo_clean = list()
+#     for i in tag_combo:
+#         if i:
+#             i = i.strip()
+#             tag_combo_clean.append(i)
+#         else:
+#             tag_combo_clean.append(i)
+#     if tag_combo_clean not in alltag_combos:
+#         alltag_combos.append(tag_combo_clean)
 # sorted_tag_combos = list()
 # for t1 in A1_list:
 #     for t2 in A2_list:
@@ -245,7 +250,7 @@ for entry in analyses:
 #                     possible_combo = [t1, t2, t3, actpas, rel]
 #                     if possible_combo in alltag_combos:
 #                         sorted_tag_combos.append(possible_combo)
-# # save_obj("All POS Combos Used.pkl", sorted_tag_combos)
+# # save_obj("All POS Combos Used", sorted_tag_combos)
 
 
 # # Count total potential POS tag combinations
