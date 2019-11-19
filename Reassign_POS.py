@@ -79,6 +79,8 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 #         A3_clean = A3.strip()
 #         if A3_clean[0] != "*":
 #             testA3.append(A3.strip())
+#         else:
+#             testA3.append("*")
 #     if vb_actpas:
 #         testActPas.append(vb_actpas.strip())
 #     if vb_rel:
@@ -201,13 +203,33 @@ def clean_wordlist(wordlist):
 #     return "Done!"
 
 
-# notlist = [i[3:8] for i in analyses if i[3:8] not in open_obj("All POS Combos Used.pkl")]
-# print(notlist[0])
-# for i in open_obj("All POS Combos Used.pkl"):
-#     print(i)
-
-
 # loop_tags(analyses)
+
+
+# # test all POS combinations in the corpus (notlist - should be empty. if not...)
+# # (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
+# allpos = open_obj("All POS Combos Used.pkl")
+# notlist = list()
+# for i in analyses:
+#     itag_noisy = i[3:8]
+#     itag = list()
+#     for j in itag_noisy:
+#         if j:
+#             clean_j = j.strip()
+#             if j == itag_noisy[2]:
+#                 if clean_j[0] == "*":
+#                     clean_j = "*"
+#             itag.append(clean_j)
+#         else:
+#             itag.append(j)
+#     if itag not in allpos:
+#         notlist.append(itag)
+# print(notlist[0])
+# allpos = open_obj("All POS Combos Used.pkl")
+# for i in allpos:
+#     print(i)
+# print(len(allpos))
+# print(len(notlist))
 
 
 # l1_taglist = findall_thistag(analyses, "verb")
