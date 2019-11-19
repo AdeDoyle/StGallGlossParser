@@ -67,14 +67,17 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 #     vb_rel = i[7]
 #     if not A1:
 #         noA1.append(i)
+#         testA1.append(False)
 #     elif A1.strip() not in testA1:
 #         testA1.append(A1.strip())
 #     if not A2:
 #         noA2.append(i)
+#         testA2.append(False)
 #     elif A2.strip() not in testA2:
 #         testA2.append(A2.strip())
 #     if not A3:
 #         noA3.append(i)
+#         testA3.append(False)
 #     elif A3.strip() not in testA3:
 #         A3_clean = A3.strip()
 #         if A3_clean[0] != "*":
@@ -83,8 +86,12 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
 #             testA3.append("*")
 #     if vb_actpas:
 #         testActPas.append(vb_actpas.strip())
+#     else:
+#         vb_actpas.append(False)
 #     if vb_rel:
 #         testRel.append(vb_rel.strip())
+#     else:
+#         vb_rel.append(False)
 #     # output = [word, A1, A2, A3, vb_actpas, vb_actpas]
 #     # if glossnum == lastnum:
 #     #     print(output)
