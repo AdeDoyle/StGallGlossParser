@@ -28,6 +28,22 @@ UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
               'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'X']
 
 
+# Cleans tags in Bernhard's tag-set by removing whitespace and replacing unattested forms with a *
+def clean_onetag(taglist):
+    cleaned_tag = list()
+    C = taglist[2]
+    for tag_piece in taglist:
+        if tag_piece:
+            if tag_piece != C:
+                tag_piece = tag_piece.strip()
+            else:
+                tag_piece = tag_piece.strip()
+                if tag_piece[0] == "*":
+                    tag_piece = "*"
+        cleaned_tag.append(tag_piece)
+    return cleaned_tag
+
+
 # "ADJ": "adjective",
 # "ADP": "adposition - Pre-verbal particles? Infixed Pronouns",
 # "ADV": "adverb",
@@ -270,13 +286,7 @@ print(len(unique_notlist))
 # alltag_combos = list()
 # for entry in analyses:
 #     tag_combo = entry[3:8]
-#     tag_combo_clean = list()
-#     for i in tag_combo:
-#         if i:
-#             i = i.strip()
-#             tag_combo_clean.append(i)
-#         else:
-#             tag_combo_clean.append(i)
+#     tag_combo_clean = clean_onetag(tag_combo)
 #     if tag_combo_clean not in alltag_combos:
 #         alltag_combos.append(tag_combo_clean)
 # sorted_tag_combos = list()
@@ -289,6 +299,11 @@ print(len(unique_notlist))
 #                     if possible_combo in alltag_combos:
 #                         sorted_tag_combos.append(possible_combo)
 # # save_obj("All POS Combos Used", sorted_tag_combos)
+
+
+# # Test clean_onetag function
+# for tag in analyses:
+#     print(clean_onetag(tag[3:8]))
 
 
 # # Count total potential POS tag combinations
