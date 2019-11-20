@@ -217,30 +217,35 @@ def clean_wordlist(wordlist):
 # loop_tags(analyses)
 
 
-# # test all POS combinations in the corpus (notlist - should be empty. if not...)
-# # (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
-# allpos = open_obj("All POS Combos Used.pkl")
-# notlist = list()
-# for i in analyses:
-#     itag_noisy = i[3:8]
-#     itag = list()
-#     for j in itag_noisy:
-#         if j:
-#             clean_j = j.strip()
-#             if j == itag_noisy[2]:
-#                 if clean_j[0] == "*":
-#                     clean_j = "*"
-#             itag.append(clean_j)
-#         else:
-#             itag.append(j)
-#     if itag not in allpos:
-#         notlist.append(itag)
+# test all POS combinations in the corpus (notlist - should be empty. if not...)
+# (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
+allpos = open_obj("All POS Combos Used.pkl")
+notlist = list()
+for i in analyses:
+    itag_noisy = i[3:8]
+    itag = list()
+    for j in itag_noisy:
+        if j:
+            clean_j = j.strip()
+            if j == itag_noisy[2]:
+                if clean_j[0] == "*":
+                    clean_j = "*"
+            itag.append(clean_j)
+        else:
+            itag.append(j)
+    if itag not in allpos:
+        notlist.append(itag)
 # print(notlist[0])
-# allpos = open_obj("All POS Combos Used.pkl")
+unique_notlist = list()
+for i in notlist:
+    if i not in unique_notlist:
+        unique_notlist.append(i)
+        print(i)
 # for i in allpos:
 #     print(i)
-# print(len(allpos))
-# print(len(notlist))
+print(len(allpos))
+print(len(notlist))
+print(len(unique_notlist))
 
 
 # l1_taglist = findall_thistag(analyses, "verb")
