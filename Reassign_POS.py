@@ -212,6 +212,7 @@ def clean_wordlist(wordlist):
     return new_wordlist
 
 
+# takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
 def clean_analysis(taglist):
     An1 = taglist[0]
     An2 = taglist[1]
