@@ -15,8 +15,8 @@ wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 
 
-def clean_analysis():
-    pass
+def clean_analysis(taglist):
+    print(taglist)
 
 
 # POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
@@ -216,52 +216,61 @@ def clean_wordlist(wordlist):
     return new_wordlist
 
 
-# # Loops through all potential tags, finds them where they appear in a given list, deals with them as appropriate
-# # Where tags cannot be dealt with, all instances of the tag are printed
-# def loop_tags(taglist):
-#     count = 0
-#     alltags = open_obj("All POS Combos Used.pkl")
-#     for i in taglist:
-#         tag = i[3:8]
-#         if tag not in alltags:
-#             print(tag)
-#             count += 1
-#     print(count)
-#     return "Done!"
+# Loops through all potential tags, finds them where they appear in a given list, deals with them as appropriate
+# Where tags cannot be dealt with, all instances of the tag are printed
+def loop_tags(taglist):
+    all_pos = open_obj("All POS Combos Used.pkl")
+    for pos in [all_pos[5]]:
+        for full_tag in taglist:
+            glossnum = full_tag[0]
+            word = clean_word(full_tag[1])
+            trans = full_tag[2]
+            tag = clean_onetag(full_tag[3:8])
+            gloss = clean_gloss(full_tag[8])
+            glosstrans = full_tag[9]
+            assembled_tag = [glossnum, word, trans, tag, gloss, glosstrans]
+            if pos == tag:
+                print(assembled_tag)
+            try:
+                clean_analysis(tag)
+            except:
+                return "Broke at gloss no. {}\n'{}', in gloss, '{}'.\nAnalysis: {}".format(glossnum, word, gloss, tag)
+    return "Done!"
 
 
-# loop_tags(analyses)
+loop_tags(analyses)
+print(loop_tags(analyses))
 
 
-# test all POS combinations in the corpus (notlist - should be empty. if not...)
-# (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
-allpos = open_obj("All POS Combos Used.pkl")
-notlist = list()
-for i in analyses:
-    itag_noisy = i[3:8]
-    itag = list()
-    for j in itag_noisy:
-        if j:
-            clean_j = j.strip()
-            if j == itag_noisy[2]:
-                if clean_j[0] == "*":
-                    clean_j = "*"
-            itag.append(clean_j)
-        else:
-            itag.append(j)
-    if itag not in allpos:
-        notlist.append(itag)
-# print(notlist[0])
-unique_notlist = list()
-for i in notlist:
-    if i not in unique_notlist:
-        unique_notlist.append(i)
-        print(i)
-# for i in allpos:
-#     print(i)
-print(len(allpos))
-print(len(notlist))
-print(len(unique_notlist))
+# # test all POS combinations in the corpus (notlist - should be empty. if not...)
+# # (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
+# allpos = open_obj("All POS Combos Used.pkl")
+# notlist = list()
+# for i in analyses:
+#     itag_noisy = i[3:8]
+#     itag = list()
+#     for j in itag_noisy:
+#         if j:
+#             clean_j = j.strip()
+#             if j == itag_noisy[2]:
+#                 if clean_j[0] == "*":
+#                     clean_j = "*"
+#             itag.append(clean_j)
+#         else:
+#             itag.append(j)
+#     if itag not in allpos:
+#         notlist.append(itag)
+# # print(notlist[0])
+# unique_notlist = list()
+# for i in notlist:
+#     if i not in unique_notlist:
+#         unique_notlist.append(i)
+#         print(i)
+# # for i in allpos:
+# #     print(i)
+# print(len(allpos))
+# print(len(notlist))
+# print(len(unique_notlist))
 
 
 # l1_taglist = findall_thistag(analyses, "verb")
