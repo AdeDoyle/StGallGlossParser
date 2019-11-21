@@ -15,10 +15,6 @@ wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 
 
-def clean_analysis(taglist):
-    print(taglist)
-
-
 # POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
 #             "UMR", "INT", "SNL", "BRS", "PNC"]
 Parole_tags_TL = ["NOUN", "VERB", "ADJ", "PRON", "DET", "Article", "ADV", "ADP",
@@ -216,8 +212,17 @@ def clean_wordlist(wordlist):
     return new_wordlist
 
 
-# Loops through all potential tags, finds them where they appear in a given list, deals with them as appropriate
-# Where tags cannot be dealt with, all instances of the tag are printed
+def clean_analysis(taglist):
+    An1 = taglist[0]
+    An2 = taglist[1]
+    An2 = taglist[2]
+    actpas = taglist[3]
+    rel = taglist[4]
+    return taglist
+
+
+# Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
+# Where tags cannot be cleaned by the function, all instances of the tag are printed.
 def loop_tags(taglist):
     all_pos = open_obj("All POS Combos Used.pkl")
     for pos in [all_pos[5]]:
@@ -232,7 +237,7 @@ def loop_tags(taglist):
             if pos == tag:
                 print(assembled_tag)
             try:
-                clean_analysis(tag)
+                print(clean_analysis(tag))
             except:
                 return "Broke at gloss no. {}\n'{}', in gloss, '{}'.\nAnalysis: {}".format(glossnum, word, gloss, tag)
     return "Done!"
