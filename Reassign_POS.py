@@ -15,15 +15,6 @@ wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 
 
-# POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
-#             "UMR", "INT", "SNL", "BRS", "PNC"]
-Parole_tags_TL = ["NOUN", "VERB", "ADJ", "PRON", "DET", "Article", "ADV", "ADP",
-                  "Conjunction", "NUM", "INTJ", "Unique Membership Class", "Residuals", "PUNCT",
-                  "Abbreviation", "Copula", "Verbal Particle"]
-UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
-              'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'X']
-
-
 # Cleans tags in Bernhard's tag-set by removing whitespace and replacing unattested forms with a *
 def clean_onetag(taglist):
     cleaned_tag = list()
@@ -40,26 +31,7 @@ def clean_onetag(taglist):
     return cleaned_tag
 
 
-# "ADJ": "adjective",
-# "ADP": "adposition - Pre-verbal particles? Infixed Pronouns",
-# "ADV": "adverb",
-# "AUX": "auxiliary - accompanies lexical verb 'has/was/got done, should/must/will do, is doing'",
-# "CCONJ": "coordinating conjunction - connect clauses without subordinating one to the other, 'and, or, but'"
-# "DET": "determiner",
-# "INTJ": "interjection",
-# "NOUN": "noun",
-# "NUM": "numeral",
-# "PART": "particle - negative, possessive, interrogative, demonstrative(?)",
-# "PRON": "pronoun",
-# "PROPN": "proper noun",
-# "PUNCT": "punctuation",
-# "SCONJ": "subordinating conjunction - subordinates one clause to another 'that/if/when/since/before he will come'",
-# "SYM": "symbol",
-# "VERB": "verb",
-# "X": "other - meaningless foreign word or word fragment"
-
-
-# # Collect lists of Bernhard's original POS-tags, levels 1-3, incl. verb information (active/passive and relativity)
+# # Collect lists of Bernhard's original POS-tags, levels 1-3, incl. verb information (active/passive, and relativity)
 # noA1 = list()
 # testA1 = list()
 # noA2 = list()
@@ -112,7 +84,7 @@ def clean_onetag(taglist):
 #     # print(output)
 
 
-# # Sort lists of Bernhard's original POS-tags, levels 1-3, as well as verb information (active/passive and relativity)
+# # Sort lists of Bernhard's original POS-tags, levels 1-3, as well as verb information (active/passive, and relativity)
 # # Save these sorted lists
 # sorted_A1 = sorted(list(set(testA1))) + [False]
 # # save_obj("A1 List", sorted_A1)
@@ -135,40 +107,59 @@ rel_list = open_obj("Relative Options List.pkl")
 
 # # Test contents of POS tag-set and which entries have no tags.
 # print("Entries, no A1: {}".format(len(noA1)))
-# print("Unique A1 Types: {}".format(len(sorted_A1)))
+# print("Unique A1 Types: {}".format(len(A1_list)))
 #
 # print("Entries, no A2: {}".format(len(noA2)))
-# print("Unique A2 Types: {}".format(len(sorted_A2)))
+# print("Unique A2 Types: {}".format(len(A2_list)))
 #
 # print("Entries, no A3: {}".format(len(noA3)))
-# print("Unique A3 Types: {}".format(len(sorted_A3)))
+# print("Unique A3 Types: {}".format(len(A3_list)))
 #
-# print("Unique Active/Passive Types: {}".format(len(sorted_actpas)))
-# print("Unique Relativity Types: {}".format(len(sorted_rel)))
+# print("Unique Active/Passive Types: {}".format(len(actpas_list)))
+# print("Unique Relativity Types: {}".format(len(rel_list)))
 
 
-# for i in sorted_A1:
+# for i in A1_list:
 #     print(i)
 # for i in noA1:
 #     output = [i[1]] + i[3:8]
 #     print(output)
 
-# for i in sorted_A2:
+# for i in A2_list:
 #     print(i)
 # for i in noA2:
 #     output = [i[1]] + i[3:8]
 #     print(output)
 
-# for i in sorted_A3:
+# for i in A3_list:
 #     print(i)
 # for i in noA3:
 #     output = [i[1]] + i[3:8]
 #     print(output)
 
-# for i in sorted_actpas:
+# for i in actpas_list:
 #     print(i)
-# for i in sorted_rel:
+# for i in rel_list:
 #     print(i)
+
+
+# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+# alltag_combos = list()
+# for entry in analyses:
+#     tag_combo = entry[3:8]
+#     tag_combo_clean = clean_onetag(tag_combo)
+#     if tag_combo_clean not in alltag_combos:
+#         alltag_combos.append(tag_combo_clean)
+# sorted_tag_combos = list()
+# for t1 in A1_list:
+#     for t2 in A2_list:
+#         for t3 in A3_list:
+#             for actpas in actpas_list:
+#                 for rel in rel_list:
+#                     possible_combo = [t1, t2, t3, actpas, rel]
+#                     if possible_combo in alltag_combos:
+#                         sorted_tag_combos.append(possible_combo)
+# # save_obj("All POS Combos Used", sorted_tag_combos)
 
 
 # Get all entries for a given POS-tag at any level
@@ -208,44 +199,101 @@ def findall_notnulltag(wordlist, tag_level=1):
 def clean_wordlist(wordlist):
     new_wordlist = list()
     for i in wordlist:
-        new_wordlist.append(i[0:2] + i[3:8])
+        new_wordlist.append([i[0], clean_word(i[1])] + clean_onetag(i[3:8]))
     return new_wordlist
+
+
+# POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
+#             "UMR", "INT", "SNL", "BRS", "PNC"]
+# Parole_tags_TL = ["NOUN", "VERB", "ADJ", "PRON", "DET", "Article", "ADV", "ADP",
+#                   "Conjunction", "NUM", "INTJ", "Unique Membership Class", "Residuals", "PUNCT",
+#                   "Abbreviation", "Copula", "Verbal Particle"]
+# UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
+#               'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'X']
+# "ADJ": "adjective",
+# "ADP": "adposition - Pre-verbal particles? Infixed Pronouns",
+# "ADV": "adverb",
+# "AUX": "auxiliary - accompanies lexical verb 'has/was/got done, should/must/will do, is doing'",
+# "CCONJ": "coordinating conjunction - connect clauses without subordinating one to the other, 'and, or, but'"
+# "DET": "determiner",
+# "INTJ": "interjection",
+# "NOUN": "noun",
+# "NUM": "numeral",
+# "PART": "particle - negative, possessive, interrogative, demonstrative(?)",
+# "PRON": "pronoun",
+# "PROPN": "proper noun",
+# "PUNCT": "punctuation",
+# "SCONJ": "subordinating conjunction - subordinates one clause to another 'that/if/when/since/before he will come'",
+# "SYM": "symbol",
+# "VERB": "verb",
+# "X": "other - meaningless foreign word or word fragment"
 
 
 # takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
 def clean_analysis(taglist):
     An1 = taglist[0]
     An2 = taglist[1]
-    An2 = taglist[2]
+    An3 = taglist[2]
     actpas = taglist[3]
     rel = taglist[4]
-    return taglist
+    pos = "unknown"
+    if An1 == 'adjective':
+        if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
+            pos = 'ADJ'
+        else:
+            print(taglist)
+    # if pos == "unknown":
+    #     return 1/0
+    # else:
+    return pos
 
 
 # Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
 # Where tags cannot be cleaned by the function, all instances of the tag are printed.
 def loop_tags(taglist):
-    all_pos = open_obj("All POS Combos Used.pkl")
-    for pos in [all_pos[5]]:
-        for full_tag in taglist:
-            glossnum = full_tag[0]
-            word = clean_word(full_tag[1])
-            trans = full_tag[2]
-            tag = clean_onetag(full_tag[3:8])
-            gloss = clean_gloss(full_tag[8])
-            glosstrans = full_tag[9]
-            assembled_tag = [glossnum, word, trans, tag, gloss, glosstrans]
-            if pos == tag:
-                print(assembled_tag)
-            try:
-                print(clean_analysis(tag))
-            except:
-                return "Broke at gloss no. {}\n'{}', in gloss, '{}'.\nAnalysis: {}".format(glossnum, word, gloss, tag)
-    return "Done!"
+    # all_pos = open_obj("All POS Combos Used.pkl")
+    new_poslist = list()
+    for full_tag in taglist:
+        glossnum = full_tag[0]
+        word = clean_word(full_tag[1])
+        # trans = full_tag[2]
+        tag = clean_onetag(full_tag[3:8])
+        gloss = clean_gloss(full_tag[8])
+        # glosstrans = full_tag[9]
+        # assembled_tag = [glossnum, word, trans, tag, gloss, glosstrans]
+        try:
+            pos_tag = clean_analysis(tag)
+            full_tag.append(pos_tag)
+            new_poslist.append(full_tag)
+        except:
+            print("Broke at gloss no. {}\n'{}', in gloss, '{}'.\n"
+                  "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, tag))
+            for comp in taglist:
+                if clean_onetag(comp[3:8]) == tag:
+                    comp_glossnum = comp[0]
+                    comp_word = clean_word(comp[1])
+                    comp_tag = clean_onetag(comp[3:8])
+                    comp_gloss = clean_gloss(comp[8])
+                    print(comp_tag, comp_glossnum, "'" + comp_word + "'", "in, '" + comp_gloss + "'")
+            return "Loop Broken!\n"
+    return new_poslist
 
 
-loop_tags(analyses)
-print(loop_tags(analyses))
+# loop_tags(analyses)
+# print(loop_tags(analyses))
+# for i in loop_tags(analyses):
+#     print("'" + i[1] + "',", i[-1])
+
+l1_taglist = findall_thistag(analyses, "adjective")
+l2_taglist = findall_thistag(l1_taglist, False, 2)
+print(len(l2_taglist))
+for tag in l2_taglist:
+    found_glossnum = tag[0]
+    found_word = clean_word(tag[1])
+    found_trans = tag[2]
+    found_tag = clean_onetag(tag[3:8])
+    found_gloss = clean_gloss(tag[8])
+    print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
 
 
 # # test all POS combinations in the corpus (notlist - should be empty. if not...)
@@ -295,25 +343,6 @@ print(loop_tags(analyses))
 #     print(tag)
 # for tag in clean_wordlist(l5_taglist):
 #     print(tag)
-
-
-# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
-# alltag_combos = list()
-# for entry in analyses:
-#     tag_combo = entry[3:8]
-#     tag_combo_clean = clean_onetag(tag_combo)
-#     if tag_combo_clean not in alltag_combos:
-#         alltag_combos.append(tag_combo_clean)
-# sorted_tag_combos = list()
-# for t1 in A1_list:
-#     for t2 in A2_list:
-#         for t3 in A3_list:
-#             for actpas in actpas_list:
-#                 for rel in rel_list:
-#                     possible_combo = [t1, t2, t3, actpas, rel]
-#                     if possible_combo in alltag_combos:
-#                         sorted_tag_combos.append(possible_combo)
-# # save_obj("All POS Combos Used", sorted_tag_combos)
 
 
 # # Test clean_onetag function
@@ -372,9 +401,9 @@ print(loop_tags(analyses))
 
 # # find all instances of a given tag
 # test_taglist = findall_thistag(analyses, A1_list[2])
-# # find all instances of a given tag where another tag level is not null
-# test_taglist = findall_thistag(analyses, A1_list[1])
-# test_taglist = findall_notnulltag(test_taglist, 4)
+# # # find all instances of a given tag where another tag level is not null
+# # test_taglist = findall_thistag(analyses, A1_list[1])
+# # test_taglist = findall_notnulltag(test_taglist, 4)
 # for tag in clean_wordlist(test_taglist):
 #     print(tag)
 
