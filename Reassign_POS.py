@@ -237,15 +237,72 @@ def clean_analysis(taglist):
     actpas = taglist[3]
     rel = taglist[4]
     pos = "unknown"
+    # assign nouns
+    if An1 == 'noun':
+        if An2 in ['m, o', 'f, ā', 'm, i']:
+            if An3 in ['dat.sg.', 'acc.pl.', 'gen.pl.']:
+                if not actpas:
+                    if not rel:
+                        pos = "NOUN"
+    # assign articles
+    if An1 == 'article':
+        if An2 == 'm':
+            if An3 == 'gen.pl.':
+                if not actpas:
+                    if not rel:
+                        pos = "DET"
+    # assign verbs
+    verb_tensepers = ["3sg.pres.ind.", '3pl.pres.ind.']
+    if An1 == 'verb':
+        if An2 == 'substantive verb':
+            if An3 in verb_tensepers:
+                if actpas == 'Active':
+                    if not rel:
+                        pos = "VERB"
+        elif An2 == 'BII':
+            if An3 in verb_tensepers:
+                if actpas == 'Active':
+                    if not rel:
+                        pos = "VERB"
+    # assign adjectives
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
             pos = 'ADJ'
         else:
-            print(taglist)
-    # if pos == "unknown":
-    #     return 1/0
-    # else:
-    return pos
+            pass
+            # print(taglist)
+    # assign prepositions
+    if An1 == 'preposition, with dat; leniting':
+        if not An2:
+            if An3 == 'dat.':
+                if not actpas:
+                    if not rel:
+                        pos = "ADP"
+    elif An1 == 'preposition, with acc; geminating':
+        if not An2:
+            if An3 == 'acc.':
+                if not actpas:
+                    if not rel:
+                        pos = "ADP"
+    # assign conjunctions
+    if An1 == 'conjunction (nasalizing, conjunct)':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ"
+    # assign pre-verbal particles
+    if An1 == 'particle':
+        if An2 == 'preverb':
+            if An3 == '*':
+                if not actpas:
+                    if not rel:
+                        pos = "PVP"
+    if pos == "unknown":
+        return 1/0
+    else:
+        return pos
+    # return pos
 
 
 # Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
@@ -272,28 +329,42 @@ def loop_tags(taglist):
                 if clean_onetag(comp[3:8]) == tag:
                     comp_glossnum = comp[0]
                     comp_word = clean_word(comp[1])
+                    comp_trans = comp[2]
                     comp_tag = clean_onetag(comp[3:8])
                     comp_gloss = clean_gloss(comp[8])
-                    print(comp_tag, comp_glossnum, "'" + comp_word + "'", "in, '" + comp_gloss + "'")
+                    print(comp_tag, comp_glossnum, "'" + comp_word + "'", comp_trans, "in, '" + comp_gloss + "'")
             return "Loop Broken!\n"
     return new_poslist
 
 
-# loop_tags(analyses)
+loop_tags(analyses)
 # print(loop_tags(analyses))
 # for i in loop_tags(analyses):
 #     print("'" + i[1] + "',", i[-1])
 
-l1_taglist = findall_thistag(analyses, "adjective")
-l2_taglist = findall_thistag(l1_taglist, False, 2)
-print(len(l2_taglist))
-for tag in l2_taglist:
-    found_glossnum = tag[0]
-    found_word = clean_word(tag[1])
-    found_trans = tag[2]
-    found_tag = clean_onetag(tag[3:8])
-    found_gloss = clean_gloss(tag[8])
-    print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
+# # Find Percentage of Corpus POS tagged
+# tagged_list = loop_tags(analyses)
+# tagged_count = 0
+# all_count = len(tagged_list)
+# for i in tagged_list:
+#     if i[-1] != 'unknown':
+#         tagged_count += 1
+# tagged_percent = (100/all_count) * tagged_count
+# print("Total number of words in corpus: {}".format(all_count))
+# print("Number of words tagged: {}".format(tagged_count))
+# print("Percentage of words tagged: {}".format(tagged_percent))
+
+
+# l1_taglist = findall_thistag(analyses, "adjective")
+# l2_taglist = findall_thistag(l1_taglist, False, 2)
+# print(len(l2_taglist))
+# for tag in l2_taglist:
+#     found_glossnum = tag[0]
+#     found_word = clean_word(tag[1])
+#     found_trans = tag[2]
+#     found_tag = clean_onetag(tag[3:8])
+#     found_gloss = clean_gloss(tag[8])
+#     print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
 
 
 # # test all POS combinations in the corpus (notlist - should be empty. if not...)
