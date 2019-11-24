@@ -237,22 +237,41 @@ def clean_analysis(taglist):
     actpas = taglist[3]
     rel = taglist[4]
     pos = "unknown"
-    # assign nouns
+    # assign nouns (NOUN)
     if An1 == 'noun':
-        if An2 in ['m, o', 'f, ā', 'm, i']:
-            if An3 in ['dat.sg.', 'acc.pl.', 'gen.pl.']:
+        if An2 in ['m, o', 'n, o', 'f, ā', 'm, i', 'f, mixed ā-, ī-, i-']:
+            if An3 in ['nom.sg.', 'acc.sg.', 'dat.sg.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.']:
                 if not actpas:
                     if not rel:
                         pos = "NOUN"
-    # assign articles
+    # assign pronouns (PRON)
+    if An1 == 'pronoun, possessive, unstressed':
+        if An2 == '3pl (nasalizing)':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
+    elif An1 == 'pronoun, personal':
+        if An2 == '3sg f':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
+    elif An1 == 'particle, emphatic pronominal':
+        if An2 == '3sg m, n':
+            if An3 in ['3sg.masc.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
+    # assign articles (DET)
     if An1 == 'article':
-        if An2 == 'm':
-            if An3 == 'gen.pl.':
+        if An2 in ['m', 'fem']:
+            if An3 in ['nom.sg.', 'dat.sg.', 'gen.pl.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
-    # assign verbs
-    verb_tensepers = ["3sg.pres.ind.", '3sg.pres.subj.', '3pl.pres.ind.']
+    # assign verbs (VERB)
+    verb_tensepers = ["3sg.pres.ind.", '3sg.perf.', '3sg.pres.subj.', '3pl.pres.ind.']
     if An1 == 'verb':
         if An2 == 'substantive verb':
             if An3 in verb_tensepers:
@@ -269,14 +288,23 @@ def clean_analysis(taglist):
                 if actpas == 'Active':
                     if not rel:
                         pos = "VERB"
-    # assign adjectives
+                    elif rel == 'Y':
+                        pos = "VERB"
+    # assign adverb (ADV)
+    if An1 == 'adverb':
+        if An2 == 'conjunctive':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "ADV"
+    # assign adjectives (ADJ)
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
-            pos = 'ADJ'
-        else:
-            pass
-            # print(taglist)
-    # assign prepositions
+            if An3 in ['dat.pl.']:
+                if not actpas:
+                    if not rel:
+                        pos = 'ADJ'
+    # assign prepositions (ADP)
     if An1 == 'preposition, with dat; leniting':
         if not An2:
             if An3 == 'dat.':
@@ -289,7 +317,13 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "ADP"
-    # assign conjunctions
+    elif An1 == 'preposition, with dat and acc; nasalizing':
+        if not An2:
+            if An3 == 'acc.':
+                if not actpas:
+                    if not rel:
+                        pos = "ADP"
+    # assign conjunctions (CCONJ/SCONJ)
     if An1 == 'conjunction':
         if An2 in ['concessive and explicative (leniting)']:
             if not An3:
@@ -302,18 +336,29 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
-    # assign pre-verbal particles
+    # assign demonstrative particles (PART)
+    if An1 == 'adjective, demonstrative pronominal':
+        if An2 == 'this, these':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
+    # assign pre-verbal particles (PVP)
     if An1 == 'particle':
         if An2 == 'preverb':
-            if An3 == '*':
+            if not An3:
                 if not actpas:
                     if not rel:
                         pos = "PVP"
-    # if pos == "unknown":
-    #     return 1/0
-    # else:
-    #     return pos
-    return pos
+            elif An3 == '*':
+                if not actpas:
+                    if not rel:
+                        pos = "PVP"
+    if pos == "unknown":
+        return 1/0
+    else:
+        return pos
+    # return pos
 
 
 # Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
@@ -348,22 +393,22 @@ def loop_tags(taglist):
     return new_poslist
 
 
-# loop_tags(analyses)
+loop_tags(analyses)
 # print(loop_tags(analyses))
 # for i in loop_tags(analyses):
 #     print("'" + i[1] + "',", i[-1])
 
-# Find Percentage of Corpus POS tagged
-tagged_list = loop_tags(analyses)
-tagged_count = 0
-all_count = len(tagged_list)
-for i in tagged_list:
-    if i[-1] != 'unknown':
-        tagged_count += 1
-tagged_percent = (100/all_count) * tagged_count
-print("Total number of words in corpus: {}".format(all_count))
-print("Number of words tagged: {}".format(tagged_count))
-print("Percentage of words tagged: {}".format(tagged_percent))
+# # Find Percentage of Corpus POS tagged
+# tagged_list = loop_tags(analyses)
+# tagged_count = 0
+# all_count = len(tagged_list)
+# for i in tagged_list:
+#     if i[-1] != 'unknown':
+#         tagged_count += 1
+# tagged_percent = (100/all_count) * tagged_count
+# print("Total number of words in corpus: {}".format(all_count))
+# print("Number of words tagged: {}".format(tagged_count))
+# print("Percentage of words tagged: {}".format(tagged_percent))
 
 
 # l1_taglist = findall_thistag(analyses, "adjective")
