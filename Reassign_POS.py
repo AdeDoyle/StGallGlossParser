@@ -276,8 +276,15 @@ def clean_analysis(taglist):
     if An1 in ['preposition, with acc; geminating', 'preposition, with dat', 'preposition, with dat; leniting',
                'preposition, with dat and acc; leniting']:
         if not An2:
-            if An3 in ['dat. + suff.pron.1sg.', 'dat. + suff.pron.2sg.', 'acc. + poss.pron.3sg.masc./neut.',
-                       'dat. + suff.pron.3sg.masc./neut.', 'acc. + suff.pron.3pl.']:
+            if An3 in ['dat. + suff.pron.1sg.', 'dat. + suff.pron.2sg.', 'acc. + suff.pron.3sg.masc./neut.',
+                       'acc. + poss.pron.3sg.masc./neut.', 'dat. + suff.pron.3sg.masc./neut.', 'acc. + suff.pron.3pl.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
+    # Assign deterministic pronouns - preceding pronominal articles (PRON)
+    if An1 in ['preposition, with dat; leniting']:
+        if not An2:
+            if An3 in ['dat. + def.art.pl.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
@@ -285,6 +292,13 @@ def clean_analysis(taglist):
     if An1 == 'article':
         if An2 in ['m', 'fem']:
             if An3 in ['nom.sg.', 'gen.sg.', 'dat.sg.', 'gen.pl.']:
+                if not actpas:
+                    if not rel:
+                        pos = "DET"
+    # Assign pronominal articles (DET)
+    if An1 == 'article':
+        if An2 in ['n']:
+            if An3 in ['dat.pl + do 1']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
@@ -305,6 +319,8 @@ def clean_analysis(taglist):
                 if actpas == 'Active':
                     if not rel:
                         pos = "VERB"
+                    elif rel == 'Y':
+                        pos = "VERB"
     # Copula
         elif An2 == 'copula':
             if An3 in verb_tensepers:
@@ -312,7 +328,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "VERB"
     # General Verbs
-        elif An2 in ['AI', 'BII']:
+        elif An2 in ['AI', 'BI', 'BII']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
@@ -360,7 +376,8 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "CCONJ"
     if An1 == 'conjunction':
-        if An2 in ['concessive and explicative (leniting)']:
+        if An2 in ['concessive and explicative (leniting)', 'final (purpose), and explicative',
+                   'negative subordinating']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -381,7 +398,7 @@ def clean_analysis(taglist):
     # assign deictic particles (PART)
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
-            if An3 == 'gen.pl.masc.':
+            if An3 in ['gen.pl.masc.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
