@@ -4,6 +4,7 @@ from functools import lru_cache
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
+import time
 import re
 import matplotlib.pyplot as plt
 
@@ -144,6 +145,7 @@ rel_list = open_obj("Relative Options List.pkl")
 
 
 # # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+# start_time = time.time()
 # alltag_combos = list()
 # for entry in analyses:
 #     tag_combo = entry[3:8]
@@ -160,6 +162,16 @@ rel_list = open_obj("Relative Options List.pkl")
 #                     if possible_combo in alltag_combos:
 #                         sorted_tag_combos.append(possible_combo)
 # # save_obj("All POS Combos Used", sorted_tag_combos)
+# end_time = time.time()
+# time_elapsed = end_time - start_time
+# duration_in = 'sec'
+# if time_elapsed > 60:
+#     time_elapsed = time_elapsed/60
+#     duration_in = 'mins'
+#     if time_elapsed > 60:
+#         time_elapsed = time_elapsed / 60
+#         duration_in = 'hrs'
+# print("Time Elapsed: {}{}".format(time_elapsed, duration_in))
 
 
 # Get all entries for a given POS-tag at any level
