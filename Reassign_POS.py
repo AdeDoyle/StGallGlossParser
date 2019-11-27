@@ -251,9 +251,10 @@ def clean_analysis(taglist):
     pos = "unknown"
     # Assign nouns (NOUN)
     if An1 == 'noun':
-        if An2 in ['m, o', 'n, o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'm, u',
+        if An2 in ['m, o', 'n, o', 'o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'm, u', 'm, n',
                    'm, u and n, o', 'f, i, ī', 'f, mixed ā-, ī-, i-']:
-            if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.']:
+            if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'nom.pl.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.',
+                       'dat.pl.', 'acc.du.']:
                 if not actpas:
                     if not rel:
                         pos = "NOUN"
@@ -294,23 +295,23 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PRON"
     # Assign deterministic pronouns - preceding pronominal articles (PRON)
-    if An1 in ['preposition, with dat; leniting']:
+    if An1 in ['preposition, with dat; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
-            if An3 in ['dat. + def.art.pl.']:
+            if An3 in ['dat. + def.art.sg.', 'dat. + def.art.pl.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
     # Assign articles (DET)
     if An1 == 'article':
-        if An2 in ['m', 'fem']:
-            if An3 in ['nom.sg.', 'gen.sg.', 'dat.sg.', 'gen.pl.']:
+        if An2 in ['m', 'n', 'fem']:
+            if An3 in ['nom.sg.', 'gen.sg.', 'dat.sg.', 'gen.pl.', 'acc.du.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
     # Assign pronominal articles (DET)
     if An1 == 'article':
-        if An2 in ['n']:
-            if An3 in ['dat.pl + do 1']:
+        if An2 in ['m', 'n']:
+            if An3 in ['dat.sg. + i 2', 'dat.pl + de 1', 'dat.pl + do 1']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
@@ -322,11 +323,11 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "DET"
     # Assign verbs (VERB)
-    verb_tensepers = ['1sg.pres.subj.', "3sg.pres.ind.", '3sg.pres.subj.', '3sg.past.subj.', '3sg.perf.', '3sg.fut.',
-                      '3pl.pres.ind.']
+    verb_tensepers = ['1sg.pres.subj.', "3sg.pres.ind.", '3sg.pres.ind.pass.', '3sg.pres.subj.', '3sg.cons.pres.rel.',
+                      '3sg.past.subj.', '3sg.perf.', '3sg.fut.', '3pl.pres.ind.']
     # Substantive Verb
     if An1 == 'verb':
-        if An2 == 'substantive verb':
+        if An2 in ['substantive verb', 'substantive verb (compound)']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
@@ -340,31 +341,45 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "VERB"
     # General Verbs
-        elif An2 in ['AI', 'BI', 'BII']:
+        elif An2 in ['AI', 'AII', 'BI', 'BII']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
                         pos = "VERB"
                     elif rel == 'Y':
                         pos = "VERB"
-    # assign adverb (ADV)
+                elif actpas in ['Passive']:
+                    if not rel:
+                        pos = "VERB"
+                    elif rel == 'Y':
+                        pos = "VERB"
+    # Unclear Verbs
+        elif not An2:
+            if An3 in verb_tensepers:
+                if actpas == 'Active':
+                    if not rel:
+                        pos = "VERB"
+                elif actpas == 'Passive':
+                    if not rel:
+                        pos = "VERB"
+    # Assign adverb (ADV)
     if An1 == 'adverb':
         if An2 == 'conjunctive':
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "ADV"
-    # assign adjectives (ADJ)
+    # Assign adjectives (ADJ)
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
             if An3 in ['nom.sg.masc.', 'nom.sg.fem.', 'dat.pl.', 'comparative']:
                 if not actpas:
                     if not rel:
                         pos = 'ADJ'
-    # assign prepositions (ADP)
+    # Assign prepositions (ADP)
     if An1 in ['preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing']:
         if not An2:
-            if An3 == 'dat.':
+            if An3 in ['dat.', 'dat. + rel.part.']:
                 if not actpas:
                     if not rel:
                         pos = "ADP"
@@ -380,10 +395,10 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "ADP"
-    # assign conjunctions (CCONJ/SCONJ)
+    # Assign conjunctions (CCONJ/SCONJ)
     if An1 == 'conjunction (leniting)':
         if An2 == 'coordinating':
-            if An3 == 'joining two nouns':
+            if An3 in ['joining two nouns', 'joining two sentences or clauses']:
                 if not actpas:
                     if not rel:
                         pos = "CCONJ"
@@ -400,21 +415,42 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
-    # assign demonstrative particles (PART)
+    # Assign negative particles (PART)
+    if An1 == 'particle':
+        if An2 == 'negative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
+    # Assign demonstrative particles (PART)
     if An1 in ['adjective, demonstrative pronominal', 'pronoun, demonstrative']:
         if An2 in ['this, these', 'that, those']:
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "PART"
-    # assign deictic particles (PART)
+    # Assign relative particles (PART)
+    if An1 == 'particle':
+        if An2 == 'relative':
+            if An3 in ['rel part + de 1']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
+    # Assign deictic particles (PART)
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
             if An3 in ['gen.pl.masc.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
-    # assign pre-verbal particles (PVP)
+    # Assign numerals (NUM)
+    if An1 == 'number':
+        if An2 == 'adjective':
+            if An3 in ['acc.du.fem.']:
+                if not actpas:
+                    if not rel:
+                        pos = "NUM"
+    # Assign pre-verbal particles (PVP)
     if An1 == 'particle':
         if An2 == 'preverb':
             if not An3:
