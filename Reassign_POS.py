@@ -252,7 +252,8 @@ def clean_analysis(taglist):
     # Assign nouns (NOUN)
     if An1 == 'noun':
         if An2 in ['m, o', 'n, o', 'o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'm, u', 'm, n',
-                   'm, u and n, o', 'f, i, ī', 'f, mixed ā-, ī-, i-']:
+                   'm, u and n, o', 'f, i, ī', 'f, mixed ā-, ī-, i-',
+                   'gender not attested in OIr.']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'nom.pl.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.',
                        'dat.pl.', 'acc.du.']:
                 if not actpas:
@@ -341,7 +342,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "VERB"
     # General Verbs
-        elif An2 in ['AI', 'AII', 'BI', 'BII']:
+        elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
