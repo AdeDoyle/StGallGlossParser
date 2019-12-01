@@ -144,7 +144,7 @@ rel_list = open_obj("Relative Options List.pkl")
 #     print(i)
 
 
-# # Create an ordered list of all unique POS-tag combinations used (takes a long time to run)
+# # Create an ordered list of all unique POS-tag combinations used (takes about 26 minutes to run)
 # start_time = time.time()
 # alltag_combos = list()
 # for entry in analyses:
@@ -166,7 +166,7 @@ rel_list = open_obj("Relative Options List.pkl")
 # time_elapsed = end_time - start_time
 # duration_in = 'sec'
 # if time_elapsed > 60:
-#     time_elapsed = time_elapsed/60
+#     time_elapsed = time_elapsed / 60
 #     duration_in = 'mins'
 #     if time_elapsed > 60:
 #         time_elapsed = time_elapsed / 60
@@ -557,7 +557,7 @@ loop_tags(analyses)
 
 
 # # test all POS combinations in the corpus (notlist - should be empty. if not...)
-# # (... check to see that do not appear in the collected list of all POS combinations used (allpos) and why)
+# # (... check to see they do not appear in the collected list of all POS combinations used (allpos) and why)
 # allpos = open_obj("All POS Combos Used.pkl")
 # notlist = list()
 # for i in analyses:
