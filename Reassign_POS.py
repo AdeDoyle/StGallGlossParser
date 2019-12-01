@@ -526,7 +526,7 @@ def loop_tags(taglist):
     return new_poslist
 
 
-# loop_tags(analyses)
+loop_tags(analyses)
 # print(loop_tags(analyses))
 # for i in loop_tags(analyses):
 #     print("'" + i[1] + "',", i[-1])
@@ -557,18 +557,17 @@ def loop_tags(taglist):
 
 
 # # Count total potential POS tag combinations
-# ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
-# print("Total Tags: {}".format(len(ordered_tagcombos)))
-
 # # Count, print and graph the number of POS tag combinations which are used a given number of times
 # # e.g. if there are 18 tags used only once, 10 tags used 5 times, and 2 tags used 50 times, count and graph this info.
+# ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
+# print("Total Tags: {}".format(len(ordered_tagcombos)))
 # tag_usage = list()
 # for tag in ordered_tagcombos:
-#     # for each used tag combination
+#     # for each tag combination used by Bauer
 #     count = 0
 #     for an in analyses:
 #         # check each analysis against each possible tag combination used
-#         if tag == an[3:8]:
+#         if tag == clean_onetag(an[3:8]):
 #             # if the tags match, increase the usage-count for this tag
 #             count += 1
 #     # save the total usage-count for this tag to the tag_usage list
