@@ -526,7 +526,7 @@ def loop_tags(taglist):
     return new_poslist
 
 
-loop_tags(analyses)
+# loop_tags(analyses)
 # print(loop_tags(analyses))
 # for i in loop_tags(analyses):
 #     print("'" + i[1] + "',", i[-1])
@@ -554,60 +554,6 @@ loop_tags(analyses)
 #     found_tag = clean_onetag(tag[3:8])
 #     found_gloss = clean_gloss(tag[8])
 #     print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
-
-
-# # test all POS combinations in the corpus (notlist - should be empty. if not...)
-# # (... check to see they do not appear in the collected list of all POS combinations used (allpos) and why)
-# allpos = open_obj("All POS Combos Used.pkl")
-# notlist = list()
-# for i in analyses:
-#     itag_noisy = i[3:8]
-#     itag = list()
-#     for j in itag_noisy:
-#         if j:
-#             clean_j = j.strip()
-#             if j == itag_noisy[2]:
-#                 if clean_j[0] == "*":
-#                     clean_j = "*"
-#             itag.append(clean_j)
-#         else:
-#             itag.append(j)
-#     if itag not in allpos:
-#         notlist.append(itag)
-# # print(notlist[0])
-# unique_notlist = list()
-# for i in notlist:
-#     if i not in unique_notlist:
-#         unique_notlist.append(i)
-#         print(i)
-# # for i in allpos:
-# #     print(i)
-# print(len(allpos))
-# print(len(notlist))
-# print(len(unique_notlist))
-
-
-# l1_taglist = findall_thistag(analyses, "verb")
-# l2_taglist = findall_thistag(l1_taglist, "copula", 2)
-# l3_taglist = findall_thistag(l2_taglist, "3sg.pres.ind.", 3)
-# l4_taglist = findall_excltag(l3_taglist, "Active", 4)
-# l5_taglist = findall_notnulltag(l3_taglist, 5)
-
-# for tag in clean_wordlist(l1_taglist):
-#     print(tag)
-# for tag in clean_wordlist(l2_taglist):
-#     print(tag)
-# for tag in clean_wordlist(l3_taglist):
-#     print(tag)
-# for tag in clean_wordlist(l4_taglist):
-#     print(tag)
-# for tag in clean_wordlist(l5_taglist):
-#     print(tag)
-
-
-# # Test clean_onetag function
-# for tag in analyses:
-#     print(clean_onetag(tag[3:8]))
 
 
 # # Count total potential POS tag combinations
@@ -659,11 +605,73 @@ loop_tags(analyses)
 # plt.show()
 
 
-# # find all instances of a given tag
+# # FUNCTION TESTS:
+
+
+# # Test clean_onetag function
+# for tag in analyses:
+#     print(clean_onetag(tag[3:8]))
+
+
+# # Test findall_thistag, findall_nulltag, findall_excltag and clean_wordlist functions
+
+# # Finds all of a given tag type from various levels
+# l1_taglist = findall_thistag(analyses, "verb")
+# l2_taglist = findall_thistag(l1_taglist, "copula", 2)
+# l3_taglist = findall_thistag(l2_taglist, "3sg.pres.ind.", 3)
+# l4_taglist = findall_excltag(l3_taglist, "Active", 4)
+# l5_taglist = findall_notnulltag(l3_taglist, 5)
+
+# for tag in clean_wordlist(l1_taglist):
+#     print(tag)
+# for tag in clean_wordlist(l2_taglist):
+#     print(tag)
+# for tag in clean_wordlist(l3_taglist):
+#     print(tag)
+# for tag in clean_wordlist(l4_taglist):
+#     print(tag)
+# for tag in clean_wordlist(l5_taglist):
+#     print(tag)
+
+
+# # Find all instances of a given tag
 # test_taglist = findall_thistag(analyses, A1_list[2])
 # # # find all instances of a given tag where another tag level is not null
 # # test_taglist = findall_thistag(analyses, A1_list[1])
 # # test_taglist = findall_notnulltag(test_taglist, 4)
 # for tag in clean_wordlist(test_taglist):
 #     print(tag)
+
+
+# # Test all POS combinations utilised in the corpus to ensure they are captured in all .pkl files
+# # notlist should be empty, if not check to see combos in notlist do not appear in allpos, and why not
+# # allpos is the sorted list of all POS combinations used by Bauer
+# # notlist is a collection of cleaned tags taken straight from 'SG. Combined Data.xlsx'
+# allpos = open_obj("All POS Combos Used.pkl")
+# notlist = list()
+# for i in analyses:
+#     itag_noisy = i[3:8]
+#     itag = list()
+#     for j in itag_noisy:
+#         if j:
+#             clean_j = j.strip()
+#             if j == itag_noisy[2]:
+#                 if clean_j[0] == "*":
+#                     clean_j = "*"
+#             itag.append(clean_j)
+#         else:
+#             itag.append(j)
+#     if itag not in allpos:
+#         notlist.append(itag)
+# # print(notlist[0])
+# unique_notlist = list()
+# for i in notlist:
+#     if i not in unique_notlist:
+#         unique_notlist.append(i)
+#         print(i)
+# # for i in allpos:
+# #     print(i)
+# print(len(allpos))
+# print(len(notlist))
+# print(len(unique_notlist))
 
