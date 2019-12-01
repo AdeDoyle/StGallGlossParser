@@ -539,9 +539,9 @@ loop_tags(analyses)
 #     if i[-1] != 'unknown':
 #         tagged_count += 1
 # tagged_percent = (100/all_count) * tagged_count
-# print("Total number of words in corpus: {}".format(all_count))
-# print("Number of words POS tagged: {}".format(tagged_count))
-# print("Percentage of words tagged: {}%".format(tagged_percent))
+# print("Total number of analysed tokens in Bauer's corpus: {}".format(all_count))
+# print("Number of tokens POS tagged: {}".format(tagged_count))
+# print("Percentage of tokens tagged: {}%".format(tagged_percent))
 
 
 # l1_taglist = findall_thistag(analyses, "adjective")
