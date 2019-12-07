@@ -297,7 +297,8 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PRON"
     # Assign prepositional pronouns (PRON)
-    if An1 in ['preposition, with acc; geminating', 'preposition, with dat', 'preposition, with dat; leniting',
+    if An1 in ['preposition, with acc; leniting', 'preposition, with acc; geminating',
+               'preposition, with dat', 'preposition, with dat; leniting',
                'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in ['acc. + suff.pron.1sg.', 'dat. + suff.pron.1sg.', 'dat. + suff.pron.2sg.',
@@ -316,11 +317,11 @@ def clean_analysis(taglist):
     # Assign articles (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
-            if An3 in ['nom.sg.', 'gen.sg.', 'dat.sg.', 'nom.pl.', 'gen.pl.', 'acc.du.']:
+            if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'nom.pl.', 'gen.pl.', 'gen.pl. + í 1', 'acc.du.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
-    # Assign pronominal articles (DET)
+    # Assign pronominal articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n']:
             if An3 in ['dat.sg. + i 2', 'dat.pl + de 1', 'dat.pl + do 1']:
@@ -376,7 +377,12 @@ def clean_analysis(taglist):
                         pos = "VERB"
     # Assign adverb (ADV)
     if An1 == 'adverb':
-        if An2 == 'conjunctive':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "ADV"
+        elif An2 == 'conjunctive':
             if not An3:
                 if not actpas:
                     if not rel:
@@ -384,7 +390,7 @@ def clean_analysis(taglist):
     # Assign adjectives (ADJ)
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
-            if An3 in ['nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+            if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'nom.pl.', 'nom.pl.fem.', 'dat.pl.',
                        'comparative']:
                 if not actpas:
@@ -396,15 +402,15 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = 'ADJ'
     # Assign prepositions (ADP)
-    if An1 in ['preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing']:
+    if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating']:
         if not An2:
-            if An3 in ['dat.', 'dat. + rel.part.']:
+            if An3 in ['acc.', 'acc. + poss.pron.3pl.', 'composition form']:
                 if not actpas:
                     if not rel:
                         pos = "ADP"
-    elif An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating']:
+    elif An1 in ['preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing']:
         if not An2:
-            if An3 in ['acc.', 'acc. + poss.pron.3pl.']:
+            if An3 in ['dat.', 'dat. + rel.part.']:
                 if not actpas:
                     if not rel:
                         pos = "ADP"
@@ -465,7 +471,7 @@ def clean_analysis(taglist):
     # Assign deictic particles (PART)
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
-            if An3 in ['gen.pl.masc.', 'dat.pl.neut.']:
+            if An3 in ['gen.pl.masc.', 'gen.pl.neut.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
@@ -521,7 +527,8 @@ def loop_tags(taglist):
                     comp_trans = comp[2]
                     comp_tag = clean_onetag(comp[3:8])
                     comp_gloss = clean_gloss(comp[8])
-                    print(comp_tag, comp_glossnum, "'" + comp_word + "'", comp_trans, "in, '" + comp_gloss + "'")
+                    print(comp_tag, comp_glossnum, "'" + comp_word + "',", "'" + comp_trans + "',",
+                          "in: '" + comp_gloss + "'")
             return "Loop Broken!\n"
     return new_poslist
 
