@@ -252,7 +252,7 @@ def clean_analysis(taglist):
     # Assign Nouns (NOUN)
     if An1 == 'noun':
         if An2 in ['m, o', 'n, o', 'n (?), o', 'o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'f, i', 'm, u',
-                   'm, n', 'n, t',
+                   'm, n', 'f, n', 'n, t',
                    'm, u and n, o', 'f, i, ī', 'f, mixed ā-, ī-, i-', 'f',
                    'gender not attested in OIr.', 'unknown declension']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'nom.pl.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.',
@@ -263,7 +263,7 @@ def clean_analysis(taglist):
     # Assign Pronouns (PRON)
     # Personal Pronouns
     if An1 == 'pronoun, personal':
-        if An2 == '3sg f':
+        if An2 in ['3sg m', '3sg f']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -350,7 +350,8 @@ def clean_analysis(taglist):
                       "3sg.pres.ind.", '3sg.pres.ind.pass.', '3sg.pres.ind.rel.', '3sg.pres.subj.',
                       '3sg.cons.pres.rel.',
                       '3sg.past.subj.', '3sg.perf.', '3sg.fut.',
-                      '3pl.pres.ind.', '3pl.pres.ind.pass.']
+                      '3pl.pres.ind.', '3pl.pres.ind.pass.', '3pl.pres.subj.',
+                      '*']
     # Substantive Verb
     if An1 == 'verb':
         if An2 in ['substantive verb', 'substantive verb (compound)']:
@@ -408,7 +409,8 @@ def clean_analysis(taglist):
                        'dat.sg.neut.',
                        'nom.pl.', 'nom.pl.fem.',
                        'dat.pl.',
-                       'comparative']:
+                       'comparative',
+                       'composition form']:
                 if not actpas:
                     if not rel:
                         pos = 'ADJ'
@@ -440,7 +442,8 @@ def clean_analysis(taglist):
     # Coordinating Conjunctions
     if An1 in ['conjunction (leniting)', 'conjunction (disjunct) and discourse marker']:
         if An2 == 'coordinating':
-            if An3 in ['joining two nouns', 'joining two sentences or clauses',
+            if An3 in ['joining two nouns', 'joining two nouns with articles',
+                       'joining two sentences or clauses',
                        'disjoins co-ordinate clauses']:
                 if not actpas:
                     if not rel:
@@ -456,13 +459,18 @@ def clean_analysis(taglist):
                         pos = "CCONJ"
     # Subordinating Conjunctions
     if An1 == 'conjunction':
-        if An2 in ['concessive and explicative (leniting)', 'final (purpose), and explicative',
+        if An2 in ['concessive and explicative (leniting)', 'conditional', 'final (purpose), and explicative',
                    'negative subordinating']:
-            if not An3:
+            if An3 in ['with 3sg.pres.subj. of copula']:
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
-    if An1 in ['conjunction (nasalizing, conjunct)', 'preposition, with acc; leniting; and conjunction']:
+            elif not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ"
+    if An1 in ['conjunction (nasalizing, conjunct)',
+               'preposition, with acc; and conjunction', 'preposition, with acc; leniting; and conjunction']:
         if not An2:
             if not An3:
                 if not actpas:
@@ -512,7 +520,7 @@ def clean_analysis(taglist):
     # Assign Numerals (NUM)
     if An1 == 'number':
         if An2 == 'adjective':
-            if An3 in ['nom.du.fem.', 'acc.du.fem.']:
+            if An3 in ['nom.du.fem.', 'acc.du.fem.', 'composition form']:
                 if not actpas:
                     if not rel:
                         pos = "NUM"
@@ -565,7 +573,7 @@ def loop_tags(taglist):
                 if clean_onetag(comp[3:8]) == tag:
                     comp_glossnum = comp[0]
                     comp_word = clean_word(comp[1])
-                    comp_trans = comp[2]
+                    comp_trans = str(comp[2])
                     comp_tag = clean_onetag(comp[3:8])
                     comp_gloss = clean_gloss(comp[8])
                     print(comp_tag, comp_glossnum, "'" + comp_word + "',", "'" + comp_trans + "',",
