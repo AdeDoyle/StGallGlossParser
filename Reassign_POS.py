@@ -323,7 +323,9 @@ def clean_analysis(taglist):
     # Assign Articles (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
-            if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'nom.pl.', 'gen.pl.', 'gen.pl. + í 1', 'acc.du.']:
+            if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.',
+                       'nom.pl.', 'gen.pl.', 'gen.pl. + í 1',
+                       'acc.du.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
