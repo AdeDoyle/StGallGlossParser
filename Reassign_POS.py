@@ -532,8 +532,13 @@ def clean_analysis(taglist):
                         pos = "CCONJ"
     # Subordinating Conjunctions
     if An1 == 'conjunction':
-        if An2 in ['causal', 'concessive and explicative (leniting)', 'conditional',
-                   'final (purpose), and explicative', 'negative subordinating']:
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ"
+        elif An2 in ['causal', 'concessive and explicative (leniting)', 'conditional',
+                     'final (purpose), and explicative', 'negative subordinating']:
             if An3 in ['with 3sg.pres.subj. of copula']:
                 if not actpas:
                     if not rel:
@@ -675,7 +680,8 @@ def loop_tags(taglist):
             new_poslist.append(full_tag)
         except:
             print("Broke at gloss no. {}\n'{}', in gloss, '{}'.\n"
-                  "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, tag))
+                  "url: http://www.stgallpriscian.ie/index.php?id={}&an=1\n"
+                  "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, glossnum, tag))
             for comp in taglist:
                 if clean_onetag(comp[3:8]) == tag:
                     comp_glossnum = comp[0]
@@ -684,7 +690,8 @@ def loop_tags(taglist):
                     comp_tag = clean_onetag(comp[3:8])
                     comp_gloss = clean_gloss(comp[8])
                     print(comp_tag, comp_glossnum, "'" + comp_word + "',", "'" + comp_trans + "',",
-                          "in: '" + comp_gloss + "'")
+                          "in: '" + comp_gloss +
+                          "' - http://www.stgallpriscian.ie/index.php?id={}&an=1".format(comp_glossnum))
             return "Loop Broken!\n"
     return new_poslist
 
