@@ -266,7 +266,8 @@ def clean_analysis(taglist):
     # Assign Pronouns (PRON)
     # Personal Pronouns
     if An1 == 'pronoun, personal':
-        if An2 in ['3sg m', '3sg f', '3sg n']:
+        if An2 in ['3sg m', '3sg f', '3sg n',
+                   '3pl']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -309,7 +310,8 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PRON"
         elif An2 == 'enclitic':
-            if An3 in ['nom.pl.masc.']:
+            if An3 in ['nom.sg.fem.',
+                       'nom.pl.masc.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
@@ -326,6 +328,7 @@ def clean_analysis(taglist):
                     'dat. + suff.pron.2sg.',
                     'dat. + suff.pron.3sg.masc./neut.',
                     'dat. + suff.pron.3sg.fem.',
+                    'dat. + suff.pron.3sg.fem. + -si 1',
                     'dat. + suff.pron.3pl.']
     if An1 in ['preposition, with acc; leniting', 'preposition, with acc; geminating',
                'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
@@ -376,7 +379,8 @@ def clean_analysis(taglist):
     # Assign Verbs (VERB)
     verb_tensepers = ['1sg.pres.subj.',
                       '2sg.impv.',
-                      '3sg.pres.ind.', '3sg.pres.ind.pass.', '3sg.pres.ind.rel.', '3sg.pres.subj.',
+                      '3sg.pres.ind.', '3sg.pres.ind.pass.', '3sg.pres.ind.rel.',
+                      '3sg.pres.subj.', '3sg.pres.subj.pass.',
                       '3sg.cons.pres.', '3sg.cons.pres.rel.',
                       '3sg.pret.', '3sg.past.subj.', '3sg.perf.',
                       '3sg.fut.',
@@ -384,7 +388,8 @@ def clean_analysis(taglist):
                       '3pl.imperf.pass.',
                       '3pl.fut.',
                       '*']
-    verb_tensepersinfix = ['3sg.pres.ind. + inf.pron. class A 3sg.neut.']
+    verb_tensepersinfix = ['1sg.pres.ind. + infix.pron. Class A 3sg.fem.',
+                           '3sg.pres.ind. + inf.pron. class A 3sg.neut.']
     # Substantive Verb
     if An1 == 'verb':
         if An2 in ['substantive verb', 'substantive verb (compound)']:
@@ -455,7 +460,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "ADV"
     if An1 == 'particle':
-        if An2 == 'transitional':
+        if An2 in ['connective', 'transitional']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -588,6 +593,10 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "PART"
+            elif An3 in ['nom.pl.fem.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
     # Assign Relative Particles
     if An1 == 'particle':
         if An2 == 'relative':
@@ -634,7 +643,7 @@ def clean_analysis(taglist):
                         pos = "PVP"
     # Assign Infixed Pronouns (IFP)
     if An1 in ['pronoun, infixed, class A']:
-        if An2 in ['3sg n (leniting)']:
+        if An2 in ['3sg n (leniting)', '3sg f (sometimes nasalizing)']:
             if not An3:
                 if not actpas:
                     if not rel:
