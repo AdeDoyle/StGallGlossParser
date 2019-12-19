@@ -618,6 +618,13 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "PART"
+    # Assign Prefixing Particles (mí-, so-, do-)
+    if An1 == 'particle':
+        if An2 == 'prefix and preverb':
+            if An3 == 'composition form':
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
 
     #                                   INTERJECTIONS, NUMERALS & ABBREVIATIONS
     # Assign Interjections (INTJ)
