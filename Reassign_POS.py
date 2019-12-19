@@ -681,7 +681,9 @@ def loop_tags(taglist):
 
 
 loop_tags(analyses)
+
 # print(loop_tags(analyses))
+
 # for i in loop_tags(analyses):
 #     print("'" + i[1] + "',", i[-1])
 
