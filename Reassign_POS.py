@@ -250,6 +250,7 @@ def clean_analysis(taglist):
     rel = taglist[4]
     pos = "unknown"
 
+    #                                         NOUNS & PRONOUNS
     # Assign Nouns (NOUN)
     if An1 == 'noun':
         if An2 in ['m, o', 'n, o', 'n (?), o', 'o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'f, i', 'm, u',
@@ -339,13 +340,15 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PRON"
     # Assign Deterministic Pronouns - preceding pronominal articles (PRON)
-    if An1 in ['preposition, with dat; leniting', 'preposition, with dat and acc; nasalizing']:
+    if An1 in ['preposition, with dat; leniting',
+               'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in ['dat. + def.art.sg.', 'dat. + def.art.pl.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
 
+    #                                        ARTICLES & DETERMINERS
     # Assign Articles (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
@@ -358,7 +361,8 @@ def clean_analysis(taglist):
     # Assign Pronominal Articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n']:
-            if An3 in ['dat.sg. + de 1', 'dat.pl + de 1',
+            if An3 in ['dat.sg. + ar 1',
+                       'dat.sg. + de 1', 'dat.pl + de 1',
                        'dat.pl + do 1',
                        'dat.sg. + i 2']:
                 if not actpas:
@@ -375,7 +379,29 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "DET"
 
-    #
+    #                                             ADJECTIVES
+    # Assign Adjectives (ADJ)
+    if An1 == 'adjective':
+        if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
+            if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+                       'acc.sg.masc.', 'acc.sg.neut.',
+                       'dat.sg.masc.', 'dat.sg.neut.',
+                       'nom.pl.', 'nom.pl.fem.',
+                       'acc.pl.masc.',
+                       'gen.pl.fem.',
+                       'dat.pl.',
+                       'comparative',
+                       'composition form']:
+                if not actpas:
+                    if not rel:
+                        pos = 'ADJ'
+        elif not An2:
+            if An3 in ['gen.sg.masc.']:
+                if not actpas:
+                    if not rel:
+                        pos = 'ADJ'
+
+    #                                        VERBS, COPULA & ADVERBS
     # Assign Verbs (VERB)
     verb_tensepers = ['1sg.pres.subj.',
                       '2sg.impv.',
@@ -466,29 +492,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "ADV"
 
-    #
-    # Assign Adjectives (ADJ)
-    if An1 == 'adjective':
-        if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
-            if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                       'acc.sg.masc.', 'acc.sg.neut.',
-                       'dat.sg.masc.', 'dat.sg.neut.',
-                       'nom.pl.', 'nom.pl.fem.',
-                       'acc.pl.masc.',
-                       'gen.pl.fem.',
-                       'dat.pl.',
-                       'comparative',
-                       'composition form']:
-                if not actpas:
-                    if not rel:
-                        pos = 'ADJ'
-        elif not An2:
-            if An3 in ['gen.sg.masc.']:
-                if not actpas:
-                    if not rel:
-                        pos = 'ADJ'
-
-    #
+    #                                           PREPOSITIONS
     # Assign Prepositions (ADP)
     if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating']:
         if not An2:
@@ -510,7 +514,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "ADP"
 
-    #
+    #                                           CONJUNCTIONS
     # Assign Conjunctions (CCONJ/SCONJ)
     # Coordinating Conjunctions
     if An1 in ['conjunction (leniting)', 'conjunction (disjunct) and discourse marker']:
@@ -560,16 +564,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "SCONJ"
 
-    #
-    # Assign Interjections (INTJ)
-    if An1 == 'emphasizing particle':
-        if not An2:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "INTJ"
-
-    #
+    #                                              PARTICLES
     # Assign Particles (PART)
     # Assign Negative Particles
     if An1 == 'particle':
@@ -612,12 +607,20 @@ def clean_analysis(taglist):
     # Assign Deictic Particles
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
-            if An3 in ['gen.pl.masc.', 'gen.pl.neut.', 'dat.pl.neut.']:
+            if An3 in ['dat.sg.neut.',
+                       'gen.pl.masc.', 'gen.pl.neut.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
 
-    #
+    #                                   INTERJECTIONS, NUMERALS & ABBREVIATIONS
+    # Assign Interjections (INTJ)
+    if An1 == 'emphasizing particle':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "INTJ"
     # Assign Numerals (NUM)
     if An1 == 'number':
         if An2 == 'adjective':
@@ -633,8 +636,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "SYM"
 
-    #
-    # Assign Unused parts-of-speech
+    #                                           UNUSED PARTS-OF-SPEECH
     # Assign Pre-verbal Particles (PVP)
     if An1 == 'particle':
         if An2 == 'preverb':
@@ -654,10 +656,12 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "IFP"
 
+    # Break if a UD POS cannot be assigned, else, return POS
     if pos == "unknown":
         return 1/0
     else:
         return pos
+    # Return POS even if it is unknown/no UD POS can be assigned
     # return pos
 
 
