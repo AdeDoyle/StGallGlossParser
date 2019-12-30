@@ -285,7 +285,7 @@ def clean_analysis(taglist):
     # Reflexive Pronouns
     if An1 == 'pronoun, reflexive':
         if not An2:
-            if An3 in ['3pl.']:
+            if An3 in ['3sg.neut.', '3pl.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
@@ -296,7 +296,7 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "PRON"
-            elif An3 in ['neut.']:
+            elif An3 in ['neut.', '3sg.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
@@ -334,6 +334,8 @@ def clean_analysis(taglist):
     # Assign Prepositional Pronouns (PRON)
     prepprontype = ['acc. + suff.pron.1sg.',
                     'acc. + suff.pron.3sg.masc./neut.',
+                    'acc. + suff.pron.3sg.fem.',
+                    'acc. + suff.pron.1pl.',
                     'acc. + suff.pron.3pl.',
                     'dat. + suff.pron.1sg.',
                     'dat. + suff.pron.2sg.',
@@ -420,9 +422,10 @@ def clean_analysis(taglist):
                       '3sg.pres.ind.', '3sg.pres.ind.pass.', '3sg.pres.ind.rel.',
                       '3sg.pres.subj.', '3sg.pres.subj.pass.',
                       '3sg.cons.pres.', '3sg.cons.pres.rel.',
-                      '3sg.pret.', '3sg.past.subj.', '3sg.perf.',
+                      '3sg.pret.', '3sg.past.subj.', '3sg.perf.', '3sg.imperf.',
                       '3sg.fut.',
                       '3pl.pres.ind.', '3pl.pres.ind.pass.', '3pl.pres.subj.', '3pl.pres.subj.pass.',
+                      '3pl.past.subj.',
                       '3pl.perf.', '3pl.imperf.', '3pl.imperf.pass.',
                       '3pl.fut.', '3pl.sec.fut.pass.',
                       '*']
