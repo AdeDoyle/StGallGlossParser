@@ -692,7 +692,7 @@ def clean_analysis(taglist):
         if An2 == 'adjective':
             if An3 in ['uninflected', 'composition form',
                        'gen.sg.masc.',
-                       'nom.du.fem.', 'acc.du.fem.', 'dat.du.masc.']:
+                       'nom.du.masc.', 'nom.du.fem.', 'acc.du.fem.', 'dat.du.masc.']:
                 if not actpas:
                     if not rel:
                         pos = "NUM"
