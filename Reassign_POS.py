@@ -253,10 +253,10 @@ def clean_analysis(taglist):
     #                                         NOUNS & PRONOUNS
     # Assign Nouns (NOUN)
     if An1 == 'noun':
-        if An2 in ['m, o', 'n, o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'f, i', 'f, ī', 'm, u',
-                   'm, n', 'n, n', 'f, n', 'm, nt', 'n, t', 'f, k',
+        if An2 in ['m, o', 'n, o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'n, i', 'f, i', 'f, ī', 'm, u',
+                   'm, n', 'n, n', 'f, n', 'm, nt', 'n, t', 'f, t', 'f, k',
                    'm', 'f', 'm and f',
-                   'o', 'n (?), o', 'n, o (m, o?)', 'o (gender uncertain)',
+                   'o', 'n (?), o', 'n, o (m, o?)', 'o (gender uncertain)', 'i̯o', 'i',
                    'n and m, u', 'm, u and n, o', 'm, o and u', 'n, u or o', 'n, s and n, o',
                    'f, i, ī', 'f, mixed ā-, ī-, i-', 'f, ā; adjective',
                    'gender not attested in OIr.', 'unknown declension']:
@@ -317,7 +317,7 @@ def clean_analysis(taglist):
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
         if An2 in ['stressed', 'neuter, stressed']:
-            if An3 in ['acc.sg.',
+            if An3 in ['acc.sg.', 'acc.sg.masc.',
                        'dat.sg.neut.',
                        'dat.pl.']:
                 if not actpas:
@@ -379,11 +379,15 @@ def clean_analysis(taglist):
     # Assign Pronominal Articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
-            if An3 in ['acc.sg. + la',
+            if An3 in ['acc.sg. + for 1',
+                       'acc.sg. + fri',
+                       'acc.sg. + la',
                        'dat.sg. + ar 1',
                        'dat.sg. + de 1', 'dat.pl + de 1',
                        'dat.sg. + do 1', 'dat.pl + do 1',
-                       'dat.sg. + i 2']:
+                       'dat.sg. + for 1',
+                       'dat.sg. + i 2',
+                       'dat.sg. + ó 1']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
@@ -406,9 +410,9 @@ def clean_analysis(taglist):
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                       'acc.sg.masc.', 'acc.sg.neut.',
+                       'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
                        'gen.sg.',
-                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.',
+                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
                        'nom.pl.', 'nom.pl.masc.', 'nom.pl.fem.',
                        'acc.pl.', 'acc.pl.masc.',
                        'gen.pl.masc.', 'gen.pl.fem.',
@@ -433,7 +437,9 @@ def clean_analysis(taglist):
                       '3sg.cons.pres.', '3sg.cons.pres.rel.',
                       '3sg.pres.subj.', '3sg.pres.subj.pass.', '3sg.pres.subj.rel.',
                       '3sg.impv.',
-                      '3sg.pret.', '3sg.past.subj.', '3sg.perf.', '3sg.imperf.', '3sg.imperf.subj.',
+                      '3sg.pret.', '3sg.past.subj.',
+                      '3sg.perf.', '3sg.pass.perf.',
+                      '3sg.imperf.', '3sg.imperf.subj.',
                       '3sg.fut.',
                       '1pl.perf.',
                       '2pl.impv.',
@@ -447,7 +453,8 @@ def clean_analysis(taglist):
                            '3sg.pres.ind. + inf.pron. class A 3sg.neut.',
                            '3pl.pres.ind. + inf.pron. class A 3pl.',
                            '3pl.pres.ind. + infix.pron. Class C 3sg.neut.',
-                           '3sg.pres.ind. + infix.pron. Class C 3sg.fem.']
+                           '3sg.pres.ind. + infix.pron. Class C 3sg.fem.',
+                           '3pl.pres.ind. + inf.pron. class A']
     # Substantive Verb
     if An1 == 'verb':
         if An2 in ['substantive verb', 'substantive verb (compound)']:
@@ -545,13 +552,15 @@ def clean_analysis(taglist):
     if An1 in ['preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing']:
         if not An2:
             if An3 in ['dat.', 'dat. + rel.part.',
+                       'dat. + poss.pron.3sg.fem.',
                        'composition form']:
                 if not actpas:
                     if not rel:
                         pos = "ADP"
     if An1 in ['preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
-            if An3 in ['acc.', 'dat.', 'dat. (?)', 'acc./dat.',
+            if An3 in ['acc.', 'acc./dat.',
+                       'dat.', 'dat.sg.', 'dat. (?)',
                        'acc. + poss.pron.3sg.masc./neut.',
                        'dat (?) + poss.pron.3sg.masc./neut.']:
                 if not actpas:
@@ -692,7 +701,8 @@ def clean_analysis(taglist):
         if An2 == 'adjective':
             if An3 in ['uninflected', 'composition form',
                        'gen.sg.masc.',
-                       'nom.du.masc.', 'nom.du.fem.', 'acc.du.fem.', 'dat.du.masc.']:
+                       'gen.pl.fem.',
+                       'nom.du.masc.', 'nom.du.fem.', 'acc.du.fem.', 'dat.du.', 'dat.du.masc.']:
                 if not actpas:
                     if not rel:
                         pos = "NUM"
@@ -720,12 +730,20 @@ def clean_analysis(taglist):
     # Assign Infixed Pronouns (IFP)
     if An1 in ['pronoun, infixed, class A',
                'pronoun, infixed, class C']:
-        if An2 in ['3sg n (leniting)', '3sg f (geminating)', '3sg f (sometimes nasalizing)',
+        if An2 in ['3sg m', '3sg n (leniting)', '3sg f (geminating)', '3sg f (sometimes nasalizing)',
                    '3pl']:
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "IFP"
+
+    # Assign Unknown Words (UNK)
+    if An1 == 'unclear':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = 'UNK'
 
     # Break if a UD POS cannot be assigned, else, return POS
     if pos == "unknown":
