@@ -254,7 +254,7 @@ def clean_analysis(taglist):
     # Assign Nouns (NOUN)
     if An1 == 'noun':
         if An2 in ['m, o', 'n, o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'n, i', 'f, i', 'f, ī', 'm, u',
-                   'm, n', 'n, n', 'f, n', 'm, nt', 'n, t', 'f, t', 'f, k',
+                   'm, dent.', 'f, k', 'm, n', 'n, n', 'f, n', 'm, nt', 'n, s', 'n, t', 'f, t',
                    'm', 'f', 'm and f',
                    'o', 'n (?), o', 'n, o (m, o?)', 'o (gender uncertain)', 'i̯o', 'i',
                    'n and m, u', 'm, u and n, o', 'm, o and u', 'n, u or o', 'n, s and n, o',
@@ -262,7 +262,7 @@ def clean_analysis(taglist):
                    'gender not attested in OIr.', 'unknown declension']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'dat.sg. (?)',
                        'nom.pl.', 'acc.pl.', 'acc.pl.masc.', 'gen.pl.', 'dat.pl.',
-                       'nom.du.', 'acc.du.', 'dat.du.',
+                       'nom.du.', 'acc.du.', 'gen.du.', 'dat.du.',
                        'composition form']:
                 if not actpas:
                     if not rel:
@@ -361,7 +361,8 @@ def clean_analysis(taglist):
                'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in ['acc. + def.art.sg',
-                       'dat. + def.art.sg.', 'dat. + def.art.pl.']:
+                       'dat. + def.art.sg.', 'dat. + def.art.pl.',
+                       'dat. + def.art.sg. + í 1']:
                 if not actpas:
                     if not rel:
                         pos = "PRON"
@@ -371,8 +372,8 @@ def clean_analysis(taglist):
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.',
-                       'nom.pl.', 'gen.pl.', 'gen.pl. + í 1',
-                       'acc.du.']:
+                       'nom.pl.', 'acc.pl.', 'gen.pl.', 'gen.pl. + í 1',
+                       'acc.du.', 'gen.du.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
@@ -386,7 +387,7 @@ def clean_analysis(taglist):
                        'dat.sg. + de 1', 'dat.pl + de 1',
                        'dat.sg. + do 1', 'dat.pl + do 1',
                        'dat.sg. + for 1',
-                       'dat.sg. + i 2',
+                       'dat.sg. + i 2', 'dat.pl. + i 2',
                        'dat.sg. + ó 1']:
                 if not actpas:
                     if not rel:
@@ -411,12 +412,12 @@ def clean_analysis(taglist):
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u']:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                       'gen.sg.',
+                       'gen.sg.', 'gen.sg.masc.',
                        'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
-                       'nom.pl.', 'nom.pl.masc.', 'nom.pl.fem.',
+                       'nom.pl.', 'nom.pl.masc.', 'nom.pl.neut.', 'nom.pl.fem.',
                        'acc.pl.', 'acc.pl.masc.',
                        'gen.pl.masc.', 'gen.pl.fem.',
-                       'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.',
+                       'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.', 'dat.pl.fem.',
                        'comparative',
                        'composition form',
                        'clitic form']:
@@ -424,7 +425,8 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = 'ADJ'
         elif not An2:
-            if An3 in ['gen.sg.masc.']:
+            if An3 in ['nom.sg.',
+                       'gen.sg.masc.']:
                 if not actpas:
                     if not rel:
                         pos = 'ADJ'
@@ -438,15 +440,16 @@ def clean_analysis(taglist):
                       '3sg.pres.subj.', '3sg.pres.subj.pass.', '3sg.pres.subj.rel.',
                       '3sg.impv.',
                       '3sg.pret.', '3sg.past.subj.',
-                      '3sg.perf.', '3sg.pass.perf.',
-                      '3sg.imperf.', '3sg.imperf.subj.',
+                      '3sg.perf.', '3sg.pass.perf.', '3sg.imperf.', '3sg.imperf.pass.', '3sg.imperf.subj.',
                       '3sg.fut.',
-                      '1pl.perf.',
+                      '1pl.pres.ind.',
+                      '1pl.pret.', '1pl.perf.',
                       '2pl.impv.',
                       '3pl.pres.ind.', '3pl.pres.ind.pass.', '3pl.pres.ind.rel.',
                       '3pl.cons.pres.',
                       '3pl.pres.subj.', '3pl.pres.subj.pass.',
-                      '3pl.pret.', '3pl.past.subj.', '3pl.perf.', '3pl.imperf.', '3pl.imperf.pass.',
+                      '3pl.pret.', '3pl.past.subj.',
+                      '3pl.perf.', '3pl.imperf.', '3pl.imperf.pass.',
                       '3pl.fut.', '3pl.sec.fut.pass.',
                       '*']
     verb_tensepersinfix = ['1sg.pres.ind. + infix.pron. Class A 3sg.fem.',
@@ -473,7 +476,7 @@ def clean_analysis(taglist):
                     elif rel == 'Y':
                         pos = "VERB"
     # General Verbs
-        elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII',
+        elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII', 'BIV',
                      'AII (?)', 'unclear', 'inflexion not clear']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
@@ -560,7 +563,7 @@ def clean_analysis(taglist):
     if An1 in ['preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in ['acc.', 'acc./dat.',
-                       'dat.', 'dat.sg.', 'dat. (?)',
+                       'dat.', 'dat.sg.', 'dat. (?)', 'dat.pl.',
                        'acc. + poss.pron.3sg.masc./neut.',
                        'dat (?) + poss.pron.3sg.masc./neut.']:
                 if not actpas:
@@ -588,7 +591,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "CCONJ"
     # Subordinating Conjunctions
-    if An1 == 'conjunction':
+    if An1 in ['conjunction', 'conjunction and adverb (conjunctive)']:
         if not An2:
             if not An3:
                 if not actpas:
@@ -649,13 +652,18 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PART"
     # Assign Demonstrative Particles
-    if An1 in ['adjective, demonstrative pronominal', 'pronoun, demonstrative']:
-        if An2 in ['this, these', 'that, those']:
+    if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal', 'pronoun, demonstrative']:
+        if not An2:
+            if An3 in ['dat.pl.fem.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
+        elif An2 in ['this, these', 'that, those']:
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "PART"
-            elif An3 in ['nom.sg.neut.', 'acc.sg.masc.',
+            elif An3 in ['nom.sg.neut.', 'acc.sg.masc.', 'dat.sg.neut.',
                          'nom.pl.fem.']:
                 if not actpas:
                     if not rel:
@@ -673,7 +681,7 @@ def clean_analysis(taglist):
         if not An2:
             if An3 in ['nom.sg.', 'nom.sg.neut.',
                        'acc.sg.masc.',
-                       'dat.sg.neut.',
+                       'dat.sg.', 'dat.sg.neut.',
                        'nom.pl.masc.',
                        'gen.pl.masc.', 'gen.pl.neut.',
                        'dat.pl.neut.']:
@@ -702,7 +710,7 @@ def clean_analysis(taglist):
             if An3 in ['uninflected', 'composition form',
                        'gen.sg.masc.',
                        'gen.pl.fem.',
-                       'nom.du.masc.', 'nom.du.fem.', 'acc.du.fem.', 'dat.du.', 'dat.du.masc.']:
+                       'nom.du.masc.', 'nom.du.fem.', 'acc.du.fem.', 'gen.du.neut.', 'dat.du.', 'dat.du.masc.']:
                 if not actpas:
                     if not rel:
                         pos = "NUM"
@@ -738,7 +746,13 @@ def clean_analysis(taglist):
                         pos = "IFP"
 
     # Assign Unknown Words (UNK)
-    if An1 == 'unclear':
+    if not An1:
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = 'UNK'
+    elif An1 == 'unclear':
         if not An2:
             if not An3:
                 if not actpas:
