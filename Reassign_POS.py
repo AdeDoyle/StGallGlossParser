@@ -242,22 +242,24 @@ def clean_wordlist(wordlist):
 
 
 # takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
-def clean_analysis(taglist):
+def clean_analysis(taglist, test_unknown=False):
     An1 = taglist[0]
     An2 = taglist[1]
     An3 = taglist[2]
     actpas = taglist[3]
     rel = taglist[4]
+    trans = taglist[5]
     pos = "unknown"
 
     #                                         NOUNS & PRONOUNS
     # Assign Nouns (NOUN)
     if An1 == 'noun':
         if An2 in ['m, o', 'n, o', 'f, ā', 'm, i̯o', 'n, i̯o', 'f, i̯ā', 'm, i', 'n, i', 'f, i', 'f, ī', 'm, u',
-                   'm, dent.', 'f, k', 'm, n', 'n, n', 'f, n', 'm, nt', 'n, s', 'n, t', 'f, t',
+                   'm, dent.', 'f, k', 'm, n', 'n, n', 'f, n', 'm, nt', 'm, r', 'f, r', 'n, s', 'n, t', 'f, t',
                    'm', 'f', 'm and f',
-                   'o', 'n (?), o', 'n, o (m, o?)', 'o (gender uncertain)', 'i̯o', 'i',
-                   'n and m, u', 'm, u and n, o', 'm, o and u', 'n, u or o', 'n, s and n, o',
+                   'o', 'i̯o', 'i',
+                   'm, o orig. n, s (?)', 'n (?), o', 'n, o (m, o?)', 'o (gender uncertain)',
+                   'n and m, u', 'm, u and n, o', 'm, o and u', 'n, u or o', 'n, s and n, o', 'f, ā and m, u',
                    'f, i, ī', 'f, mixed ā-, ī-, i-', 'f, ā; adjective',
                    'gender not attested in OIr.', 'unknown declension']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'dat.sg. (?)',
@@ -330,7 +332,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "PRON"
         elif An2 == 'enclitic':
-            if An3 in ['nom.sg.fem.',
+            if An3 in ['nom.sg.neut.', 'nom.sg.fem.',
                        'dat.sg.fem',
                        'nom.pl.masc.', 'nom.pl.fem.']:
                 if not actpas:
@@ -355,11 +357,14 @@ def clean_analysis(taglist):
                     'dat. + suff.pron.3pl.']
     if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
                'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
+               'preposition, with dat; geminating',
                'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in prepprontype:
                 if not actpas:
                     if not rel:
+                        pos = "PRON"
+                    elif rel in ['Y']:
                         pos = "PRON"
 
     #                                        ARTICLES & DETERMINERS
@@ -389,10 +394,10 @@ def clean_analysis(taglist):
                         pos = "DET"
     # Assign Pronominal Adjectives/Determiners - e.g. 'cach'/'cechtar/naich' (DET)
     if An1 in ['adjective, pronominal (preceding noun)', 'adjective, indefinite pronominal',
-               'pronoun, indeclinable']:
+               'pronoun, indefinite', 'pronoun, indeclinable']:
         if not An2:
             if An3 in ['nom.sg.neut.', 'nom.sg.fem.',
-                       'acc.sg.fem.',
+                       'acc.sg.', 'acc.sg.neut.', 'acc.sg.fem.',
                        'gen.sg.', 'gen.sg.masc.',
                        'dat.sg.masc.', 'dat.sg.neut.',
                        'acc.pl.',
@@ -407,16 +412,15 @@ def clean_analysis(taglist):
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u',
                    'o, ā, i']:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                       'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                       'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
                        'gen.sg.', 'gen.sg.masc.', 'gen.sg.fem.',
                        'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
                        'nom.pl.', 'nom.pl.masc.', 'nom.pl.neut.', 'nom.pl.fem.',
-                       'acc.pl.', 'acc.pl.masc.',
+                       'acc.pl.', 'acc.pl.masc.', 'acc.pl.neut.',
                        'gen.pl.masc.', 'gen.pl.fem.',
                        'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.', 'dat.pl.fem.',
                        'comparative',
-                       'composition form',
-                       'clitic form']:
+                       'adverbial form', 'clitic form', 'composition form']:
                 if not actpas:
                     if not rel:
                         pos = 'ADJ'
@@ -583,21 +587,26 @@ def clean_analysis(taglist):
     # Assign Conjunctions (CCONJ/SCONJ)
     # Coordinating Conjunctions
     if An1 in ['conjunction (leniting)', 'conjunction (disjunct) and discourse marker']:
-        if An2 == 'coordinating':
-            if An3 in ['joining two adjectives',
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "CCONJ"
+            elif An3 in ['disjoins members within the clause']:
+                if not actpas:
+                    if not rel:
+                        pos = "CCONJ"
+        elif An2 == 'coordinating':
+            if An3 in ['disjoins co-ordinate clauses',
+                       'introducing sentence or clause',
+                       'joining two adjectives',
                        'joining two nouns', 'joining two nouns with adjectives', 'joining two nouns with articles',
                        'joining two verbs',
-                       'joining two sentences or clauses',
-                       'disjoins co-ordinate clauses']:
+                       'joining two sentences or clauses']:
                 if not actpas:
                     if not rel:
                         pos = "CCONJ"
             elif not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "CCONJ"
-        elif not An2:
-            if An3 in ['disjoins members within the clause']:
                 if not actpas:
                     if not rel:
                         pos = "CCONJ"
@@ -609,7 +618,7 @@ def clean_analysis(taglist):
                     if not rel:
                         pos = "SCONJ"
         elif An2 in ['causal', 'causal; coordinating and subordinating',
-                     'comparative', 'concessive and explicative (leniting)', 'conditional',
+                     'comparative', 'concessive and explicative (leniting)', 'conditional', 'disjunct (leniting)',
                      'final (purpose), and explicative', 'negative subordinating']:
             if An3 in ['with 3sg.pres.subj. of copula']:
                 if not actpas:
@@ -636,6 +645,13 @@ def clean_analysis(taglist):
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
+    if An1 == 'particle':
+        if An2 == 'interrrogative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        if trans == 'as a correlative conjunction: whether':
+                            pos = "SCONJ"
 
     #                                              PARTICLES
     # Assign Particles (PART)
@@ -778,29 +794,31 @@ def clean_analysis(taglist):
                         pos = 'UNK'
 
     # Break if a UD POS cannot be assigned, else, return POS
-    if pos == "unknown":
-        return 1/0
-    else:
+    if not test_unknown:
+        if pos == "unknown":
+            return 1/0
+        else:
+            return pos
+    # Return POS even if it is unknown/no UD POS can be assigned
+    elif test_unknown:
         return pos
-    # # Return POS even if it is unknown/no UD POS can be assigned
-    # return pos
 
 
 # Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
 # Where tags cannot be cleaned by the function, all instances of the tag are printed.
-def loop_tags(taglist):
+def loop_tags(taglist, test_unknown=False):
     # all_pos = open_obj("All POS Combos Used.pkl")
     new_poslist = list()
     for full_tag in taglist:
         glossnum = full_tag[0]
         word = clean_word(full_tag[1])
-        # trans = full_tag[2]
-        tag = clean_onetag(full_tag[3:8])
+        trans = full_tag[2]
+        tag = clean_onetag(full_tag[3:8] + [trans])
         gloss = clean_gloss(full_tag[8])
         # glosstrans = full_tag[9]
         # assembled_tag = [glossnum, word, trans, tag, gloss, glosstrans]
         try:
-            pos_tag = clean_analysis(tag)
+            pos_tag = clean_analysis(tag, test_unknown)
             full_tag.append(pos_tag)
             new_poslist.append(full_tag)
         except:
@@ -808,7 +826,7 @@ def loop_tags(taglist):
                   "url: http://www.stgallpriscian.ie/index.php?id={}&an=1\n"
                   "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, glossnum, tag))
             for comp in taglist:
-                if clean_onetag(comp[3:8]) == tag:
+                if clean_onetag(comp[3:8]) == tag[:-1]:
                     comp_glossnum = comp[0]
                     comp_word = clean_word(comp[1])
                     comp_trans = str(comp[2])
@@ -829,7 +847,7 @@ loop_tags(analyses)
 #     print("'" + i[1] + "',", i[-1])
 
 # # Find Percentage of Corpus POS tagged
-# tagged_list = loop_tags(analyses)
+# tagged_list = loop_tags(analyses, True)
 # tagged_count = 0
 # all_count = len(tagged_list)
 # for i in tagged_list:
