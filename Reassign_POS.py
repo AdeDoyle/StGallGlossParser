@@ -241,7 +241,7 @@ def clean_wordlist(wordlist):
 # "X": "other - meaningless foreign word or word fragment"
 
 
-# takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
+# Takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
 def clean_analysis(taglist, test_unknown=False):
     An1 = taglist[0]
     An2 = taglist[1]
@@ -382,10 +382,12 @@ def clean_analysis(taglist, test_unknown=False):
         if An2 in ['m', 'n', 'fem']:
             if An3 in ['acc.sg. + for 1',
                        'acc.sg. + fri',
+                       'acc.sg + i 2',
                        'acc.sg. + la',
                        'dat.sg. + ar 1',
                        'dat.sg. + de 1', 'dat.pl + de 1',
                        'dat.sg. + do 1', 'dat.pl + do 1',
+                       'dat.sg. + fo 1',
                        'dat.sg. + for 1',
                        'dat.sg. + i 2', 'dat.pl. + i 2',
                        'dat.sg. + ó 1']:
@@ -451,7 +453,7 @@ def clean_analysis(taglist, test_unknown=False):
                       '3pl.pres.subj.', '3pl.pres.subj.pass.',
                       '3pl.pret.', '3pl.past.subj.',
                       '3pl.perf.', '3pl.imperf.', '3pl.imperf.pass.',
-                      '3pl.fut.', '3pl.sec.fut.pass.',
+                      '3pl.fut.', '3pl.fut.rel.', '3pl.sec.fut.pass.',
                       '*']
     verb_tensepersinfix = ['1sg.pres.ind. + infix.pron. Class A 3sg.fem.',
                            '3sg.pres.ind. + inf.pron. class A 3sg.neut.',
@@ -556,7 +558,7 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 in ['preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing']:
         if not An2:
             if An3 in ['dat.', 'dat. + rel.part.',
-                       'dat. + poss.pron.3sg.fem.',
+                       'dat. + poss.pron.3sg', 'dat. + poss.pron.3sg.masc./neut.', 'dat. + poss.pron.3sg.fem.',
                        'composition form']:
                 if not actpas:
                     if not rel:
@@ -600,6 +602,7 @@ def clean_analysis(taglist, test_unknown=False):
             if An3 in ['disjoins co-ordinate clauses',
                        'introducing sentence or clause',
                        'joining two adjectives',
+                       'joining two Latin lemmata',
                        'joining two nouns', 'joining two nouns with adjectives', 'joining two nouns with articles',
                        'joining two verbs',
                        'joining two sentences or clauses']:
@@ -667,6 +670,13 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "PART"
     # Assign Interrogative Particles
+    if An1 == 'particle':
+        if An2 == 'interrrogative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        if trans != 'as a correlative conjunction: whether':
+                            pos = "PART"
     if An1 in ['pronoun, interrogative and indefinite']:
         if not An2:
             if not An3:
@@ -835,28 +845,34 @@ def loop_tags(taglist, test_unknown=False):
                     print(comp_tag, comp_glossnum, "'" + comp_word + "',", "'" + comp_trans + "',",
                           "in: '" + comp_gloss +
                           "' - http://www.stgallpriscian.ie/index.php?id={}&an=1".format(comp_glossnum))
-            return "Loop Broken!\n"
+            return "\nLoop Broken!\n"
     return new_poslist
 
 
-loop_tags(analyses)
+# Find Percentage of Corpus POS Tagged
+def percent_complete(excel_data):
+    tagged_list = loop_tags(excel_data, True)
+    tagged_count = 0
+    all_count = len(tagged_list)
+    for i in tagged_list:
+        if i[-1] != 'unknown':
+            tagged_count += 1
+    tagged_percent = (100/all_count) * tagged_count
+    print("Total number of analysed tokens in Bauer's corpus: {}".format(all_count))
+    print("Number of tokens POS tagged: {}".format(tagged_count))
+    print("Percentage of tokens tagged: {}%".format(tagged_percent))
+    print()
 
-# print(loop_tags(analyses))
 
-# for i in loop_tags(analyses):
+percent_complete(analyses)
+
+# # POS Tag Each Gloss and Return either POS list or Breakpoint
+# loop_tags(analyses)
+print(loop_tags(analyses))
+
+# # List each Token and its POS
+# for i in loop_tags(analyses, True):
 #     print("'" + i[1] + "',", i[-1])
-
-# # Find Percentage of Corpus POS tagged
-# tagged_list = loop_tags(analyses, True)
-# tagged_count = 0
-# all_count = len(tagged_list)
-# for i in tagged_list:
-#     if i[-1] != 'unknown':
-#         tagged_count += 1
-# tagged_percent = (100/all_count) * tagged_count
-# print("Total number of analysed tokens in Bauer's corpus: {}".format(all_count))
-# print("Number of tokens POS tagged: {}".format(tagged_count))
-# print("Percentage of tokens tagged: {}%".format(tagged_percent))
 
 
 # l1_taglist = findall_thistag(analyses, "adjective")
