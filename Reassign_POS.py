@@ -261,16 +261,18 @@ def clean_analysis(taglist, test_unknown=False):
                    'm, i', 'n, i', 'f, i',
                    'f, ī', 'm, u', 'n, u', 'f, u',
                    'm, dent.', 'f, d', 'f, k', 'm, n', 'n, n', 'f, n', 'm, (n)k', 'm, nt', 'n, nt',
-                   'm, r', 'f, r', 'n, s', 'm, t', 'n, t', 'f, t',
+                   'm, r', 'f, r', 'n, s', 'n, s (?)', 'm, t', 'n, t', 'f, t',
                    'm', 'f', 'n', 'm and n', 'm and f', 'm, and f', 'f and m',
                    'o', 'i̯o', 'i',
-                   'm, o (?)', 'm and n, o',  'm, o and u', 'm, o orig. n', 'm, o orig. n, s (?)', 'm, o and f, ā',
-                   'n (?), o', 'n and m, o', 'n, o (m, o?)', 'n, o, later m, o',
+                   'm, o (?)', 'm and n, o', 'm and n, o (?)', 'm, o and u', 'm, o orig. n', 'm, o orig. n, s (?)',
+                   'm, o and f, ā', 'm, o, later also f, ā', 'n (?), o', 'n and m, o', 'n, o (m, o?)',
+                   'n, o, later m, o',
                    'o (gender uncertain)', 'o [n ?]',
-                   'm, i̯o and i', '[m, ?] i̯o', '[m] i', 'm, i (?)', 'm, u and n, o', '[m, ?] u', 'm, t and f, t',
+                   'm, i̯o (?)', '[m, ?] i̯o', 'm, i̯o and i', '[m] i', 'm, i (?)', 'm, u and n, o', '[m, ?] u',
+                   'm, t and f, t',
                    'n, o (?)', 'n, i̯o & adjective', 'n, u or o', 'n and m, u', 'n, s and n, o',
-                   'f, ā; adjective', 'f, ā, later also m, o', 'f, mixed ā-, ī-, i-', 'f, ā and m, u',
-                   'f, ā; also f, n', 'f, i̯ā & m, i̯o', 'f, i, ī', 'f, i and n',
+                   'f, ā; adjective', 'f, ā, later also m, o', 'f, ā and i', 'f, mixed ā-, ī-, i-', 'f, ā and m, u',
+                   'f, ā; also f, n', 'f, i̯ā & m, i̯o', 'f, i, ī', 'f, i and n', 'f, n (?)', 'f, i, later also k',
                    'irregular', 'gender not attested in OIr.', 'gender unknown, i-stem', 'unknown declension']:
             if An3 in ['nom.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.', 'dat.sg. (?)',
                        'nom.pl.', 'voc.pl.', 'acc.pl.', 'acc.pl.masc.', 'acc.pl.neut.', 'gen.pl.', 'dat.pl.',
@@ -358,6 +360,7 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'pronoun, possessive, unstressed':
         if An2 in ['1sg (leniting)',
                    '3sg m, n (leniting)', '3sg f',
+                   '1pl (nasalizing)',
                    '3pl (nasalizing)']:
             if not An3:
                 if not actpas:
@@ -512,7 +515,7 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "ADJ"
         elif not An2:
-            if An3 in ['nom.sg.',
+            if An3 in ['nom.sg.', 'nom.sg.masc.',
                        'gen.sg.masc.',
                        'in adverbial phrase i recc']:
                 if not actpas:
@@ -529,6 +532,7 @@ def clean_analysis(taglist, test_unknown=False):
     # Assign Verbs (VERB)
     verb_tensepers = ['1sg.pres.ind.', '1sg.pres.subj.',
                       '1sg.pret.',
+                      '1sg.fut.',
                       '2sg.pres.ind.',
                       '2sg.impv.',
                       '3sg.pres.ind.', '3sg.pres.ind.pass.', '3sg.pres.ind.rel.',
@@ -914,7 +918,7 @@ def clean_analysis(taglist, test_unknown=False):
             if An3 in ['nom.sg.',
                        'gen.sg.masc.',
                        'dat.sg.',
-                       'nom.pl.fem.',
+                       'nom.pl.', 'nom.pl.fem.',
                        'gen.pl.fem.',
                        'nom.du.masc.', 'nom.du.fem.',
                        'acc.du.neut.', 'acc.du.fem.',
