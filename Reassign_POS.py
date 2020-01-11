@@ -250,7 +250,7 @@ def clean_analysis(taglist, test_unknown=False):
     rel = taglist[4]
     trans = taglist[5]
     testlist = [An1, An2, An3, actpas, rel, trans]
-    # print("FUCKED: {}".format(testlist))
+    # print("Bolloxed: {}".format(testlist))
     pos = "unknown"
 
     #                                         NOUNS & PRONOUNS
@@ -265,8 +265,8 @@ def clean_analysis(taglist, test_unknown=False):
                    'm, o (?)', 'm and n, o', 'm and n, o (?)', 'm, o and u', 'm, o orig. n', 'm, o orig. n, s (?)',
                    'm, o and f, ā', 'm, o, later also f, ā', 'm, o also f, ā and i',
                    'n (?), o', 'n and m, o', 'n, o (m, o?)', 'n, o, later m, o',
-                   'm, i̯o (?)', '[m, ?] i̯o', 'm, i̯o and i', '[m] i', 'm, i (?)', 'm, u (?)', '[m, ?] u',
-                   'm, u and n, o', 'm, t and f, t',
+                   'm, i̯o (?)', '[m, ?] i̯o', 'm, i̯o and i', 'm, [i]', '[m] i', 'm, i (?)', 'm, u (?)', '[m, ?] u',
+                   'm, u and o', 'm, u and n, o', 'm, t and f, t',
                    'n, o (?)', 'n, i̯o & adjective', 'n, u or o', 'n and m, u', 'n, s and n, o',
                    'f, ā; adjective', 'f, ā, later also m, o', 'f, ā and i', 'f, mixed ā-, ī-, i-', 'f, ā and m, u',
                    'f, ā; also f, n', 'f, i̯ā & m, i̯o', 'f, i (?)', 'f, i, ī', 'f, i and n', 'f, i, later also k',
@@ -279,6 +279,7 @@ def clean_analysis(taglist, test_unknown=False):
                        'acc./dat.sg.',
                        'nom.sg.neut.', 'nom.sg.fem.',
                        'gen.sg.neut.',
+                       'dat.sg.neut.',
                        'adverbial form', 'composition form']:
                 if not actpas:
                     if not rel:
@@ -500,7 +501,7 @@ def clean_analysis(taglist, test_unknown=False):
     # Assign Adjectives (ADJ)
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u',
-                   'o, ā, i', 'o, ā and noun',
+                   'o, ā, i', 'o, ā and noun', 'o, ā and adverb',
                    'indeclinable (?)']:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
@@ -565,6 +566,8 @@ def clean_analysis(taglist, test_unknown=False):
                       '*']
     verb_tenseperssuffix = ['3sg.pres.ind. + suff.pron. 3sg.masc./neut.']
     verb_tensepersinfix = ['1sg.pres.ind. + infix.pron. Class A 3sg.fem.',
+                           '1sg.pres.ind. + infix pron Class C 3sg.neut.',
+                           '1sg.perf. + infix pron Class C 3sg.neut.',
                            '3sg.pres.ind. + inf.pron. class A 3sg.neut.',
                            '3sg.pres.ind. + infix.pron. Class C 3sg.neut.',
                            '3sg.pres.ind. + infix.pron. Class C 3sg.fem.',
@@ -863,8 +866,9 @@ def clean_analysis(taglist, test_unknown=False):
             elif An3 in ['nom.sg.masc.', 'nom.sg.neut.',
                          'acc.sg.masc.', 'acc.sg.neut.',
                          'dat.sg.neut.',
-                         'nom.pl.fem.',
-                         'acc.pl.']:
+                         'nom.pl.', 'nom.pl.fem.',
+                         'acc.pl.',
+                         'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
@@ -879,11 +883,16 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'particle':
         if An2 == 'relative':
             if An3 in ['rel part + a 5',
+                       'rel part + ar 1',
                        'rel part + de 1',
                        'rel part + do 1',
                        'rel part + fri',
                        'rel part + i 2',
                        'rel part + ó 1']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART"
+            elif not An3:
                 if not actpas:
                     if not rel:
                         pos = "PART"
@@ -899,11 +908,11 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART"
-            elif An3 in ['nom.sg.', 'nom.sg.neut.', 'nom.sg.fem.',
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.',
-                       'gen.sg.masc.', 'gen.sg.neut.',
+                       'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.',
                        'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.',
-                       'nom.pl.masc.', 'nom.pl.neut.',
+                       'nom.pl.', 'nom.pl.masc.', 'nom.pl.neut.',
                        'acc.pl.', 'acc.pl.neut.',
                        'gen.pl.masc.', 'gen.pl.neut.',
                        'dat.pl.', 'dat.pl.neut.']:
@@ -933,7 +942,7 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg.',
                        'nom.pl.', 'nom.pl.fem.',
                        'gen.pl.fem.',
-                       'nom.du.masc.', 'nom.du.fem.',
+                       'nom.du.masc.', 'nom.du.neut.', 'nom.du.fem.',
                        'acc.du.neut.', 'acc.du.fem.',
                        'gen.du.masc.', 'gen.du.neut.', 'gen.du.fem.', 'gen.du.fem. + in 2',
                        'dat.du.', 'dat.du.masc.', 'dat.du.fem.',
