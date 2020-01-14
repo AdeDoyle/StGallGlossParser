@@ -401,7 +401,7 @@ def clean_analysis(taglist, test_unknown=False):
     # Emphatic Pronouns
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
-                   '1pl', '3pl']:
+                   '1pl', '2pl', '3pl']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -459,6 +459,7 @@ def clean_analysis(taglist, test_unknown=False):
                     'dat. + suff.pron.3sg.fem.',
                     'dat. + suff.pron.3sg.fem. + -si 1',
                     'dat. + suff.pron.1pl.',
+                    'dat. + suff.pron.2pl.',
                     'dat. + suff.pron.3pl.',
                     'eter + suff pron 3sg n']
     if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
@@ -484,7 +485,7 @@ def clean_analysis(taglist, test_unknown=False):
                        'nom.pl.', 'nom.pl. + í 1',
                        'acc.pl.',
                        'gen.pl.', 'gen.pl. + í 1',
-                       'nom.du.', 'acc.du.', 'gen.du.',]:
+                       'nom.du.', 'acc.du.', 'gen.du.']:
                 if not actpas:
                     if not rel:
                         pos = "DET"
@@ -545,6 +546,7 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'adjective':
         if An2 in ['o, ā', 'i̯o, i̯ā', 'i', 'u',
                    'o, ā, i', 'o, ā and noun', 'o, ā and adverb',
+                   'prefix',
                    'u (?)', 'indeclinable (?)']:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'voc.sg.', 'voc.sg.fem.',
@@ -574,6 +576,10 @@ def clean_analysis(taglist, test_unknown=False):
                        'gen.sg.', 'gen.sg.masc.',
                        'dat.pl.masc.',
                        'in adverbial phrase i recc']:
+                if not actpas:
+                    if not rel:
+                        pos = "ADJ"
+            elif not An3:
                 if not actpas:
                     if not rel:
                         pos = "ADJ"
@@ -794,7 +800,7 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "ADV"
                     elif rel == 'Y':
                         pos = "ADV"
-            elif An3 in ['dat.sg.neut.']:
+            elif An3 in ['acc.', 'dat.sg.', 'dat.sg.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "ADV"
@@ -839,6 +845,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "ADV"
+    if An1 == 'preposition, with acc; leniting':
+        if not An2:
+            if An3 == 'adverbial form':
+                if not actpas:
+                    if not rel:
+                        pos = "ADV"
 
     #                                           PREPOSITIONS
     # Assign Prepositions (ADP)
@@ -849,9 +861,9 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "ADP"
             elif An3 in ['acc.', 'acc. + rel.part.', 'acc. + so 1',
-                       'acc. + poss.pron.3sg.masc./neut.', 'acc. + poss.pron.3sg.fem.',
-                       'acc. + poss.pron.3pl.',
-                       'composition form']:
+                         'acc. + poss.pron.3sg.masc./neut.', 'acc. + poss.pron.3sg.fem.',
+                         'acc. + poss.pron.3pl.',
+                         'composition form']:
                 if not actpas:
                     if not rel:
                         pos = "ADP"
@@ -902,7 +914,7 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "ADP"
     # Assign Deterministic Prepositions - preceding prepositional articles (ADP)
-    if An1 in ['preposition, with acc; leniting', 'preposition, with acc; geminating',
+    if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
                'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
                'preposition, with dat; geminating',
                'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
@@ -980,6 +992,7 @@ def clean_analysis(taglist, test_unknown=False):
                          'i 2 + def.art. + deictic pron í 1',
                          '+ infix pron Class C 3sg n',
                          '+ infix pron class C 3sg nt',
+                         'joining two nouns',
                          'ma + ní + copula',
                          'with copula', 'with 3sg.pres.subj. of copula', 'with 3pl.pres.sub. of copula',
                          'with negative']:
@@ -1223,6 +1236,7 @@ def clean_analysis(taglist, test_unknown=False):
                'pronoun, infixed, class B',
                'pronoun, infixed, class C']:
         if An2 in ['1sg',
+                   '2sg',
                    '3sg m', '3sg n (leniting)', '3sg f (geminating)', '3sg f (sometimes nasalizing)',
                    '1pl',
                    '3pl', '3pl (geminating)']:
@@ -1330,7 +1344,7 @@ percent_complete(analyses)
 
 # # POS Tag Each Gloss and Return either POS list or Breakpoint
 # loop_tags(analyses)
-print(loop_tags(analyses))
+# print(loop_tags(analyses))
 
 # # List each Token and its POS
 # for i in loop_tags(analyses, True):
