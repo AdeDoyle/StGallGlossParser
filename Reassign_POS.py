@@ -16,8 +16,89 @@ wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 
 
-# Cleans tags in Bernhard's tag-set by removing whitespace and replacing unattested forms with a *
-def clean_onetag(taglist):
+# Collect lists of Bernhard's original POS-tags, including:
+#    Analysis levels 1-3,
+#    Verb information (active/passive, relativity),
+#    Translation/word-meaning
+def list_tag_levels(excel_list):
+    noA1 = list()
+    testA1 = list()
+    noA2 = list()
+    testA2 = list()
+    noA3 = list()
+    testA3 = list()
+    testActPas = list()
+    testRel = list()
+    testTrans = list()
+    for i in excel_list:
+        A1 = i[3]
+        A2 = i[4]
+        A3 = i[5]
+        vb_actpas = i[6]
+        vb_rel = i[7]
+        Tr = i[2]
+        if not A1:
+            noA1.append(i)
+        elif A1.strip() not in testA1:
+            testA1.append(A1.strip())
+        if not A2:
+            noA2.append(i)
+        elif A2.strip() not in testA2:
+            testA2.append(A2.strip())
+        if not A3:
+            noA3.append(i)
+        elif A3.strip() not in testA3:
+            A3_clean = A3.strip()
+            if A3_clean[0] != "*":
+                testA3.append(A3.strip())
+            else:
+                testA3.append("*")
+        if vb_actpas:
+            testActPas.append(vb_actpas.strip())
+        if vb_rel:
+            testRel.append(vb_rel.strip())
+        if Tr:
+            testTrans.append(Tr.strip())
+    return [testA1, testA2, testA3, testActPas, testRel, testTrans, noA1, noA2, noA3]
+
+
+# Sort lists of Bernhard's original POS-tags, including:
+    # Analysis levels 1-3,
+    # Verb information (active/passive, relativity),
+    # Translation/word-meaning
+def sort_tag_levels(tag_levels_list):
+    sorted_A1 = sorted(list(set(tag_levels_list[0]))) + [False]
+    sorted_A2 = sorted(list(set(tag_levels_list[1]))) + [False]
+    sorted_A3 = sorted(list(set(tag_levels_list[2]))) + [False]
+    sorted_actpas = sorted(list(set(tag_levels_list[3]))) + [False]
+    sorted_rel = sorted(list(set(tag_levels_list[4]))) + [False]
+    sorted_trans = sorted(list(set(tag_levels_list[5]))) + [False]
+    return [sorted_A1, sorted_A2, sorted_A3, sorted_actpas, sorted_rel, sorted_trans]
+
+
+# Save lists of Bernhard's original POS-tags as .pkl files, including:
+    # Analysis levels 1-3,
+    # Verb information (active/passive, relativity),
+    # Translation/word-meaning
+def save_sorted_tags(sorted_tags):
+    sorted_A1 = sorted_tags[0]
+    save_obj("A1 List", sorted_A1)
+    sorted_A2 = sorted_tags[1]
+    save_obj("A2 List", sorted_A2)
+    sorted_A3 = sorted_tags[2]
+    save_obj("A3 List", sorted_A3)
+    sorted_actpas = sorted_tags[3]
+    save_obj("Active_Passive List", sorted_actpas)
+    sorted_rel = sorted_tags[4]
+    save_obj("Relative Options List", sorted_rel)
+    sorted_trans = sorted_tags[5]
+    save_obj("Translations List", sorted_trans)
+    return "Saved sorted lists of tags."
+
+
+# Cleans tags in Bernhard's tag-set by removing whitespace
+#    Optionally reduce recreated forms in level A3 to * to reduce complexity
+def clean_onetag(taglist, clean_contractions=True):
     cleaned_tag = list()
     C = taglist[2]
     for tag_piece in taglist:
@@ -26,152 +107,57 @@ def clean_onetag(taglist):
                 tag_piece = tag_piece.strip()
             else:
                 tag_piece = tag_piece.strip()
-                if tag_piece[0] == "*":
-                    tag_piece = "*"
+                if clean_contractions:
+                    if tag_piece[0] == "*":
+                        tag_piece = "*"
         cleaned_tag.append(tag_piece)
     return cleaned_tag
 
 
-# # Collect lists of Bernhard's original POS-tags, levels 1-3, incl. verb information (active/passive, and relativity)
-# noA1 = list()
-# testA1 = list()
-# noA2 = list()
-# testA2 = list()
-# noA3 = list()
-# testA3 = list()
-# testActPas = list()
-# testRel = list()
-# lastnum = False
-# for i in analyses:
-#     glossnum = i[0]
-#     word = worddict.get(i[1])
-#     A1 = i[3]
-#     A2 = i[4]
-#     A3 = i[5]
-#     vb_actpas = i[6]
-#     vb_rel = i[7]
-#     if not A1:
-#         noA1.append(i)
-#         # testA1.append(False)
-#     elif A1.strip() not in testA1:
-#         testA1.append(A1.strip())
-#     if not A2:
-#         noA2.append(i)
-#         # testA2.append(False)
-#     elif A2.strip() not in testA2:
-#         testA2.append(A2.strip())
-#     if not A3:
-#         noA3.append(i)
-#         # testA3.append(False)
-#     elif A3.strip() not in testA3:
-#         A3_clean = A3.strip()
-#         if A3_clean[0] != "*":
-#             testA3.append(A3.strip())
-#         else:
-#             testA3.append("*")
-#     if vb_actpas:
-#         testActPas.append(vb_actpas.strip())
-#     # else:
-#     #     testActPas.append(False)
-#     if vb_rel:
-#         testRel.append(vb_rel.strip())
-#     # else:
-#     #     testRel.append(False)
-#     # output = [word, A1, A2, A3, vb_actpas, vb_actpas]
-#     # if glossnum == lastnum:
-#     #     print(output)
-#     # else:
-#     #     lastnum = glossnum
-#     # print(output)
-
-
-# # Sort lists of Bernhard's original POS-tags, levels 1-3, as well as verb information (active/passive, and relativity)
-# # Save these sorted lists
-# sorted_A1 = sorted(list(set(testA1))) + [False]
-# # save_obj("A1 List", sorted_A1)
-# sorted_A2 = sorted(list(set(testA2))) + [False]
-# # save_obj("A2 List", sorted_A2)
-# sorted_A3 = sorted(list(set(testA3))) + [False]
-# # save_obj("A3 List", sorted_A3)
-# sorted_actpas = sorted(list(set(testActPas))) + [False]
-# # save_obj("Active_Passive List", sorted_actpas)
-# sorted_rel = sorted(list(set(testRel))) + [False]
-# # save_obj("Relative Options List", sorted_rel)
-
-
+# # Run the functions above to create the following .pkl files from spreadsheet, "SG. Combined Data":
+# print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
 A1_list = open_obj("A1 List.pkl")
 A2_list = open_obj("A2 List.pkl")
 A3_list = open_obj("A3 List.pkl")
 actpas_list = open_obj("Active_Passive List.pkl")
 rel_list = open_obj("Relative Options List.pkl")
+Tr_list = open_obj("Translations List.pkl")
+raw_lists = list_tag_levels(analyses)
+noA1 = raw_lists[6]
+noA2 = raw_lists[7]
+noA3 = raw_lists[8]
 
 
-# # Test contents of POS tag-set and which entries have no tags.
-# print("Entries, no A1: {}".format(len(noA1)))
-# print("Unique A1 Types: {}".format(len(A1_list)))
-#
-# print("Entries, no A2: {}".format(len(noA2)))
-# print("Unique A2 Types: {}".format(len(A2_list)))
-#
-# print("Entries, no A3: {}".format(len(noA3)))
-# print("Unique A3 Types: {}".format(len(A3_list)))
-#
-# print("Unique Active/Passive Types: {}".format(len(actpas_list)))
-# print("Unique Relativity Types: {}".format(len(rel_list)))
-
-
-# for i in A1_list:
-#     print(i)
-# for i in noA1:
-#     output = [i[1]] + i[3:8]
-#     print(output)
-
-# for i in A2_list:
-#     print(i)
-# for i in noA2:
-#     output = [i[1]] + i[3:8]
-#     print(output)
-
-# for i in A3_list:
-#     print(i)
-# for i in noA3:
-#     output = [i[1]] + i[3:8]
-#     print(output)
-
-# for i in actpas_list:
-#     print(i)
-# for i in rel_list:
-#     print(i)
-
-
-# # Create an ordered list of all unique POS-tag combinations used (takes about 26 minutes to run)
-# start_time = time.time()
-# alltag_combos = list()
-# for entry in analyses:
-#     tag_combo = entry[3:8]
-#     tag_combo_clean = clean_onetag(tag_combo)
-#     if tag_combo_clean not in alltag_combos:
-#         alltag_combos.append(tag_combo_clean)
-# sorted_tag_combos = list()
-# for t1 in A1_list:
-#     for t2 in A2_list:
-#         for t3 in A3_list:
-#             for actpas in actpas_list:
-#                 for rel in rel_list:
-#                     possible_combo = [t1, t2, t3, actpas, rel]
-#                     if possible_combo in alltag_combos:
-#                         sorted_tag_combos.append(possible_combo)
-# # save_obj("All POS Combos Used", sorted_tag_combos)
-# end_time = time.time()
-# time_elapsed = end_time - start_time
-# duration_in = 'sec'
-# if time_elapsed > 60:
-#     time_elapsed = time_elapsed / 60
-#     duration_in = 'mins'
-#     if time_elapsed > 60:
-#         time_elapsed = time_elapsed / 60
-#         duration_in = 'hrs'
-# print("Time Elapsed: {}{}".format(time_elapsed, duration_in))
+# Create an ordered list of all unique POS-tag combinations used (takes about 26 minutes to run)
+def save_all_pos_combos_list(excel_list):
+    start_time = time.time()
+    alltag_combos = list()
+    for entry in excel_list:
+        tag_combo = entry[3:8] + [entry[2]]
+        tag_combo_clean = clean_onetag(tag_combo)
+        if tag_combo_clean not in alltag_combos:
+            alltag_combos.append(tag_combo_clean)
+    sorted_tag_combos = list()
+    for t1 in A1_list:
+        for t2 in A2_list:
+            for t3 in A3_list:
+                for actpas in actpas_list:
+                    for rel in rel_list:
+                        for trans in Tr_list:
+                            possible_combo = [t1, t2, t3, actpas, rel, trans]
+                            if possible_combo in alltag_combos:
+                                sorted_tag_combos.append(possible_combo)
+    save_obj("All POS Combos Used", sorted_tag_combos)
+    end_time = time.time()
+    time_elapsed = end_time - start_time
+    duration_in = 'sec'
+    if time_elapsed > 60:
+        time_elapsed = time_elapsed / 60
+        duration_in = 'mins'
+        if time_elapsed > 60:
+            time_elapsed = time_elapsed / 60
+            duration_in = 'hrs'
+    return "Time Elapsed: {}{}".format(time_elapsed, duration_in)
 
 
 # Get all entries for a given POS-tag at any level
@@ -250,7 +236,6 @@ def clean_analysis(taglist, test_unknown=False):
     rel = taglist[4]
     trans = taglist[5]
     testlist = [An1, An2, An3, actpas, rel, trans]
-    # print("Bolloxed: {}".format(testlist))
     pos = "unknown"
 
     #                                         NOUNS & PRONOUNS
@@ -313,6 +298,13 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "NOUN"
+    if An1 == 'adjective':
+        if An2 == 'u':
+            if An3 in ['nom.sg.', 'nom.sg.neut.', 'dat.sg.']:
+                if not actpas:
+                    if not rel:
+                        if "as noun:" in trans:
+                            pos = "NOUN"
 
     # Assign Proper Nouns (NOUN)
     if An1 == 'noun, proper':
@@ -565,7 +557,8 @@ def clean_analysis(taglist, test_unknown=False):
                        'clitic form', 'composition form']:
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
+                        if "as noun:" not in trans:
+                            pos = "ADJ"
             elif not An3:
                 if not actpas:
                     if not rel:
@@ -1340,10 +1333,10 @@ def percent_complete(excel_data):
     print()
 
 
-percent_complete(analyses)
+# percent_complete(analyses)
 
 # # POS Tag Each Gloss and Return either POS list or Breakpoint
-# loop_tags(analyses)
+# # loop_tags(analyses)
 # print(loop_tags(analyses))
 
 # # List each Token and its POS
@@ -1411,12 +1404,84 @@ percent_complete(analyses)
 # plt.show()
 
 
+# # RUN FUNCTIONS (in order of creation)
+
+
+# # Run the functions above which create .pkl files of gloss-word analyses from spreadsheet, "SG. Combined Data":
+# print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
+
+# # Run the function to create a .pkl file listing all unique POS-tag combinations used in order
+# # (takes about 26 minutes to run)
+# print(save_all_pos_combos_list(analyses))
+
+
+# # OUTPUT TESTS:
+
+
+# # Test contents of POS tag-set and which entries have no tags.
+# print("Entries, no A1: {}".format(len(noA1)))
+# print("Unique A1 Types: {}".format(len(A1_list)))
+#
+# print("Entries, no A2: {}".format(len(noA2)))
+# print("Unique A2 Types: {}".format(len(A2_list)))
+#
+# print("Entries, no A3: {}".format(len(noA3)))
+# print("Unique A3 Types: {}".format(len(A3_list)))
+#
+# print("Unique Active/Passive Types: {}".format(len(actpas_list)))
+# print("Unique Relativity Types: {}".format(len(rel_list)))
+# print("Unique Translations/Word-meanings: {}".format(len(Tr_list)))
+
+
+# # Test contents of individual tag level analyses (1-3)
+# #    Print all sorted A1 level entries
+# #    Then print all analysis for tags with no A1 level analysis
+# for i in A1_list:
+#     print(i)
+# for i in noA1:
+#     output = [i[1]] + i[3:8]
+#     print(output)
+
+# for i in A2_list:
+#     print(i)
+# for i in noA2:
+#     output = [i[1]] + i[3:8]
+#     print(output)
+
+# for i in A3_list:
+#     print(i)
+# for i in noA3:
+#     output = [i[1]] + i[3:8]
+#     print(output)
+
+# # Test all entries for verb information (active/passive, relative) and translations
+# for i in actpas_list:
+#     print(i)
+# for i in rel_list:
+#     print(i)
+# for i in Tr_list:
+#     print(i)
+
+
 # # FUNCTION TESTS:
+
+
+# # Functions for creating and saving .pkl lists of gloss-word analyses
+# print(list_tag_levels(analyses))
+
+# print(sort_tag_levels(list_tag_levels(analyses)))
+
+# print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
 
 
 # # Test clean_onetag function
 # for tag in analyses:
 #     print(clean_onetag(tag[3:8]))
+
+
+# # Function to create a .pkl file listing all unique POS-tag combinations used in order
+# # (takes about 26 minutes to run)
+# print(save_all_pos_combos_list(analyses))
 
 
 # # Test findall_thistag, findall_nulltag, findall_excltag and clean_wordlist functions
