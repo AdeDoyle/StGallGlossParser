@@ -16,7 +16,7 @@ wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 
 
-# Collect lists of Bernhard's original POS-tags, including:
+# Collect lists of Bauer's original POS-tags, including:
 #    Analysis levels 1-3,
 #    Verb information (active/passive, relativity),
 #    Translation/word-meaning
@@ -62,7 +62,7 @@ def list_tag_levels(excel_list):
     return [testA1, testA2, testA3, testActPas, testRel, testTrans, noA1, noA2, noA3]
 
 
-# Sort lists of Bernhard's original POS-tags, including:
+# Sort lists of Bauer's original POS-tags, including:
     # Analysis levels 1-3,
     # Verb information (active/passive, relativity),
     # Translation/word-meaning
@@ -76,7 +76,7 @@ def sort_tag_levels(tag_levels_list):
     return [sorted_A1, sorted_A2, sorted_A3, sorted_actpas, sorted_rel, sorted_trans]
 
 
-# Save lists of Bernhard's original POS-tags as .pkl files, including:
+# Save lists of Bauer's original POS-tags as .pkl files, including:
     # Analysis levels 1-3,
     # Verb information (active/passive, relativity),
     # Translation/word-meaning
@@ -96,7 +96,7 @@ def save_sorted_tags(sorted_tags):
     return "Saved sorted lists of tags."
 
 
-# Cleans tags in Bernhard's tag-set by removing whitespace
+# Cleans tags in Bauer's tag-set by removing whitespace
 #    Optionally reduce recreated forms in level A3 to * to reduce complexity
 def clean_onetag(taglist, clean_contractions=True):
     cleaned_tag = list()
@@ -114,8 +114,7 @@ def clean_onetag(taglist, clean_contractions=True):
     return cleaned_tag
 
 
-# # Run the functions above to create the following .pkl files from spreadsheet, "SG. Combined Data":
-# print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
+# # Run the functions above to create the following .pkl files from spreadsheet, "SG. Combined Data"
 A1_list = open_obj("A1 List.pkl")
 A2_list = open_obj("A2 List.pkl")
 A3_list = open_obj("A3 List.pkl")
@@ -201,8 +200,6 @@ def clean_wordlist(wordlist):
     return new_wordlist
 
 
-# POS_list = ["AF", "BR", "CPL", "AID", "FRA", "ALT", "TSP", "DBR", "RFH", "CN", "NOD", "MBR",
-#             "UMR", "INT", "SNL", "BRS", "PNC"]
 # Parole_tags_TL = ["NOUN", "VERB", "ADJ", "PRON", "DET", "Article", "ADV", "ADP",
 #                   "Conjunction", "NUM", "INTJ", "Unique Membership Class", "Residuals", "PUNCT",
 #                   "Abbreviation", "Copula", "Verbal Particle"]
@@ -235,7 +232,6 @@ def clean_analysis(taglist, test_unknown=False):
     actpas = taglist[3]
     rel = taglist[4]
     trans = taglist[5]
-    testlist = [An1, An2, An3, actpas, rel, trans]
     pos = "unknown"
 
     #                                         NOUNS & PRONOUNS
@@ -1283,10 +1279,9 @@ def clean_analysis(taglist, test_unknown=False):
         return pos
 
 
-# Loops through all glossed words, finds their tags and passes them to the clean_analysis function.
-# Where tags cannot be cleaned by the function, all instances of the tag are printed.
+# Loops through all glossed words, finds their analyses, and passes this to the clean_analysis function.
+# Where tags cannot be cleaned by the function, all instances of the original analysis are printed.
 def loop_tags(taglist, test_unknown=False):
-    # all_pos = open_obj("All POS Combos Used.pkl")
     new_poslist = list()
     for full_tag in taglist:
         glossnum = full_tag[0]
@@ -1294,13 +1289,11 @@ def loop_tags(taglist, test_unknown=False):
         trans = full_tag[2]
         tag = clean_onetag(full_tag[3:8] + [trans])
         gloss = clean_gloss(full_tag[8])
-        # glosstrans = full_tag[9]
-        # assembled_tag = [glossnum, word, trans, tag, gloss, glosstrans]
         try:
             pos_tag = clean_analysis(tag, test_unknown)
             full_tag.append(pos_tag)
             new_poslist.append(full_tag)
-        except:
+        except ZeroDivisionError:
             print("Broke at gloss no. {}\n'{}', in gloss, '{}'.\n"
                   "url: http://www.stgallpriscian.ie/index.php?id={}&an=1\n"
                   "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, glossnum, tag))
@@ -1331,17 +1324,6 @@ def percent_complete(excel_data):
     print("Number of tokens POS tagged: {}".format(tagged_count))
     print("Percentage of tokens tagged: {}%".format(tagged_percent))
     print()
-
-
-# percent_complete(analyses)
-
-# # POS Tag Each Gloss and Return either POS list or Breakpoint
-# # loop_tags(analyses)
-# print(loop_tags(analyses))
-
-# # List each Token and its POS
-# for i in loop_tags(analyses, True):
-#     print("'" + i[1] + "',", i[-1])
 
 
 # l1_taglist = findall_thistag(analyses, "adjective")
@@ -1545,4 +1527,20 @@ def percent_complete(excel_data):
 # print(len(allpos))
 # print(len(notlist))
 # print(len(unique_notlist))
+
+
+# # Test the loop_tags function
+# print(loop_tags(analyses, True))
+
+
+# # Test how many tokens in Bauer's analysed corpus can be successfully assigned UD POS tags by the loop_tags function
+# percent_complete(analyses)
+
+# # POS Tag Each Gloss and Return either POS list or Breakpoint
+# loop_tags(analyses)
+# print(loop_tags(analyses))
+
+# # List each Token and its POS
+# for i in loop_tags(analyses, True):
+#     print("'" + i[1] + "',", i[-1])
 
