@@ -1396,6 +1396,13 @@ def percent_complete(excel_data):
 # # (takes about 26 minutes to run)
 # print(save_all_pos_combos_list(analyses))
 
+# # # Save a list containing each Token and its assigned UD POS
+# pos_list = list()
+# for i in loop_tags(analyses, True):
+#     tagged_i = i[1], i[-1]
+#     pos_list.append(tagged_i)
+# save_obj("POS_taglist", pos_list)
+
 
 # # OUTPUT TESTS:
 
