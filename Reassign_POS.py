@@ -127,36 +127,20 @@ noA2 = raw_lists[7]
 noA3 = raw_lists[8]
 
 
-# Create an ordered list of all unique POS-tag combinations used (takes about 26 minutes to run)
+import pandas as pd
+
+
+# Create an ordered list of all unique POS-tag combinations used
 def save_all_pos_combos_list(excel_list):
-    start_time = time.time()
     alltag_combos = list()
     for entry in excel_list:
         tag_combo = entry[3:8] + [entry[2]]
         tag_combo_clean = clean_onetag(tag_combo)
         if tag_combo_clean not in alltag_combos:
             alltag_combos.append(tag_combo_clean)
-    sorted_tag_combos = list()
-    for t1 in A1_list:
-        for t2 in A2_list:
-            for t3 in A3_list:
-                for actpas in actpas_list:
-                    for rel in rel_list:
-                        for trans in Tr_list:
-                            possible_combo = [t1, t2, t3, actpas, rel, trans]
-                            if possible_combo in alltag_combos:
-                                sorted_tag_combos.append(possible_combo)
+    sorted_tag_combos = sorted(alltag_combos, key=lambda s: [(e is False, e is True, e) for e in s])
     save_obj("All POS Combos Used", sorted_tag_combos)
-    end_time = time.time()
-    time_elapsed = end_time - start_time
-    duration_in = 'sec'
-    if time_elapsed > 60:
-        time_elapsed = time_elapsed / 60
-        duration_in = 'mins'
-        if time_elapsed > 60:
-            time_elapsed = time_elapsed / 60
-            duration_in = 'hrs'
-    return "Time Elapsed: {}{}".format(time_elapsed, duration_in)
+    return "Sorted list of POS combinations saved"
 
 
 # Get all entries for a given POS-tag at any level
@@ -1393,7 +1377,6 @@ def percent_complete(excel_data):
 # print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
 
 # # Run the function to create a .pkl file listing all unique POS-tag combinations used in order
-# # (takes about 26 minutes to run)
 # print(save_all_pos_combos_list(analyses))
 
 # # # Save a list containing each Token and its assigned UD POS
