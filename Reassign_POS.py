@@ -1,11 +1,8 @@
 """Level 1."""
 
-from functools import lru_cache
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
-import time
-import re
 import matplotlib.pyplot as plt
 
 
@@ -14,6 +11,13 @@ glosslist = open_obj("Gloss_List.pkl")
 worddict = open_obj("Clean_WordDict.pkl")
 wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
+# # Run the functions below to create the following .pkl files from spreadsheet, "SG. Combined Data"
+A1_list = open_obj("A1 List.pkl")
+A2_list = open_obj("A2 List.pkl")
+A3_list = open_obj("A3 List.pkl")
+actpas_list = open_obj("Active_Passive List.pkl")
+rel_list = open_obj("Relative Options List.pkl")
+Tr_list = open_obj("Translations List.pkl")
 
 
 # Collect lists of Bauer's original POS-tags, including:
@@ -60,6 +64,12 @@ def list_tag_levels(excel_list):
         if Tr:
             testTrans.append(Tr.strip())
     return [testA1, testA2, testA3, testActPas, testRel, testTrans, noA1, noA2, noA3]
+
+
+raw_lists = list_tag_levels(analyses)
+noA1 = raw_lists[6]
+noA2 = raw_lists[7]
+noA3 = raw_lists[8]
 
 
 # Sort lists of Bauer's original POS-tags, including:
@@ -114,22 +124,6 @@ def clean_onetag(taglist, clean_contractions=True):
     return cleaned_tag
 
 
-# # Run the functions above to create the following .pkl files from spreadsheet, "SG. Combined Data"
-A1_list = open_obj("A1 List.pkl")
-A2_list = open_obj("A2 List.pkl")
-A3_list = open_obj("A3 List.pkl")
-actpas_list = open_obj("Active_Passive List.pkl")
-rel_list = open_obj("Relative Options List.pkl")
-Tr_list = open_obj("Translations List.pkl")
-raw_lists = list_tag_levels(analyses)
-noA1 = raw_lists[6]
-noA2 = raw_lists[7]
-noA3 = raw_lists[8]
-
-
-import pandas as pd
-
-
 # Create an ordered list of all unique POS-tag combinations used
 def save_all_pos_combos_list(excel_list):
     alltag_combos = list()
@@ -141,6 +135,64 @@ def save_all_pos_combos_list(excel_list):
     sorted_tag_combos = sorted(alltag_combos, key=lambda s: [(e is False, e is True, e) for e in s])
     save_obj("All POS Combos Used", sorted_tag_combos)
     return "Sorted list of POS combinations saved"
+
+
+# Count total potential POS tag combinations, print total
+# Count the number times each unique POS tag is used, return a list of unique tags with their use-count
+def count_tag_usage(ordered_list, full_list):
+    print("Total Tags: {}".format(len(ordered_list)))
+    tag_usage = list()
+    for tag in ordered_list:
+        # for each tag combination used by Bauer
+        count = 0
+        for an in full_list:
+            # check each analysis against each possible tag combination used
+            if tag == clean_onetag(an[3:8] + [an[2]]):
+                # if the tags match, increase the usage-count for this tag
+                count += 1
+        # add the total useage-count to the tag
+        tag = [count] + tag
+        # save the updated tag to the tag_usage list
+        tag_usage.append(tag)
+    return tag_usage
+
+
+# Count, print and graph the number of POS tag combinations which are used a given number of times
+# e.g. if there are 18 tags used only once, 10 tags used 5 times, and 2 tags used 50 times, count and graph this info
+def plot_tag_use(tags_with_use_count):
+    tag_usage = list()
+    for use_count_tag in tags_with_use_count:
+        tag_usage.append(use_count_tag[0])
+    # count the number of tags used each given number of times and add [count of use-count, use-count] to ordered list
+    tags_usecount = list()
+    alltagcount = sorted(tag_usage)
+    uniquetagscount = sorted(set(tag_usage))
+    for i in uniquetagscount:
+        tagusecount = alltagcount.count(i)
+        tags_usecount.append([i, tagusecount])
+    # plot 'use-count' and 'count of use-count' on X and Y axes respectively
+    X = list()
+    Y = list()
+    # identify highest number 'count of use-count' to use as an upper limit
+    high_usecount = tags_usecount[-1][0]
+    for i in range(high_usecount + 1):
+        for j in tags_usecount:
+            usecount = j[0]
+            if usecount == i:
+                countnum = j[1]
+                X.append(usecount)
+                Y.append(countnum)
+                print("No. of tags used {} time(s): {}".format(usecount, countnum))
+            elif usecount < i:
+                X.append(i)
+                Y.append(0)
+            else:
+                break
+    plt.plot(X, Y)
+    plt.title("Graph of Tag Usage in St. Gall Glosses")
+    plt.xlabel("Number of Times a Tag Is Used")
+    plt.ylabel("Number of Tags Used X Times")
+    plt.show()
 
 
 # Get all entries for a given POS-tag at any level
@@ -182,30 +234,6 @@ def clean_wordlist(wordlist):
     for i in wordlist:
         new_wordlist.append([i[0], clean_word(i[1])] + clean_onetag(i[3:8]))
     return new_wordlist
-
-
-# Parole_tags_TL = ["NOUN", "VERB", "ADJ", "PRON", "DET", "Article", "ADV", "ADP",
-#                   "Conjunction", "NUM", "INTJ", "Unique Membership Class", "Residuals", "PUNCT",
-#                   "Abbreviation", "Copula", "Verbal Particle"]
-# UD_tags_TL = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM',
-#               'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'X']
-# "ADJ": "adjective",
-# "ADP": "adposition - Pre-verbal particles? Infixed Pronouns",
-# "ADV": "adverb",
-# "AUX": "auxiliary - accompanies lexical verb 'has/was/got done, should/must/will do, is doing', 'no' if not PVP?",
-# "CCONJ": "coordinating conjunction - connect clauses without subordinating one to the other, 'and, or, but'"
-# "DET": "determiner - article + cách (every)",
-# "INTJ": "interjection",
-# "NOUN": "noun",
-# "NUM": "numeral",
-# "PART": "particle - negative, possessive, interrogative, demonstrative(?)",
-# "PRON": "pronoun",
-# "PROPN": "proper noun",
-# "PUNCT": "punctuation",
-# "SCONJ": "subordinating conjunction - subordinates one clause to another 'that/if/when/since/before he will come'",
-# "SYM": "symbol",
-# "VERB": "verb",
-# "X": "other - meaningless foreign word or word fragment"
 
 
 # Takes a single tag combination form the Sg. corpus, changes it to a simple POS tag.
@@ -1310,66 +1338,6 @@ def percent_complete(excel_data):
     print()
 
 
-# l1_taglist = findall_thistag(analyses, "adjective")
-# l2_taglist = findall_thistag(l1_taglist, False, 2)
-# print(len(l2_taglist))
-# for tag in l2_taglist:
-#     found_glossnum = tag[0]
-#     found_word = clean_word(tag[1])
-#     found_trans = tag[2]
-#     found_tag = clean_onetag(tag[3:8])
-#     found_gloss = clean_gloss(tag[8])
-#     print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
-
-
-# # Count total potential POS tag combinations
-# # Count, print and graph the number of POS tag combinations which are used a given number of times
-# # e.g. if there are 18 tags used only once, 10 tags used 5 times, and 2 tags used 50 times, count and graph this info.
-# ordered_tagcombos = open_obj("All Pos Combos Used.pkl")
-# print("Total Tags: {}".format(len(ordered_tagcombos)))
-# tag_usage = list()
-# for tag in ordered_tagcombos:
-#     # for each tag combination used by Bauer
-#     count = 0
-#     for an in analyses:
-#         # check each analysis against each possible tag combination used
-#         if tag == clean_onetag(an[3:8]):
-#             # if the tags match, increase the usage-count for this tag
-#             count += 1
-#     # save the total usage-count for this tag to the tag_usage list
-#     tag_usage.append(count)
-# # now count the number of tags used each given number of times and add [count of use-count, use-count] to ordered list
-# tags_usecount = list()
-# alltagcount = sorted(tag_usage)
-# uniquetagscount = sorted(set(tag_usage))
-# for i in uniquetagscount:
-#     tagusecount = alltagcount.count(i)
-#     tags_usecount.append([i, tagusecount])
-# # plot 'use-count' and 'count of use-count' on X and Y axes respectively
-# X = list()
-# Y = list()
-# # identify highest number 'count of use-count' to use as an upper limit
-# high_usecount = tags_usecount[-1][0]
-# for i in range(high_usecount + 1):
-#     for j in tags_usecount:
-#         usecount = j[0]
-#         if usecount == i:
-#             countnum = j[1]
-#             X.append(usecount)
-#             Y.append(countnum)
-#             print("No. of tags used {} time(s): {}".format(usecount, countnum))
-#         elif usecount < i:
-#             X.append(i)
-#             Y.append(0)
-#         else:
-#             break
-# plt.plot(X, Y)
-# plt.title("Graph of Tag Usage in St. Gall Glosses")
-# plt.xlabel("Number of Times a Tag Is Used")
-# plt.ylabel("Number of Tags Used X Times")
-# plt.show()
-
-
 # # RUN FUNCTIONS (in order of creation)
 
 
@@ -1435,6 +1403,14 @@ def percent_complete(excel_data):
 #     print(i)
 
 
+# # Counts the number of times each unique tag is used
+# for i in count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses):
+#     print(i)
+
+# # Count, print and plot tag usage figures
+# plot_tag_use(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses))
+
+
 # # FUNCTION TESTS:
 
 
@@ -1452,11 +1428,26 @@ def percent_complete(excel_data):
 
 
 # # Function to create a .pkl file listing all unique POS-tag combinations used in order
-# # (takes about 26 minutes to run)
 # print(save_all_pos_combos_list(analyses))
+
+# # Counts the number of times each unique tag is used
+# print(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses))
 
 
 # # Test findall_thistag, findall_nulltag, findall_excltag and clean_wordlist functions
+
+# # Finds all of a given tag type (eg. adjective) with another given tag type at another given level
+# # Prints number of matches found, and each match
+# l1_taglist = findall_thistag(analyses, "adjective")
+# l2_taglist = findall_thistag(l1_taglist, False, 2)
+# print(len(l2_taglist))
+# for tag in l2_taglist:
+#     found_glossnum = tag[0]
+#     found_word = clean_word(tag[1])
+#     found_trans = tag[2]
+#     found_tag = clean_onetag(tag[3:8])
+#     found_gloss = clean_gloss(tag[8])
+#     print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
 
 # # Finds all of a given tag type from various levels
 # l1_taglist = findall_thistag(analyses, "verb")
