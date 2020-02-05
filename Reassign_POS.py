@@ -6,10 +6,6 @@ from Clean_Glosses import clean_gloss, clean_word
 import matplotlib.pyplot as plt
 
 
-glossdict = open_obj("Clean_GlossDict.pkl")
-glosslist = open_obj("Gloss_List.pkl")
-worddict = open_obj("Clean_WordDict.pkl")
-wordslist = open_obj("Words_List.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 # # Run the functions below to create the following .pkl files from spreadsheet, "SG. Combined Data"
 A1_list = open_obj("A1 List.pkl")
