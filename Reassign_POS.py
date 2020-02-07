@@ -441,6 +441,20 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PRON"
+    # Assign Demonstrative Pronouns
+    if An1 == 'pronoun, demonstrative':
+        if An2 in ['this, these', 'that, those', 'neuter, indeclinable']:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                         'dat.sg.neut.',
+                         'nom.pl.', 'nom.pl.masc.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON"
     # Assign Prepositional Pronouns (PRON)
     prepprontype = ['acc. + suff.pron.1sg.',
                     'acc. + suff.pron.2sg.',
@@ -589,6 +603,26 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'noun and adjective':
         if An2 in ['o, ā']:
             if An3 in ['comparative', 'composition form']:
+                if not actpas:
+                    if not rel:
+                        pos = "ADJ"
+    # Assign Demonstrative Adjectives
+    if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal']:
+        if not An2:
+            if An3 in ['nom.pl.neut.', 'dat.pl.fem.']:
+                if not actpas:
+                    if not rel:
+                        pos = "ADJ"
+        elif An2 == 'this, these':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "ADJ"
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.',
+                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                         'nom.pl.masc.', 'nom.pl.fem.',
+                         'acc.pl.',
+                         'dat.pl.masc.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "ADJ"
@@ -1065,27 +1099,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART"
-    # Assign Demonstrative Particles
-    if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal', 'pronoun, demonstrative']:
-        if not An2:
-            if An3 in ['nom.pl.neut.', 'dat.pl.fem.']:
-                if not actpas:
-                    if not rel:
-                        pos = "PART"
-        elif An2 in ['this, these', 'that, those', 'neuter, indeclinable']:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "PART"
-            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                         'dat.sg.neut.',
-                         'nom.pl.', 'nom.pl.masc.', 'nom.pl.fem.',
-                         'acc.pl.',
-                         'dat.pl.masc.', 'dat.pl.neut.']:
-                if not actpas:
-                    if not rel:
-                        pos = "PART"
     # Assign Vocative Particles
     if An1 == 'particle':
         if An2 == 'vocative':
@@ -1343,7 +1356,7 @@ def percent_complete(excel_data):
 # # Run the function to create a .pkl file listing all unique POS-tag combinations used in order
 # print(save_all_pos_combos_list(analyses))
 
-# # # Save a list containing each Token and its assigned UD POS
+# # Save a list containing each Token and its assigned UD POS
 # pos_list = list()
 # for i in loop_tags(analyses, True):
 #     tagged_i = i[1], i[-1]
