@@ -78,7 +78,7 @@ def create_wordlist(excel_combo):
 
 
 # Test the first and last word of each analysis match the first and last word of their associated gloss
-def test_glossmatch(check_word="first"):
+def check_glossmatch(check_word="first"):
     for i in range(len(wordslist)):
         clgl = clean_gloss(glosslist[i], lowercase=True)
         if check_word == "first":
@@ -157,10 +157,10 @@ def map_glosswords(gloss, word_data_list):
 # #                                             TEST RESOURCES
 
 # # Test first word in wordlist matches first word in each gloss
-# print(test_glossmatch())
+# print(check_glossmatch())
 
 # # Test last word in wordlist matches last word in each gloss
-# print(test_glossmatch("last"))
+# print(check_glossmatch("last"))
 
 # #                                             TEST FUNCTIONS
 
