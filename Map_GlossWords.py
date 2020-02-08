@@ -14,7 +14,6 @@
    Sequence gloss-lists
 """
 
-from functools import lru_cache
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
@@ -138,7 +137,7 @@ def map_glosswords(gloss, word_data_list):
         word = clean_word(word_data[0])
         word_analysis = clean_onetag(word_data[1])
         word_pos = clean_analysis(word_analysis)
-        pos_analysis.append("{} <{}>".format(word, word_pos))
+        pos_analysis.append(["{}".format(word), "<{}>".format(word_pos)])
     pos_gloss.append(pos_analysis)
     return pos_gloss
 
