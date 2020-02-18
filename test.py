@@ -148,6 +148,7 @@ testglosses = [".i. libardaib",
 # Removes hyphens from Hofman's glosses with respect to the specific reason for hyphenation
 def remove_glosshyphens(gloss):
     words = gloss.split(" ")
+    word_ending = False
     for word in words:
         if "-" in word:
             word_index = words.index(word)
@@ -157,6 +158,23 @@ def remove_glosshyphens(gloss):
                 pass
             # If there's only one hyphen in a word
             elif word.count("-") == 1:
+                # If the word ends in a hyphen, remove without adding a space
+                if word[-1] in ["-", "…"]:
+                    small_prob_list = ['mael-', 'cua-', 'b-', 'alde-', 'neph-', 'gen-…', 'memr-', 'brig-', 'col-',
+                                       'el-', 'incomṡuig-']
+                    if word in small_prob_list:
+                        reconstruct = "".join(word.split("-"))
+                    # If the following word should be conjoined, concatenate the two, removing hyphen and space
+                    big_prob_list = ['indfrec-', 'ṡechma-', 'adrodar-', 'in-', 'preter-', 'thech-', 'tim-', 'di-']
+                    big_fix_list = ['indfrec- ndairc', 'ṡechma- dachtu', 'adrodar- car', 'in- narómae', 'preter- itum',
+                                    'thech- taite', 'tim- morte', 'di- gal']
+                    if word in big_prob_list:
+                        for wordfix in big_fix_list:
+                            if word in wordfix:
+                                reconstruct = "".join(wordfix.split("- "))
+                                word_ending = True
+                if word[0] == "-":
+                    reconstruct = word[1:]
                 deconstruct = word.split("-")
                 # If the hyphen marks nazalisation, remove the hyphen without inserting a space
                 splitpat = re.compile(r'\b[nṅ]-\w')
@@ -169,7 +187,7 @@ def remove_glosshyphens(gloss):
                             reconstruct = "".join(deconstruct)
                 # If the hyphen marks a prefix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b(ar|derb|neph)-\w.*\b')
+                    splitpat = re.compile(r'\b(ar|derb|oen|óen|oin|oín|neph|sen)-\w.*\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
@@ -177,7 +195,7 @@ def remove_glosshyphens(gloss):
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a suffix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b.*\w-(sa|se|si|sin|siu|so|som|son)\b')
+                    splitpat = re.compile(r'\b.*\w-(sa|se|sem|si|sin|siu|so|som|son)\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
@@ -197,19 +215,23 @@ def remove_glosshyphens(gloss):
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
-                            print(_.group())
+                            # print(_.group())
                             reconstruct = "".join(deconstruct)
                 if not reconstruct:
-                    # print(word)
+                    print(word)
                     pass
             if not reconstruct:
                 # print(word)
                 pass
             elif reconstruct:
                 words[word_index] = reconstruct
+            if word_ending:
+                del words[word_index + 1]
+                word_ending = False
     return " ".join(words)
 
 
+# \b[\wḟṡáéíóú]*-[^ḟṡa-záéíóú]
 for gl in glosslist:
     clean = remove_glosshyphens(clean_gloss(gl))
     if "-" in clean:
