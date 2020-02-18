@@ -127,9 +127,9 @@ testglosses = [".i. libardaib",
                "inna flaithemnachtae"]
 
 
-# Test on amended or original Hofman glosses
-# test_on = testglosses
-test_on = glosslist[:9]
+# # Test on amended or original Hofman glosses
+# # test_on = testglosses
+# test_on = glosslist[:9]
 
 # # Test edit distance function on one gloss
 # which_gloss = 1
@@ -138,9 +138,112 @@ test_on = glosslist[:9]
 # # for i in wordslist[which_gloss]:
 # #     print(i[0])
 
-# Test edit distance function on a range of glosses
-start_gloss = 0
-stop_gloss = 9
-for glossnum in range(start_gloss, stop_gloss):
-    print(matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
+# # Test edit distance function on a range of glosses
+# start_gloss = 0
+# stop_gloss = 9
+# for glossnum in range(start_gloss, stop_gloss):
+#     print(matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
+
+
+# Removes hyphens from Hofman's glosses with respect to the specific reason for hyphenation
+def remove_glosshyphens(gloss):
+    words = gloss.split(" ")
+    for word in words:
+        if "-" in word:
+            word_index = words.index(word)
+            reconstruct = False
+            # If there's more than one hyphen in a word
+            if word.count("-") > 1:
+                pass
+            # If there's only one hyphen in a word
+            elif word.count("-") == 1:
+                deconstruct = word.split("-")
+                # If the hyphen marks nazalisation, remove the hyphen without inserting a space
+                splitpat = re.compile(r'\b[nṅ]-\w')
+                splitpatitir = splitpat.finditer(word)
+                if splitpatitir:
+                    for patfind in splitpatitir:
+                        # print(patfind.group()[:-1])
+                        nazalisation_mark = ["n-", "ṅ-"]
+                        if patfind.group()[:-1] in nazalisation_mark:
+                            reconstruct = "".join(deconstruct)
+                # If the hyphen marks a prefix, remove the hyphen and insert a space
+                if not reconstruct:
+                    splitpat = re.compile(r'\b(ar|derb|neph)-\w.*\b')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for _ in splitpatitir:
+                            # print(_.group())
+                            reconstruct = " ".join(deconstruct)
+                # If the hyphen marks a suffix, remove the hyphen and insert a space
+                if not reconstruct:
+                    splitpat = re.compile(r'\b.*\w-(sa|se|si|sin|siu|so|som|son)\b')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for _ in splitpatitir:
+                            # print(_.group())
+                            reconstruct = " ".join(deconstruct)
+                # If the hyphen marks the deictic particle, remove the hyphen and insert a space
+                if not reconstruct:
+                    splitpat = re.compile(r'\b.*\w-(í|hí)\b')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for _ in splitpatitir:
+                            # print(_.group())
+                            reconstruct = " ".join(deconstruct)
+                # If the hyphen marks a pre-verbal particle, remove the hyphen without inserting a space
+                if not reconstruct:
+                    splitpat = re.compile(r'\b(for)-\w.*\b')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for _ in splitpatitir:
+                            print(_.group())
+                            reconstruct = "".join(deconstruct)
+                if not reconstruct:
+                    # print(word)
+                    pass
+            if not reconstruct:
+                # print(word)
+                pass
+            elif reconstruct:
+                words[word_index] = reconstruct
+    return " ".join(words)
+
+
+for gl in glosslist:
+    clean = remove_glosshyphens(clean_gloss(gl))
+    if "-" in clean:
+        # print(clean)
+        # print()
+        pass
+
+# testgloss = "issí tra in dias-sa rosechestar-som"
+# # testgloss = ".i. a n-dliged n-ísin neph-accomoil inna teora liter i-noen-sillaib"
+# print(remove_glosshyphens(clean_gloss(testgloss)))
+
+# for i in glosslist:
+#     clean = clean_gloss(i)
+#     if clean.count("-") >= 2:
+#         print(clean)
+
+
+"""1. Change all chars
+   2. Remove accents
+   3. Remove hyphens (hyphens at word ends?)
+   4. Match all tokens in B to equivolent in A
+   5. Output matchlist"""
+
+# all_words = list()
+# for gloss in glosslist:
+#     gloss = clean_gloss(gloss)
+#     words = gloss.split(" ")
+#     for word in words:
+#         if "-" in word:
+#             if word not in all_words:
+#                 all_words.append(word)
+# print(len(all_words))
+# for word in sorted(all_words):
+#     # print(word)
+#     if word.count("-") > 1:
+#         print(word)
 

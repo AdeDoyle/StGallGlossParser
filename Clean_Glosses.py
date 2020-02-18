@@ -56,13 +56,23 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
             gloss = gloss[:startpos] + gloss[endpos:]
     # remove all characters/strings not necessary in gloss
     remset = ("/", "·", ":", "*", "+", "--", ",.", ".,", ",", "..-", ".-", "?", '"', "|", "┼", "↑", "↓", "┤", "├", "¹",
-              "Û", "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)", "(subs.)")
+              "Û", "C-", "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)", "(subs.)")
+    special_remset = False
     if lowercase:
         remset = ("/", "·", ":", "*", "+", "--", ",.", ".,", ",", "..-", ".-", "?", '"', "|", "┼", "↑", "↓", "┤", "├",
                   "¹", "û", "(m.d.)", "(m.i.)", "(m.l.)", "(m. l.)", "(subs.)")
+        # remove characters which need to be removed carefully, only in specific instances
+        special_remset = ("c-",)
     for rem in remset:
         if rem in gloss:
             gloss = "".join(gloss.split(rem))
+    if special_remset:
+        for spec_rem in special_remset:
+            if spec_rem in gloss:
+                spec_rempat = re.compile(r'\b' + spec_rem + r'\s')
+                spec_rempatitir = spec_rempat.finditer(gloss)
+                for i in spec_rempatitir:
+                    gloss = "".join(gloss.split(i.group()))
     # remove hyphens if explicitly stated as function argument
     if rem_hyphen:
         if "-" in gloss:
