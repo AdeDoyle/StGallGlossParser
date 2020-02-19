@@ -185,9 +185,12 @@ def remove_glosshyphens(gloss):
                         nazalisation_mark = ["n-", "ṅ-"]
                         if patfind.group()[:-1] in nazalisation_mark:
                             reconstruct = "".join(deconstruct)
+                # Conjunct particles with incorrect hyphenation causing trouble
+                conjunct_partprobd = ["nádn-", "niro-"]
                 # If the hyphen marks a prefix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b(ar|derb|oen|óen|oin|oín|neph|sen)-\w.*\b')
+                    splitpat = re.compile(r'\b(ar|bith|cach|derb|etar|il|lán|llán|mi|mí|neph|ní|nue|'
+                                          r'oen|óen|oin|óin|oín|sen)-\w.*\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
@@ -195,7 +198,7 @@ def remove_glosshyphens(gloss):
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a suffix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b.*\w-(sa|se|sem|si|sin|siu|so|som|son)\b')
+                    splitpat = re.compile(r'\b.*\w-(ni|sa|se|sem|si|sí|sidi|sin|siu|so|som|son)\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
