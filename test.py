@@ -145,6 +145,7 @@ testglosses = [".i. libardaib",
 #     print(matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
 
+testlist = list()
 # Removes hyphens from Hofman's glosses with respect to the specific reason for hyphenation
 def remove_glosshyphens(gloss):
     words = gloss.split(" ")
@@ -193,13 +194,12 @@ def remove_glosshyphens(gloss):
                 deconstruct = word.split("-")
                 # If the hyphen marks nazalisation, remove the hyphen without inserting a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b[nṅ]-\w')
+                    splitpat = re.compile(r'\b(nn|n|ṅ)-\w')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for patfind in splitpatitir:
-                            # print(patfind.group()[:-1])
-                            nazalisation_mark = ["n-", "ṅ-"]
-                            if patfind.group()[:-1] in nazalisation_mark:
+                            nazalisation_marks = ["nn-", "n-", "ṅ-"]
+                            if patfind.group()[:-1] in nazalisation_marks:
                                 reconstruct = "".join(deconstruct)
                 # If the hyphen marks a prefix, remove the hyphen and insert a space
                 if not reconstruct:
@@ -211,7 +211,7 @@ def remove_glosshyphens(gloss):
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a suffix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b.*\w-(ni|sa|se|sem|si|sí|sidi|sin|siu|so|som|son)\b')
+                    splitpat = re.compile(r'\b.*\w-(ni|sa|se|sem|si|sí|sidi|sin|siu|síu|so|som|son)\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
@@ -231,26 +231,33 @@ def remove_glosshyphens(gloss):
                         for _ in splitpatitir:
                             reconstruct = "".join(deconstruct)
                 if not reconstruct:
-                    print(word)
-                    pass
+                    testlist.append(word)
             if not reconstruct:
-                # print(word)
+                # testlist.append(word)
                 pass
             elif reconstruct:
                 words[word_index] = reconstruct
             if word_ending:
                 del words[word_index + 1]
                 word_ending = False
-    return " ".join(words)
+    # return " ".join(words)
+    return testlist
 
 
 # \b[\wḟṡáéíóú]*-[^ḟṡa-záéíóú]
+# for gl in glosslist:
+#     clean = remove_glosshyphens(clean_gloss(gl))
+#     if "-" in clean:
+#         # print(clean)
+#         # print()
+#         pass
+
 for gl in glosslist:
-    clean = remove_glosshyphens(clean_gloss(gl))
-    if "-" in clean:
-        # print(clean)
-        # print()
-        pass
+    remove_glosshyphens(clean_gloss(gl))
+typecount = 0
+for testitem in sorted(set(testlist)):
+    typecount += 1
+    print(str(typecount) + ". " + testitem)
 
 # testgloss = "issí tra in dias-sa rosechestar-som"
 # # testgloss = ".i. a n-dliged n-ísin neph-accomoil inna teora liter i-noen-sillaib"
