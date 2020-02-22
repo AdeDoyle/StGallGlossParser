@@ -8,12 +8,15 @@ import matplotlib.pyplot as plt
 
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 # # Run the functions below to create the following .pkl files from spreadsheet, "SG. Combined Data"
-A1_list = open_obj("A1 List.pkl")
-A2_list = open_obj("A2 List.pkl")
-A3_list = open_obj("A3 List.pkl")
-actpas_list = open_obj("Active_Passive List.pkl")
-rel_list = open_obj("Relative Options List.pkl")
-Tr_list = open_obj("Translations List.pkl")
+try:
+    A1_list = open_obj("A1 List.pkl")
+    A2_list = open_obj("A2 List.pkl")
+    A3_list = open_obj("A3 List.pkl")
+    actpas_list = open_obj("Active_Passive List.pkl")
+    rel_list = open_obj("Relative Options List.pkl")
+    Tr_list = open_obj("Translations List.pkl")
+except FileNotFoundError:
+    pass
 
 
 # Collect lists of Bauer's original POS-tags, including:
@@ -1347,7 +1350,7 @@ def percent_complete(excel_data):
     print()
 
 
-# # RUN FUNCTIONS (in order of creation)
+# #                                             CREATE RESOURCES
 
 
 # # Run the functions above which create .pkl files of gloss-word analyses from spreadsheet, "SG. Combined Data":
@@ -1364,7 +1367,7 @@ def percent_complete(excel_data):
 # save_obj("POS_taglist", pos_list)
 
 
-# # OUTPUT TESTS:
+# #                                               OUTPUT TESTS:
 
 
 # # Test contents of POS tag-set and which entries have no tags.
@@ -1420,7 +1423,7 @@ def percent_complete(excel_data):
 # plot_tag_use(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses))
 
 
-# # FUNCTION TESTS:
+# #                                                FUNCTION TESTS:
 
 
 # # Functions for creating and saving .pkl lists of gloss-word analyses
