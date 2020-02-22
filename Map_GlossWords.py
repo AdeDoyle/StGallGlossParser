@@ -24,8 +24,11 @@ from Reassign_POS import clean_analysis, clean_onetag
 # worddict = open_obj("Clean_WordDict.pkl")
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 # # Run the functions below to create the following .pkl files from spreadsheet, "SG. Combined Data"
-glosslist = open_obj("Gloss_List.pkl")
-wordslist = open_obj("Words_List.pkl")
+try:
+    glosslist = open_obj("Gloss_List.pkl")
+    wordslist = open_obj("Words_List.pkl")
+except FileNotFoundError:
+    pass
 
 
 # Create and save an ordered list of glosses (uncleaned) from Hofman's Corpus
@@ -149,7 +152,7 @@ def map_glosswords(gloss, word_data_list):
 # #                                             CREATE RESOURCES
 
 # create_glosslist(analyses)
-
+#
 # create_wordlist(analyses)
 
 
