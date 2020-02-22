@@ -158,6 +158,7 @@ def remove_glosshyphens(gloss):
                 pass
             # If there's only one hyphen in a word
             elif word.count("-") == 1:
+                # Specialty removals (requiring more than hyphen removal and possible spacing)
                 # If the word ends in a hyphen, remove without adding a space
                 if word[-1] in ["-", "…"]:
                     small_prob_list = ['mael-', 'cua-', 'b-', 'alde-', 'neph-', 'gen-…', 'memr-', 'brig-', 'col-',
@@ -175,26 +176,38 @@ def remove_glosshyphens(gloss):
                                 word_ending = True
                 if word[0] == "-":
                     reconstruct = word[1:]
+                # If the hyphen seems to be misplaced and should be altered
+                if not reconstruct:
+                    splitpat = re.compile(r'\b(niro|nádn)-')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for patfind in splitpatitir:
+                            wrong_prefix = patfind.group()
+                            wrong_remainder = "".join(word.split(wrong_prefix))
+                            if wrong_prefix == "niro-":
+                                word = "ni-ro" + wrong_remainder
+                            elif wrong_prefix == "nádn-":
+                                word = "nád-n" + wrong_remainder
+                            reconstruct = " ".join(word.split("-"))
+                # Non-specialty removals
                 deconstruct = word.split("-")
                 # If the hyphen marks nazalisation, remove the hyphen without inserting a space
-                splitpat = re.compile(r'\b[nṅ]-\w')
-                splitpatitir = splitpat.finditer(word)
-                if splitpatitir:
-                    for patfind in splitpatitir:
-                        # print(patfind.group()[:-1])
-                        nazalisation_mark = ["n-", "ṅ-"]
-                        if patfind.group()[:-1] in nazalisation_mark:
-                            reconstruct = "".join(deconstruct)
-                # Conjunct particles with incorrect hyphenation causing trouble
-                conjunct_partprobd = ["nádn-", "niro-"]
+                if not reconstruct:
+                    splitpat = re.compile(r'\b[nṅ]-\w')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for patfind in splitpatitir:
+                            # print(patfind.group()[:-1])
+                            nazalisation_mark = ["n-", "ṅ-"]
+                            if patfind.group()[:-1] in nazalisation_mark:
+                                reconstruct = "".join(deconstruct)
                 # If the hyphen marks a prefix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b(ar|bith|cach|derb|etar|il|lán|llán|mi|mí|neph|ní|nue|'
+                    splitpat = re.compile(r'\b(ar|bith|cach|derb|etar|il|lán|llán|leth|mi|mí|neph|ní|nue|'
                                           r'oen|óen|oin|óin|oín|sen)-\w.*\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
-                            # print(_.group())
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a suffix, remove the hyphen and insert a space
                 if not reconstruct:
@@ -202,7 +215,6 @@ def remove_glosshyphens(gloss):
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
-                            # print(_.group())
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks the deictic particle, remove the hyphen and insert a space
                 if not reconstruct:
@@ -210,7 +222,6 @@ def remove_glosshyphens(gloss):
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
-                            # print(_.group())
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a pre-verbal particle, remove the hyphen without inserting a space
                 if not reconstruct:
@@ -218,7 +229,6 @@ def remove_glosshyphens(gloss):
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
-                            # print(_.group())
                             reconstruct = "".join(deconstruct)
                 if not reconstruct:
                     print(word)
