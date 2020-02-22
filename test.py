@@ -179,17 +179,38 @@ def remove_glosshyphens(gloss):
                     reconstruct = word[1:]
                 # If the hyphen seems to be misplaced and should be altered
                 if not reconstruct:
-                    splitpat = re.compile(r'\b(niro|nádn)-')
+                    splitpat = re.compile(r'\b(aran|asan|asech|dian|huan|niro|nádn)-')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for patfind in splitpatitir:
                             wrong_prefix = patfind.group()
                             wrong_remainder = "".join(word.split(wrong_prefix))
-                            if wrong_prefix == "niro-":
+                            if wrong_prefix == "aran-":
+                                word = "ara-n" + wrong_remainder
+                            elif wrong_prefix == "asan-":
+                                word = "asa-n" + wrong_remainder
+                            elif wrong_prefix == "asech-":
+                                word = "a sech" + wrong_remainder
+                            elif wrong_prefix == "dian-":
+                                word = "dia-n" + wrong_remainder
+                            elif wrong_prefix == "huan-":
+                                word = "hua-n" + wrong_remainder
+                            elif wrong_prefix == "niro-":
                                 word = "ni-ro" + wrong_remainder
                             elif wrong_prefix == "nádn-":
                                 word = "nád-n" + wrong_remainder
                             reconstruct = " ".join(word.split("-"))
+                # If the prefix attached to the hyphen occurs more than once and needs to be treated differently
+                if not reconstruct:
+                    splitpat = re.compile(r'\b(conro)-')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for patfind in splitpatitir:
+                            check_prefix = patfind.group()
+                            check_remainder = "".join(word.split(check_prefix))
+                            if check_prefix == "conro-":
+                                if check_remainder == "thinoll":
+                                    reconstruct = "con ro" + check_remainder
                 # Non-specialty removals
                 deconstruct = word.split("-")
                 # If the hyphen marks nazalisation, remove the hyphen without inserting a space
@@ -201,9 +222,16 @@ def remove_glosshyphens(gloss):
                             nazalisation_marks = ["nn-", "n-", "ṅ-"]
                             if patfind.group()[:-1] in nazalisation_marks:
                                 reconstruct = "".join(deconstruct)
+                # If the hyphen marks a prefixed noun, remove the hyphen and insert a space
+                if not reconstruct:
+                    splitpat = re.compile(r'\b(athir|huasal|iar|medón)-\w.*\b')
+                    splitpatitir = splitpat.finditer(word)
+                    if splitpatitir:
+                        for _ in splitpatitir:
+                            reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a prefix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b(ar|bith|cach|derb|etar|il|lán|llán|leth|mi|mí|neph|ní|nue|'
+                    splitpat = re.compile(r'\b(ar|bith|cach|con|cosmail|derb|etar|il|lán|llán|leth|mi|mí|neph|ní|nue|'
                                           r'oen|óen|oin|óin|oín|sen)-\w.*\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
@@ -211,7 +239,7 @@ def remove_glosshyphens(gloss):
                             reconstruct = " ".join(deconstruct)
                 # If the hyphen marks a suffix, remove the hyphen and insert a space
                 if not reconstruct:
-                    splitpat = re.compile(r'\b.*\w-(ni|sa|se|sem|si|sí|sidi|sin|siu|síu|so|som|son)\b')
+                    splitpat = re.compile(r'\b.*\w-(ni|sa|se|sem|si|sí|sidi|sin|siu|síu|so|som|son|són)\b')
                     splitpatitir = splitpat.finditer(word)
                     if splitpatitir:
                         for _ in splitpatitir:
