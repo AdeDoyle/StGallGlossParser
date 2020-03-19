@@ -652,7 +652,7 @@ def clean_analysis(taglist, test_unknown=False):
                       '3sg.perf.', '3sg.pass.perf.',
                       '3sg.imperf.', '3sg.imperf.pass.',
                       '3sg.imperf.subj.', '3sg.imperf.subj.pass.', '3sg.imperf.subj.pass. (perfective)',
-                      '3sg.fut.', '3sg.fut.pass.', '3sg.fut.rel.', '3.sg.sec.fut.', '3sg.sec.fut.pass.', '3sg.cond.',
+                      '3sg.fut.', '3sg.fut.pass.', '3sg.fut.rel.', '3sg.sec.fut.', '3sg.sec.fut.pass.', '3sg.cond.',
                       '1pl.pres.ind.', '1pl.pres.ind.rel.', '1pl.pres.subj.',
                       '1pl.pret.', '1pl.past.subj.',
                       '1pl.perf.',
