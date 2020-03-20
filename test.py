@@ -6,12 +6,12 @@
    """
 
 """
-   1.0. Find each word from Bauer in Hoffman
-       1.1. Split Hoffman words if necessary to match with Bauer's
-       1.2. Replace words in Hoffman in all cases with Bauer's
+   1.0. Find each word from Bauer in Hoffman [CHECK]
+       1.1. Split Hoffman words if necessary to match with Bauer's [CHECK]
+       1.2. Replace words in Hoffman in all cases with Bauer's [CHECK]
    2.0. Anything in Hoffman not replaced with Bauer, tag as Latin
        2.1. Tag Latin words with X(?)
-   3.0. Give reliability score for match
+   3.0. Give reliability score for match [CHECK]
    """
 
 from Match_GlossSets import standardise_glosschars, standardise_wordchars, remove_glosshyphens
@@ -50,11 +50,23 @@ def matchword_levdist_test(gloss_mapping):
     #
     # Create a list of standardised word forms from Hofman's gloss, and the original word they match.
 
-    # if there are more words in Hofman's gloss before standardisation
+    # if there are more words in Hofman's gloss before standardisation, combine disjointed words
+    if len(gloss_list) > len(standard_list):
+        replace_list = list()
+        for i, original_word in enumerate(gloss_list):
+            if original_word[-1] == "-":
+                replacement = original_word[:-1] + gloss_list[i + 1]
+                replacement_place = [i, i + 1]
+                replace_list.append([replacement, replacement_place])
+        for replacement in replace_list:
+            rep_word = replacement[0]
+            rep_place = replacement[1]
+            gloss_list = gloss_list[:rep_place[0]] + [rep_word] + gloss_list[rep_place[1] + 1:]
+            standard_list = remove_glosshyphens(standardise_glosschars(" ".join(standard_list))).split(" ")
     if len(gloss_list) > len(standard_list):
         raise RuntimeError("Fewer words in Hofman's gloss after standardisation.")
     # if there are more words in Hofman's gloss after standardisation
-    elif len(standard_list) > len(gloss_list):
+    if len(standard_list) > len(gloss_list):
         standlist_copy = standard_list
         standard_mapping = list()
         # try to match each standardised word to its counterpart
@@ -92,6 +104,7 @@ def matchword_levdist_test(gloss_mapping):
         # if a matched pair in the 'word-to-standardised-word mapping' list do not match
         for matched_word in standard_mapping:
             if matched_word[1] != remove_glosshyphens(standardise_glosschars(matched_word[0])):
+                print(matched_word[1], remove_glosshyphens(standardise_glosschars(matched_word[0])))
                 raise RuntimeError("A word from Hofman's gloss has been paired with a standardised word form which it "
                                    "does not match.")
     # if no 'word-to-standardised-word mapping' list has been created yet
@@ -189,26 +202,15 @@ def matchword_levdist_test(gloss_mapping):
                                 else:
                                     raise RuntimeError("No original token could be found for the standard form which "
                                                        "potentially matches this word analysed by Bauer.")
-                                # raise RuntimeError("A word analysed by Bauer has been matched with a token from "
-                                #                    "Hofman which has already been matched with a more likely "
-                                #                    "candidate from Bauer. It may be a sub-word unit, or the better "
-                                #                    "match from Bauer may contain more than one word.")
                             # if the unused word analysed by Bauer does not make up a part of the used Hofman token
                             # assume no relation and pass
                             else:
                                 pass
-                                # raise RuntimeError("Tried to match a word analysed by Bauer with a token from Hofman "
-                                #                    "which has already been matched with a more likely candidate from "
-                                #                    "Bauer. Could not find the determine if this word in Bauer makes "
-                                #                    "up  a part of the word in Hofman or not.")
                         # if this word analysed by Bauer has been matched to at least one of Hofman's tokens already
                         # pass (there's no need to do anything here, this will happen unless the loop is broken once an
                         # edit distance is found to be the lowest so far)
                         else:
                             pass
-                            # raise RuntimeError("Tried to match a word analysed by Bauer with a token from Hofman. "
-                            #                    "An error occurred because both have already been matched with more "
-                            #                    "likely candidates.")
                 # if the lowest non-zero edit distance has been found between the Bauer word and a Hofman token
                 # assume the two are a match
                 # add Bauer's word, its POS tag, the edit distance, and indices for the match to an alignment list
@@ -222,9 +224,6 @@ def matchword_levdist_test(gloss_mapping):
                     if possible_match_list[-1][0] == original_word:
                         pass
                 else:
-                    print(gloss_string)
-                    print(pos_list)
-                    print(original_word, token)
                     raise RuntimeError("No match found for word analysed by Bauer, and no partial match found to "
                                        "suggest the word has been duplicated within longer word.")
                 lowest_eddist = False
@@ -275,7 +274,7 @@ def matchword_levdist_test(gloss_mapping):
 # test_on = amendedglosses
 
 # # Test edit distance function on one gloss
-# tglos = 72
+# tglos = 2620
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist_test(map_glosswords(test_on[0], wordslist[tglos])))
 
@@ -286,10 +285,10 @@ def matchword_levdist_test(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist_test(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# Test edit distance function on all glosses
-test_on = glosslist
-for glossnum, gloss in enumerate(test_on):
-    check = matchword_levdist_test(map_glosswords(gloss, wordslist[glossnum]))
-    if check:
-        print(glossnum, check)
+# # Test edit distance function on all glosses
+# test_on = glosslist
+# for glossnum, gloss in enumerate(test_on):
+#     check = matchword_levdist_test(map_glosswords(gloss, wordslist[glossnum]))
+#     if check:
+#         print(glossnum, check)
 
