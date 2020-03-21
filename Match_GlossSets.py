@@ -459,6 +459,7 @@ def matchword_levdist(gloss_mapping):
     #     2. add Bauer's original word, the pos tag, and the edit distance, to the tagged-gloss list
     alignment_list = list()
     # for each word in Bauer's analysis, in order
+    sorted_list = list()
     for pos_place, pos_tag in enumerate(pos_list):
         original_word = pos_tag[0]
         standard_word = pos_tag[-1]
@@ -467,15 +468,17 @@ def matchword_levdist(gloss_mapping):
         if tag not in ["<PVP>", "<IFP>", "<PFX>", "<UNR>", "<UNK>"]:
             # check its edit distance against every token in Hofman's gloss, in order
             for word_place, token in enumerate(standard_list):
-                eddist = ed(standard_word, token)
-                # if it occurs, the first time an edit distance is zero between the Bauer word the Hofman token,
-                # assume the two are a match
-                # add Bauer's word, its POS tag, the edit distance, and indices for the match to an alignment list
-                if eddist == 0:
-                    lowest_eddist = [original_word, tag, eddist, [word_place, pos_place]]
-                    alignment_list.append((pos_place, word_place))
-                    tagged_gloss.append(lowest_eddist)
-                    break
+                if word_place not in sorted_list:
+                    eddist = ed(standard_word, token)
+                    # if it occurs, the first time an edit distance is zero between the Bauer word the Hofman token,
+                    # assume the two are a match
+                    # add Bauer's word, its POS tag, the edit distance, and indices for the match to an alignment list
+                    if eddist == 0:
+                        sorted_list.append(word_place)
+                        lowest_eddist = [original_word, tag, eddist, [word_place, pos_place]]
+                        alignment_list.append((pos_place, word_place))
+                        tagged_gloss.append(lowest_eddist)
+                        break
     # if any words have been aligned yet
     if alignment_list:
         # separate the list of words which have been perfectly aligned into separate lists for each used word and tag
