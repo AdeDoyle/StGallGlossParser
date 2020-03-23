@@ -183,7 +183,7 @@ def remove_glosshyphens(gloss):
                     word = "".join(word.split("-"))
                     reconstruct = word
             if not reconstruct:
-                print("Fucking What?")
+                raise RuntimeError("Expected reconstruction of word could not be determined.")
             elif reconstruct:
                 words[word_index] = reconstruct
             if word_ending:
@@ -303,7 +303,6 @@ def matchword_levdist_second(gloss_mapping):
                         lowest_eddist = [eddist, token, tag, tagged_word]
                         if eddist == 0:
                             break
-            # print(lowest_eddist)
             tagged_gloss.append([lowest_eddist[1], lowest_eddist[2], lowest_eddist[0]])
             lowest_eddist = False
     # rearrange gloss to the same order as Hofman's
@@ -374,10 +373,13 @@ def matchword_levdist(gloss_mapping):
     if len(gloss_list) > len(standard_list):
         replace_list = list()
         for i, original_word in enumerate(gloss_list):
+            # if the word ends in a suspension stroke, the following word will be the expanded contraction
+            # remove the hyphen and combine the two words to make one
             if original_word[-1] == "-":
                 replacement = original_word[:-1] + gloss_list[i + 1]
                 replacement_place = [i, i + 1]
                 replace_list.append([replacement, replacement_place])
+        # replace the two, originally split tokens of the word with the new combined form
         for replacement in replace_list:
             rep_word = replacement[0]
             rep_place = replacement[1]
@@ -390,25 +392,27 @@ def matchword_levdist(gloss_mapping):
         standlist_copy = standard_list
         standard_mapping = list()
         # try to match each standardised word to its counterpart
-        for i in gloss_list:
-            for j in standlist_copy:
+        for i, split_word in enumerate(gloss_list):
+            for j, standard_form in enumerate(standlist_copy):
                 # if a standardised word form can be matched perfectly to a counterpart
-                if j == remove_glosshyphens(standardise_glosschars(i)):
-                    # add the two matched words to 'word-to-standardised-word mapping' list as a tuple
-                    standard_mapping.append((i, j))
+                if standard_form == remove_glosshyphens(standardise_glosschars(split_word)):
+                    # add the two matched words to 'word-to-standardised-word mapping' list as a tuple with indices
+                    standard_mapping.append((split_word, standard_form, i))
                     standlist_copy = standlist_copy[1:]
                     break
                 # if a standardised word form can't be matched perfectly to one counterpart
                 else:
+                    # raise RuntimeError("Find a gloss that has this feature")
                     # assume that standardisation has split a word into two or more standardised words
-                    i_sublist = remove_glosshyphens(standardise_glosschars(i)).split(" ")
-                    for sub_i in i_sublist:
-                        for sub_j in standlist_copy:
+                    i_sublist = remove_glosshyphens(standardise_glosschars(split_word)).split(" ")
+                    for sub_i, sub_split_word in enumerate(i_sublist):
+                        for sub_standard_form in standlist_copy:
                             # standardise the one word
                             # match each standard word to the full non-standard form if it matches a part of it
                             # add the two semi-matched words to 'word-to-standardised-word mapping' list as a tuple
-                            if sub_j == remove_glosshyphens(standardise_glosschars(sub_i)):
-                                standard_mapping.append((i, sub_j))
+                            # with their indices
+                            if sub_standard_form == remove_glosshyphens(standardise_glosschars(sub_split_word)):
+                                standard_mapping.append((split_word, sub_standard_form, [i, sub_i]))
                                 standlist_copy = standlist_copy[1:]
                                 break
                             # if a standardised word does not seem to match a part of the full non-standard word
@@ -420,7 +424,8 @@ def matchword_levdist(gloss_mapping):
     elif len(gloss_list) == len(standard_list):
         # assume a one-to-one match between the same indices in original and standardised word lists
         # match each as a tuple and add all to a 'word-to-standardised-word mapping' list
-        standard_mapping = list(zip(gloss_list, standard_list))
+        gloss_indices = [i for i, _ in enumerate(gloss_list)]
+        standard_mapping = list(zip(gloss_list, standard_list, gloss_indices))
         # if a matched pair in the 'word-to-standardised-word mapping' list do not match
         for matched_word in standard_mapping:
             if matched_word[1] != remove_glosshyphens(standardise_glosschars(matched_word[0])):
@@ -466,27 +471,31 @@ def matchword_levdist(gloss_mapping):
         tag = pos_tag[1]
         # if the word is valid (has a usable POS tag)
         if tag not in ["<PVP>", "<IFP>", "<PFX>", "<UNR>", "<UNK>"]:
-            # check its edit distance against every token in Hofman's gloss, in order
-            for word_place, token in enumerate(standard_list):
-                if word_place not in sorted_list:
-                    eddist = ed(standard_word, token)
-                    # if it occurs, the first time an edit distance is zero between the Bauer word the Hofman token,
-                    # assume the two are a match
-                    # add Bauer's word, its POS tag, the edit distance, and indices for the match to an alignment list
+            # check the edit distance between its standard and the standard form of every token in Hofman's gloss,
+            # in order
+            for token_list in standard_mapping:
+                original_token = token_list[0]
+                standard_token = token_list[1]
+                token_place = token_list[2]
+                if token_place not in sorted_list:
+                    eddist = ed(standard_word, standard_token)
+                    # if an edit distance of zero occurs, the first time it occurs, assume the two are a match
+                    # add Bauer's word, its POS tag, Hofman's word, the edit distance, and indices for the match to a
+                    # matching-words list
                     if eddist == 0:
-                        sorted_list.append(word_place)
-                        lowest_eddist = [original_word, tag, eddist, [word_place, pos_place]]
-                        alignment_list.append((pos_place, word_place))
+                        sorted_list.append(token_place)
+                        lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
+                        alignment_list.append((pos_place, token_place))
                         tagged_gloss.append(lowest_eddist)
                         break
     # if any words have been aligned yet
     if alignment_list:
         # separate the list of words which have been perfectly aligned into separate lists for each used word and tag
         used_pos = list(list(zip(*alignment_list))[0])
-        used_words = list(list(zip(*alignment_list))[1])
+        used_toks = list(list(zip(*alignment_list))[1])
     else:
         used_pos = list()
-        used_words = list()
+        used_toks = list()
     # for the remaining words in Bauer's analysis which cannot be mapped perfectly to a word in Hofman's gloss
     # find the word in Hofman's gloss with the lowest edit distance from the each analysed word and match these
     lowest_eddist = False
@@ -499,44 +508,35 @@ def matchword_levdist(gloss_mapping):
             # if the word is valid (has a usable POS tag)
             if tag not in ["<PVP>", "<IFP>", "<PFX>", "<UNR>", "<UNK>"]:
                 # check its edit distance against every remaining token in Hofman's gloss, in order
-                for token_place, token in enumerate(standard_list):
-                    if token_place not in used_words:
-                        eddist = ed(standard_word, token)
-                        # find the lowest edit distance between the Bauer word a Hofman token,
-                        # assume the two are a match identify the pair as the lowest-edit-distance candidates
+                for token_list in standard_mapping:
+                    original_token = token_list[0]
+                    standard_token = token_list[1]
+                    token_place = token_list[2]
+                    if token_place not in used_toks:
+                        eddist = ed(standard_word, standard_token)
+                        # find the lowest edit distance between the standard Bauer word and a standard Hofman token,
+                        # assume the two are a match and identify the pair as the lowest-edit-distance candidates
                         if not lowest_eddist:
-                            lowest_eddist = [original_word, tag, eddist, [token_place, pos_place]]
-                        elif eddist < lowest_eddist[2]:
-                            lowest_eddist = [original_word, tag, eddist, [token_place, pos_place]]
+                            lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
+                        elif eddist < lowest_eddist[3]:
+                            lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
                     # if this token has already been matched with another, better candidate word from Bauer's analysis
                     else:
                         # but this word analysed by Bauer has not been matched with any of Hofman's tokens yet
                         if not lowest_eddist:
-                            # if the unused word analysed by Bauer makes up a part of the used Hofman token
-                            if standard_word in token:
+                            # if the unmatched word analysed by Bauer makes up a part of the used Hofman token
+                            if standard_word in standard_token:
                                 # add the match as a "possibly-contained-in" match to a separate list
-                                original_token = False
-                                for mapped_token in standard_mapping:
-                                    if token == mapped_token[1]:
-                                        original_token = mapped_token[0]
-                                if original_token:
-                                    possible_match_list.append([original_word, tag, original_token])
-                                # if the original form of the standardised token from Hofman cannot be found
-                                else:
-                                    raise RuntimeError("No original token could be found for the standard form which "
-                                                       "potentially matches this word analysed by Bauer.")
+                                possible_match_list.append([original_word, tag, original_token])
+                                raise RuntimeError("check can now be improved to see whether match is before/after")
                             # if the unused word analysed by Bauer does not make up a part of the used Hofman token
                             # assume no relation and pass
                             else:
                                 pass
-                        # if this word analysed by Bauer has been matched to at least one of Hofman's tokens already
-                        # pass (there's no need to do anything here, this will happen unless the loop is broken once an
-                        # edit distance is found to be the lowest so far)
-                        else:
-                            pass
                 # if the lowest non-zero edit distance has been found between the Bauer word and a Hofman token
                 # assume the two are a match
-                # add Bauer's word, its POS tag, the edit distance, and indices for the match to an alignment list
+                # add Bauer's word, its POS tag, the Hofman word, the edit distance, and indices for the match to an
+                # matching-words list
                 if lowest_eddist:
                     tagged_gloss.append(lowest_eddist)
                 # if no non-zero edit distance has been found between the Bauer word and a Hofman token which is lower
@@ -566,6 +566,10 @@ def matchword_levdist(gloss_mapping):
     # sort the tagged tokens based primarily on their index in Hofman's gloss,
     # if necessary, sort tagged tokens secondarily based on their index Bauer's analysis
     tagged_gloss = sorted(tagged_gloss, key=lambda x: (x[-1][1], x[-1][0]))
+
+    # print(standard_mapping)
+    # print(tagged_gloss)
+
     # remove all indeces from tagged-gloss list for output
     for i, word in enumerate(tagged_gloss):
         tagged_gloss[i] = word[:3]
@@ -662,7 +666,19 @@ def matchword_levdist(gloss_mapping):
 
 # #                                              Function: V3
 
-# # Test edit distance function on one gloss
+# # Test edit distance function on individual glosses
+tglos = 1
+test_on = glosslist[tglos:tglos + 1]
+print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# tglos = 2
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# tglos = 17
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
 # tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
