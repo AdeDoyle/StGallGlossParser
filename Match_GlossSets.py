@@ -350,9 +350,10 @@ def matchword_levdist_second(gloss_mapping):
 # POS tags the Hofman gloss by comparing each tagged word in the Bauer gloss to each word in the Hofman gloss.
 # Gives a score for reliability of the cross tagging:
 #     0 - perfect
-#     1 - different number of words, all Bauer words matched with no spelling variation
-#     2 - same number of words, some spelling variation
-#     3 - different number of words, some spelling variation between matched words
+#     1 - different number of words between standardised Bauer gloss and standardised Hofman gloss
+#    10 - different number of tagged words before and after Latin content reintroduced
+#   100 - hyphenated word in Hofman's gloss replaced by alternative(s) from Bauer's analysis
+#  1000 - some spelling variation between matched words
 # THIRD VERSION
 def matchword_levdist(gloss_mapping):
     gloss_string = gloss_mapping[0]
@@ -402,7 +403,6 @@ def matchword_levdist(gloss_mapping):
                     break
                 # if a standardised word form can't be matched perfectly to one counterpart
                 else:
-                    # raise RuntimeError("Find a gloss that has this feature")
                     # assume that standardisation has split a word into two or more standardised words
                     i_sublist = remove_glosshyphens(standardise_glosschars(split_word)).split(" ")
                     for sub_i, sub_split_word in enumerate(i_sublist):
@@ -456,7 +456,9 @@ def matchword_levdist(gloss_mapping):
                     pos_list.append([".i.", "<SYM>", ".i."])
     # remove '-' from pos_list where Bauer has used it to represent a word reduced to zero
     pos_list = [i for i in pos_list if i[0] != "-"]
-    # check reliability of cross-tagging and apply score to output (increase score if no. of tokens don't match)
+    # check reliability of cross-tagging and apply score to output
+    # measure length of POS list against token list after accounting for ".i." symbols and hyphens
+    # increase one digit if no. of tokens don't match
     if len(pos_list) != len(standard_list):
         tags_rating += 1
     # for each valid (POS tag in use) tagged word, if a perfect match can be found:
@@ -488,7 +490,7 @@ def matchword_levdist(gloss_mapping):
                         alignment_list.append((pos_place, token_place))
                         tagged_gloss.append(lowest_eddist)
                         break
-    # if any words have been aligned yet
+    # if any words have not been aligned yet
     if alignment_list:
         # separate the list of words which have been perfectly aligned into separate lists for each used word and tag
         used_pos = list(list(zip(*alignment_list))[0])
@@ -520,36 +522,45 @@ def matchword_levdist(gloss_mapping):
                             lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
                         elif eddist < lowest_eddist[3]:
                             lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
-                    # if this token has already been matched with another, better candidate word from Bauer's analysis
-                    else:
-                        # but this word analysed by Bauer has not been matched with any of Hofman's tokens yet
-                        if not lowest_eddist:
-                            # if the unmatched word analysed by Bauer makes up a part of the used Hofman token
-                            if standard_word in standard_token:
-                                # add the match as a "possibly-contained-in" match to a separate list
-                                possible_match_list.append([original_word, tag, original_token])
-                                raise RuntimeError("check can now be improved to see whether match is before/after")
-                            # if the unused word analysed by Bauer does not make up a part of the used Hofman token
-                            # assume no relation and pass
-                            else:
-                                pass
                 # if the lowest non-zero edit distance has been found between the Bauer word and a Hofman token
                 # assume the two are a match
-                # add Bauer's word, its POS tag, the Hofman word, the edit distance, and indices for the match to an
+                # add Bauer's word, its POS tag, the Hofman word, the edit distance, and indices for the match to a
                 # matching-words list
                 if lowest_eddist:
+                    alignment_list.append((lowest_eddist[-1][-1], lowest_eddist[-1][0]))
                     tagged_gloss.append(lowest_eddist)
-                # if no non-zero edit distance has been found between the Bauer word and a Hofman token which is lower
-                # than other, more likely combinations
-                # assume the Bauer word was duplicated in a longer word
-                # add nothing to the alignment list
-                elif possible_match_list:
-                    if possible_match_list[-1][0] == original_word:
-                        pass
-                else:
-                    raise RuntimeError("No match found for word analysed by Bauer, and no partial match found to "
-                                       "suggest the word has been duplicated within longer word.")
-                lowest_eddist = False
+                    lowest_eddist = False
+    # if any POS tagged words remain unmatched, but all tokens from Hofman's gloss have been matched
+    if alignment_list:
+        # separate the list of words which have already been aligned with their best possible candidates
+        used_pos = list(list(zip(*alignment_list))[0])
+    else:
+        used_pos = list()
+    # for any leftover words in Bauer's analysis, in order
+    for pos_place, pos_tag in enumerate(pos_list):
+        if pos_place not in used_pos:
+            original_word = pos_tag[0]
+            standard_word = pos_tag[-1]
+            tag = pos_tag[1]
+            # if the word is valid (has a usable POS tag)
+            if tag not in ["<PVP>", "<IFP>", "<PFX>", "<UNR>", "<UNK>"]:
+                placement = False
+                # check that the standard form of the word is in the standard token
+                for token_list in standard_mapping:
+                    original_token = token_list[0]
+                    standard_token = token_list[1]
+                    token_place = token_list[2]
+                    if standard_word in standard_token:
+                        # check where in the standard token the standard word is (start/end/middle/unknown)
+                        if standard_token[:len(standard_word)] == standard_word:
+                            placement = "S"
+                        elif standard_token[-len(standard_word):] == standard_word:
+                            placement = "E"
+                        else:
+                            placement = "M"
+                        possible_match_list.append([original_word, tag, original_token, token_place, placement])
+                if not placement:
+                    raise RuntimeError("Unused POS tagged word ({}) could not be matched".format(original_word))
 
     #                                                 PART 4:
     #
@@ -565,23 +576,95 @@ def matchword_levdist(gloss_mapping):
             tagged_gloss[tagged_place] = word
     # sort the tagged tokens based primarily on their index in Hofman's gloss,
     # if necessary, sort tagged tokens secondarily based on their index Bauer's analysis
-    tagged_gloss = sorted(tagged_gloss, key=lambda x: (x[-1][1], x[-1][0]))
+    try:
+        tagged_gloss = sorted(tagged_gloss, key=lambda x: (x[-1][1], x[-1][0]))
+    except TypeError:
+        updated_tagged_gloss = list()
+        for data in tagged_gloss:
+            if isinstance(data[-1][0], list):
+                updated_tagged_gloss.append(data)
+            elif isinstance(data[-1][0], int):
+                new_list = [data[-1][0], data[-1][0]]
+                new_data = data[:-1] + [[new_list, data[-1][1]]]
+                updated_tagged_gloss.append(new_data)
+        tagged_gloss = sorted(updated_tagged_gloss, key=lambda x: (x[-1][1], x[-1][0]))
+    before_length = len(tagged_gloss)
+    # reintroduce latin words which could not be matched with anything in Bauer's analysis,
+    # and order tokens in accordance with Hofman's gloss
+    recombine_list = list()
+    hyphenation = False
+    for i in standard_mapping:
+        standard_check_tok = i[1]
+        found = False
+        for j, pos_data in enumerate(tagged_gloss):
+            pos_check_word = remove_glosshyphens(standardise_glosschars(pos_data[2])).split(" ")
+            if len(pos_check_word) > 1:
+                hyphenation = True
+            if standard_check_tok in pos_check_word:
+                recombine_list.append(pos_data)
+                found = True
+                del tagged_gloss[j]
+                break
 
-    # print(standard_mapping)
-    # print(tagged_gloss)
+            # else:
+            #     print([i[1] for i in standard_mapping])
+            #     print([j[2] for j in tagged_gloss])
+            #     raise RuntimeError("Words not matched as expected here.")
 
+        if not found:
+            recombine_list.append([i[0], "<X>", i[1], [i[2], i[2]]])
+    tagged_gloss = recombine_list
+    # check reliability of cross-tagging and update score before output
+    # measure length of the tagged gloss before and after Latin content is reintroduced
+    # increase ten digit if no. of tokens don't match
+    # increase hundred digit if hyphenated word has been replaced
+    after_length = len(tagged_gloss)
+    if before_length != after_length:
+        tags_rating += 10
+    if hyphenation:
+        tags_rating += 100
+    # if indices of potential-matches already assigned
+    # remove suggested match from potential-matches list OR include suggested match and adjust relevant word
+    match_indices = [x[-1][-1] for x in tagged_gloss]
+    possible_match_list = [x for x in possible_match_list if x[-1][-1] not in match_indices]
+    if possible_match_list:
+        remove_indices = list()
+        for pos_index, possible_match in enumerate(possible_match_list):
+            check_matched = False
+            check_token = possible_match[2]
+            token_place = possible_match[3]
+            placement = possible_match[4]
+            for tagged_data in tagged_gloss:
+                match_token = tagged_data[2]
+                tagged_tok_place = tagged_data[-1]
+                if tagged_tok_place[0] == token_place and match_token == check_token:
+                    check_matched = True
+                    if placement == 'S':
+                        remove_indices.append(pos_index)
+                    elif placement == 'E':
+                        remove_indices.append(pos_index)
+                    elif placement == 'M':
+                        remove_indices.append(pos_index)
+            if not check_matched:
+                raise RuntimeError("Mismatched potential match with gloss-word or gloss-word's index in gloss.")
+        if remove_indices:
+            for index in sorted(remove_indices, reverse=True):
+                del possible_match_list[index]
+    if possible_match_list:
+        raise RuntimeError("Possible matches remain which have not been used.")
     # remove all indeces from tagged-gloss list for output
     for i, word in enumerate(tagged_gloss):
-        tagged_gloss[i] = word[:3]
-    # check reliability of cross-tagging and update score before output (increase score if edit distance not 0 for all)
+        tagged_gloss[i] = word[:4]
+    # check reliability of cross-tagging and update score before output
+    # increase thousand digit if edit distance not 0 for all tokens
     dist_list = [i[-1] for i in tagged_gloss]
     for i in dist_list:
         if i != 0:
-            tags_rating += 2
+            tags_rating += 1000
             break
-    # remove edit distances from tokens
+    # remove edit distances and original Hofman token from token data before output
     # then add reliability score for gloss and any possible word matches to the tagged-gloss list before output
-    tagged_gloss = [tags_rating, [i[:-1] for i in tagged_gloss], possible_match_list]
+    tagged_gloss = [tags_rating, [i[:-2] for i in tagged_gloss], possible_match_list]
     return tagged_gloss
 
 
@@ -667,19 +750,35 @@ def matchword_levdist(gloss_mapping):
 # #                                              Function: V3
 
 # # Test edit distance function on individual glosses
-tglos = 1
-test_on = glosslist[tglos:tglos + 1]
-print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
-
-# tglos = 2
+# tglos = 1
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# tglos = 17
+# # tglos = 2
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# tglos = 2760
+# # tglos = 14
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# # tglos = 17
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# # tglos = 26
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# # tglos = 33
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# # tglos = 54
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# # tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
