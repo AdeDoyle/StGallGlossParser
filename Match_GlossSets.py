@@ -754,32 +754,33 @@ def matchword_levdist(gloss_mapping):
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 2
+# tglos = 2
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 14
+# tglos = 14
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 17
+# tglos = 17
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 26
+# tglos = 26
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 33
+# tglos = 33
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 54
+# tglos = 54
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# # tglos = 2760
+# tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
+# print(map_glosswords(test_on[0], wordslist[tglos]))
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
 # # Test edit distance function on a range of glosses
@@ -795,4 +796,28 @@ def matchword_levdist(gloss_mapping):
 #     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
 #     if check:
 #         print(glossnum, check)
+
+
+# # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
+# test_on = glosslist
+# count = 0
+# for glossnum, gloss in enumerate(test_on):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+#     if check[0] == 0:
+#         count += 1
+#         print(count, glossnum, check)
+
+# # # Produce a list of all error codes which occur in output of matchword_levdist function
+# output_glosslist = [matchword_levdist(map_glosswords(j, wordslist[i])) for i, j in enumerate(glosslist)]
+# # error_codes = sorted(list(set([i[0] for i in output_glosslist])))
+# error_codes = [0, 1, 100, 101, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]
+
+# # Print the numbe of glosses containing each error code
+# for ercode in error_codes:
+#     codecount = 0
+#     for outgloss in output_glosslist:
+#         if outgloss[0] == ercode:
+#             codecount += 1
+#     if codecount < 100:
+#         print("{}: {}".format(ercode, codecount))
 
