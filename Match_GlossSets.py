@@ -780,7 +780,6 @@ def matchword_levdist(gloss_mapping):
 
 # tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
-# print(map_glosswords(test_on[0], wordslist[tglos]))
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
 # # Test edit distance function on a range of glosses
