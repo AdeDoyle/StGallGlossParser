@@ -373,13 +373,14 @@ def matchword_levdist(gloss_mapping):
                 match_token = tagged_data[2]
                 tagged_tok_place = tagged_data[-1]
                 if tagged_tok_place[0] == token_place and match_token == check_token:
-                    check_matched = True
-                    if placement == 'S':
-                        remove_indices.append(pos_index)
-                    elif placement == 'E':
-                        remove_indices.append(pos_index)
-                    elif placement == 'M':
-                        remove_indices.append(pos_index)
+                    if pos_index not in remove_indices:
+                        check_matched = True
+                        if placement == 'S':
+                            remove_indices.append(pos_index)
+                        elif placement == 'E':
+                            remove_indices.append(pos_index)
+                        elif placement == 'M':
+                            remove_indices.append(pos_index)
             if not check_matched:
                 raise RuntimeError("Mismatched potential match with gloss-word or gloss-word's index in gloss.")
         if remove_indices:
@@ -435,9 +436,13 @@ def matchword_levdist(gloss_mapping):
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-tglos = 953
-test_on = glosslist[tglos:tglos + 1]
-print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+# tglos = 953
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# tglos = 1542
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
 # tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
