@@ -805,12 +805,11 @@ def matchword_levdist(gloss_mapping):
 # # error_codes = sorted(list(set([i[0] for i in output_glosslist])))
 # error_codes = [0, 1, 100, 101, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]
 
-# # Print the numbe of glosses containing each error code
+# # Print the number of glosses containing each error code
 # for ercode in error_codes:
 #     codecount = 0
 #     for outgloss in output_glosslist:
 #         if outgloss[0] == ercode:
 #             codecount += 1
-#     if codecount < 100:
-#         print("{}: {}".format(ercode, codecount))
+#     print("{}: {}".format(ercode, codecount))
 

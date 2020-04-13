@@ -444,6 +444,14 @@ def matchword_levdist(gloss_mapping):
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
+# tglos = 1878
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
+# tglos = 2425
+# test_on = glosslist[tglos:tglos + 1]
+# print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
+
 # tglos = 2760
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
@@ -475,14 +483,23 @@ def matchword_levdist(gloss_mapping):
 # # # Produce a list of all error codes which occur in output of matchword_levdist function
 # output_glosslist = [matchword_levdist(map_glosswords(j, wordslist[i])) for i, j in enumerate(glosslist)]
 # # error_codes = sorted(list(set([i[0] for i in output_glosslist])))
-# error_codes = [0, 1, 100, 101, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]
+# error_codes = [0, 1, 11, 100, 101, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]
 
-# # Print the numbe of glosses containing each error code
+# # Print the number of glosses containing each error code
 # for ercode in error_codes:
 #     codecount = 0
 #     for outgloss in output_glosslist:
 #         if outgloss[0] == ercode:
 #             codecount += 1
-#     if codecount < 100:
-#         print("{}: {}".format(ercode, codecount))
+#     print("{}: {}".format(ercode, codecount))
+
+# # Print each gloss containing a specified error code
+# for ercode in error_codes:
+#     codecount = 0
+#     for outgloss in output_glosslist:
+#         if outgloss[0] == ercode:
+#             codecount += 1
+#             if ercode == 11:
+#                 print(outgloss)
+#                 print(" ".join([i[0] for i in outgloss[1]]) + "\n")
 
