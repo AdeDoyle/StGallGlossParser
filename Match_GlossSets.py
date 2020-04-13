@@ -605,12 +605,6 @@ def matchword_levdist(gloss_mapping):
                 found = True
                 del tagged_gloss[j]
                 break
-
-            # else:
-            #     print([i[1] for i in standard_mapping])
-            #     print([j[2] for j in tagged_gloss])
-            #     raise RuntimeError("Words not matched as expected here.")
-
         if not found:
             recombine_list.append([i[0], "<X>", i[1], [i[2], i[2]]])
     tagged_gloss = recombine_list
