@@ -772,7 +772,7 @@ def matchword_levdist(gloss_mapping):
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
-# tglos = 2760
+# tglos = 2761
 # test_on = glosslist[tglos:tglos + 1]
 # print(matchword_levdist(map_glosswords(test_on[0], wordslist[tglos])))
 
