@@ -4,6 +4,7 @@ from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
 import matplotlib.pyplot as plt
+import re
 
 
 analyses = list_xlsx("SG. Combined Data", "Sheet 1")
@@ -489,6 +490,8 @@ def clean_analysis(taglist, test_unknown=False):
 
     #                                        ARTICLES & DETERMINERS
     # Assign Articles (DET)
+    gend_dict = {"m": "Masc", "n": "Neut", "fem": "Fem"}
+    num_dict = {"sg": "Sing", "pl": "Plur", "du": "Dual"}
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
             if An3 in ['nom.sg.', 'nom.sg', 'nom.sg. + í 1',
@@ -501,7 +504,9 @@ def clean_analysis(taglist, test_unknown=False):
                        'nom.du.', 'acc.du.', 'gen.du.']:
                 if not actpas:
                     if not rel:
-                        pos = "DET"
+                        pos = "DET Case={} | Gender={}".format(An3[:3].capitalize(), gend_dict.get(An2))
+                        if An3[4:6]:
+                            pos = " | ".join([pos, "Number={}".format(num_dict.get(An3[4:6]))])
     # Assign Pronominal Articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
@@ -526,7 +531,8 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg. + oc', 'dat.pl. + oc']:
                 if not actpas:
                     if not rel:
-                        pos = "DET"
+                        pos = "DET Case={} | Gender={} | Number={}" \
+                              "".format(An3[:3].capitalize(), gend_dict.get(An2), num_dict.get(An3[4:6]))
     # Assign Pronominal Adjectives/Determiners - e.g. 'cach'/'cechtar/naich' (DET)
     prad_case = ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                  'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
@@ -737,27 +743,30 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "VERB"
     # Copula
         elif An2 == 'copula':
+            polar = "Pos"
+            if trans and "negative" in trans:
+                polar = "Neg"
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
                     elif rel in ['Y', 'Maybe']:
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
                 elif not actpas:
                     if not rel:
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
             elif An3 in verb_tensepersinfix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
                     elif rel == 'Y':
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
             elif An3 in verb_tenseperssuffix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
                     elif rel == 'Y':
-                        pos = "VERB"
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
     # General Verbs
         elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII', 'BIII', 'BIV', 'BV',
                      'AII (?)', 'BI (?)', 'BII (?)', 'defective', 'inflexion not clear', 'unclear']:
@@ -893,14 +902,14 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
             elif An3 in ['acc.', 'acc. + rel.part.', 'acc. + so 1',
                          'acc. + poss.pron.3sg.masc./neut.', 'acc. + poss.pron.3sg.fem.',
                          'acc. + poss.pron.3pl.',
                          'composition form']:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     if An1 in ['preposition, with dat', 'preposition, with dat; leniting',
                'preposition, with dat; nasalizing', 'preposition, with dat; geminating']:
         if not An2:
@@ -913,7 +922,7 @@ def clean_analysis(taglist, test_unknown=False):
                        'composition form', '*']:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     if An1 in ['preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
         if not An2:
             if An3 in ['acc.', 'acc.sg.', 'acc. + rel.part.',
@@ -928,25 +937,25 @@ def clean_analysis(taglist, test_unknown=False):
                        'i 2 + poss.pron.3sg.fem.']:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     if An1 == 'preposition, nominal, with gen':
         if An2 == 'nasalizing':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     if An1 == 'preposition, with gen; and conjunction':
         if not An2:
             if An3 == 'gen.':
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     if An1 == 'adverb; preposition, with accusative':
         if not An2:
             if An3 == 'acc.':
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Ind"
     # Assign Deterministic Prepositions - preceding prepositional articles (ADP)
     if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
                'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
@@ -959,7 +968,7 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat. + def.art.du.', 'dat. + def.art.sg. + í 1']:
                 if not actpas:
                     if not rel:
-                        pos = "ADP"
+                        pos = "ADP AdpType=Prep | Definite=Def | Prefix=Yes"
 
     #                                           CONJUNCTIONS
     # Assign Conjunctions (CCONJ/SCONJ)
@@ -1077,11 +1086,11 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART Polarity=Neg"
             elif An3 in ['ar·cuirethar']:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART Polarity=Neg"
     # Assign Interrogative Particles
     if An1 == 'particle':
         if An2 == 'interrrogative':
@@ -1150,13 +1159,13 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "PART"
             elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                       'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                       'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.',
-                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
-                       'nom.pl.', 'nom.pl.masc.', 'nom.pl.neut.',
-                       'acc.pl.', 'acc.pl.masc.', 'acc.pl.neut.',
-                       'gen.pl.masc.', 'gen.pl.neut.',
-                       'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.']:
+                         'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                         'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.',
+                         'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
+                         'nom.pl.', 'nom.pl.masc.', 'nom.pl.neut.',
+                         'acc.pl.', 'acc.pl.masc.', 'acc.pl.neut.',
+                         'gen.pl.masc.', 'gen.pl.neut.',
+                         'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
                         pos = "PART"
@@ -1222,7 +1231,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "SYM"
+                        pos = "SYM Abbr=Yes | Typo=Yes"
 
     #                                           UNUSED PARTS-OF-SPEECH
     # Assign Pre-verbal Particles (PVP)
@@ -1268,7 +1277,7 @@ def clean_analysis(taglist, test_unknown=False):
             elif An3 in ['composition form', '*']:
                 if not actpas:
                     if not rel:
-                        pos = "PFX"
+                        pos = "PFX Prefix=Yes"
 
     # Assign Unnecessary Repetitions of Words (UNR)
     if An1 == 'see amail':
@@ -1536,4 +1545,3 @@ def percent_complete(excel_data):
 # # List each Token and its POS
 # for i in loop_tags(analyses, True):
 #     print("'" + i[1] + "',", i[-1])
-
