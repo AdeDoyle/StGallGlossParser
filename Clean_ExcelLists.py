@@ -66,6 +66,18 @@ for analysis in wordlist:
             break
 
 
+def create_data_combo():
+    save_xlsx("SG. Combined Data", combolist, True)
+    return "Created file: 'SG. Combined Data.xlsx'"
+
+
+# #                                             CREATE RESOURCES
+
+# # Save a .xlsx file containing the combined data from glosses_full.xlsx and glosses_words.xlsx
+# print(create_data_combo())
+
+# #                                             TEST RESOURCES
+
 # for i in glosslist[:5]:
 #     print(i)
 #
@@ -74,6 +86,3 @@ for analysis in wordlist:
 #
 # for i in combolist[:25]:
 #     print(i)
-#
-# save_xlsx("SG. Combined Data", combolist, True)
-

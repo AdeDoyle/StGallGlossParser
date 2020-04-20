@@ -73,9 +73,9 @@ noA3 = raw_lists[8]
 
 
 # Sort lists of Bauer's original POS-tags, including:
-    # Analysis levels 1-3,
-    # Verb information (active/passive, relativity),
-    # Translation/word-meaning
+#    Analysis levels 1-3,
+#    Verb information (active/passive, relativity),
+#    Translation/word-meaning
 def sort_tag_levels(tag_levels_list):
     sorted_A1 = sorted(list(set(tag_levels_list[0]))) + [False]
     sorted_A2 = sorted(list(set(tag_levels_list[1]))) + [False]
@@ -103,7 +103,8 @@ def save_sorted_tags(sorted_tags):
     save_obj("Relative Options List", sorted_rel)
     sorted_trans = sorted_tags[5]
     save_obj("Translations List", sorted_trans)
-    return "Saved sorted lists of tags."
+    return "Created files:\n   'A1 List.pkl'\n   'A2 List.pkl'\n   'A3 List.pkl'" \
+           "\n   'Active_Passive List.pkl'\n   'Relative Options List.pkl'\n   'Translations List.pkl'"
 
 
 # Cleans tags in Bauer's tag-set by removing whitespace
@@ -134,7 +135,7 @@ def save_all_pos_combos_list(excel_list):
             alltag_combos.append(tag_combo_clean)
     sorted_tag_combos = sorted(alltag_combos, key=lambda s: [(e is False, e is True, e) for e in s])
     save_obj("All POS Combos Used", sorted_tag_combos)
-    return "Sorted list of POS combinations saved"
+    return "Created file: 'All POS Combos Used.pkl'"
 
 
 # Count total potential POS tag combinations, print total
@@ -1359,6 +1360,16 @@ def percent_complete(excel_data):
     print()
 
 
+# Save a list containing each Token and its assigned UD POS
+def create_pos_taglist():
+    pos_list = list()
+    for i in loop_tags(analyses, True):
+        tagged_i = i[1], i[-1]
+        pos_list.append(tagged_i)
+    save_obj("POS_taglist", pos_list)
+    return "Created file: 'POS_taglist.pkl'"
+
+
 # #                                             CREATE RESOURCES
 
 
@@ -1369,11 +1380,7 @@ def percent_complete(excel_data):
 # print(save_all_pos_combos_list(analyses))
 #
 # # Save a list containing each Token and its assigned UD POS
-# pos_list = list()
-# for i in loop_tags(analyses, True):
-#     tagged_i = i[1], i[-1]
-#     pos_list.append(tagged_i)
-# save_obj("POS_taglist", pos_list)
+# print(create_pos_taglist())
 
 
 # #                                               OUTPUT TESTS:

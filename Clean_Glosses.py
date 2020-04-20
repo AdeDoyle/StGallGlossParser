@@ -279,6 +279,47 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
     return gloss
 
 
+def create_clean_glossdict():
+    sgData = list_xlsx("SG. Combined Data", "Sheet 1")
+    glosslist = list()
+    lastgloss = ""
+    for i in sgData:
+        thisgloss = i[8]
+        if thisgloss != lastgloss:
+            glosslist.append(thisgloss)
+            lastgloss = thisgloss
+    glossdict = {}
+    for i in glosslist:
+        glossdict[i] = clean_gloss(i)
+    save_obj("Clean_GlossDict", glossdict)
+    return "Created file: 'Clean_GlossDict.pkl'"
+
+
+def create_clean_worddict():
+    sgData = list_xlsx("SG. Combined Data", "Sheet 1")
+    wordlist = list()
+    for i in sgData:
+        thisword = i[1]
+        if thisword:
+            if thisword not in wordlist:
+                wordlist.append(thisword)
+    worddict = {}
+    for i in wordlist:
+        worddict[i] = clean_word(i)
+    save_obj("Clean_WordDict", worddict)
+    return "Created file: 'Clean_WordDict.pkl'"
+
+
+# #                                             CREATE RESOURCES
+
+# # Save a dictionary of glosses with: keys = original gloss; and values = cleaned gloss
+# print(create_clean_glossdict())
+#
+# # Save a dictionary of words with: keys = original word; and values = cleaned word
+# print(create_clean_worddict())
+
+# #                                             TEST RESOURCES
+
 # # Pick spreadsheet to draw glosses from (for all testing)
 # sgData = list_xlsx("SG. Combined Data", "Sheet 1")
 
@@ -333,22 +374,6 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
 # # for i in allposts:
 # #     print(i)
 
-
-# # Save a dictionary of glosses with: keys = original gloss; and values = cleaned gloss
-# sgData = list_xlsx("SG. Combined Data", "Sheet 1")
-# glosslist = list()
-# lastgloss = ""
-# for i in sgData:
-#     thisgloss = i[8]
-#     if thisgloss != lastgloss:
-#         glosslist.append(thisgloss)
-#         lastgloss = thisgloss
-# glossdict = {}
-# for i in glosslist:
-#     glossdict[i] = clean_gloss(i)
-# save_obj("Clean_GlossDict", glossdict)
-
-
 # # Print a gloss, a given word from it, and that word after cleaning for comparison
 # sgData = list_xlsx("SG. Combined Data", "Sheet 1")
 # cleaned_words = list()
@@ -371,18 +396,3 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
 # all_chars = list(set("".join(cleaned_words)))
 # print(sorted(all_chars))
 # print(len(all_chars))
-
-
-# # Save a dictionary of words with: keys = original word; and values = cleaned word
-# sgData = list_xlsx("SG. Combined Data", "Sheet 1")
-# wordlist = list()
-# for i in sgData:
-#     thisword = i[1]
-#     if thisword:
-#         if thisword not in wordlist:
-#             wordlist.append(thisword)
-# worddict = {}
-# for i in wordlist:
-#     worddict[i] = clean_word(i)
-# save_obj("Clean_WordDict", worddict)
-
