@@ -1273,7 +1273,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PFX"
+                        pos = "PFX Prefix=Yes"
             elif An3 in ['composition form', '*']:
                 if not actpas:
                     if not rel:
@@ -1364,10 +1364,10 @@ def percent_complete(excel_data):
 
 # # Run the functions above which create .pkl files of gloss-word analyses from spreadsheet, "SG. Combined Data":
 # print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
-
+#
 # # Run the function to create a .pkl file listing all unique POS-tag combinations used in order
 # print(save_all_pos_combos_list(analyses))
-
+#
 # # Save a list containing each Token and its assigned UD POS
 # pos_list = list()
 # for i in loop_tags(analyses, True):
