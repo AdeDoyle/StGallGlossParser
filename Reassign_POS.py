@@ -1,5 +1,5 @@
-"""Level 1."""
 
+from Clean_ExcelLists import create_data_combo
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
@@ -7,7 +7,11 @@ import matplotlib.pyplot as plt
 import re
 
 
-analyses = list_xlsx("SG. Combined Data", "Sheet 1")
+try:
+    analyses = list_xlsx("SG. Combined Data", "Sheet 1")
+except FileNotFoundError:
+    print(create_data_combo())
+    analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 # # Run the functions below to create the following .pkl files from spreadsheet, "SG. Combined Data"
 try:
     A1_list = open_obj("A1 List.pkl")
@@ -1370,6 +1374,56 @@ def create_pos_taglist():
     return "Created file: 'POS_taglist.pkl'"
 
 
+# Create and save an ordered list of glosses (uncleaned) from Hofman's Corpus
+def create_glosslist(excel_combo):
+    glosslist = list()
+    lastgloss = ""
+    for i in excel_combo:
+        thisgloss = i[8]
+        if thisgloss != lastgloss:
+            lastgloss = thisgloss
+            glosslist.append(thisgloss)
+    save_obj("Gloss_List", glosslist)
+    return "Created file: 'Gloss_List.pkl'"
+
+
+# Create and save an ordered list of word-lists
+# words-list = [word, [analysis and translation]] (all uncleaned)
+def create_wordlist(excel_combo):
+    wordslist = list()
+    thesewords = list()
+    lastgloss = ""
+    for i in excel_combo:
+        # For each analysis (word)
+        thisgloss = i[8]
+        thisword = i[1]
+        thistrans = i[2]
+        thistag = i[3:8] + [thistrans]
+        if thisgloss != lastgloss:
+            # if this word is from a new gloss
+            lastgloss = thisgloss
+            # update the current gloss
+            if thesewords:
+                # if there is a word (it isn't blank/false)
+                wordslist.append(thesewords)
+            if thisword:
+                # if there is a word to start the new gloss
+                thesewords = [[thisword, thistag]]
+            else:
+                # if there's a missing word at beginning of the new gloss
+                thesewords = []
+        else:
+            # if this word is from the same gloss as last
+            if thisword:
+                # if there actually is a word/it's not a blank entry
+                thesewords.append([thisword, thistag])
+        if i == excel_combo[-1]:
+            # if this word is the last word
+            wordslist.append(thesewords)
+    save_obj("Words_List", wordslist)
+    return "Created file: 'Words_List.pkl'"
+
+
 # #                                             CREATE RESOURCES
 
 
@@ -1381,6 +1435,10 @@ def create_pos_taglist():
 #
 # # Save a list containing each Token and its assigned UD POS
 # print(create_pos_taglist())
+#
+# # Save ordered lists of uncleaned glosses, and uncleaned words with analysis and translation
+# create_glosslist(analyses)
+# create_wordlist(analyses)
 
 
 # #                                               OUTPUT TESTS:
