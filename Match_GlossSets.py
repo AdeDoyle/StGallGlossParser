@@ -17,7 +17,8 @@ wordslist = open_obj("Words_List.pkl")
 # Changes all characters in Hoffman's glosses to a common set
 def standardise_glosschars(gloss):
     gloss = gloss.lower()
-    chardict = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ḟ': 'f', 'ṁ': 'm', 'ṅ': 'n', 'ṡ': 's', '⁊': 'ocus'}
+    chardict = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ḟ': 'f', 'ṁ': 'm', 'ṅ': 'n', 'ṡ': 's', '⁊': 'ocus',
+                'ɫ': 'no'}
     for char in gloss:
         if char in chardict:
             replacement = chardict.get(char)
