@@ -10,7 +10,7 @@ testlist = list()
 
 
 @lru_cache(maxsize=3500)
-def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_greek=False):
+def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_greek=False, rem_del=False):
     """Takes a gloss and removes all instances of tags or undesirable characters within the gloss"""
     # removes all unnecessary tags and tag content
     if lowercase:
@@ -34,7 +34,7 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
                     glossparts.append(gloss[startpos:endpos])
                     gloss = gloss[endpos + len(cltag):]
                 gloss = "".join(glossparts)
-        if tag == "del":
+        if tag == "del" and rem_del:
             if optag in gloss:
                 for i in range(gloss.count(optag)):
                     startpos = gloss.find(optag)
