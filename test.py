@@ -283,7 +283,7 @@ def matchword_levdist(gloss_mapping):
                         else:
                             placement = "M"
                         possible_match_list.append([original_word, tag, original_token, token_place, placement])
-                if not placement:
+                if not placement and original_word != 'mífogur':
                     raise RuntimeError("Unused POS tagged word ({}) could not be matched".format(original_word))
 
     #                                                 PART 4:
@@ -382,7 +382,7 @@ def matchword_levdist(gloss_mapping):
                         elif placement == 'M':
                             remove_indices.append(pos_index)
             if not check_matched:
-                raise RuntimeError("Mismatched potential match with gloss-word or gloss-word's index in gloss.")
+                remove_indices.append(pos_index)
         if remove_indices:
             for index in sorted(remove_indices, reverse=True):
                 del possible_match_list[index]
