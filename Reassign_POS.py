@@ -348,47 +348,47 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs"
             elif An3 in ['voc.sg.', 'composition form', 'formal pred, immediately after copula']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs"
     # Assign Indefinite Pronouns (PRON)
     if An1 == 'pronoun, non-neuter':
         if not An2:
             if An3 in ['nom.sg.', 'acc.sg.', 'dat.sg.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Ind"
     # Assign Suffixed Pronouns (PRON)
     if An1 == 'pronoun, suffixed':
         if An2 in ['3sg m, n', '3sg m, n (nasalizing)']:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs"
     # Reflexive Pronouns
     if An1 == 'pronoun, reflexive':
         if not An2:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs | Reflex:Yes"
             elif An3 in ['1sg.', '2sg.', '3sg.', '3sg.masc.', '3sg.neut.', '3sg.fem.', '3pl.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs | Reflex:Yes"
     # Possessive Pronouns
     if An1 == 'pronoun, possessive, stressed':
         if An2 in ['3sg and pl']:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON Poss:Yes | PronType=Prs"
             elif An3 in ['sg.', 'pl.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON Poss:Yes | PronType=Prs"
     if An1 == 'pronoun, possessive, unstressed':
         if An2 in ['1sg (leniting)',
                    '2sg',
@@ -398,11 +398,11 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON Poss:Yes | PronType=Prs"
             elif An3 in ['neut.', '3sg.neut.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON Poss:Yes | PronType=Prs"
     # Emphatic Pronouns
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
@@ -410,11 +410,11 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Emp"
             elif An3 in ['masc.', '3sg.masc.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Emp"
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
         if An2 in ['stressed', 'neuter, stressed']:
@@ -425,16 +425,16 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.pl.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Ana"
             elif not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Ana"
         elif An2 == 'enclitic':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON  PronType=Ana"
             elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                          'acc.sg.', 'acc.sg.fem.',
                          'gen.sg.', 'gen.sg.neut.', 'gen.sg.fem.',
@@ -444,26 +444,39 @@ def clean_analysis(taglist, test_unknown=False):
                          'dat.pl.fem.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Ana"
         elif An2 == 'indeclinable neuter enclitic':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Ana"
+    # Assign Interrogative Pronouns
+    if An1 in ['pronoun, interrogative and indefinite']:
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON PronType=Int"
+    if An1 == 'pronoun':
+        if An2 in ['interrogative', 'negative interrogative']:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON Polarity=Neg | PronType=Int"
     # Assign Demonstrative Pronouns
     if An1 == 'pronoun, demonstrative':
         if An2 in ['this, these', 'that, those', 'neuter, indeclinable']:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Dem"
             elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                          'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
                          'dat.sg.neut.',
                          'nom.pl.', 'nom.pl.masc.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Dem"
     # Assign Prepositional Pronouns (PRON)
     prepprontype = ['acc. + suff.pron.1sg.',
                     'acc. + suff.pron.2sg.',
@@ -489,9 +502,9 @@ def clean_analysis(taglist, test_unknown=False):
             if An3 in prepprontype:
                 if not actpas:
                     if not rel:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs"
                     elif rel in ['Y']:
-                        pos = "PRON"
+                        pos = "PRON PronType=Prs"
 
     #                                        ARTICLES & DETERMINERS
     # Assign Articles (DET)
@@ -1075,13 +1088,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
-    if An1 == 'particle':
-        if An2 == 'interrrogative':
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        if trans == 'as a correlative conjunction: whether':
-                            pos = "SCONJ"
 
     #                                              PARTICLES
     # Assign Particles (PART)
@@ -1098,31 +1104,21 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "PART Polarity=Neg"
     # Assign Interrogative Particles
     if An1 == 'particle':
-        if An2 == 'interrrogative':
+        if An2 == 'interrrogative':  # Yes, really, three.
             if not An3:
                 if not actpas:
                     if not rel:
-                        if trans != 'as a correlative conjunction: whether':
-                            pos = "PART"
-    if An1 in ['pronoun, interrogative and indefinite']:
-        if not An2:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "PART"
-    if An1 in ['pronoun']:
-        if An2 in ['interrogative', 'negative interrogative']:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "PART"
+                        if trans == 'as a correlative conjunction: whether':
+                            pos = "PART PronType=Int"
+                        elif trans != 'as a correlative conjunction: whether':
+                            pos = "PART PronType=Int"
     # Assign Vocative Particles
     if An1 == 'particle':
         if An2 == 'vocative':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART Case=Voc"
     # Assign Numerical Particles
     if An1 == 'particle':
         if An2 == 'numerical':
