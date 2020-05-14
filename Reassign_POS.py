@@ -1170,6 +1170,17 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART"
+    # Assign Prefixing particles (mí-, so-, do-) (PART)
+    if An1 == 'particle':
+        if An2 in ['prefix', 'prefix, intensive', 'prefix, negative', 'prefix and preverb', 'prefix, privative']:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART Prefix=Yes"
+            elif An3 == 'composition form':
+                if not actpas:
+                    if not rel:
+                        pos = "PART Prefix=Yes"
 
     #                                   INTERJECTIONS, NUMERALS & ABBREVIATIONS
     # Assign Interjections (INTJ)
@@ -1253,6 +1264,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PVP"
+    if An1 == 'particle':
+        if An2 == 'prefix':
+            if An3 == '*':
+                if not actpas:
+                    if not rel:
+                        pos = "PVP"
 
     # Assign Infixed Pronouns (IFP)
     if An1 in ['pronoun, infixed, class A',
@@ -1267,18 +1284,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "IFP"
-
-    # Assign Prefixing particles (mí-, so-, do-) (PFX)
     if An1 == 'particle':
-        if An2 in ['prefix', 'prefix, intensive', 'prefix, negative', 'prefix and preverb', 'prefix, privative']:
-            if not An3:
+        if An2 == 'prefix and preverb':
+            if An3 == '*':
                 if not actpas:
                     if not rel:
-                        pos = "PFX Prefix=Yes"
-            elif An3 in ['composition form', '*']:
-                if not actpas:
-                    if not rel:
-                        pos = "PFX Prefix=Yes"
+                        pos = "IFP"
 
     # Assign Unnecessary Repetitions of Words (UNR)
     if An1 == 'see amail':
@@ -1604,5 +1615,5 @@ def create_wordlist(excel_combo):
 # print(loop_tags(analyses))
 
 # # List each Token and its POS
-# for i in loop_tags(analyses, True):
+# for i in loop_tags(analyses, False):
 #     print("'" + i[1] + "',", i[-1])
