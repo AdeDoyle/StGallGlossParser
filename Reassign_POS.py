@@ -360,6 +360,31 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PRON PronType=Ind"
+    indpron_case = ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+                    'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                    'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.', 'gen.sg. masc./neut.', 'gen.sg.fem.',
+                    'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
+                    'nom.pl.',
+                    'acc.pl.', 'acc.pl.masc.',
+                    'dat.pl.masc.', 'dat.pl.fem.',
+                    'nom.du.fem.',
+                    'composition form']
+    if An1 in ['adjective, pronominal (preceding noun)', 'adjective, indefinite pronominal',
+               'pronoun, indefinite', 'pronoun, indeclinable']:
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON PronType=Ind"
+            elif An3 in indpron_case:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON PronType=Ind"
+        elif An2 == 'm':
+            if An3 in indpron_case:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON PronType=Ind"
     # Assign Suffixed Pronouns (PRON)
     if An1 == 'pronoun, suffixed':
         if An2 in ['3sg m, n', '3sg m, n (nasalizing)']:
@@ -458,7 +483,12 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "PRON PronType=Int"
     if An1 == 'pronoun':
-        if An2 in ['interrogative', 'negative interrogative']:
+        if An2 == 'interrogative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PRON PronType=Int"
+        elif An2 == 'negative interrogative':
             if not An3:
                 if not actpas:
                     if not rel:
@@ -551,32 +581,6 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "DET Case={} | Gender={} | Number={}" \
                               "".format(An3[:3].capitalize(), gend_dict.get(An2), num_dict.get(An3[4:6]))
-    # Assign Pronominal Adjectives/Determiners - e.g. 'cach'/'cechtar/naich' (DET)
-    prad_case = ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                 'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                 'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.', 'gen.sg. masc./neut.', 'gen.sg.fem.',
-                 'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
-                 'nom.pl.',
-                 'acc.pl.', 'acc.pl.masc.',
-                 'dat.pl.masc.', 'dat.pl.fem.',
-                 'nom.du.fem.',
-                 'composition form']
-    if An1 in ['adjective, pronominal (preceding noun)', 'adjective, indefinite pronominal',
-               'pronoun, indefinite', 'pronoun, indeclinable']:
-        if not An2:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "DET"
-            elif An3 in prad_case:
-                if not actpas:
-                    if not rel:
-                        pos = "DET"
-        elif An2 in ['m']:
-            if An3 in prad_case:
-                if not actpas:
-                    if not rel:
-                        pos = "DET"
 
     #                                             ADJECTIVES
     # Assign Adjectives (ADJ)
@@ -912,6 +916,13 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "ADV"
+    # Assign Abbreviations (ADV)
+    if An1 == 'abbreviation':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "ADV Abbr=Yes | Typo=Yes"
 
     #                                           PREPOSITIONS
     # Assign Prepositions (ADP)
@@ -1142,16 +1153,16 @@ def clean_analysis(taglist, test_unknown=False):
                        'rel part + tre 1']:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
-            elif not An3:
+                        pos = "PART PartType=Vb | PronType=Rel"
+            if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART PartType=Vb | PronType=Rel"
         elif An2 == 'demonstrative relative':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART PartType=Vb | PronType=Rel"
     # Assign Deictic Particles
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
@@ -1237,13 +1248,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "NUM"
-    # Assign Abbreviations (SYM)
-    if An1 == 'abbreviation':
-        if not An2:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "SYM Abbr=Yes | Typo=Yes"
 
     #                                           UNUSED PARTS-OF-SPEECH
     # Assign Pre-verbal Particles (PVP)
