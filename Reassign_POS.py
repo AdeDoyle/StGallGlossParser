@@ -869,11 +869,16 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "ADV"
-        elif An2 in ['autonomous negative', 'conjunctive']:
+        elif An2 == 'conjunctive':
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "ADV"
+        elif An2 == 'autonomous negative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "ADV Polarity=Neg"
     if An1 == 'preposition, with acc; leniting; and conjunction':
         if not An2:
             if An3 == 'acc. + suff.pron.3sg.masc./neut.':
@@ -1051,10 +1056,6 @@ def clean_analysis(taglist, test_unknown=False):
                      'conditional', 'conditional, temporal',
                      'disjunct', 'disjunct (leniting)',
                      'final (purpose), and explicative',
-                     'negative (geminating), before non-verbs; na before stressed words',
-                     'negative subordinating',
-                     'relative negative, with infixed pronouns Class C',
-                     'subordinate negative, with infixed pronouns Class C',
                      'temporal', 'temporal, adversative; (prep la + dem pron so 1 acc sg nt)']:
             if not An3:
                 if not actpas:
@@ -1062,17 +1063,33 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "SCONJ"
             elif An3 in ['1pl.', '2sg.', '3pl.',
                          'i 2 + def.art. + deictic pron í 1',
-                         '+ infix pron Class C 3sg n',
-                         '+ infix pron class C 3sg nt',
-                         'joining two nouns',
                          'ma + ní + copula',
                          'with copula', 'with 3sg.pres.subj. of copula', 'with 3pl.pres.sub. of copula',
                          'with negative']:
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
+        elif An2 in ['negative subordinating',
+                     'negative (geminating), before non-verbs; na before stressed words',
+                     'relative negative, with infixed pronouns Class C',
+                     'subordinate negative, with infixed pronouns Class C']:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ Polarity=Neg"
+            elif An3 in ['joining two nouns',
+                         '+ infix pron Class C 3sg n',
+                         '+ infix pron class C 3sg nt']:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ Polarity=Neg"
+    if An1 == 'conjunction w/ subordinate negation':
+        if not An2:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "SCONJ Polarity=Neg"
     if An1 in ['conjunction and adverb (conjunctive)',
-               'conjunction w/ subordinate negation',
                'preposition, with gen; and conjunction']:
         if not An2:
             if not An3:
@@ -1181,9 +1198,9 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART"
-    # Assign Prefixing particles (mí-, so-, do-) (PART)
+    # Assign Prefixing particles (mí-, so-, do-, neph-) (PART)
     if An1 == 'particle':
-        if An2 in ['prefix', 'prefix, intensive', 'prefix, negative', 'prefix and preverb', 'prefix, privative']:
+        if An2 in ['prefix', 'prefix, intensive', 'prefix and preverb', 'prefix, privative']:
             if not An3:
                 if not actpas:
                     if not rel:
@@ -1192,6 +1209,11 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART Prefix=Yes"
+        elif An2 == 'prefix, negative':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART Polarity=Neg | Prefix=Yes"
 
     #                                   INTERJECTIONS, NUMERALS & ABBREVIATIONS
     # Assign Interjections (INTJ)
