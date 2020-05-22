@@ -1,15 +1,41 @@
 
+import os.path
+from os import path
+from Clean_ExcelLists import create_data_combo
 from Clean_Glosses import create_clean_glossdict, create_clean_worddict
 from OpenXlsx import list_xlsx
 from Reassign_POS import save_sorted_tags, sort_tag_levels, list_tag_levels,\
     save_all_pos_combos_list, create_pos_taglist, create_glosslist, create_wordlist
 
-
-# #                                             CREATE RESOURCES
-
+# # #                                            REMOVE OLD FILES
+#
+# resources = ["A1 List.pkl", "A2 List.pkl", "A3 List.pkl",
+#              "Active_Passive List.pkl",
+#              "All POS Combos Used.pkl",
+#              "Clean_GlossDict.pkl", "Clean_WordDict.pkl",
+#              "Gloss_List.pkl",
+#              "POS_taglist.pkl",
+#              "Relative Options List.pkl",
+#              "SG. Combined Data.xlsx",
+#              "Translations List.pkl",
+#              "Words_List.pkl"]
+# for filename in resources:
+#     if path.exists(filename):
+#         os.remove(filename)
+#         print(f"Removed file: {filename}")
+#     else:
+#         print(f"Could not delete file: {filename}")
+#
+# # #                                             CREATE RESOURCES
+#
 # # Set analyses variable for creation of further resources
 # # If it does not already exist, it will be created by importing modules from Reassign_POS above
-# analyses = list_xlsx("SG. Combined Data", "Sheet 1")
+# # If it is deleted by the code above, it will be recreated
+# if path.exists("SG. Combined Data.xlsx"):
+#     analyses = list_xlsx("SG. Combined Data", "Sheet 1")
+# else:
+#     print(create_data_combo())
+#     analyses = list_xlsx("SG. Combined Data", "Sheet 1")
 #
 # # Create 'Clean_GlossDict.pkl' and 'Clean_WordDict.pkl'
 # print(create_clean_glossdict())
