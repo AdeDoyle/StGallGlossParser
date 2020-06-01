@@ -3,17 +3,48 @@ from collections import OrderedDict
 import re
 
 
-def get_pos(sent):
+def split_pos_feats(pos_tag):
+    """split a full POS tag into the UD POS and a list of features"""
     pospat = re.compile(r'<[A-Z]+[ >]')
-    pospatitir = pospat.finditer(sent)
+    pospatitir = pospat.finditer(pos_tag)
+    pos = None
+    for posfind in pospatitir:
+        pos = posfind.group()[1:-1]
+    featspat = re.compile(r' [\w\d =|]+>')
+    featspatitir = featspat.finditer(pos_tag)
+    feats = ""
+    for featsfind in featspatitir:
+        feats = featsfind.group()[1:-1]
+        feats = feats.split(" | ")
+    return [pos, [i for i in feats]]
+
+
+def add_features(pos_tag, feat_list):
+    """add all features in a list to the features in a full POS tag, and ensure features are ordered alphabetically"""
+    pos_split = split_pos_feats(pos_tag)
+    pos = pos_split[0]
+    feats = pos_split[1]
+    for extra_feat in feat_list:
+        feats.append(extra_feat)
+    feats.sort()
+    feats = " | ".join(feats)
+    recombined_pos = f'<{pos} {feats}>'
+    return recombined_pos
+
+
+def get_pos(pos_tag):
+    """return only the POS from a full POS (one which may include features)"""
+    pospat = re.compile(r'<[A-Z]+[ >]')
+    pospatitir = pospat.finditer(pos_tag)
     for posfind in pospatitir:
         pos = posfind.group()[1:-1]
         return pos
 
 
-def get_feats(sent):
+def get_feats(pos_tag):
+    """return an ordered dictionary containing each feature (if any) from a full POS"""
     featspat = re.compile(r' [\w\d =|]+>')
-    featspatitir = featspat.finditer(sent)
+    featspatitir = featspat.finditer(pos_tag)
     feats = None
     for featsfind in featspatitir:
         feats = featsfind.group()[1:-1]
@@ -24,6 +55,7 @@ def get_feats(sent):
 
 
 def compile_sent(sent):
+    """compile a list of sublists, [word, full POS] format, into a CoNLL-U format sentence"""
     sent_list = list()
     for i, tok_data in enumerate(sent):
         tok_id = i + 1
@@ -38,6 +70,17 @@ def compile_sent(sent):
 
 
 # #                                                  Test Functions
+
+# test_pos1 = '<DET Case=Nom | Gender=Neut | Number=Sing>'
+# test_pos2 = '<CCONJ>'
+
+
+# # test split_pos_feats() function
+# print(split_pos_feats(test_pos1))
+
+# # test add_features() function
+# print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
+
 
 # s1 = [['.i.', '<SYM Abbr=Yes>'], ['cid', '<AUX Polarity=Pos | VerbType=Cop>'], ['bec', '<ADJ>'],
 #       ['cid', '<AUX Polarity=Pos | VerbType=Cop>'], ['mar', '<ADJ>'],
@@ -58,11 +101,6 @@ def compile_sent(sent):
 # # test compile_sent() function
 # print(compile_sent(s1))
 
-# sent1 = [[i[0] for i in s1], [i[1] for i in s1]]
-# for i in sent1:
-#     fullpos = i[1]
-#
-# sent2 = [[i[0] for i in s2], [i[1] for i in s2]]
 
 # #                                                  Test conllu Library
 

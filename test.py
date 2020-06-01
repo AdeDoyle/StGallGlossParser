@@ -165,6 +165,7 @@ def matchword_levdist(gloss_mapping):
     # cf. Thurn 503, 546-563 Stifter 247-249, 386
     # list all enclitic forms of the copula
     enclitic_cops = [['th', '<AUX Polarity=Pos | VerbType=Cop>', 'th'],  # Present (Indic.)
+                     ['id', '<AUX Polarity=Pos | VerbType=Cop>', 'id'],
                      ['so', '<AUX Polarity=Pos | VerbType=Cop>', 'so'],
                      ['su', '<AUX Polarity=Pos | VerbType=Cop>', 'su'],
                      ['tu', '<AUX Polarity=Pos | VerbType=Cop>', 'tu'],
@@ -191,7 +192,6 @@ def matchword_levdist(gloss_mapping):
                  ['it', '<AUX Polarity=Pos | VerbType=Cop>', 'it'],
                  ['hit', '<AUX Polarity=Pos | VerbType=Cop>', 'hit'],
                  ['Hít', '<AUX Polarity=Pos | VerbType=Cop>', 'hit'],
-                 ['id', '<AUX Polarity=Pos | VerbType=Cop>', 'id'],
                  ['as', '<AUX Polarity=Pos | VerbType=Cop>', 'as'],  # (Rel.)
                  ['nas', '<AUX Polarity=Pos | VerbType=Cop>', 'nas'],
                  ['ata', '<AUX Polarity=Pos | VerbType=Cop>', 'ata'],
@@ -268,9 +268,12 @@ def matchword_levdist(gloss_mapping):
                          ['mad', '<AUX Polarity=Pos | VerbType=Cop>', 'mad'],
                          ['cesu', '<AUX Polarity=Pos | VerbType=Cop>', 'cesu']]
     # list independant conjunctions (p.247-249) which cannot be combined with enclitic forms of the copula
-    indie_conj = [['ar', '<SCONJ>', 'ar'],
+    indie_conj = [['amal', '<SCONJ>', 'amal'],
+                  ['ar', '<SCONJ>', 'ar'],
+                  ['arindí', '<SCONJ>', 'arindi'],
                   ['acht', '<SCONJ>', 'acht'],
-                  ['dég', '<SCONJ>', 'deg']]
+                  ['dég', '<SCONJ>', 'deg'],
+                  ['ore', '<SCONJ>', 'ore']]
     # list conjunctions which can combine with enclitic forms of the copula
     conj_combo_forms = [['ci', '<SCONJ>', 'ci'], ['ma', '<SCONJ>', 'ma'], ['co', '<SCONJ>', 'co'],
                         ['ce', '<SCONJ>', 'ce'], ['a', '<SCONJ>', 'a'], ['con', '<SCONJ>', 'con'],
@@ -325,7 +328,6 @@ def matchword_levdist(gloss_mapping):
                 # if the copula form has been reduced to zero in this position
                 if tagged_original == "-":
                     last_pos_place = 1
-                    copula_preverbs = list()
                     try:
                         if j != 0:
                             last_pos_data = pos_list[j-last_pos_place]
@@ -335,23 +337,16 @@ def matchword_levdist(gloss_mapping):
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
                                 raise RuntimeError("PVP found before copula form reduced to zero")
-                                # while last_pos_data[1] == "<PVP>":
-                                #     copula_preverbs.append(last_pos_data)
-                                #     last_pos_place += 1
-                                #     last_pos_data = pos_list[j-last_pos_place]
-                                #     if j-last_pos_place == 0 and last_pos_data[1] == "<PVP>":
-                                #         print(last_pos_data)
-                                #         print(tagged_word_data)
-                                #         print([k[0] for k in standard_mapping])
-                                #         print([k[0] for k in pos_list])
-                                #         raise RuntimeError("Copula preverb is the first POS in the gloss")
                         else:
                             last_pos_data = False
                     except IndexError:
                         last_pos_data = False
+                    # there needs to be a preceding POS to attach the zero copula form to
                     if last_pos_data:
                         last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
-                        # transfer the zero-copula's POS to the preceding particle and delete the empty copula
+                        # if the last POS is an interrogative pronoun
+                        # delete the empty copula
+                        # add the copula's "VerbType" and "Polarity" features to the preceding POS
                         if last_pos_data in particle_combo_forms:
                             tagged_pos = "<AUX Polarity=Pos | PronType=Int | VerbType=Cop>"
                             cop_combo = [last_original, tagged_pos, last_standard]
@@ -695,6 +690,47 @@ def matchword_levdist(gloss_mapping):
                         print([k[0] for k in standard_mapping])
                         print([k for k in pos_list])
                         raise RuntimeError("Copula form not could not be found")
+
+                # ensure absolute forms of the copula are not compounded with preceding conjunctions, etc.
+                elif tagged_word_data in full_cops:
+                    last_pos_place = 1
+                    copula_preverbs = list()
+                    try:
+                        if j != 0:
+                            last_pos_data = pos_list[j - last_pos_place]
+                            # find any preverbal particles used within the copula form
+                            if last_pos_data[1] == "<PVP>":
+                                while last_pos_data[1] == "<PVP>":
+                                    copula_preverbs.append(last_pos_data)
+                                    last_pos_place += 1
+                                    last_pos_data = pos_list[j - last_pos_place]
+                                    if j - last_pos_place == 0 and last_pos_data[1] == "<PVP>":
+                                        print(last_pos_data)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Copula preverb is the first POS in the gloss")
+                        else:
+                            last_pos_data = False
+                    except IndexError:
+                        last_pos_data = False
+                    if copula_preverbs:
+                        print(tagged_word_data)
+                        print(copula_preverbs)
+                        print(last_pos_data)
+                        raise RuntimeError("Preverbs found before absolute copula form")
+                    elif last_pos_data:
+                        last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
+                        if last_pos == "<SCONJ>":
+                            if last_pos_data in conj_combo_forms or last_pos_data not in indie_conj:
+                                print(tagged_word_data)
+                                print(last_pos_data)
+                                raise RuntimeError("Unexpected conjunction found before absolute copula form")
+                            elif last_pos_data in particle_combo_forms:
+                                print(tagged_word_data)
+                                print(last_pos_data)
+                                raise RuntimeError("Unexpected POS found before absolute copula form")
+
     # remove doubled 'ní' particle before negative form of the copula, also 'ní'
     # list all copula forms which are negative, or can be combined with negative particles
     full_neg_list = [['in', '<AUX Polarity=Neg | VerbType=Cop>', 'in'],  # Typo
@@ -1738,12 +1774,12 @@ def matchword_levdist(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# Test edit distance function on all glosses
-test_on = glosslist
-for glossnum, gloss in enumerate(test_on):
-    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-    if check:
-        print(glossnum, check)
+# # Test edit distance function on all glosses
+# test_on = glosslist
+# for glossnum, gloss in enumerate(test_on):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+#     if check:
+#         print(glossnum, check)
 
 
 # # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
