@@ -684,13 +684,11 @@ def matchword_levdist(gloss_mapping):
                                 raise RuntimeError("Could not separate over-full copula form")
                         else:
                             raise RuntimeError("No POS preceding over-full copula form")
-
                     elif tagged_word_data not in new_combined_cops:
                         print(tagged_word_data)
                         print([k[0] for k in standard_mapping])
                         print([k for k in pos_list])
                         raise RuntimeError("Copula form not could not be found")
-
                 # ensure absolute forms of the copula are not compounded with preceding conjunctions, etc.
                 elif tagged_word_data in full_cops:
                     last_pos_place = 1
@@ -730,7 +728,6 @@ def matchword_levdist(gloss_mapping):
                                 print(tagged_word_data)
                                 print(last_pos_data)
                                 raise RuntimeError("Unexpected POS found before absolute copula form")
-
     # remove doubled 'ní' particle before negative form of the copula, also 'ní'
     # list all copula forms which are negative, or can be combined with negative particles
     full_neg_list = [['in', '<AUX Polarity=Neg | VerbType=Cop>', 'in'],  # Typo
@@ -988,9 +985,6 @@ def matchword_levdist(gloss_mapping):
                         pos_list = pos_list[:j-3] + pos_list[j:]
                         removed_doubles = True
                     elif arindi_count != 2:
-                        # print(tagged_original)
-                        # print(last_three_pos)
-                        # print([k for k in pos_list])
                         raise RuntimeError("Unexpected variant part detected")
     # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
     olchena_list = [['olchene', '<ADV>', 'olchene'],
