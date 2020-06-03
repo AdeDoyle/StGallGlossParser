@@ -20,15 +20,50 @@ def split_pos_feats(pos_tag):
 
 
 def add_features(pos_tag, feat_list):
-    """add all features in a list to the features in a full POS tag, and ensure features are ordered alphabetically"""
+    """add all features in a list to the features in a full POS tag
+       ensure features are ordered alphabetically"""
     pos_split = split_pos_feats(pos_tag)
     pos = pos_split[0]
     feats = pos_split[1]
     for extra_feat in feat_list:
-        feats.append(extra_feat)
+        if extra_feat not in feats:
+            feats.append(extra_feat)
     feats.sort()
     feats = " | ".join(feats)
     recombined_pos = f'<{pos} {feats}>'
+    return recombined_pos
+
+
+def remove_features(pos_tag, feat_list):
+    """remove all features in a list from the features in a full POS tag
+       ensure that remaining features are ordered alphabetically"""
+    pos_split = split_pos_feats(pos_tag)
+    pos = pos_split[0]
+    feats = pos_split[1]
+    for unwanted_feat in feat_list:
+        if unwanted_feat in feats:
+            while unwanted_feat in feats:
+                feats.remove(unwanted_feat)
+    feats.sort()
+    feats = " | ".join(feats)
+    recombined_pos = f'<{pos}>'
+    if feats:
+        recombined_pos = f'<{pos} {feats}>'
+    return recombined_pos
+
+
+def update_feature(pos_tag, feature_replacement):
+    """remove a selected feature/value pair, replace it with the same feature with an updated value"""
+    pos_split = split_pos_feats(pos_tag)
+    feats = pos_split[1]
+    feat_split = feature_replacement.split("=")
+    feat_name = feat_split[0] + "="
+    recombined_pos = pos_tag
+    for feature in feats:
+        if feature[:len(feat_name)] == feat_name:
+            reduced_pos = remove_features(pos_tag, [feature])
+            recombined_pos = add_features(reduced_pos, [feature_replacement])
+            break
     return recombined_pos
 
 
@@ -79,7 +114,13 @@ def compile_sent(sent):
 # print(split_pos_feats(test_pos1))
 
 # # test add_features() function
-# print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
+
+# # test remove_features() function
+# print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))
+
+# # test update_feature() function
+# print(update_feature(test_pos1, 'Case=Acc'))
 
 
 # s1 = [['.i.', '<SYM Abbr=Yes>'], ['cid', '<AUX Polarity=Pos | VerbType=Cop>'], ['bec', '<ADJ>'],
