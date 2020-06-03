@@ -25,12 +25,14 @@ def add_features(pos_tag, feat_list):
     pos_split = split_pos_feats(pos_tag)
     pos = pos_split[0]
     feats = pos_split[1]
+    recombined_pos = f'<{pos}>'
     for extra_feat in feat_list:
         if extra_feat not in feats:
             feats.append(extra_feat)
     feats.sort()
     feats = " | ".join(feats)
-    recombined_pos = f'<{pos} {feats}>'
+    if feats:
+        recombined_pos = f'<{pos} {feats}>'
     return recombined_pos
 
 
@@ -64,6 +66,14 @@ def update_feature(pos_tag, feature_replacement):
             reduced_pos = remove_features(pos_tag, [feature])
             recombined_pos = add_features(reduced_pos, [feature_replacement])
             break
+    return recombined_pos
+
+
+def update_tag(pos_tag, tag_relacement):
+    new_tag = f'<{tag_relacement}>'
+    pos_split = split_pos_feats(pos_tag)
+    feats = pos_split[1]
+    recombined_pos = add_features(new_tag, feats)
     return recombined_pos
 
 
@@ -112,15 +122,23 @@ def compile_sent(sent):
 
 # # test split_pos_feats() function
 # print(split_pos_feats(test_pos1))
+# print(split_pos_feats(test_pos2))
 
 # # test add_features() function
 # print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
+# print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
 
 # # test remove_features() function
 # print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))
+# print(remove_features(test_pos2, ['Gender=Neut', 'Case=Nom']))
 
 # # test update_feature() function
 # print(update_feature(test_pos1, 'Case=Acc'))
+# print(update_feature(test_pos2, 'Case=Acc'))
+
+# # test update_feature() function
+# print(update_tag(test_pos1, "PART"))
+# print(update_tag(test_pos2, "PART"))
 
 
 # s1 = [['.i.', '<SYM Abbr=Yes>'], ['cid', '<AUX Polarity=Pos | VerbType=Cop>'], ['bec', '<ADJ>'],

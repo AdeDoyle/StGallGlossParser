@@ -7,7 +7,7 @@ import re
 from nltk import edit_distance as ed
 from Match_GlossSets import remove_glosshyphens, standardise_glosschars, standardise_wordchars
 from Map_GlossWords import map_glosswords
-from CoNLL_U import split_pos_feats, add_features, update_feature
+from CoNLL_U import split_pos_feats, add_features, update_feature, update_tag
 from Clean_Glosses import clean_gloss, clean_word
 
 
@@ -216,13 +216,14 @@ def matchword_levdist(gloss_mapping):
                  ['beth', '<AUX Polarity=Pos | VerbType=Cop>', 'beth'],
                  ['betis', '<AUX Polarity=Pos | VerbType=Cop>', 'betis'],
                  ['ṁbad', '<AUX Polarity=Pos | VerbType=Cop>', 'mbad'],  # (Subj. Rel.)
+                 ['mbetis', '<AUX Polarity=Pos | VerbType=Cop>', 'mbetis'],
                  ['bith', '<AUX Polarity=Pos | VerbType=Cop>', 'bith'],  # Future
                  ['bit', '<AUX Polarity=Pos | VerbType=Cop>', 'bit'],
                  ['bas', '<AUX Polarity=Pos | VerbType=Cop>', 'bas']]  # (Rel.)
-    # list all conjunct particles which can be used in conjunction with a copula
-    conjunct_particles = [['no', '<PART>', 'no'],
-                          ['nu', '<PART>', 'nu'],
-                          ['ro', '<PART>', 'ro']]
+    # list all verbal particles which can be used in conjunction with a copula
+    verbal_particles = [['no', '<PART PartType=Vb>', 'no'],
+                        ['nu', '<PART PartType=Vb>', 'nu'],
+                        ['ro', '<PART PartType=Vb>', 'ro']]
     # list forms of the copula which have been combined with too many preceding conjugations/particles/pronouns
     over_full_cops = [['cenid', '<AUX Polarity=Pos | VerbType=Cop>', 'cenid'],
                       ['cith', '<AUX Polarity=Pos | VerbType=Cop>', 'cith'],  # ***
@@ -268,17 +269,23 @@ def matchword_levdist(gloss_mapping):
     new_combined_cops = [['cid', '<AUX Polarity=Pos | VerbType=Cop>', 'cid'],
                          ['mad', '<AUX Polarity=Pos | VerbType=Cop>', 'mad'],
                          ['cesu', '<AUX Polarity=Pos | VerbType=Cop>', 'cesu']]
-    # list independant conjunctions (p.247-249) which cannot be combined with enclitic forms of the copula
+    # list independent conjunctions (p.247-249) which cannot be combined with enclitic forms of the copula
     indie_conj = [['amal', '<SCONJ>', 'amal'],
                   ['ar', '<SCONJ>', 'ar'],
                   ['arindí', '<SCONJ>', 'arindi'],
                   ['acht', '<SCONJ>', 'acht'],
                   ['dég', '<SCONJ>', 'deg'],
                   ['ore', '<SCONJ>', 'ore']]
-    # list conjunctions which can combine with enclitic forms of the copula
-    conj_combo_forms = [['ci', '<SCONJ>', 'ci'], ['ma', '<SCONJ>', 'ma'], ['co', '<SCONJ>', 'co'],
-                        ['ce', '<SCONJ>', 'ce'], ['a', '<SCONJ>', 'a'], ['con', '<SCONJ>', 'con'],
-                        ['ara', '<SCONJ>', 'ara'], ['cia', '<SCONJ>', 'cia'], ['che', '<SCONJ>', 'che']]
+    # list conjunctions which can combine with enclitic forms of the copula (not necessarily dependent conjunctions)
+    conj_combo_forms = [['a', '<SCONJ>', 'a'],  # Temporal (independent)
+                        ['ara', '<SCONJ>', 'ara'],  # Consecutive & Final
+                        ['ce', '<SCONJ>', 'ce'],  # Adversative (independent)
+                        ['che', '<SCONJ>', 'che'],
+                        ['ci', '<SCONJ>', 'ci'],
+                        ['cia', '<SCONJ>', 'cia'],
+                        ['co', '<SCONJ>', 'co'],  # Consecutive & Final
+                        ['con', '<SCONJ>', 'con'],
+                        ['ma', '<SCONJ>', 'ma']]  # Conditional (independent)
     neg_conj_combo_forms = [['na', '<SCONJ Polarity=Neg>', 'na'],
                             ['nach', '<SCONJ Polarity=Neg>', 'nach'],
                             ['naich', '<SCONJ Polarity=Neg>', 'naich']]
@@ -568,6 +575,7 @@ def matchword_levdist(gloss_mapping):
                             print(pos_list)
                             raise RuntimeError("No POS preceding enclitic or precombined copula form")
                     # if Bauer combined too many conjunctions/preverbs etc. with a copula and some must be removed
+                    # from the over-full copula form to meet the word-separation standard
                     elif tagged_word_data in over_full_cops:
                         last_pos_place = 1
                         copula_preverbs = list()
@@ -575,12 +583,14 @@ def matchword_levdist(gloss_mapping):
                             if j != 0:
                                 last_pos_data = pos_list[j-last_pos_place]
                                 # find any preverbal particles used within the copula form
-                                if last_pos_data[1] == "<PVP>":
-                                    while last_pos_data[1] == "<PVP>":
+                                split_last_pos = split_pos_feats(last_pos_data[1])
+                                if split_last_pos[0] == "PVP":
+                                    while split_last_pos[0] == "PVP":
                                         copula_preverbs.append(last_pos_data)
                                         last_pos_place += 1
                                         last_pos_data = pos_list[j-last_pos_place]
-                                        if j-last_pos_place == 0 and last_pos_data[1] == "<PVP>":
+                                        split_last_pos = split_pos_feats(last_pos_data[1])
+                                        if j - last_pos_place == 0 and split_last_pos[0] == "PVP":
                                             print(last_pos_data)
                                             print(tagged_word_data)
                                             print([k[0] for k in standard_mapping])
@@ -593,8 +603,14 @@ def matchword_levdist(gloss_mapping):
                         if last_pos_data:
                             last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], \
                                                                      last_pos_data[2]
-                            # attach preverbs to copula form leaving, separating all other POS
+                            split_last_pos = split_pos_feats(last_pos)
+                            last_short_pos = split_last_pos[0]
+                            last_feats = split_last_pos[1]
+                            # if there are preverb(s) preceding an overfull copula form
+                            # they should remain part of the copula, but any preceding POS should be removed
                             if copula_preverbs:
+                                # if the last POS is a combinable conjunction and it is repeated in the copula form
+                                # it should be separated from the copula form leaving only the preverb(s) attached
                                 if last_pos_data in conj_combo_forms and \
                                         last_original == tagged_original[:len(last_original)]:
                                     reduced_copform = [tagged_original[len(last_original):],
@@ -602,23 +618,36 @@ def matchword_levdist(gloss_mapping):
                                                        tagged_standard[len(last_standard):]]
                                     reduced_original = reduced_copform[0]
                                     reduced_standard = reduced_copform[2]
+                                    # as the preverb now potentially makes up part of the copula form, set it as the
+                                    # last POS, change the POS tag from PVP to PART, and add the PartType=Vb feature
+                                    # there should be only one preverb attached to any copula in the St. Gall corpus
                                     if len(copula_preverbs) == 1:
-                                        last_preverb_data = copula_preverbs[-1]
+                                        last_preverb_data = copula_preverbs[0]
                                         last_original, last_pos, last_standard = last_preverb_data[0], \
                                                                                  last_preverb_data[1], \
                                                                                  last_preverb_data[2]
-                                        copula_preverb = [last_original, "<PART>", last_standard]
-                                        if copula_preverb in conjunct_particles:
+                                        last_pos = update_tag(last_pos, 'PART')
+                                        last_pos = add_features(last_pos, ['PartType=Vb'])
+                                        copula_preverb = [last_original, last_pos, last_standard]
+                                        # if the preverb is a full (not reduced) variant spelling of 'ro' or 'no'
+                                        if copula_preverb in verbal_particles:
+                                            # if the preverb is already at the beginning of the reduced copula form
+                                            # remove it to isolate the remaining, pure copula form
                                             if last_original == reduced_original[:len(last_original)]:
                                                 reduced_copform = [reduced_original[len(last_original):],
                                                                    tagged_pos,
                                                                    reduced_standard[len(last_standard):]]
+                                                # if the copula form remaining after removing the preverb is an enclitic
+                                                # recombine it with the preverb and keep the copula's POS information
                                                 if reduced_copform in enclitic_cops:
                                                     final_cop = [[last_original + reduced_copform[0],
                                                                  tagged_pos,
                                                                  last_standard + reduced_copform[2]]]
+                                                # if the copula form remaining after removing the preverb is a full form
+                                                # separate the preverb from the copula form from the preverb
                                                 elif reduced_copform in full_cops:
                                                     final_cop = [copula_preverb] + [reduced_copform]
+                                                # if the copula form is neither a known enclitic nor full form
                                                 else:
                                                     print(tagged_word_data)
                                                     print(copula_preverbs)
@@ -637,45 +666,79 @@ def matchword_levdist(gloss_mapping):
                                             print(tagged_word_data)
                                             print(copula_preverb)
                                             print(last_pos_data)
-                                            raise RuntimeError("Copula preceded by non-conjunct particle")
+                                            raise RuntimeError("Copula preceded unexpected preverb")
                                     else:
                                         print(tagged_word_data)
                                         print(copula_preverbs)
                                         print(last_pos_data)
-                                        raise RuntimeError("Copula preceded by non-conjunct particle")
+                                        raise RuntimeError("Multiple preverbs between copula form and last POS")
+                                # if the last POS is not a combining conjunction, or the last POS is a combinable
+                                # conjunction but is not repeated in the copula form along with preverb(s)
+                                # as the preverb now potentially makes up part of the copula form, set it as the
+                                # last POS, change the POS tag from PVP to PART, and add the PartType=Vb feature
+                                # there should be only one preverb attached to any copula in the St. Gall corpus
                                 elif len(copula_preverbs) == 1:
-                                    last_preverb_data = copula_preverbs[-1]
+                                    last_preverb_data = copula_preverbs[0]
                                     last_original, last_pos, last_standard = last_preverb_data[0], \
                                                                              last_preverb_data[1], last_preverb_data[2]
-                                    copula_preverb = [last_original, "<PART>", last_standard]
-                                    if copula_preverb in conjunct_particles:
+                                    last_pos = update_tag(last_pos, 'PART')
+                                    last_pos = add_features(last_pos, ['PartType=Vb'])
+                                    copula_preverb = [last_original, last_pos, last_standard]
+                                    # if the preverb is a full (not reduced) variant spelling of 'ro' or 'no'
+                                    if copula_preverb in verbal_particles:
+                                        # if the preverb is already at the beginning of the reduced copula form
+                                        # remove it to isolate the remaining, pure copula form
                                         if last_original == tagged_original[:len(last_original)]:
                                             reduced_copform = [tagged_original[len(last_original):],
                                                                tagged_pos,
                                                                tagged_standard[len(last_standard):]]
-                                            cop_with_preverbs = [copula_preverb] + [reduced_copform]
-                                            pos_list = pos_list[:j-last_pos_place+1] + cop_with_preverbs + \
-                                                       pos_list[j+1:]
+                                            # if the copula form remaining after removing the preverb is a full form
+                                            # separate the preverb from the copula form from the preverb
+                                            if reduced_copform in full_cops:
+                                                final_cop = [copula_preverb] + [reduced_copform]
+                                            # if the copula form remaining after removing the preverb is an enclitic
+                                            # recombine it with the preverb and keep the copula's POS information
+                                            elif reduced_copform in enclitic_cops:
+                                                print(tagged_word_data)
+                                                print(reduced_copform)
+                                                print(copula_preverb)
+                                                print(last_pos_data)
+                                                raise RuntimeError("Enclitic copula form following verbal particle")
+                                            # if the copula form is neither a known enclitic nor full form
+                                            else:
+                                                print(tagged_word_data)
+                                                print(reduced_copform)
+                                                print(copula_preverb)
+                                                print(last_pos_data)
+                                                raise RuntimeError("Undknown copula form, cannot split/combine")
+                                            pos_list = pos_list[:j-last_pos_place+1] + final_cop + pos_list[j+1:]
                                             removed_doubles = True
                                             break
+                                        # if the preverb is not present in the copula form
                                         else:
                                             print(tagged_word_data)
                                             print(copula_preverbs)
                                             print(last_pos_data)
                                             raise RuntimeError("Could not separate over-full copula form")
+                                    # if the preverb is not one of the expected verbal particles ('ro' or 'no')
                                     else:
                                         print(tagged_word_data)
                                         print(copula_preverb)
                                         print(last_pos_data)
-                                        raise RuntimeError("Copula preceded by non-conjunct particle")
+                                        raise RuntimeError("Copula preceded by unexpected preverb")
+                                # if there were more than one preverb (not expected preceding a copula in St. Gall)
                                 else:
                                     print(tagged_word_data)
                                     print(copula_preverbs)
                                     print(last_pos_data)
-                                    raise RuntimeError("Could not separate over-full copula form")
-                            elif last_pos in ["<PART Polarity=Neg>", "<SCONJ Polarity=Neg>"] and \
+                                    raise RuntimeError("More preverbs found preceding copula form than expected")
+                            # if there are no preverbs preceding an overfull copula form but the last POS is a negative
+                            # particle which has been infixed within the over-full copula
+                            # remove everything from th copula from, leaving only the base form itself
+                            # change the polarity of the copula to negative
+                            elif last_short_pos == "PART" and "Polarity=Neg" in last_feats and \
                                     last_original in tagged_original:
-                                tagged_pos = "<AUX Polarity=Neg | VerbType=Cop>"
+                                tagged_pos = update_feature(tagged_pos, "Polarity=Neg")
                                 tagged_original = tagged_original[tagged_original.find(last_original) +
                                                                   len(last_original):]
                                 tagged_standard = tagged_standard[tagged_standard.find(last_standard) +
@@ -703,8 +766,11 @@ def matchword_levdist(gloss_mapping):
                                 print(last_pos_data)
                                 print(pos_list)
                                 raise RuntimeError("Could not separate over-full copula form")
+                        elif copula_preverbs:
+                            raise RuntimeError("Preverb(s) preceding over-full copula are first POS in gloss")
                         else:
                             raise RuntimeError("No POS preceding over-full copula form")
+                    # if the copula form is not a known enclitic, combined, full, over-full or negative form
                     elif tagged_word_data not in new_combined_cops:
                         print(tagged_word_data)
                         print([k[0] for k in standard_mapping])
@@ -1103,7 +1169,7 @@ def matchword_levdist(gloss_mapping):
                         if word_an in [['nó', '<CCONJ>', 'no']]:
                             alts_found += 1
                 if missing_count + alts_found != 0:
-                    pvp_no_count = pos_list.count(['no', '<PART>', 'no'])
+                    pvp_no_count = pos_list.count(['no', '<PART PartType=Vb>', 'no'])
                     if missing_count + alts_found + pvp_no_count != 0:
                         print(missing_count, alts_found, pvp_no_count)
                         print([i[0] for i in standard_mapping])
@@ -1789,12 +1855,12 @@ def matchword_levdist(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# # Test edit distance function on all glosses
-# test_on = glosslist
-# for glossnum, gloss in enumerate(test_on):
-#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-#     if check:
-#         print(glossnum, check)
+# Test edit distance function on all glosses
+test_on = glosslist
+for glossnum, gloss in enumerate(test_on):
+    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+    if check:
+        print(glossnum, check)
 
 
 # # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
