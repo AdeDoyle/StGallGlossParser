@@ -1121,15 +1121,20 @@ def clean_analysis(taglist, test_unknown=False):
     # Assign Particles (PART)
     # Assign Negative Particles
     if An1 == 'particle':
-        if An2 in ['negative', 'relative negative', 'negative dependent relative']:
+        if An2 in 'negative':
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "PART Polarity=Neg"
-            elif An3 in ['ar·cuirethar']:
+            elif An3 == 'ar·cuirethar':
                 if not actpas:
                     if not rel:
                         pos = "PART Polarity=Neg"
+        elif An2 in ["relative negative", "negative dependent relative"]:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART Polarity=Neg | PronType=Rel"
     # Assign Interrogative Particles
     if An1 == 'particle':
         if An2 == 'interrrogative':  # Yes, really, three.
