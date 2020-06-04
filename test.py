@@ -224,9 +224,8 @@ def matchword_levdist(gloss_mapping):
     verbal_particles = [['no', '<PART PartType=Vb>', 'no'],
                         ['nu', '<PART PartType=Vb>', 'nu'],
                         ['ro', '<PART PartType=Vb>', 'ro']]
-    # list forms of the copula which have been combined with too many preceding conjugations/particles/pronouns
+    # list forms of the copula which have been combined with too many preceding parts of speech ((2<=) + copula)
     over_full_cops = [['cenid', '<AUX Polarity=Pos | VerbType=Cop>', 'cenid'],
-                      ['cith', '<AUX Polarity=Pos | VerbType=Cop>', 'cith'],  # ***
                       ['cenobed', '<AUX Polarity=Pos | VerbType=Cop>', 'cenobed'],
                       ['corop', '<AUX Polarity=Pos | VerbType=Cop>', 'corop'],
                       ['corob', '<AUX Polarity=Pos | VerbType=Cop>', 'corob'],
@@ -240,6 +239,7 @@ def matchword_levdist(gloss_mapping):
                           ['cheso', '<AUX Polarity=Pos | VerbType=Cop>', 'cheso'],
                           ['ciaso', '<AUX Polarity=Pos | VerbType=Cop>', 'ciaso'],
                           ['cit', '<AUX Polarity=Pos | VerbType=Cop>', 'cit'],
+                          ['cith', '<AUX Polarity=Pos | VerbType=Cop>', 'cith'],
                           ['combed', '<AUX Polarity=Pos | VerbType=Cop>', 'combed'],
                           ['conid', '<AUX Polarity=Pos | VerbType=Cop>', 'conid'],
                           ['comtis', '<AUX Polarity=Pos | VerbType=Cop>', 'comtis'],
@@ -295,7 +295,7 @@ def matchword_levdist(gloss_mapping):
                             ['in', '<PART PronType=Int>', 'in'],
                             ['a', '<PART PartType=Vb | PronType=Rel>', 'a']]
     # list pronouns which can combine with enclitic forms of the copula
-    pron_combo_forms = [['c', '<PRON PronType=Int>', 'c'],
+    combo_pron_forms = [['c', '<PRON PronType=Int>', 'c'],
                         ['ce', '<PRON PronType=Int>', 'ce'],
                         ['ced', '<PRON PronType=Int>', 'ced'],
                         ['ci', '<PRON PronType=Int>', 'ci'],
@@ -368,7 +368,7 @@ def matchword_levdist(gloss_mapping):
                             break
                         # if the last POS is an interrogative pronoun
                         # delete the empty copula as it does not change the form of the preceding POS
-                        elif last_pos_data in pron_combo_forms and 'PronType=Int' in last_feats:
+                        elif last_pos_data in combo_pron_forms and 'PronType=Int' in last_feats:
                             del pos_list[j]
                             removed_doubles = True
                             break
@@ -479,7 +479,7 @@ def matchword_levdist(gloss_mapping):
                             # if an enclitic or precombined copula form is preceded by something other than a preverb
                             # which is capable of combining with it, and not negative
                             if last_pos_data not in indie_conj \
-                                    and (last_pos_data in particle_combo_forms or last_pos_data in pron_combo_forms
+                                    and (last_pos_data in particle_combo_forms or last_pos_data in combo_pron_forms
                                          or (last_short_pos == 'SCONJ' and 'Polarity=Neg' not in last_feats)
                                          or last_short_pos == 'ADP'):
                                 # if the preceding POS is a dependent conjunction or a particle
@@ -510,7 +510,7 @@ def matchword_levdist(gloss_mapping):
                                         print(tagged_word_data)
                                         raise RuntimeError("Unknown form of copula, cannot combine if not enclitic")
                                 # if the preceding POS is a pronoun
-                                elif last_pos_data in pron_combo_forms:
+                                elif last_pos_data in combo_pron_forms:
                                     combined_pos = add_features(last_pos, tagged_feats)
                                     cop_combo = [last_original + tagged_original,
                                                  combined_pos,
@@ -747,27 +747,16 @@ def matchword_levdist(gloss_mapping):
                                 pos_list = pos_list[:j] + [reduced_copform] + pos_list[j+1:]
                                 removed_doubles = True
                                 break
-                            elif last_pos_data in conj_combo_forms and \
-                                    last_original == tagged_original[:len(last_original)]:
-                                reduced_copform = [tagged_original[len(last_original):],
-                                                   tagged_pos,
-                                                   tagged_standard[len(last_standard):]]
-                                if reduced_copform in enclitic_cops:
-                                    del pos_list[j-last_pos_place]
-                                    removed_doubles = True
-                                    break
-                                else:
-                                    print(tagged_word_data)
-                                    print(reduced_copform)
-                                    print(last_pos_data)
-                                    raise RuntimeError("Could not separate over-full copula form")
+                            # if there are any unaccounted for over-full copula forms remaining
                             else:
                                 print(tagged_word_data)
                                 print(last_pos_data)
                                 print(pos_list)
                                 raise RuntimeError("Could not separate over-full copula form")
+                        # if there are preverbs but no preceding POS
                         elif copula_preverbs:
                             raise RuntimeError("Preverb(s) preceding over-full copula are first POS in gloss")
+                        # if nothing precedes the over-full copula form
                         else:
                             raise RuntimeError("No POS preceding over-full copula form")
                     # if the copula form is not a known enclitic, combined, full, over-full or negative form
@@ -784,12 +773,14 @@ def matchword_levdist(gloss_mapping):
                         if j != 0:
                             last_pos_data = pos_list[j - last_pos_place]
                             # find any preverbal particles used within the copula form
-                            if last_pos_data[1] == "<PVP>":
-                                while last_pos_data[1] == "<PVP>":
+                            split_last_pos = split_pos_feats(last_pos_data[1])
+                            if split_last_pos[0] == "PVP":
+                                while split_last_pos[0] == "PVP":
                                     copula_preverbs.append(last_pos_data)
                                     last_pos_place += 1
                                     last_pos_data = pos_list[j - last_pos_place]
-                                    if j - last_pos_place == 0 and last_pos_data[1] == "<PVP>":
+                                    split_last_pos = split_pos_feats(last_pos_data[1])
+                                    if j - last_pos_place == 0 and split_last_pos[0] == "PVP":
                                         print(last_pos_data)
                                         print(tagged_word_data)
                                         print([k[0] for k in standard_mapping])
@@ -799,22 +790,29 @@ def matchword_levdist(gloss_mapping):
                             last_pos_data = False
                     except IndexError:
                         last_pos_data = False
+                    # there should be no preverbs before an absolute or otherwise full form of the copula
                     if copula_preverbs:
                         print(tagged_word_data)
                         print(copula_preverbs)
                         print(last_pos_data)
                         raise RuntimeError("Preverbs found before absolute copula form")
+                    # if there is a POS before the full copula form
                     elif last_pos_data:
                         last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
-                        if last_pos == "<SCONJ>":
+                        split_last_pos = split_pos_feats(last_pos)
+                        last_short_pos = split_last_pos[0]
+                        # if the last POS before the full copula form is a conjunction
+                        if last_short_pos == "SCONJ":
+                            # if the last POS is not an independent conjunction (as would be expected)
                             if last_pos_data in conj_combo_forms or last_pos_data not in indie_conj:
                                 print(tagged_word_data)
                                 print(last_pos_data)
                                 raise RuntimeError("Unexpected conjunction found before absolute copula form")
-                            elif last_pos_data in particle_combo_forms:
-                                print(tagged_word_data)
-                                print(last_pos_data)
-                                raise RuntimeError("Unexpected POS found before absolute copula form")
+                        # if the last POS before the full copula form is any other combinable type
+                        elif last_pos_data in particle_combo_forms or last_pos_data in combo_pron_forms:
+                            print(tagged_word_data)
+                            print(last_pos_data)
+                            raise RuntimeError("Unexpected POS found before absolute copula form")
     # remove doubled 'ní' particle before negative form of the copula, also 'ní'
     # list all copula forms which are negative, or can be combined with negative particles
     full_neg_list = [['in', '<AUX Polarity=Neg | VerbType=Cop>', 'in'],  # Typo
