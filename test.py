@@ -107,7 +107,8 @@ def matchword_levdist(gloss_mapping):
         raise RuntimeError("No mapping of tokens to their standard forms has been created for Hofman's gloss.")
     # if any token in the 'token-to-standardised-token mapping' list is a known triple combination
     # which is not accounted for by Bauer's analysis, split it into parts
-    trip_toks = ["anisin", "anísin", "anisiu", "anísiu", "dindí", "dindhí", "dondí", "donaib-hí",
+    trip_toks = ["airindi", "airindí", "arindi", "arindí", "anisin", "anísin", "anisiu", "anísiu",
+                 "dindí", "dindhí", "dondí", "donaib-hí",
                  "Manidecamar", "manubed"]
     mapping_copy = list()
     trips_found = False
@@ -118,7 +119,11 @@ def matchword_levdist(gloss_mapping):
             match_standard = token_match[1]
             match_place = token_match[2]
             new_split = False
-            if match_standard in ["anisin", "anisiu"]:
+            if match_standard in ["airindi", "arindi"]:
+                new_split = [(match_original[:-4], match_standard[:-4], match_place),
+                             (match_original[-4:-1], match_standard[-4:-1], match_place),
+                             (match_original[-1:], match_standard[-1:], match_place)]
+            elif match_standard in ["anisin", "anisiu"]:
                 new_split = [(match_original[:1], match_standard[:1], match_place),
                              (match_original[1:3], match_standard[1:3], match_place),
                              (match_original[3:], match_standard[3:], match_place)]
@@ -1098,22 +1103,23 @@ def matchword_levdist(gloss_mapping):
                             print([i[0] for i in standard_mapping])
                             print([i[0] for i in pos_list])
                             raise RuntimeError("Compound word form in gloss, but not following separate parts")
-    # remove doubled 'ar', 'ind', and 'í' breakdown of conjunction, 'arindí'
-    arindi_list = ["airindí", "airindi", "arindí", "arindi"]
-    arindi_standards = ["airindi", "arindi"]
-    # count the instances of the word in the gloss
+    # remove combined conjunction, 'arindí', where it doubles the breakdown, 'ar', 'ind', and 'í'
+    arindi_list = [['airindi', '<SCONJ>', 'airindi'],
+                   ['airindí', '<SCONJ>', 'airindi'],
+                   ['arindi', '<SCONJ>', 'arindi'],
+                   ['arindí', '<SCONJ>', 'arindi']]
     arindi_count = 0
     for tagged_word_data in pos_list:
-        if tagged_word_data[0] in arindi_list and tagged_word_data[2] in arindi_standards:
+        if tagged_word_data in arindi_list:
             arindi_count += 1
     for i in range(arindi_count):
         for j, tagged_word_data in enumerate(pos_list):
-            tagged_original, tagged_pos, tagged_standard = tagged_word_data[0], tagged_word_data[1], tagged_word_data[2]
-            if tagged_original in arindi_list and tagged_pos == "<SCONJ>" and tagged_standard in arindi_standards:
+            if tagged_word_data in arindi_list:
+                last_pos_data = False
                 try:
                     last_pos_data = pos_list[j-1]
                 except IndexError:
-                    last_pos_data = False
+                    raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
                 if last_pos_data:
                     last_three_pos = pos_list[j-3:j]
                     if last_three_pos in [[['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar'],
@@ -1128,16 +1134,16 @@ def matchword_levdist(gloss_mapping):
                                           [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air'],
                                            ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['i', '<PART>', 'i']]]:
-                        pos_list = pos_list[:j-3] + pos_list[j:]
+                        del pos_list[j]
                         removed_doubles = True
-                    elif arindi_count != 2:
-                        raise RuntimeError("Unexpected variant part detected")
+                    else:
+                        raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
     # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
     olchena_list = [['olchene', '<ADV>', 'olchene'],
-                       ['olchenae', '<ADV>', 'olchenae'],
-                       ['olchenæ', '<ADV>', 'olchenae'],
-                       ['olchaenae', '<ADV>', 'olchaenae'],
-                       ['olchænae', '<ADV>', 'olchaenae']]
+                    ['olchenae', '<ADV>', 'olchenae'],
+                    ['olchenæ', '<ADV>', 'olchenae'],
+                    ['olchaenae', '<ADV>', 'olchaenae'],
+                    ['olchænae', '<ADV>', 'olchaenae']]
     # count the instances of the word in the gloss
     olchena_count = 0
     for tagged_word_data in pos_list:
@@ -1914,12 +1920,12 @@ def matchword_levdist(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# # Test edit distance function on all glosses
-# test_on = glosslist
-# for glossnum, gloss in enumerate(test_on):
-#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-#     if check:
-#         print(glossnum, check)
+# Test edit distance function on all glosses
+test_on = glosslist
+for glossnum, gloss in enumerate(test_on):
+    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+    if check:
+        print(glossnum, check)
 
 
 # # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
