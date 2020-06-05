@@ -165,8 +165,16 @@ def matchword_levdist(gloss_mapping):
         if "-" in tagged_word and len(tagged_word) > 1:
             tagged_word_data[0] = "".join(tagged_word.split("-"))
         pos_list[i] = tagged_word_data + [standardise_wordchars(tagged_word_data[0])]
+
+    #                                                PART 2.1:
+    #
     # check standardised pos-tagged words against a list of known duplicates and problem words, remove as necessary
-    removed_doubles = False
+    combine_subtract = False
+
+    #                                               PART 2.1.0:
+    #
+    #                                                 COPULA
+    #
     # remove doubled dependent conjunctions/particles before the copula, or add to the copula if not doubled
     # cf. Thurn 503, 546-563 Stifter 247-249, 386
     # list all enclitic forms of the copula
@@ -370,20 +378,20 @@ def matchword_levdist(gloss_mapping):
                         # delete the empty copula as it does not change the form of the preceding POS
                         if last_pos_data in particle_combo_forms:
                             del pos_list[j]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if the last POS is an interrogative pronoun
                         # delete the empty copula as it does not change the form of the preceding POS
                         elif last_pos_data in combo_pron_forms and 'PronType=Int' in last_feats:
                             del pos_list[j]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # fix polarity of negative copula forms reduced to zero which are listed as positive by Bauer
                         elif last_pos_data in neg_conj_combo_forms:
                             neg_pos = update_feature(tagged_pos, "Polarity=Neg")
                             tagged_word_data = [tagged_original, neg_pos, tagged_standard]
                             pos_list[j] = tagged_word_data
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         else:
                             print(tagged_word_data)
@@ -401,7 +409,7 @@ def matchword_levdist(gloss_mapping):
                     neg_pos = update_feature(tagged_pos, "Polarity=Neg")
                     tagged_word_data = [tagged_original, neg_pos, tagged_standard]
                     pos_list[j] = tagged_word_data
-                    removed_doubles = True
+                    combine_subtract = True
                     break
                 # if an enclitic or precombined form of the copula is used
                 if tagged_word_data not in full_cops:
@@ -449,7 +457,7 @@ def matchword_levdist(gloss_mapping):
                                                      tagged_pos,
                                                      pvp_standard + tagged_standard]
                                         pos_list = pos_list[:j-last_pos_place+1] + [cop_combo] + pos_list[j+1:]
-                                        removed_doubles = True
+                                        combine_subtract = True
                                         break
                                     # if preverb(s) are repeated in copula form
                                     else:
@@ -470,12 +478,12 @@ def matchword_levdist(gloss_mapping):
                                                      tagged_pos,
                                                      pvp_standard + tagged_standard]
                                         pos_list = pos_list[:j-last_pos_place+1] + [cop_combo] + pos_list[j+1:]
-                                        removed_doubles = True
+                                        combine_subtract = True
                                         break
                                     # if preverb(s) are repeated in copula form, remove preverb(s) from pos-list
                                     else:
                                         del pos_list[j-1]
-                                        removed_doubles = True
+                                        combine_subtract = True
                                         break
                                 else:
                                     print(tagged_word_data)
@@ -497,7 +505,7 @@ def matchword_levdist(gloss_mapping):
                                         combined_pos = add_features(last_pos, tagged_feats)
                                         cop_combo = [tagged_original, combined_pos, tagged_standard]
                                         pos_list = pos_list[:j-last_pos_place] + [cop_combo] + pos_list[j+1:]
-                                        removed_doubles = True
+                                        combine_subtract = True
                                         break
                                     # if the conjunction/particle needs to be combined with an enclitic copula form
                                     # combine the copula's features with those of the conjunction
@@ -508,7 +516,7 @@ def matchword_levdist(gloss_mapping):
                                                      combined_pos,
                                                      last_standard + tagged_standard]
                                         pos_list = pos_list[:j-last_pos_place] + [cop_combo] + pos_list[j+1:]
-                                        removed_doubles = True
+                                        combine_subtract = True
                                         break
                                     # if the copula form is not enclitic, or otherwise cannot be combined
                                     else:
@@ -522,14 +530,14 @@ def matchword_levdist(gloss_mapping):
                                                  combined_pos,
                                                  last_standard + tagged_standard]
                                     pos_list = pos_list[:j-last_pos_place] + [cop_combo] + pos_list[j+1:]
-                                    removed_doubles = True
+                                    combine_subtract = True
                                     break
                                 # if the preceding POS is a preposition
                                 elif last_short_pos == "ADP" and tagged_word_data in combined_cop_forms:
                                     combined_pos = add_features(last_pos, tagged_feats)
                                     cop_combo = [tagged_original, combined_pos, tagged_standard]
                                     pos_list = pos_list[:j-last_pos_place] + [cop_combo] + pos_list[j+1:]
-                                    removed_doubles = True
+                                    combine_subtract = True
                                     break
                                 # if there is an unexpected POS preceding the enclitic copula form
                                 else:
@@ -661,7 +669,7 @@ def matchword_levdist(gloss_mapping):
                                                     print(reduced_copform)
                                                     raise RuntimeError("Undetermined copula form, cannot combine")
                                                 pos_list = pos_list[:j-last_pos_place+1] + final_cop + pos_list[j+1:]
-                                                removed_doubles = True
+                                                combine_subtract = True
                                                 break
                                             else:
                                                 print(tagged_word_data)
@@ -718,7 +726,7 @@ def matchword_levdist(gloss_mapping):
                                                 print(last_pos_data)
                                                 raise RuntimeError("Undknown copula form, cannot split/combine")
                                             pos_list = pos_list[:j-last_pos_place+1] + final_cop + pos_list[j+1:]
-                                            removed_doubles = True
+                                            combine_subtract = True
                                             break
                                         # if the preverb is not present in the copula form
                                         else:
@@ -751,7 +759,7 @@ def matchword_levdist(gloss_mapping):
                                                                   len(last_standard):]
                                 reduced_copform = [tagged_original, tagged_pos, tagged_standard]
                                 pos_list = pos_list[:j] + [reduced_copform] + pos_list[j+1:]
-                                removed_doubles = True
+                                combine_subtract = True
                                 break
                             # if there are any unaccounted for over-full copula forms remaining
                             else:
@@ -950,13 +958,13 @@ def matchword_levdist(gloss_mapping):
                         # delete the negative particle from the POS list
                         if tagged_original == last_original and tagged_standard == last_standard:
                             del pos_list[j-last_pos_place]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if the last POS is repeated at the beginning of the copula form
                         # delete the negative particle from the POS list
                         elif last_original == tagged_original[:len(last_original)]:
                             del pos_list[j-last_pos_place]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if the last POS (neg. part.) is not a t the beginning of the copula form as expected
                         elif last_original in tagged_original and last_standard in tagged_standard:
@@ -967,7 +975,7 @@ def matchword_levdist(gloss_mapping):
                             tagged_pos = add_features(tagged_pos, last_feats)
                             new_neg_cop = [last_original + tagged_original, tagged_pos, last_standard + tagged_standard]
                             pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if the last POS is not a known negative particle
                         else:
@@ -982,12 +990,12 @@ def matchword_levdist(gloss_mapping):
                         # if the last POS is a known negative conjunction delete the copula form
                         if last_pos_data in neg_conjunctions:
                             del pos_list[j]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if the last POS is a known negative interogative pronoun delete the copula form
                         elif last_pos_data in neg_int_pronouns:
                             del pos_list[j]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if something other than the expected negative parts of speech precede the copula form
                         else:
@@ -1013,7 +1021,7 @@ def matchword_levdist(gloss_mapping):
                                            combined_pos,
                                            last_standard + tagged_standard]
                             pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
                         # if any other type of POS precedes the enclitic negative copula form
                         else:
@@ -1029,6 +1037,23 @@ def matchword_levdist(gloss_mapping):
                         print([k[0] for k in standard_mapping])
                         print([k[0] for k in pos_list])
                         raise RuntimeError("Last POS not negative particle")
+
+    #                                               PART 2.1.1:
+    #
+    #                                                 VERBS
+    #
+    #
+
+    #                                               PART 2.1.2:
+    #
+    #                                                ARTICLE
+    #
+    # combine compounded articles with preceding prepositions
+
+    #                                               PART 2.1.3:
+    #
+    #                                                  MISC
+    #
     # remove doubled compounds of prefixed particles and nouns/adjectives following the two individually
     prepart_list = [['áer', '<PART Prefix=Yes>', 'aer'],
                     ['am', '<PART Prefix=Yes>', 'am'],
@@ -1115,7 +1140,6 @@ def matchword_levdist(gloss_mapping):
     for i in range(arindi_count):
         for j, tagged_word_data in enumerate(pos_list):
             if tagged_word_data in arindi_list:
-                last_pos_data = False
                 try:
                     last_pos_data = pos_list[j-1]
                 except IndexError:
@@ -1135,10 +1159,11 @@ def matchword_levdist(gloss_mapping):
                                            ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['i', '<PART>', 'i']]]:
                         del pos_list[j]
-                        removed_doubles = True
+                        combine_subtract = True
                     else:
                         raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
     # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
+    # cf. eDIL entries for 'olchena' and '1 ol, (al)' vs. entries for 'arindí' and '1 ar'
     olchena_list = [['olchene', '<ADV>', 'olchene'],
                     ['olchenae', '<ADV>', 'olchenae'],
                     ['olchenæ', '<ADV>', 'olchenae'],
@@ -1168,40 +1193,30 @@ def matchword_levdist(gloss_mapping):
                                   ['chænae', '<PRON PronType=Prs>', 'chaenae']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol'],
                                   ['chaenae', '<PRON PronType=Prs>', 'chaenae']]]
+                # find the two POS preceding and following the combined form, if there are two
                 if last_pos_data:
+                    # check if the preceding two POS make up the combined form and delete them if so
                     if last_two_pos in olchena_parts:
                         pos_list = pos_list[:j-2] + pos_list[j:]
-                        removed_doubles = True
+                        combine_subtract = True
                         break
+                    # if the preceding two POS did not make up the combined form, check the following two instead
                     elif next_pos_data:
                         if next_two_pos in olchena_parts:
                             pos_list = pos_list[:j+1] + pos_list[j+3:]
-                            removed_doubles = True
+                            combine_subtract = True
                             break
-                    else:
-                        if last_pos_data:
-                            print(last_two_pos)
-                        if next_pos_data:
-                            print(next_two_pos)
-                        print([k[0] for k in pos_list])
-                        raise RuntimeError("Could not find doubled parts of word to remove")
-                elif next_pos_data:
-                    if next_two_pos in olchena_parts:
-                        print(next_two_pos)
-                        print(pos_list)
-                        pos_list = pos_list[:j+1] + pos_list[j+3:]
-                        removed_doubles = True
-                        print(pos_list)
-                        raise RuntimeError("Check")
                 else:
-                    if last_pos_data:
-                        print(last_two_pos)
-                    if next_pos_data:
-                        print(next_two_pos)
-                    print([k[0] for k in pos_list])
                     raise RuntimeError("Could not find doubled parts of word to remove")
-    if removed_doubles:
+
+    #                                             PART 2.1 (reprise):
+    #
+    # update rating to show gloss has had content combined or removed
+    if combine_subtract:
         tags_rating += 1
+
+    #                                                PART 2.2:
+    #
     # if Bauer has analysed an instance of 'ɫ' but Hofman has expanded it as latin 'vel', revert it to 'ɫ' and tag
     i_count = False
     # if there's any instance of 'ɫ' in Bauer's analysis, count how many there are in the analysis
