@@ -275,6 +275,36 @@ def clean_analysis(taglist, test_unknown=False):
                    'f, i (?)', 'f, i, ī', 'f, i and n', 'f, i, later also k', 'f, n (?)',
                    'gender not attested in OIr.', 'gender unknown, i-stem', 'uncertain gender',
                    'unknown declension', 'irregular']:
+            # # gender is a lexical property which does not change the morphology of an individual noun
+            # # hence it should not be included in UD features
+            # # the code below will isolate certain m, n, and f nouns from uncertain gender nouns however
+            # # in case this information is of use later
+            # gendpat = re.compile(r'(^[mnf](,|$| (and|or) \w))')
+            # gendpatiter = gendpat.finditer(An2)
+            # gender = False
+            # for gend in gendpatiter:
+            #     gender = gend.group()
+            #     if any(separator in gender for separator in ['and', 'or']):
+            #         gender = "unclear"
+            #     elif len(gender) == 2:
+            #         gender = gender[:1]
+            #     elif len(gender) != 1:
+            #         raise RuntimeError("Unexpecged Noun Gender")
+            # if not gender:
+            #     unknown_genders = ["gender not attested in OIr.", "irregular", "uncertain gender", "unknown declension",
+            #                        "gender unknown, i-stem", "o (gender uncertain)",
+            #                        "i", "i̯o", "n (?), o", "o", "o (?)", "u (?)",
+            #                        "m u (?)", "[n] ?"]
+            #     if An2 in unknown_genders:
+            #         gender = "unclear"
+            #     else:
+            #         gendpat = re.compile(r'\[[mfn]\]?(, | )')
+            #         gendpatiter = gendpat.finditer(An2)
+            #         for gend in gendpatiter:
+            #             gender = gend.group()
+            #             gender = gender[1]
+            # if gender:
+            #     print(gender)
             if An3 in ['nom.sg.', 'nom.sg.masc.',
                        'voc.sg.',
                        'acc.sg.',
@@ -286,57 +316,98 @@ def clean_analysis(taglist, test_unknown=False):
                        'gen.pl.',
                        'dat.pl.',
                        'nom.du.', 'acc.du.', 'gen.du.', 'dat.du.',
-                       'acc.sg./acc.sg.', 'acc./dat.sg.',
+                       'acc./dat.sg.',
                        'nom.sg.neut.', 'nom.sg.fem.',
                        'gen.sg.neut.',
                        'dat.sg.neut.',
                        'gen.pl.fem.',
                        'composition form']:
+                if An3 == 'acc./dat.sg.':
+                    An3 = 'dat.sg.'
+                casepat = re.compile(r'(nom|voc|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                numdict = {'.sg.': 'Sing', '.du.': 'Dual', '.pl.': 'Plur'}
+                numpat = re.compile(r'\.(sg|du|pl)\.')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
+                if An3 == 'composition form':
+                    features = 'Prefix=Yes'
+                elif case and number:
+                    features = f'Case={case.capitalize()[:-1]} | Number={numdict.get(number)}'
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = f'NOUN {features}'
             elif not An3:
                 if not actpas:
                     if not rel:
                         pos = "NOUN"
     if An1 == 'noun and adjective':
         if An2 in ['o, ā', 'i']:
-            if An3 in ['nom.sg.neut.', 'acc.sg.',
-                       'nom.pl.']:
+            if An3 in ['nom.sg.neut.', 'acc.sg.', 'nom.pl.']:
+                casepat = re.compile(r'(nom|acc)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                numdict = {'.sg.': 'Sing', '.pl.': 'Plur'}
+                numpat = re.compile(r'\.(sg|pl)\.')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
+                features = f'Case={case.capitalize()[:-1]} | Number={numdict.get(number)}'
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = f'NOUN {features}'
         elif not An2:
             if An3 in ['nom.sg.fem.']:
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = "NOUN Case=Nom | Number=Sing"
     if An1 == 'adjective':
         if An2 == 'u':
             if An3 in ['nom.sg.', 'nom.sg.neut.', 'dat.sg.']:
+                casepat = re.compile(r'(nom|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
                 if not actpas:
                     if not rel:
                         if "as noun:" in trans:
-                            pos = "NOUN"
+                            pos = f'NOUN Case={case.capitalize()[:-1]} | Number=Sing'
 
-    # Assign Proper Nouns (NOUN)
+    # Assign Proper Nouns (PROPN)
     if An1 == 'noun, proper':
         if not An2:
             if An3 in ['nom.sg.', 'voc.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.']:
+                casepat = re.compile(r'(nom|voc|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = f'PROPN {case.capitalize()[:-1]} | Number=Sing'
         elif An2 in ['m, i̯o', 'f, i']:
             if An3 in ['nom.sg.masc.', 'gen.sg.', 'nom.pl.']:
+                casepat = re.compile(r'(nom|gen)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                numdict = {'.sg.': 'Sing', '.pl.': 'Plur'}
+                numpat = re.compile(r'\.(sg|pl)\.')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = f'PROPN {case.capitalize()[:-1]} | Number={numdict.get(number)}'
     if An1 == 'noun, proper':
         if not An2:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "NOUN"
+                        pos = "PROPN"
 
     # Assign Pronouns (PRON)
     # Personal Pronouns
@@ -539,9 +610,10 @@ def clean_analysis(taglist, test_unknown=False):
     #                                        ARTICLES & DETERMINERS
     # Assign Articles (DET)
     gend_dict = {"m": "Masc", "n": "Neut", "fem": "Fem"}
-    num_dict = {"sg": "Sing", "pl": "Plur", "du": "Dual"}
+    numdict = {'.sg.': 'Sing', '.du.': 'Dual', '.pl.': 'Plur'}
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
+            gender = gend_dict.get(An2)
             if An3 in ['nom.sg.', 'nom.sg', 'nom.sg. + í 1',
                        'acc.sg.', 'acc.',
                        'gen.sg.', 'gen.sg. + í 1',
@@ -550,14 +622,27 @@ def clean_analysis(taglist, test_unknown=False):
                        'acc.pl.',
                        'gen.pl.', 'gen.pl. + í 1',
                        'nom.du.', 'acc.du.', 'gen.du.']:
+                casepat = re.compile(r'(nom|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                numpat = re.compile(r'\.(sg|du|pl)\.?')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
+                    if number[-1] != ".":
+                        number = number + "."
+                    number = numdict.get(number)
                 if not actpas:
                     if not rel:
-                        pos = "DET Case={} | Gender={}".format(An3[:3].capitalize(), gend_dict.get(An2))
-                        if An3[4:6]:
-                            pos = " | ".join([pos, "Number={}".format(num_dict.get(An3[4:6]))])
+                        try:
+                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender} | Number={number}'
+                        except UnboundLocalError:
+                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender}'
     # Assign Pronominal Articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
+            gender = gend_dict.get(An2)
             if An3 in ['acc.sg. + ar 1',
                        'acc.pl. + fo 1',
                        'acc.sg. + for 1', 'acc.pl. + for 1',
@@ -577,10 +662,20 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg. + íar 1',
                        'dat.sg. + ó 1', 'dat.pl. + ó 1',
                        'dat.sg. + oc', 'dat.pl. + oc']:
+                casepat = re.compile(r'(nom|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                numpat = re.compile(r'\.(sg|du|pl)[. ]')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    numcheck = find_num.group()
+                    if numcheck[-1] == " ":
+                        numcheck = numcheck[:-1] + "."
+                    number = numdict.get(numcheck)
                 if not actpas:
                     if not rel:
-                        pos = "DET Case={} | Gender={} | Number={}" \
-                              "".format(An3[:3].capitalize(), gend_dict.get(An2), num_dict.get(An3[4:6]))
+                        pos = f'DET AdpType=Prep | Case={case.capitalize()[:-1]} | Gender={gender} | Number={number}'
 
     #                                             ADJECTIVES
     # Assign Adjectives (ADJ)

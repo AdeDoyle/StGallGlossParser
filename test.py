@@ -1042,7 +1042,7 @@ def matchword_levdist(gloss_mapping):
     #
     #                                                 VERBS
     #
-    #
+    # remove doubled particles, etc. before verbs, or add to the verb if not doubled
 
     #                                               PART 2.1.2:
     #
@@ -1147,20 +1147,23 @@ def matchword_levdist(gloss_mapping):
                 if last_pos_data:
                     last_three_pos = pos_list[j-3:j]
                     if last_three_pos in [[['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar'],
-                                           ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['í', '<PART>', 'i']],
                                           [['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar'],
-                                           ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['i', '<PART>', 'i']],
                                           [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air'],
-                                           ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['í', '<PART>', 'i']],
                                           [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air'],
-                                           ['ind', '<DET Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
                                            ['i', '<PART>', 'i']]]:
                         del pos_list[j]
                         combine_subtract = True
                     else:
+                        print(last_three_pos)
+                        print([i[0] for i in pos_list])
+                        print([i[0] for i in standard_mapping])
                         raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
     # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
     # cf. eDIL entries for 'olchena' and '1 ol, (al)' vs. entries for 'arindí' and '1 ar'
@@ -1935,12 +1938,12 @@ def matchword_levdist(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# Test edit distance function on all glosses
-test_on = glosslist
-for glossnum, gloss in enumerate(test_on):
-    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-    if check:
-        print(glossnum, check)
+# # Test edit distance function on all glosses
+# test_on = glosslist
+# for glossnum, gloss in enumerate(test_on):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+#     if check:
+#         print(glossnum, check)
 
 
 # # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
