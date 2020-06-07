@@ -324,15 +324,18 @@ def clean_analysis(taglist, test_unknown=False):
                        'composition form']:
                 if An3 == 'acc./dat.sg.':
                     An3 = 'dat.sg.'
+                case = False
                 casepat = re.compile(r'(nom|voc|acc|gen|dat)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
                     case = find_case.group()
+                number = False
                 numdict = {'.sg.': 'Sing', '.du.': 'Dual', '.pl.': 'Plur'}
                 numpat = re.compile(r'\.(sg|du|pl)\.')
                 numpatiter = numpat.finditer(An3)
                 for find_num in numpatiter:
                     number = find_num.group()
+                features = False
                 if An3 == 'composition form':
                     features = 'Prefix=Yes'
                 elif case and number:
@@ -347,10 +350,12 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'noun and adjective':
         if An2 in ['o, ā', 'i']:
             if An3 in ['nom.sg.neut.', 'acc.sg.', 'nom.pl.']:
+                case = False
                 casepat = re.compile(r'(nom|acc)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
                     case = find_case.group()
+                number = False
                 numdict = {'.sg.': 'Sing', '.pl.': 'Plur'}
                 numpat = re.compile(r'\.(sg|pl)\.')
                 numpatiter = numpat.finditer(An3)
@@ -368,6 +373,7 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'adjective':
         if An2 == 'u':
             if An3 in ['nom.sg.', 'nom.sg.neut.', 'dat.sg.']:
+                case = False
                 casepat = re.compile(r'(nom|dat)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
@@ -381,6 +387,7 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'noun, proper':
         if not An2:
             if An3 in ['nom.sg.', 'voc.sg.', 'acc.sg.', 'gen.sg.', 'dat.sg.']:
+                case = False
                 casepat = re.compile(r'(nom|voc|acc|gen|dat)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
@@ -390,10 +397,12 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = f'PROPN {case.capitalize()[:-1]} | Number=Sing'
         elif An2 in ['m, i̯o', 'f, i']:
             if An3 in ['nom.sg.masc.', 'gen.sg.', 'nom.pl.']:
+                case = False
                 casepat = re.compile(r'(nom|gen)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
                     case = find_case.group()
+                number = False
                 numdict = {'.sg.': 'Sing', '.pl.': 'Plur'}
                 numpat = re.compile(r'\.(sg|pl)\.')
                 numpatiter = numpat.finditer(An3)
@@ -622,10 +631,12 @@ def clean_analysis(taglist, test_unknown=False):
                        'acc.pl.',
                        'gen.pl.', 'gen.pl. + í 1',
                        'nom.du.', 'acc.du.', 'gen.du.']:
+                case = False
                 casepat = re.compile(r'(nom|acc|gen|dat)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
                     case = find_case.group()
+                number = False
                 numpat = re.compile(r'\.(sg|du|pl)\.?')
                 numpatiter = numpat.finditer(An3)
                 for find_num in numpatiter:
@@ -662,10 +673,12 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg. + íar 1',
                        'dat.sg. + ó 1', 'dat.pl. + ó 1',
                        'dat.sg. + oc', 'dat.pl. + oc']:
+                case = False
                 casepat = re.compile(r'(nom|acc|gen|dat)\.')
                 casepatiter = casepat.finditer(An3)
                 for find_case in casepatiter:
                     case = find_case.group()
+                number = False
                 numpat = re.compile(r'\.(sg|du|pl)[. ]')
                 numpatiter = numpat.finditer(An3)
                 for find_num in numpatiter:
@@ -843,9 +856,15 @@ def clean_analysis(taglist, test_unknown=False):
                            '3pl.imperf. + infix.pron. Class C 3pl.',
                            'pass pres ind 3sg + infix pron Class B 1sg',
                            'sec fut 3sg + infix pron Class C 3sg nt']
+    tensedict = {'cons.pres.': 'Pres', 'pres.': 'Pres',
+                 'past.': 'Past', 'perf.': 'Past', 'pret.': 'Past', 'imperf.': 'Past',
+                 'fut.': 'Fut', 'sec.fut.': 'Fut'}
+    numdict = {'pl.': 'Plur', 'sg.': 'Sing'}
+    mooddict = {'cond.': 'Cnd', 'sec.fut.': 'Cnd', 'impv.': 'Imp', 'ind.': 'Ind', 'subj.': 'Sub'}
+    aspdict = {'cons.pres.': 'Hab', 'imperf.': 'Imp', 'perf.': 'Perf'}
     # Substantive Verb
     if An1 == 'verb':
-        if An2 in ['substantive verb', 'substantive verb (compound)']:
+        if An2 == 'substantive verb':
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
@@ -860,33 +879,58 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "VERB"
     # Copula
         elif An2 == 'copula':
-            polar = "Pos"
+            polarity = "Pos"
             if trans and "negative" in trans:
-                polar = "Neg"
+                polarity = "Neg"
             if An3 in verb_tensepers:
+                number = False
+                person = False
+                persnumpat = re.compile(r'\d(sg|pl)\.')
+                persnumpatiter = persnumpat.finditer(An3)
+                for find_persnum in persnumpatiter:
+                    persnum = find_persnum.group()
+                    person = persnum[:1]
+                    number = numdict.get(persnum[1:])
+                tense = False
+                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|perf)\.')
+                tensepatiter = tensepat.finditer(An3)
+                for find_tense in tensepatiter:
+                    tense = tensedict.get(find_tense.group())
+                aspect = False
+                asppat = re.compile(r'(cons\.pres|imperf|perf)\.')
+                asppatiter = asppat.finditer(An3)
+                for asp_find in asppatiter:
+                    aspect = aspdict.get(asp_find.group())
+                mood = False
+                moodpat = re.compile(r'(ind|subj|cond|sec\.fut|impv)\.')
+                moodpatiter = moodpat.finditer(An3)
+                for find_mood in moodpatiter:
+                    mood = mooddict.get(find_mood.group())
+                voice = False
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
                     elif rel in ['Y', 'Maybe']:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
                 elif not actpas:
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
             elif An3 in verb_tensepersinfix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
                     elif rel == 'Y':
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
             elif An3 in verb_tenseperssuffix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
                     elif rel == 'Y':
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polar)
+                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
     # General Verbs
         elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII', 'BIII', 'BIV', 'BV',
-                     'AII (?)', 'BI (?)', 'BII (?)', 'defective', 'inflexion not clear', 'unclear']:
+                     'AII (?)', 'BI (?)', 'BII (?)', 'defective', 'inflexion not clear', 'unclear',
+                     'substantive verb (compound)']:
             if An3 in verb_tensepers:
                 if actpas == 'Active':
                     if not rel:
