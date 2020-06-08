@@ -908,25 +908,41 @@ def clean_analysis(taglist, test_unknown=False):
                     mood = mooddict.get(find_mood.group())
                 voice = False
                 if actpas == 'Active':
-                    if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
-                    elif rel in ['Y', 'Maybe']:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
-                elif not actpas:
-                    if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
+                    voice = "Act"
+                elif actpas == 'Passive':
+                    voice = "Pass"
+                relative = False
+                if rel in ['Y', 'Maybe']:
+                    relative = "Rel"
+                feat_list = list()
+                if aspect:
+                    feat_list.append(f'Aspect={aspect}')
+                if mood:
+                    feat_list.append(f'Mood={mood}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                if person:
+                    feat_list.append(f'Person={person}')
+                feat_list.append(f'Polarity={polarity}')
+                if relative:
+                    feat_list.append(f'PronType={relative}')
+                if tense:
+                    feat_list.append(f'Tense={tense}')
+                feat_list.append(f'VerbType=Cop')
+                if voice:
+                    feat_list.append(f'Voice={voice}')
+                features = " | ".join(feat_list)
+                pos = f'AUX {features}'
             elif An3 in verb_tensepersinfix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
-                    elif rel == 'Y':
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
+                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos "\
+                              "| Tense=Pres | VerbType=Cop | Voice=Act"
             elif An3 in verb_tenseperssuffix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
-                    elif rel == 'Y':
-                        pos = "AUX Polarity={} | VerbType=Cop".format(polarity)
+                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos " \
+                              "| Tense=Pres | VerbType=Cop | Voice=Act"
     # General Verbs
         elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII', 'BIII', 'BIV', 'BV',
                      'AII (?)', 'BI (?)', 'BII (?)', 'defective', 'inflexion not clear', 'unclear',
