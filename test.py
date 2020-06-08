@@ -302,6 +302,7 @@ def matchword_levdist(gloss_mapping):
     # list negative conjunctions which can combine with forms of the copula (enclitic or reduced to zero)
     neg_conj_combo_forms = [['na', '<SCONJ Polarity=Neg>', 'na'],
                             ['nach', '<SCONJ Polarity=Neg>', 'nach'],
+                            ['nách', '<SCONJ Polarity=Neg>', 'nach'],
                             ['naich', '<SCONJ Polarity=Neg>', 'naich']]
     # list particles which can combine with enclitic forms of the copula
     particle_combo_forms = [['i', '<PART PronType=Int>', 'i'],
@@ -324,19 +325,20 @@ def matchword_levdist(gloss_mapping):
         tagged_short_pos = split_tagged_pos[0]
         tagged_feats = split_tagged_pos[1]
         if tagged_short_pos == "AUX" and all(feat in tagged_feats for feat in ["Polarity=Pos", "VerbType=Cop"]):
+            tagged_check_word = [tagged_word_data[0], '<AUX Polarity=Pos | VerbType=Cop>', tagged_word_data[2]]
             # identify forms of the copula which have not been accounted for yet
-            if tagged_word_data not in full_cops and tagged_word_data not in enclitic_cops and \
-                    tagged_word_data not in combined_cop_forms and tagged_word_data not in neg_cops and \
-                    tagged_word_data not in neg_cop_enclitics and tagged_word_data not in over_full_cops:
+            if tagged_check_word not in full_cops and tagged_check_word not in enclitic_cops and \
+                    tagged_check_word not in combined_cop_forms and tagged_check_word not in neg_cops and \
+                    tagged_check_word not in neg_cop_enclitics and tagged_check_word not in over_full_cops:
                 print(tagged_word_data)
                 print([i[0] for i in standard_mapping])
                 print([i for i in pos_list])
                 raise RuntimeError("Unknown copula form")
             # identify forms of the copula which may require changing
-            if tagged_word_data not in full_cops:
-                if tagged_word_data in enclitic_cops or tagged_word_data in neg_cops or \
-                        tagged_word_data in neg_cop_enclitics or tagged_word_data in combined_cop_forms or \
-                        tagged_word_data in over_full_cops:
+            if tagged_check_word not in full_cops:
+                if tagged_check_word in enclitic_cops or tagged_check_word in neg_cops or \
+                        tagged_check_word in neg_cop_enclitics or tagged_check_word in combined_cop_forms or \
+                        tagged_check_word in over_full_cops:
                     cop_count += 1
                 else:
                     print(tagged_word_data)
@@ -352,6 +354,7 @@ def matchword_levdist(gloss_mapping):
             tagged_feats = split_tagged_pos[1]
             # if the POS is a positive form of the copula
             if tagged_short_pos == "AUX" and all(feat in tagged_feats for feat in ["Polarity=Pos", "VerbType=Cop"]):
+                tagged_check_word = [tagged_original, '<AUX Polarity=Pos | VerbType=Cop>', tagged_standard]
                 # if the copula form has been reduced to zero in this position
                 if tagged_original == "-":
                     last_pos_place = 1
@@ -405,15 +408,15 @@ def matchword_levdist(gloss_mapping):
                         print([k[0] for k in pos_list])
                         raise RuntimeError("Copula reduced to zero, but no word precedes the copula form")
                 # fix polarity of negative copula forms which are listed as positive by Bauer
-                if tagged_word_data in neg_cops or tagged_word_data in neg_cop_enclitics:
+                if tagged_check_word in neg_cops or tagged_check_word in neg_cop_enclitics:
                     neg_pos = update_feature(tagged_pos, "Polarity=Neg")
                     tagged_word_data = [tagged_original, neg_pos, tagged_standard]
                     pos_list[j] = tagged_word_data
                     combine_subtract = True
                     break
                 # if an enclitic or precombined form of the copula is used
-                if tagged_word_data not in full_cops:
-                    if tagged_word_data in enclitic_cops or tagged_word_data in combined_cop_forms:
+                if tagged_check_word not in full_cops:
+                    if tagged_check_word in enclitic_cops or tagged_check_word in combined_cop_forms:
                         last_pos_place = 1
                         copula_preverbs = list()
                         try:
@@ -510,7 +513,7 @@ def matchword_levdist(gloss_mapping):
                                     # if the conjunction/particle needs to be combined with an enclitic copula form
                                     # combine the copula's features with those of the conjunction
                                     # combine the conjunction with the copula form and use the conjunction's POS tag
-                                    elif tagged_word_data in enclitic_cops:
+                                    elif tagged_check_word in enclitic_cops:
                                         combined_pos = add_features(last_pos, tagged_feats)
                                         cop_combo = [last_original + tagged_original,
                                                      combined_pos,
@@ -533,7 +536,7 @@ def matchword_levdist(gloss_mapping):
                                     combine_subtract = True
                                     break
                                 # if the preceding POS is a preposition
-                                elif last_short_pos == "ADP" and tagged_word_data in combined_cop_forms:
+                                elif last_short_pos == "ADP" and tagged_check_word in combined_cop_forms:
                                     combined_pos = add_features(last_pos, tagged_feats)
                                     cop_combo = [tagged_original, combined_pos, tagged_standard]
                                     pos_list = pos_list[:j-last_pos_place] + [cop_combo] + pos_list[j+1:]
@@ -550,10 +553,10 @@ def matchword_levdist(gloss_mapping):
                                                        "list")
                             # if an independent conjunction precedes a pre-combined copula form:
                             elif last_short_pos == "SCONJ" and last_pos_data in indie_conj:
-                                if tagged_word_data in combined_cop_forms:
+                                if tagged_check_word in combined_cop_forms:
                                     pass
                             # if any other POS precedes a pre-combined copula form:
-                            elif tagged_word_data in combined_cop_forms:
+                            elif tagged_check_word in combined_cop_forms:
                                 # if the preceding POS is not repeated in the copula form
                                 # it is unrelated to the copula, which is already whole, and can be ignored
                                 if last_original not in tagged_original and last_standard not in tagged_standard:
@@ -584,13 +587,13 @@ def matchword_levdist(gloss_mapping):
                             print([k[0] for k in pos_list])
                             raise RuntimeError("No data for last POS, but preverbs preceding copula form.")
                         # if there is no POS preceding the enclitic form of the copula
-                        elif tagged_word_data not in new_combined_cops:
+                        elif tagged_check_word not in new_combined_cops:
                             print(tagged_word_data)
                             print(pos_list)
                             raise RuntimeError("No POS preceding enclitic or precombined copula form")
                     # if Bauer combined too many conjunctions/preverbs etc. with a copula and some must be removed
                     # from the over-full copula form to meet the word-separation standard
-                    elif tagged_word_data in over_full_cops:
+                    elif tagged_check_word in over_full_cops:
                         last_pos_place = 1
                         copula_preverbs = list()
                         try:
@@ -632,6 +635,9 @@ def matchword_levdist(gloss_mapping):
                                                        tagged_standard[len(last_standard):]]
                                     reduced_original = reduced_copform[0]
                                     reduced_standard = reduced_copform[2]
+                                    reduced_check_cop = [reduced_original,
+                                                         '<AUX Polarity=Pos | VerbType=Cop>',
+                                                         reduced_standard]
                                     # as the preverb now potentially makes up part of the copula form, set it as the
                                     # last POS, change the POS tag from PVP to PART, and add the PartType=Vb feature
                                     # there should be only one preverb attached to any copula in the St. Gall corpus
@@ -651,15 +657,18 @@ def matchword_levdist(gloss_mapping):
                                                 reduced_copform = [reduced_original[len(last_original):],
                                                                    tagged_pos,
                                                                    reduced_standard[len(last_standard):]]
+                                                reduced_check_cop = [reduced_copform[0],
+                                                                     '<AUX Polarity=Pos | VerbType=Cop>',
+                                                                     reduced_copform[2]]
                                                 # if the copula form remaining after removing the preverb is an enclitic
                                                 # recombine it with the preverb and keep the copula's POS information
-                                                if reduced_copform in enclitic_cops:
+                                                if reduced_check_cop in enclitic_cops:
                                                     final_cop = [[last_original + reduced_copform[0],
                                                                  tagged_pos,
                                                                  last_standard + reduced_copform[2]]]
                                                 # if the copula form remaining after removing the preverb is a full form
-                                                # separate the preverb from the copula form from the preverb
-                                                elif reduced_copform in full_cops:
+                                                # separate the preverb from the copula
+                                                elif reduced_check_cop in full_cops:
                                                     final_cop = [copula_preverb] + [reduced_copform]
                                                 # if the copula form is neither a known enclitic nor full form
                                                 else:
@@ -706,13 +715,16 @@ def matchword_levdist(gloss_mapping):
                                             reduced_copform = [tagged_original[len(last_original):],
                                                                tagged_pos,
                                                                tagged_standard[len(last_standard):]]
+                                            reduced_check_cop = [reduced_copform[0],
+                                                                 '<AUX Polarity=Pos | VerbType=Cop>',
+                                                                 reduced_copform[2]]
                                             # if the copula form remaining after removing the preverb is a full form
                                             # separate the preverb from the copula form from the preverb
-                                            if reduced_copform in full_cops:
+                                            if reduced_check_cop in full_cops:
                                                 final_cop = [copula_preverb] + [reduced_copform]
                                             # if the copula form remaining after removing the preverb is an enclitic
                                             # recombine it with the preverb and keep the copula's POS information
-                                            elif reduced_copform in enclitic_cops:
+                                            elif reduced_check_cop in enclitic_cops:
                                                 print(tagged_word_data)
                                                 print(reduced_copform)
                                                 print(copula_preverb)
@@ -774,13 +786,13 @@ def matchword_levdist(gloss_mapping):
                         else:
                             raise RuntimeError("No POS preceding over-full copula form")
                     # if the copula form is not a known enclitic, combined, full, over-full or negative form
-                    elif tagged_word_data not in new_combined_cops:
+                    elif tagged_check_word not in new_combined_cops:
                         print(tagged_word_data)
                         print([k[0] for k in standard_mapping])
                         print([k for k in pos_list])
                         raise RuntimeError("Copula form not could not be found")
                 # ensure absolute forms of the copula are not compounded with preceding conjunctions, etc.
-                elif tagged_word_data in full_cops:
+                elif tagged_check_word in full_cops:
                     last_pos_place = 1
                     copula_preverbs = list()
                     try:
@@ -886,14 +898,15 @@ def matchword_levdist(gloss_mapping):
         tagged_short_pos = split_tagged_pos[0]
         tagged_feats = split_tagged_pos[1]
         if tagged_short_pos == "AUX" and all(feat in tagged_feats for feat in ["Polarity=Neg", "VerbType=Cop"]):
-            if tagged_word_data not in full_neg_list and tagged_word_data not in enclitic_neg_list:
+            tagged_check_word = [tagged_word_data[0], '<AUX Polarity=Neg | VerbType=Cop>', tagged_word_data[2]]
+            if tagged_check_word not in full_neg_list and tagged_check_word not in enclitic_neg_list:
                 print(tagged_word_data)
                 print([i[0] for i in standard_mapping])
                 print([i[0] for i in pos_list])
                 print(pos_list)
                 raise RuntimeError("New negative copula form")
             # identify forms of the copula which may require changing
-            if tagged_word_data in full_neg_list or tagged_word_data in enclitic_neg_list:
+            if tagged_check_word in full_neg_list or tagged_check_word in enclitic_neg_list:
                 neg_count += 1
     for i in range(neg_count):
         for j, tagged_word_data in enumerate(pos_list):
@@ -901,142 +914,146 @@ def matchword_levdist(gloss_mapping):
             split_tagged_pos = split_pos_feats(tagged_pos)
             tagged_short_pos = split_tagged_pos[0]
             tagged_feats = split_tagged_pos[1]
-            if tagged_word_data in full_neg_list or tagged_word_data in enclitic_neg_list:
-                last_pos_place = 1
-                copula_preverbs = list()
-                try:
-                    if j != 0:
-                        last_pos_data = pos_list[j-last_pos_place]
-                        # find any preverbal particles used within the copula form
-                        split_last_pos = split_pos_feats(last_pos_data[1])
-                        if split_last_pos[0] == "PVP":
-                            while split_last_pos[0] == "PVP":
-                                copula_preverbs.append(last_pos_data)
-                                last_pos_place += 1
-                                last_pos_data = pos_list[j-last_pos_place]
-                                split_last_pos = split_pos_feats(last_pos_data[1])
-                                if j-last_pos_place == 0 and split_last_pos[0] == "PVP":
-                                    print(last_pos_data)
-                                    print(tagged_word_data)
-                                    print([k[0] for k in standard_mapping])
-                                    print([k[0] for k in pos_list])
-                                    raise RuntimeError("Copula preverb is the first POS in the gloss")
-                    else:
+            if tagged_short_pos == "AUX" and all(feat in tagged_feats for feat in ["Polarity=Neg", "VerbType=Cop"]):
+                tagged_check_word = [tagged_original, '<AUX Polarity=Neg | VerbType=Cop>', tagged_standard]
+                if tagged_check_word in full_neg_list or tagged_check_word in enclitic_neg_list:
+                    last_pos_place = 1
+                    copula_preverbs = list()
+                    try:
+                        if j != 0:
+                            last_pos_data = pos_list[j-last_pos_place]
+                            # find any preverbal particles used within the copula form
+                            split_last_pos = split_pos_feats(last_pos_data[1])
+                            if split_last_pos[0] == "PVP":
+                                while split_last_pos[0] == "PVP":
+                                    copula_preverbs.append(last_pos_data)
+                                    last_pos_place += 1
+                                    last_pos_data = pos_list[j-last_pos_place]
+                                    split_last_pos = split_pos_feats(last_pos_data[1])
+                                    if j-last_pos_place == 0 and split_last_pos[0] == "PVP":
+                                        print(last_pos_data)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Copula preverb is the first POS in the gloss")
+                        else:
+                            last_pos_data = False
+                    except IndexError:
                         last_pos_data = False
-                except IndexError:
-                    last_pos_data = False
-                # if there are preverbs between the negative particle and the copula form
-                if copula_preverbs:
-                    # if all preverbs found are in the list of preverbs which can occur within a copula form
-                    # join them together into one conjoined preverb
-                    if all(preverb in neg_preverbs for preverb in copula_preverbs):
-                        combined_preverbs = [''.join(pvp[0] for pvp in copula_preverbs),
-                                             ''.join(pvp[2] for pvp in copula_preverbs)]
-                        # if the combined preverbs occur within the copula form
-                        # remove the preverbs from the POS list and leave only the copula form and negative particle
-                        # do not break out of the loop, the negative particle still needs to be checked
-                        if combined_preverbs[0] in tagged_original and combined_preverbs[1] in tagged_standard:
-                            pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
-                            pass
-                        # if the combined preverbs cannot be found within the copula form
+                    # if there are preverbs between the negative particle and the copula form
+                    if copula_preverbs:
+                        # if all preverbs found are in the list of preverbs which can occur within a copula form
+                        # join them together into one conjoined preverb
+                        if all(preverb in neg_preverbs for preverb in copula_preverbs):
+                            combined_preverbs = [''.join(pvp[0] for pvp in copula_preverbs),
+                                                 ''.join(pvp[2] for pvp in copula_preverbs)]
+                            # if the combined preverbs occur within the copula form
+                            # remove the preverbs from the POS list and leave only the copula form and negative particle
+                            # do not break out of the loop, the negative particle still needs to be checked
+                            if combined_preverbs[0] in tagged_original and combined_preverbs[1] in tagged_standard:
+                                pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
+                                pass
+                            # if the combined preverbs cannot be found within the copula form
+                            else:
+                                raise RuntimeError("Known preverb(s) not contained in copula form")
+                        # if a preverb is found which cannot occur within a copula form
                         else:
-                            raise RuntimeError("Known preverb(s) not contained in copula form")
-                    # if a preverb is found which is not in the list of preverbs which can occur within a copula form
-                    else:
-                        print(tagged_word_data)
-                        print(copula_preverbs)
-                        print(last_pos_data)
-                        raise RuntimeError("Unknown preverb(s) between negative particle and copula form")
-                if last_pos_data:
-                    last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
-                    split_last_pos = split_pos_feats(last_pos)
-                    last_short_pos = split_last_pos[0]
-                    last_feats = split_last_pos[1]
-                    # if the last POS is a negative particle
-                    if last_short_pos == "PART" and "Polarity=Neg" in last_feats:
-                        # if the last POS (neg. part.) is the exact same as the following negative form of the copula
-                        # delete the negative particle from the POS list
-                        if tagged_original == last_original and tagged_standard == last_standard:
-                            del pos_list[j-last_pos_place]
-                            combine_subtract = True
-                            break
-                        # if the last POS is repeated at the beginning of the copula form
-                        # delete the negative particle from the POS list
-                        elif last_original == tagged_original[:len(last_original)]:
-                            del pos_list[j-last_pos_place]
-                            combine_subtract = True
-                            break
-                        # if the last POS (neg. part.) is not a t the beginning of the copula form as expected
-                        elif last_original in tagged_original and last_standard in tagged_standard:
-                            raise RuntimeError("Negative particle not at beginning of copula form")
-                        # if the last POS (neg. part.) is not repeated in the following negative form of the copula
-                        # join the two forms and update the features of the copula POS tag
-                        elif last_pos_data in neg_parts:
-                            tagged_pos = add_features(tagged_pos, last_feats)
-                            new_neg_cop = [last_original + tagged_original, tagged_pos, last_standard + tagged_standard]
-                            pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
-                            combine_subtract = True
-                            break
-                        # if the last POS is not a known negative particle
-                        else:
+                            print(tagged_word_data)
+                            print(copula_preverbs)
+                            print(last_pos_data)
+                            raise RuntimeError("Unknown preverb(s) between negative particle and copula form")
+                    if last_pos_data:
+                        last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
+                        split_last_pos = split_pos_feats(last_pos)
+                        last_short_pos = split_last_pos[0]
+                        last_feats = split_last_pos[1]
+                        # if the last POS is a negative particle
+                        if last_short_pos == "PART" and "Polarity=Neg" in last_feats:
+                            # if the last POS (neg. part.) is the exact same as the following negative copula form
+                            # delete the negative particle from the POS list
+                            if tagged_original == last_original and tagged_standard == last_standard:
+                                del pos_list[j-last_pos_place]
+                                combine_subtract = True
+                                break
+                            # if the last POS is repeated at the beginning of the copula form
+                            # delete the negative particle from the POS list
+                            elif last_original == tagged_original[:len(last_original)]:
+                                del pos_list[j-last_pos_place]
+                                combine_subtract = True
+                                break
+                            # if the last POS (neg. part.) is not a t the beginning of the copula form as expected
+                            elif last_original in tagged_original and last_standard in tagged_standard:
+                                raise RuntimeError("Negative particle not at beginning of copula form")
+                            # if the last POS (neg. part.) is not repeated in the following negative form of the copula
+                            # join the two forms and update the features of the copula POS tag
+                            elif last_pos_data in neg_parts:
+                                tagged_pos = add_features(tagged_pos, last_feats)
+                                new_neg_cop = [last_original + tagged_original,
+                                               tagged_pos,
+                                               last_standard + tagged_standard]
+                                pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
+                                combine_subtract = True
+                                break
+                            # if the last POS is not a known negative particle
+                            else:
+                                print(last_pos_data)
+                                print(tagged_word_data)
+                                print([k[0] for k in standard_mapping])
+                                print([k[0] for k in pos_list])
+                                raise RuntimeError("New neg. particle or poss. doubling of particle preceeding copula")
+                        # if the last POS is not a negative particle but the copula form is reduced to zero and negative
+                        elif tagged_original == '-' and tagged_standard == '-' and tagged_short_pos == 'AUX' \
+                                and all(feat in tagged_feats for feat in ["Polarity=Neg", "VerbType=Cop"]):
+                            # if the last POS is a known negative conjunction delete the copula form
+                            if last_pos_data in neg_conjunctions:
+                                del pos_list[j]
+                                combine_subtract = True
+                                break
+                            # if the last POS is a known negative interrogative pronoun delete the copula form
+                            elif last_pos_data in neg_int_pronouns:
+                                del pos_list[j]
+                                combine_subtract = True
+                                break
+                            # if something other than the expected negative parts of speech precede the copula form
+                            else:
+                                print(last_pos_data)
+                                print(tagged_word_data)
+                                print([i[0] for i in standard_mapping])
+                                raise RuntimeError("Negative form of copula reduced to zero preceded by unknown POS")
+                        # if the last POS is not a negative particle but the copula form enclitic and negative
+                        elif tagged_check_word in enclitic_neg_list:
+                            # if the last POS is a known combining conjunction, other than the negative forms
+                            if last_pos_data in conj_combo_forms:
+                                print(last_pos_data)
+                                print(tagged_word_data)
+                                print([k[0] for k in standard_mapping])
+                                print([k[0] for k in pos_list])
+                                raise RuntimeError("Enclitic negative copula not preceded by negative POS")
+                            # if the last POS is a known negative combining conjunction and the copula form is enclitic
+                            # combine the copula's features with conjunction's, keeping the conjunction's POS tag
+                            # combine the conjunction form with the copula form
+                            elif last_pos_data in neg_conj_combo_forms:
+                                combined_pos = add_features(last_pos, tagged_feats)
+                                new_neg_cop = [last_original + tagged_original,
+                                               combined_pos,
+                                               last_standard + tagged_standard]
+                                pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
+                                combine_subtract = True
+                                break
+                            # if any other type of POS precedes the enclitic negative copula form
+                            else:
+                                print(last_pos_data)
+                                print(tagged_word_data)
+                                print([k[0] for k in standard_mapping])
+                                print([k[0] for k in pos_list])
+                                raise RuntimeError("Enclitic negative copula not combined with previous POS")
+                        # if the form of the copula is neither in the full nor enclitic negative copula lists
+                        elif tagged_check_word not in full_neg_list:
                             print(last_pos_data)
                             print(tagged_word_data)
                             print([k[0] for k in standard_mapping])
                             print([k[0] for k in pos_list])
-                            raise RuntimeError("New neg. particle or possible doubling of particle preceeding copula")
-                    # if the last POS is not a negative particle but the copula form is reduced to zero and negative
-                    elif tagged_original == '-' and tagged_standard == '-' and tagged_short_pos == 'AUX' \
-                            and all(feat in tagged_feats for feat in ["Polarity=Neg", "VerbType=Cop"]):
-                        # if the last POS is a known negative conjunction delete the copula form
-                        if last_pos_data in neg_conjunctions:
-                            del pos_list[j]
-                            combine_subtract = True
-                            break
-                        # if the last POS is a known negative interogative pronoun delete the copula form
-                        elif last_pos_data in neg_int_pronouns:
-                            del pos_list[j]
-                            combine_subtract = True
-                            break
-                        # if something other than the expected negative parts of speech precede the copula form
-                        else:
-                            print(last_pos_data)
-                            print(tagged_word_data)
-                            print([i[0] for i in standard_mapping])
-                            raise RuntimeError("Negative form of copula reduced to zero preceded by unknown POS")
-                    # if the last POS is not a negative particle but the copula form enclitic and negative
-                    elif tagged_word_data in enclitic_neg_list:
-                        # if the last POS is a known combining conjunction, other than the negative forms
-                        if last_pos_data in conj_combo_forms:
-                            print(last_pos_data)
-                            print(tagged_word_data)
-                            print([k[0] for k in standard_mapping])
-                            print([k[0] for k in pos_list])
-                            raise RuntimeError("Enclitic negative copula not preceded by negative POS")
-                        # if the last POS is a known negative combining conjunction and the copula form is enclitic
-                        # combine the copula's features with those of the conjunction
-                        # combine the conjunction with the copula form and use the conjunction's POS tag
-                        elif last_pos_data in neg_conj_combo_forms:
-                            combined_pos = add_features(last_pos, tagged_feats)
-                            new_neg_cop = [last_original + tagged_original,
-                                           combined_pos,
-                                           last_standard + tagged_standard]
-                            pos_list = pos_list[:j-last_pos_place] + [new_neg_cop] + pos_list[j+1:]
-                            combine_subtract = True
-                            break
-                        # if any other type of POS precedes the enclitic negative copula form
-                        else:
-                            print(last_pos_data)
-                            print(tagged_word_data)
-                            print([k[0] for k in standard_mapping])
-                            print([k[0] for k in pos_list])
-                            raise RuntimeError("Enclitic negative copula not combined with previous POS")
-                    # if the form of the copula is neither in the full nor enclitic negative copula lists
-                    elif tagged_word_data not in full_neg_list:
-                        print(last_pos_data)
-                        print(tagged_word_data)
-                        print([k[0] for k in standard_mapping])
-                        print([k[0] for k in pos_list])
-                        raise RuntimeError("Last POS not negative particle")
+                            raise RuntimeError("Last POS not negative particle")
 
     #                                               PART 2.1.1:
     #
