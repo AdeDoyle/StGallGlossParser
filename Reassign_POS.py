@@ -856,7 +856,7 @@ def clean_analysis(taglist, test_unknown=False):
                            '1pl.fut. + infix.pron. Class B 3sg.neut.',
                            '3sg.sec.fut. + infix pron Class C 3sg nt']
     tensedict = {'cons.pres.': 'Pres', 'pres.': 'Pres',
-                 'past.': 'Past', 'perf.': 'Past', 'pret.': 'Past', 'imperf.': 'Past',
+                 'past.': 'Past', 'pret.': 'Past', 'perf.': 'Past', 'imperf.': 'Past',
                  'fut.': 'Fut', 'sec.fut.': 'Fut'}
     numdict = {'pl.': 'Plur', 'sg.': 'Sing'}
     mooddict = {'cond.': 'Cnd', 'sec.fut.': 'Cnd', 'impv.': 'Imp', 'ind.': 'Ind', 'subj.': 'Sub'}
@@ -874,7 +874,7 @@ def clean_analysis(taglist, test_unknown=False):
                     person = persnum[:1]
                     number = numdict.get(persnum[1:])
                 tense = False
-                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|perf)\.')
+                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|(pret\./)?perf)\.')
                 tensepatiter = tensepat.finditer(An3)
                 for find_tense in tensepatiter:
                     tense = tensedict.get(find_tense.group())
@@ -963,7 +963,7 @@ def clean_analysis(taglist, test_unknown=False):
                     person = persnum[:1]
                     number = numdict.get(persnum[1:])
                 tense = False
-                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|perf)\.')
+                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|(pret\./)?perf)\.')
                 tensepatiter = tensepat.finditer(An3)
                 for find_tense in tensepatiter:
                     tense = tensedict.get(find_tense.group())
@@ -1028,7 +1028,7 @@ def clean_analysis(taglist, test_unknown=False):
                     person = persnum[:1]
                     number = numdict.get(persnum[1:])
                 tense = False
-                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|perf)\.')
+                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|(pret\./)?perf)\.')
                 tensepatiter = tensepat.finditer(An3)
                 for find_tense in tensepatiter:
                     tense = tensedict.get(find_tense.group())
@@ -1069,36 +1069,93 @@ def clean_analysis(taglist, test_unknown=False):
                 pos = f'VERB {features}'
             elif An3 in verb_tensepersinfix:
                 An3_only = An3.split(" + ")[0]
+                number = False
+                person = False
+                persnumpat = re.compile(r'\d(sg|pl)\.')
+                persnumpatiter = persnumpat.finditer(An3_only)
+                for find_persnum in persnumpatiter:
+                    persnum = find_persnum.group()
+                    person = persnum[:1]
+                    number = numdict.get(persnum[1:])
+                tense = False
+                tensepat = re.compile(r'((cons\.)?pres|pret|past|(sec\.)?fut|imperf|(pret\./)?perf)\.')
+                tensepatiter = tensepat.finditer(An3_only)
+                for find_tense in tensepatiter:
+                    tense = tensedict.get(find_tense.group())
+                aspect = False
+                asppat = re.compile(r'(cons\.pres|imperf|perf)\.')
+                asppatiter = asppat.finditer(An3_only)
+                for asp_find in asppatiter:
+                    aspect = aspdict.get(asp_find.group())
+                mood = False
+                moodpat = re.compile(r'(ind|subj|cond|sec\.fut|impv)\.')
+                moodpatiter = moodpat.finditer(An3_only)
+                for find_mood in moodpatiter:
+                    mood = mooddict.get(find_mood.group())
+                voice = False
                 if actpas == 'Active':
-                    if not rel:
-                        pos = "VERB"
-                    elif rel == 'Y':
-                        pos = "VERB"
-                elif actpas in ['Passive']:
-                    if not rel:
-                        pos = "VERB"
-                    elif rel == 'Y':
-                        pos = "VERB"
+                    voice = "Act"
+                elif actpas in ['Passive', 'Pass']:
+                    voice = "Pass"
+                relative = False
+                if rel in ['Y', 'Maybe']:
+                    relative = "Rel"
+                feat_list = list()
+                if aspect:
+                    feat_list.append(f'Aspect={aspect}')
+                if mood:
+                    feat_list.append(f'Mood={mood}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                if person:
+                    feat_list.append(f'Person={person}')
+                if relative:
+                    feat_list.append(f'PronType={relative}')
+                if tense:
+                    feat_list.append(f'Tense={tense}')
+                if voice:
+                    feat_list.append(f'Voice={voice}')
+                features = " | ".join(feat_list)
+                pos = f'VERB {features}'
             elif An3 in verb_tenseperssuffix:
-                if actpas == 'Active':
-                    if not rel:
-                        pos = "VERB"
-                    elif rel == 'Y':
-                        pos = "VERB"
-            elif not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "VERB"
+                number = 'Sing'
+                person = '3'
+                tense = 'Pres'
+                mood = 'Ind'
+                voice = 'Act'
+                relative = False
+                if rel == 'Y':
+                    relative = "Rel"
+                feat_list = list()
+                feat_list.append(f'Mood={mood}')
+                feat_list.append(f'Number={number}')
+                feat_list.append(f'Person={person}')
+                if relative:
+                    feat_list.append(f'PronType={relative}')
+                feat_list.append(f'Tense={tense}')
+                feat_list.append(f'Voice={voice}')
+                features = " | ".join(feat_list)
+                pos = f'VERB {features}'
     # Unknown Verbs
         elif not An2:
-            if An3 in ['3sg.pres.ind.pass.',
-                       '3sg.pass.pres.']:
+            if An3 == '3sg.pres.ind.pass.':
+                number = 'Sing'
+                person = '3'
+                tense = 'Pres'
+                mood = 'Ind'
+                voice = False
                 if actpas == 'Active':
-                    if not rel:
-                        pos = "VERB"
-                elif actpas == 'Passive':
-                    if not rel:
-                        pos = "VERB"
+                    voice = "Act"
+                elif actpas in ['Passive', 'Pass']:
+                    voice = "Pass"
+                feat_list = list()
+                feat_list.append(f'Mood={mood}')
+                feat_list.append(f'Number={number}')
+                feat_list.append(f'Person={person}')
+                feat_list.append(f'Tense={tense}')
+                feat_list.append(f'Voice={voice}')
+                features = " | ".join(feat_list)
+                pos = f'VERB {features}'
     # Verbal of Necessity
     if An1 == 'verbal of necessity':
         if not An2:
