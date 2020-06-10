@@ -1567,7 +1567,7 @@ def matchword_levdist(gloss_mapping):
                         print([i[0] for i in standard_mapping])
                         print([i[0] for i in pos_list])
                         print([i for i in tagged_gloss])
-                        raise RuntimeError("Unused POS tagged word ({}) could not be matched".format(original_word))
+                        raise RuntimeError(f"Unused POS tagged word ({original_word}) could not be matched")
     pos_list = [j for i, j in enumerate(pos_list) if [i, j] not in compounds_found]
     pos_list = [j for i, j in enumerate(pos_list) if [i, j] not in mismatches_found]
 
