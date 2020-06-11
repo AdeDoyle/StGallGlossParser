@@ -1613,7 +1613,7 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "PVP"
     if An1 == 'particle':
-        if An2 == 'prefix':
+        if An2 in ['prefix', 'prefix and preverb']:
             if An3 == '*':
                 if not actpas:
                     if not rel:
@@ -1629,12 +1629,6 @@ def clean_analysis(taglist, test_unknown=False):
                    '1pl',
                    '3pl', '3pl (geminating)']:
             if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "IFP"
-    if An1 == 'particle':
-        if An2 == 'prefix and preverb':
-            if An3 == '*':
                 if not actpas:
                     if not rel:
                         pos = "IFP"
