@@ -1623,15 +1623,39 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 in ['pronoun, infixed, class A',
                'pronoun, infixed, class B',
                'pronoun, infixed, class C']:
+        pronclass = False
+        classpat = re.compile(r'[ABC]')
+        classpatiter = classpat.finditer(An1)
+        for classfind in classpatiter:
+            pronclass = classfind.group()
         if An2 in ['1sg',
                    '2sg',
                    '3sg m', '3sg n (leniting)', '3sg f (geminating)', '3sg f (sometimes nasalizing)',
                    '1pl',
                    '3pl', '3pl (geminating)']:
+            pronnum = False
+            pronpers = False
+            prongend = False
+            numperspat = re.compile(r'\d(sg|pl)( [mnf])?')
+            numperspatiter = numperspat.finditer(An2)
+            for numpersfind in numperspatiter:
+                numpers = numpersfind.group()
+                pronnum = numpers[1:3]
+                pronpers = numpers[0]
+                if " " in numpers:
+                    prongend = numpers[-1]
+            feat_list = list()
+            feat_list.append(f'PronClass={pronclass}')
+            if prongend:
+                feat_list.append(f'PronGend={prongend}')
+            feat_list.append(f'PronNum={pronnum}')
+            feat_list.append(f'PronPers={pronpers}')
+            feat_list.append('PronType=Prs')
+            features = " | ".join(feat_list)
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "IFP"
+                        pos = f"IFP {features}"
 
     # Assign Unnecessary Repetitions of Words (UNR)
     if An1 == 'see amail':
