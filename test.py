@@ -1061,18 +1061,22 @@ def matchword_levdist(gloss_mapping):
     #
     # remove doubled particles, etc. before verbs, or add to the verb if not doubled
     # count instances of verbs in the gloss
-    verb_independent_POS = ["ADJ", "NOUN"]
-    verb_dependent_POS = ["PART", "SCONJ"]
+    verb_independent_POS = ["ADJ", "AUX", "NOUN", "PRON", "VERB"]
+    verb_dependent_POS = ["CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.153, 49.6)
-    conjunct_particles = []
+    conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
+                          ['ni', '<PART Polarity=Neg>', 'ni'],
+                          ['ní', '<PART Polarity=Neg>', 'ni']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 22.7)
     dependent_conjunctions = [['co', '<SCONJ>', 'co'],
+                              ['con', '<SCONJ>', 'con'],
                               ['na', '<SCONJ Polarity=Neg>', 'na']]
     # list conjunctions which do not take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
-    independent_conjunctions = [['ci', '<SCONJ>', 'ci']]
-    independent_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
-                             ['hí', '<PART>', 'hi']]
-    compounding_preverbs = [['ro', '<PVP>', 'ro']]
+    independent_conjunctions = [['cenmitha', '<SCONJ>', 'cenmitha'],
+                                ['ci', '<SCONJ>', 'ci'],
+                                ['ma', '<SCONJ>', 'ma'],
+                                ['⁊', '<CCONJ>', 'ocus']]
+    independent_particles = [['hí', '<PART>', 'hi']]
     verbcount = 0
     for tagged_word_data in pos_list:
         split_tagged_pos = split_pos_feats(tagged_word_data[1])
@@ -1121,7 +1125,6 @@ def matchword_levdist(gloss_mapping):
                     last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
                     split_last_pos = split_pos_feats(last_pos)
                     last_short_pos = split_last_pos[0]
-                    last_feats = split_last_pos[1]
                     # if there are only preverbal particles and infixed pronouns preceding a verb form
                     if last_short_pos == "PVP":
                         if not verbal_affixes:
@@ -1131,6 +1134,10 @@ def matchword_levdist(gloss_mapping):
                             reduced_verbform = tagged_original
                             for verb_prefix_data in verbal_affixes:
                                 verb_prefix = verb_prefix_data[0]
+                                verb_prefix_pos = split_pos_feats(verb_prefix_data[1])[0]
+                                # check if any infixed pronouns precede the verb form
+                                if verb_prefix_pos == "IFP":
+                                    raise RuntimeError("IFP found, features must be added to verb form")
                                 if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                     reduced_verbform = reduced_verbform[len(verb_prefix):]
                                 # if a preverb or infixed pronoun can't be found where expected in the verb form
@@ -1145,56 +1152,72 @@ def matchword_levdist(gloss_mapping):
                             pos_list = pos_list[:j-last_pos_place] + pos_list[j:]
                             combine_subtract = True
                             break
-                    # if the last POS preceding a verb form and any preverbal affixes is not an affix itself
-                    # and cannot be combined with a verb form
+                    # if the last POS is not a combinable type of POS
                     elif last_short_pos in verb_independent_POS:
                         # if there are no preverbal affixes between the last POS and the verb form
                         # assume the last POS and verbal complex cannot be combined and move on
                         if not verbal_affixes:
                             pass
-                        # if there are preverbal affixes between the last, uncombinable POS and the verb form
-                        # treat the first preverbal affix as the last POS, and the rest as part of the verbal cluster
+                        # if there are preverbal affixes between the last POS (uncombinable) and the verb form
                         else:
-                            last_pos_data = verbal_affixes[0]
-                            last_original = last_pos_data[0]
-                            # if there is only one preverbal affix
-                            if len(verbal_affixes) == 1:
-                                # if the only preverbal affix is a conjunct particle
-                                if last_pos_data in conjunct_particles or last_pos_data in dependent_conjunctions:
-                                    print(last_pos_data)
-                                    print(tagged_word_data)
-                                    print([k[0] for k in standard_mapping])
-                                    print([k[0] for k in pos_list])
-                                    raise RuntimeError("Conjunct particle immediately preceding verb form")
-                                # if the only preverbal affix is a compounding preverb
-                                elif last_pos_data in compounding_preverbs:
-                                    # if the compounding preverb is already present in the following verb form
-                                    if last_original == tagged_original[:len(last_original)]:
-                                        del pos_list[j-1]
-                                        combine_subtract = True
-                                        break
-                                    # if the compounding preverb is not present in the following verb form
-                                    else:
-                                        print(last_pos_data)
-                                        print(tagged_word_data)
-                                        print([k[0] for k in standard_mapping])
-                                        print([k[0] for k in pos_list])
-                                        raise RuntimeError("Conjoining preverb immediately preceding verb form but "
-                                                           "preverb not part of verb already")
+                            first_preverb_data = verbal_affixes[0]
+                            first_preverb_original = first_preverb_data[0]
+                            first_preverb_short_pos = split_pos_feats(first_preverb_data[1])[0]
+                            # if there is only one preverbal affix and it is a preverb, not an infixed pronoun
+                            if len(verbal_affixes) == 1 and first_preverb_short_pos == "PVP":
+                                # if the preverb is already present in the following verb form
+                                if first_preverb_original == tagged_original[:len(first_preverb_original)]:
+                                    del pos_list[j-1]
+                                    combine_subtract = True
+                                    break
+                                # if the compounding preverb is not present in the following verb form
                                 else:
                                     print(last_pos_data)
+                                    print(first_preverb_data)
                                     print(tagged_word_data)
                                     print([k[0] for k in standard_mapping])
                                     print([k[0] for k in pos_list])
-                                    raise RuntimeError("Unknown verbal affix immediately preceding verb form")
-                            elif len(verbal_affixes) > 1:
+                                    raise RuntimeError("Conjoining preverb immediately preceding verb form but "
+                                                       "preverb not part of verb already")
+                            # if there is only one preverbal affix and it is not a preverbal particle, as expexted
+                            elif len(verbal_affixes) == 1 and first_preverb_short_pos != "PVP":
                                 print(last_pos_data)
+                                print(first_preverb_short_pos)
+                                print(first_preverb_data)
                                 print(tagged_word_data)
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
-                                raise RuntimeError("Multiple preverbs/infixes preceding verb form")
+                                raise RuntimeError("Unexpected POS found as only preverbal affix")
+                            # if there are more than one preverbal affixes preceding a verb form
+                            elif len(verbal_affixes) > 1:
+                                # check if every preverbal particle and infixed pronoun is already in the full verb form
+                                reduced_verbform = tagged_original
+                                for verb_prefix_data in verbal_affixes:
+                                    verb_prefix = verb_prefix_data[0]
+                                    split_verb_prefix = split_pos_feats(verb_prefix_data[1])
+                                    # check if any infixed pronouns precede the verb form
+                                    if split_verb_prefix[0] == "IFP":
+                                        ifp_feats = split_verb_prefix[1]
+                                        print(verb_prefix_data)
+                                        print(tagged_word_data)
+                                        tagged_pos = add_features(tagged_pos, ifp_feats)
+                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                        pos_list = pos_list[:j] + [tagged_word_data] + pos_list[j+1:]
+                                    if verb_prefix == reduced_verbform[:len(verb_prefix)]:
+                                        reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                    # if a preverb or infixed pronoun can't be found where expected in the verb form
+                                    else:
+                                        print(verb_prefix)
+                                        print(reduced_verbform)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Not all preverbs found in following verb form")
+                                # remove the preverbs and infixed pronouns from the POS list
+                                pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
                             else:
                                 print(last_pos_data)
+                                print(first_preverb_data)
                                 print(tagged_word_data)
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
@@ -1219,16 +1242,27 @@ def matchword_levdist(gloss_mapping):
                             # if preverbs and/or infixed pronouns follow the conjunct particle
                             elif verbal_affixes:
                                 first_affix_data = verbal_affixes[0]
-                                first_affix_pos = split_pos_feats(first_affix_data[1])[0]
+                                first_affix_original = first_affix_data[0]
+                                first_affix_pos = first_affix_data[1]
+                                first_affix_standard = first_affix_data[2]
+                                split_first_affix = split_pos_feats(first_affix_pos)
+                                first_affix_short_pos = split_first_affix[0]
+                                first_affix_feats = split_first_affix[1]
                                 # if the first POS following the conjunct particle is a preverbal particle
                                 # separate the conjunct particle and let the verb begin with the preverbal particle
-                                if first_affix_pos == "PVP":
+                                if first_affix_short_pos == "PVP":
                                     # check if every preverbal affix is already in the full verb form
                                     reduced_verbform = tagged_original
                                     for verb_prefix_data in verbal_affixes:
                                         verb_prefix = verb_prefix_data[0]
+                                        verb_prefix_pos = split_pos_feats(verb_prefix_data[1])[0]
+                                        if verb_prefix_pos == "IFP":
+                                            raise RuntimeError("IFP found following initial preverb instead of conjunct"
+                                                               " particle, unexpected in this position.")
                                         if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                             reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                        elif verb_prefix == "-":
+                                            pass
                                         # if the first preverb following a conjunct particle is in the verb form
                                         # but not in the initial position
                                         # combine preceding particles to see if any combo is in initial position
@@ -1285,13 +1319,47 @@ def matchword_levdist(gloss_mapping):
                                     break
                                 # if the first POS following the conjunct particle is an infixed pronoun
                                 # suffix it to the conjunct particle and separate both from the verb
-                                elif first_affix_pos == "IFP":
+                                # then ensure any remaining preverbs aren't repeated in the verb form
+                                elif first_affix_short_pos == "IFP":
+                                    combined_last_original = last_original + first_affix_original
+                                    combined_last_pos = add_features(last_pos, first_affix_feats)
+                                    combined_last_standard = last_standard + first_affix_standard
+                                    combined_last_data = [combined_last_original,
+                                                          combined_last_pos,
+                                                          combined_last_standard]
+                                    # if the combined conjunct particle and now-suffixed pronoun are in the verb form
+                                    # and so are all following preverbs
+                                    # remove them from the verb form and update the POS list
+                                    if combined_last_original == tagged_original[:len(combined_last_original)] and \
+                                            combined_last_standard == tagged_standard[:len(combined_last_standard)]:
+                                        del verbal_affixes[0]
+                                        for remaining_affix in verbal_affixes:
+                                            remaining_affix_short_pos = split_pos_feats(remaining_affix[1])[0]
+                                            # if all remaining affixes are preverbs, assume they are all in the verb
+                                            # form also, and remove them from the POS list
+                                            if remaining_affix_short_pos != "PVP":
+                                                raise RuntimeError("Unexpected POS among remaining verbal affixes")
+                                        tagged_original = tagged_original[len(combined_last_original):]
+                                        tagged_standard = tagged_standard[len(combined_last_standard):]
+                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                        pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + \
+                                                   [tagged_word_data] + pos_list[j+1:]
+                                        combine_subtract = True
+                                        break
+                                    else:
+                                        print(last_pos_data)
+                                        print(combined_last_data)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Conjunct particle and pronoun not in verb form")
+                                else:
                                     print(last_pos_data)
-                                    print(first_affix_pos)
+                                    print(first_affix_data)
                                     print(tagged_word_data)
                                     print([k[0] for k in standard_mapping])
                                     print([k[0] for k in pos_list])
-                                    raise RuntimeError("Conjunct particle followed by preverbs/infixed pronouns")
+                                    raise RuntimeError("Conjunct particle followed by unexpected POS")
                         # if the last POS preceding a verb form and any preverbal affixes is an independent conjunction
                         # or particle which cannot be combined with dependent verb forms
                         elif last_pos_data in independent_conjunctions or last_pos_data in independent_particles:
@@ -1311,6 +1379,9 @@ def matchword_levdist(gloss_mapping):
                                 reduced_verbform = tagged_original
                                 for verb_prefix_data in verbal_affixes:
                                     verb_prefix = verb_prefix_data[0]
+                                    verb_prefix_pos = split_pos_feats(verb_prefix_data[1])[0]
+                                    if verb_prefix_pos == "IFP":
+                                        raise RuntimeError("IFP found, features must be added to verb form")
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
                                     # if a preverb or infixed pronoun can't be found where expected in the verb form

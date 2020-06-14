@@ -1,3 +1,4 @@
+
 from conllu import parse, TokenList
 from collections import OrderedDict
 import re
@@ -30,6 +31,15 @@ def add_features(pos_tag, feat_list):
         if extra_feat not in feats:
             feats.append(extra_feat)
     feats.sort()
+    feat_type_list = list()
+    for full_feat in feats:
+        feat_type = full_feat.split("=")[0]
+        if feat_type not in feat_type_list:
+            feat_type_list.append(feat_type)
+        elif feat_type in feat_type_list:
+            print(feat_type)
+            print(feats)
+            raise RuntimeError("Two features of the same type found when combining word features")
     feats = " | ".join(feats)
     if feats:
         recombined_pos = f'<{pos} {feats}>'

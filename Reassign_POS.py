@@ -1682,7 +1682,7 @@ def clean_analysis(taglist, test_unknown=False):
     # Break if a UD POS cannot be assigned, else, return POS
     if not test_unknown:
         if pos == "unknown":
-            return 1/0
+            raise RuntimeError(f"POS could not be assigned:\n    {taglist}")
         else:
             return pos
     # Return POS even if it is unknown/no UD POS can be assigned
