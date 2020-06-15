@@ -1065,6 +1065,7 @@ def matchword_levdist(gloss_mapping):
     verb_dependent_POS = ["CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.153, 49.6)
     conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
+                          ['nád', '<PART Polarity=Neg | PronType=Rel>', 'nad'],
                           ['ni', '<PART Polarity=Neg>', 'ni'],
                           ['ní', '<PART Polarity=Neg>', 'ni']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 22.7)
@@ -1198,9 +1199,7 @@ def matchword_levdist(gloss_mapping):
                                     # check if any infixed pronouns precede the verb form
                                     if split_verb_prefix[0] == "IFP":
                                         ifp_feats = split_verb_prefix[1]
-                                        print(verb_prefix_data)
-                                        print(tagged_word_data)
-                                        tagged_pos = add_features(tagged_pos, ifp_feats)
+                                        tagged_pos = add_features(tagged_pos, ifp_feats, ['PronType'])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                         pos_list = pos_list[:j] + [tagged_word_data] + pos_list[j+1:]
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
@@ -1222,8 +1221,7 @@ def matchword_levdist(gloss_mapping):
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
                                 raise RuntimeError("Unexpected number of preverbs/infixes preceding verb form")
-                    # if the last POS preceding a verb form and any preverbal affixes is not an affix itself
-                    # but is a POS type which can be combined with a verb form
+                    # if the last POS is a combinable type of POS
                     elif last_short_pos in verb_dependent_POS:
                         # if the last POS is a conjunct particle separate it from the verbal cluster
                         # treat any infixed pronouns as suffixed pronouns to the conjunct particle
@@ -1234,11 +1232,12 @@ def matchword_levdist(gloss_mapping):
                                 if last_original != tagged_original[:len(last_original)]:
                                     pass
                                 else:
-                                    print(last_pos_data)
-                                    print(tagged_word_data)
-                                    print([k[0] for k in standard_mapping])
-                                    print([k[0] for k in pos_list])
-                                    raise RuntimeError("Conjunct particle repeated in verb form")
+                                    tagged_original = tagged_original[len(last_original):]
+                                    tagged_standard = tagged_standard[len(last_standard):]
+                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                    pos_list[j] = tagged_word_data
+                                    combine_subtract = True
+                                    break
                             # if preverbs and/or infixed pronouns follow the conjunct particle
                             elif verbal_affixes:
                                 first_affix_data = verbal_affixes[0]

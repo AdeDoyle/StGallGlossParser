@@ -20,9 +20,10 @@ def split_pos_feats(pos_tag):
     return [pos, [i for i in feats]]
 
 
-def add_features(pos_tag, feat_list):
+def add_features(pos_tag, feat_list, doubling=None):
     """add all features in a list to the features in a full POS tag
-       ensure features are ordered alphabetically"""
+       ensure features are ordered alphabetically
+       if features already exist and no doubling/replacing of features isn't specified, raise error"""
     pos_split = split_pos_feats(pos_tag)
     pos = pos_split[0]
     feats = pos_split[1]
@@ -32,14 +33,46 @@ def add_features(pos_tag, feat_list):
             feats.append(extra_feat)
     feats.sort()
     feat_type_list = list()
+    replace_feat_list = list()
+    doubled_feat_list = list()
     for full_feat in feats:
-        feat_type = full_feat.split("=")[0]
+        feat_split = full_feat.split("=")
+        feat_type = feat_split[0]
         if feat_type not in feat_type_list:
             feat_type_list.append(feat_type)
         elif feat_type in feat_type_list:
-            print(feat_type)
-            print(feats)
-            raise RuntimeError("Two features of the same type found when combining word features")
+            if not doubling:
+                print(feat_type)
+                print(feats)
+                raise RuntimeError("Two features of the same type found when combining word features")
+            elif doubling == "replace":
+                replace_feat_list.append(feat_type)
+            elif feat_type in doubling:
+                doubled_feat_list.append(feat_type)
+            else:
+                print(feat_type)
+                print(feats)
+                raise RuntimeError("Two features of the same type found when combining word features")
+    if replace_feat_list:
+        for replace_feat in replace_feat_list:
+            for check_replace in feats:
+                if replace_feat in check_replace and check_replace not in feat_list:
+                    del feats[feats.index(check_replace)]
+    elif doubled_feat_list:
+        for double_feat in doubled_feat_list:
+            doubled_values = list()
+            for check_double in feats:
+                if double_feat in check_double:
+                    double_val = check_double.split("=")[1]
+                    if double_val not in doubled_values:
+                        doubled_values.append(double_val)
+            if doubled_values:
+                doubled_values.sort()
+                doubled_values = ','.join(doubled_values)
+                doubled_value = f'{double_feat}={doubled_values}'
+                feats = [i for i in feats if double_feat not in i]
+                feats.append(doubled_value)
+                feats.sort()
     feats = " | ".join(feats)
     if feats:
         recombined_pos = f'<{pos} {feats}>'
@@ -137,6 +170,8 @@ def compile_sent(sent):
 # # test add_features() function
 # print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
 # print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Case=Voc', 'Gender=Masc'], 'replace'))
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Gender=Masc'], ['Gender']))
 
 # # test remove_features() function
 # print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))
