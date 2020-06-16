@@ -1250,12 +1250,12 @@ def matchword_levdist(gloss_mapping):
                                     if verb_prefix_short_pos == "IFP":
                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats, ['PronType'])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
-                                        pos_list = pos_list[:j] + [tagged_word_data] + pos_list[j+1:]
+                                        pos_list[j] = tagged_word_data
                                     # add features from any preverb to the verb's features also
                                     elif verb_prefix_short_pos == "PVP":
                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
-                                        pos_list = pos_list[:j] + [tagged_word_data] + pos_list[j+1:]
+                                        pos_list[j] = tagged_word_data
                                     # check if the preverbal affix is in the verb form
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
@@ -1359,6 +1359,10 @@ def matchword_levdist(gloss_mapping):
                                                     break
                                             if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                                 reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                                if verb_prefix_feats:
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats, ["Mood"])
+                                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                                    pos_list[j] = tagged_word_data
                                             else:
                                                 print(last_pos_data)
                                                 print(verb_prefix)
@@ -1404,11 +1408,20 @@ def matchword_levdist(gloss_mapping):
                                             combined_last_standard == tagged_standard[:len(combined_last_standard)]:
                                         del verbal_affixes[0]
                                         for remaining_affix in verbal_affixes:
-                                            remaining_affix_short_pos = split_pos_feats(remaining_affix[1])[0]
-                                            # if all remaining affixes are preverbs, assume they are all in the verb
-                                            # form also, and remove them from the POS list
+                                            remaining_affix_pos = remaining_affix[1]
+                                            split_remaining_affix = split_pos_feats(remaining_affix_pos)
+                                            remaining_affix_short_pos = split_remaining_affix[0]
+                                            remaining_affix_feats = split_remaining_affix[1]
                                             if remaining_affix_short_pos != "PVP":
                                                 raise RuntimeError("Unexpected POS among remaining verbal affixes")
+                                            # if all remaining affixes are preverbs, assume all are in the verb form
+                                            # add their features to the verb's and remove them from the POS list
+                                            elif remaining_affix_feats:
+                                                print(remaining_affix_feats)
+                                                print(remaining_affix)
+                                                print(tagged_word_data)
+                                                tagged_pos = add_features(tagged_pos, remaining_affix_feats)
+                                                raise RuntimeError()
                                         tagged_original = tagged_original[len(combined_last_original):]
                                         tagged_standard = tagged_standard[len(combined_last_standard):]
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
@@ -1444,16 +1457,24 @@ def matchword_levdist(gloss_mapping):
                                     print([k[0] for k in standard_mapping])
                                     print([k[0] for k in pos_list])
                                     raise RuntimeError("Conjunction repeated in verb form")
+                            # if there are preverbs or infixed pronouns
                             else:
                                 # check if every preverbal particle and infixed pronoun is already in the full verb form
                                 reduced_verbform = tagged_original
                                 for verb_prefix_data in verbal_affixes:
                                     verb_prefix = verb_prefix_data[0]
-                                    verb_prefix_pos = split_pos_feats(verb_prefix_data[1])[0]
-                                    if verb_prefix_pos == "IFP":
+                                    verb_prefix_pos = verb_prefix_data[1]
+                                    split_verb_prefix = split_pos_feats(verb_prefix_pos)
+                                    verb_prefix_short_pos = split_verb_prefix[0]
+                                    verb_prefix_feats = split_verb_prefix[1]
+                                    if verb_prefix_short_pos == "IFP":
                                         raise RuntimeError("IFP found, features must be added to verb form")
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                        if verb_prefix_feats:
+                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                            tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                            pos_list[j] = tagged_word_data
                                     # if a preverb or infixed pronoun can't be found where expected in the verb form
                                     else:
                                         print(verb_prefix)
@@ -1466,6 +1487,7 @@ def matchword_levdist(gloss_mapping):
                                 pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
                                 combine_subtract = True
                                 break
+                        # if the last POS preceding the verb form is reduced to zero
                         elif last_original == "-" and last_standard == "-":
                             second_last_data = pos_list[j-last_pos_place-1]
                             # list all parts of speech that relative particles can fall into (cf. Thurn p.312)
