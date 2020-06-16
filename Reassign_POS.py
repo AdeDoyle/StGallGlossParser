@@ -1598,20 +1598,57 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'particle':
         if An2 == 'preverb':
             if not An3:
+                relative = False
+                if rel == "Y":
+                    relative = "Rel"
+                aspect = False
+                mood = False
+                if trans:
+                    if trans == "perfective particle":
+                        aspect = "Perf"
+                    elif trans == "subjunctive ro":
+                        mood = "Sub"
+                    elif trans == "ro of possibility":
+                        mood = "Pot"
+                    elif trans == "conditional ro":
+                        mood = "Cnd"
+                feat_list = list()
+                if aspect:
+                    feat_list.append(f'Aspect={aspect}')
+                if mood:
+                    feat_list.append(f'Mood={mood}')
+                if relative:
+                    feat_list.append(f'PronType={relative}')
                 if not actpas:
-                    if not rel:
-                        pos = "PVP"
-                    elif rel == 'Y':
-                        pos = "PVP"
+                    pos = "PVP"
+                    if feat_list:
+                        features = " | ".join(feat_list)
+                        pos = f'{pos} {features}'
             elif An3 in ['ar·cela', 'ar·icc', 'at·baill',
                          'díṡruthaigidir', 'díxnigidir', 'do·ommalgg',
                          'ro·finnadar',
                          'sechmo·ella',
                          'téit (do·coaid)',
                          'subjunctive ro', '*']:
+                mood = False
+                if An3 == 'subjunctive ro':
+                    mood = 'Sub'
+                aspect = False
+                if trans:
+                    if trans == "perfective particle":
+                        aspect = "Perf"
+                feat_list = list()
+                if aspect:
+                    feat_list.append(f'Aspect={aspect}')
+                if mood:
+                    feat_list.append(f'Mood={mood}')
                 if not actpas:
                     if not rel:
                         pos = "PVP"
+                        if feat_list:
+                            features = " | ".join(feat_list)
+                            pos = f'{pos} {features}'
+    # includes only exceptions 'tris-' (rare preverb) and 'me' (mí prefix used as infixed preverb)
     if An1 == 'particle':
         if An2 in ['prefix', 'prefix and preverb']:
             if An3 == '*':
