@@ -1387,19 +1387,35 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "SCONJ"
         elif An2 in ['negative subordinating',
-                     'negative (geminating), before non-verbs; na before stressed words',
-                     'relative negative, with infixed pronouns Class C',
-                     'subordinate negative, with infixed pronouns Class C']:
+                     'negative (geminating), before non-verbs; na before stressed words']:
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "SCONJ Polarity=Neg"
-            elif An3 in ['joining two nouns',
-                         '+ infix pron Class C 3sg n',
-                         '+ infix pron class C 3sg nt']:
+            elif An3 == 'joining two nouns':
                 if not actpas:
                     if not rel:
                         pos = "SCONJ Polarity=Neg"
+        elif An2 in ['relative negative, with infixed pronouns Class C',
+                     'subordinate negative, with infixed pronouns Class C']:
+            feat_list = list()
+            feat_list.append('Polarity=Neg')
+            feat_list.append('PronClass=C')
+            feat_list.append('PronGend=Neut')
+            feat_list.append('PronNum=Sing')
+            feat_list.append('PronPers=3')
+            feat_list.append('PronType=Prs')
+            if not An3 or An3 == 'infix pron Class C 3sg n':
+                if not actpas:
+                    if not rel:
+                        features = " | ".join(feat_list)
+                        pos = f"SCONJ {features}"
+            elif An3 == 'infix pron class C 3sg m':
+                feat_list[2] = 'PronGend=Masc'
+                if not actpas:
+                    if not rel:
+                        features = " | ".join(feat_list)
+                        pos = f"SCONJ {features}"
     if An1 == 'conjunction w/ subordinate negation':
         if not An2:
             if not An3:
@@ -1621,6 +1637,10 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'PronType={relative}')
                 if not actpas:
                     pos = "PVP"
+                    if trans == "dummy particle":
+                        pos = "PART"
+                        feat_list.append("PartType=Vb")
+                        feat_list.sort()
                     if feat_list:
                         features = " | ".join(feat_list)
                         pos = f'{pos} {features}'
@@ -1657,6 +1677,7 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = "PVP"
 
     # Assign Infixed Pronouns (IFP)
+    gend_dict = {"m": "Masc", "n": "Neut", "f": "Fem"}
     if An1 in ['pronoun, infixed, class A',
                'pronoun, infixed, class B',
                'pronoun, infixed, class C']:
@@ -1677,10 +1698,10 @@ def clean_analysis(taglist, test_unknown=False):
             numperspatiter = numperspat.finditer(An2)
             for numpersfind in numperspatiter:
                 numpers = numpersfind.group()
-                pronnum = numpers[1:3]
+                pronnum = numdict.get(f'{numpers[1:3]}.')
                 pronpers = numpers[0]
                 if " " in numpers:
-                    prongend = numpers[-1]
+                    prongend = gend_dict.get(numpers[-1])
             feat_list = list()
             feat_list.append(f'PronClass={pronclass}')
             if prongend:
