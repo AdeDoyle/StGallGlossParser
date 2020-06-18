@@ -810,9 +810,10 @@ def matchword_levdist(gloss_mapping):
                                 break
                             # if there are any unaccounted for over-full copula forms remaining
                             else:
-                                print(tagged_word_data)
                                 print(last_pos_data)
-                                print(pos_list)
+                                print(tagged_word_data)
+                                print([k[0] for k in standard_mapping])
+                                print([k[0] for k in pos_list])
                                 raise RuntimeError("Could not separate over-full copula form")
                         # if there are preverbs but no preceding POS
                         elif copula_preverbs:
@@ -824,7 +825,7 @@ def matchword_levdist(gloss_mapping):
                     elif tagged_check_word not in new_combined_cops:
                         print(tagged_word_data)
                         print([k[0] for k in standard_mapping])
-                        print([k for k in pos_list])
+                        print([k[0] for k in pos_list])
                         raise RuntimeError("Copula form not could not be found")
                 # ensure absolute forms of the copula are not compounded with preceding conjunctions, etc.
                 elif tagged_check_word in full_cops:
@@ -922,9 +923,15 @@ def matchword_levdist(gloss_mapping):
                     ['ru', '<PVP>', 'ru']]
     # list all parts of speech which are not negative particles and which combine with a following negative copula form
     # (generally a form reduced to zero)
-    neg_conjunctions = [['nach', '<SCONJ Polarity=Neg>', 'nach'],
+    neg_conjunctions = [['nach',
+                         '<SCONJ Polarity=Neg | PronClass=C | PronGend=Neut '
+                         '| PronNum=Sing | PronPers=3 | PronType=Prs>',
+                         'nach'],
                         ['nách', '<SCONJ Polarity=Neg>', 'nach'],
-                        ['naich', '<SCONJ Polarity=Neg>', 'naich']]
+                        ['naich',
+                         '<SCONJ Polarity=Neg | PronClass=C | PronGend=Neut '
+                         '| PronNum=Sing | PronPers=3 | PronType=Prs>',
+                         'naich']]
     neg_int_pronouns = [['Caní', '<PRON Polarity=Neg | PronType=Int>', 'cani']]
     # count the instances of the negative copula form(s) in the gloss
     neg_count = 0
@@ -1001,7 +1008,6 @@ def matchword_levdist(gloss_mapping):
                                 tagged_pos = add_features(tagged_pos, combined_preverb_feats)
                                 tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                 pos_list = pos_list[:j-last_pos_place+1] + [tagged_word_data] + pos_list[j+1:]
-                                pass
                             # if the combined preverbs cannot be found within the copula form
                             else:
                                 raise RuntimeError("Known preverb(s) not contained in copula form")
@@ -1011,6 +1017,14 @@ def matchword_levdist(gloss_mapping):
                             print(copula_preverbs)
                             print(last_pos_data)
                             raise RuntimeError("Unknown preverb(s) between negative particle and copula form")
+                        # adjust the value of the j variable to accoun for the number of preverbs removed
+                        j = j - len(copula_preverbs)
+                    # test that removing copula preverbs hasn't affected the placement of the copula form
+                    if tagged_word_data != pos_list[j]:
+                        print(tagged_word_data)
+                        print(pos_list[j])
+                        print([k[0] for k in pos_list])
+                        raise RuntimeError("Copula placement affected before moving on")
                     if last_pos_data:
                         last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
                         split_last_pos = split_pos_feats(last_pos)
@@ -1054,7 +1068,10 @@ def matchword_levdist(gloss_mapping):
                         elif tagged_original == '-' and tagged_standard == '-' and tagged_short_pos == 'AUX' \
                                 and all(feat in tagged_feats for feat in ["Polarity=Neg", "VerbType=Cop"]):
                             # if the last POS is a known negative conjunction delete the copula form
+                            # but combine its features with the preceding conjunction's
                             if last_pos_data in neg_conjunctions:
+                                last_pos_data = [last_original, add_features(last_pos, tagged_feats), last_standard]
+                                pos_list[j-last_pos_place] = last_pos_data
                                 del pos_list[j]
                                 combine_subtract = True
                                 break
@@ -1110,37 +1127,53 @@ def matchword_levdist(gloss_mapping):
     #
     # remove doubled particles, etc. before verbs, or add to the verb if not doubled
     # count instances of verbs in the gloss
-    verb_independent_POS = ["ADJ", "ADV", "AUX", "NOUN", "NUM", "PRON", "VERB"]
-    verb_dependent_POS = ["CCONJ", "PART", "SCONJ"]
+    verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "NOUN", "NUM", "PRON", "PROPN", "VERB"]
+    verb_dependent_POS = ["ADP", "CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.135, 27.7)
     conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
                           ['in', '<PART PronType=Int>', 'in'],
+                          ['ná', '<PART Polarity=Neg | PronType=Rel>', 'na'],
+                          ['nad', '<PART Polarity=Neg | PronType=Rel>', 'nad'],
                           ['nád', '<PART Polarity=Neg | PronType=Rel>', 'nad'],
                           ['ni', '<PART Polarity=Neg>', 'ni'],
                           ['ní', '<PART Polarity=Neg>', 'ni'],
                           ['Ní', '<PART Polarity=Neg>', 'ni'],
+                          ['nicon', '<PART Polarity=Neg>', 'nicon'],
                           ['no', '<PART PartType=Vb>', 'no']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
     verbal_particles = [['ro', '<PVP Aspect=Perf>', 'ro']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
-    dependent_conjunctions = [['co', '<SCONJ>', 'co'],
+    dependent_conjunctions = [['Ara', '<SCONJ>', 'ara'],
+                              ['co', '<SCONJ>', 'co'],
                               ['con', '<SCONJ>', 'con'],
-                              ['na', '<SCONJ Polarity=Neg>', 'na']]
+                              ['na', '<SCONJ Polarity=Neg>', 'na'],
+                              ['nád', '<SCONJ Polarity=Neg>', 'nad']]
     # list conjunctions which do not take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     independent_conjunctions = [['a', '<SCONJ>', 'a'],
+                                ['acht', '<SCONJ>', 'acht'],
                                 ['air', '<SCONJ>', 'air'],
                                 ['ar', '<SCONJ>', 'ar'],
+                                ['airindi', '<SCONJ>', 'airindi'],
+                                ['airindí', '<SCONJ>', 'airindi'],
+                                ['arindí', '<SCONJ>', 'arindi'],
                                 ['amal', '<SCONJ>', 'amal'],
                                 ['cenmitha', '<SCONJ>', 'cenmitha'],
                                 ['ce', '<SCONJ>', 'ce'],
                                 ['ci', '<SCONJ>', 'ci'],
                                 ['cia', '<SCONJ>', 'cia'],
+                                ['huare', '<SCONJ>', 'huare'],
+                                ['lase', '<SCONJ>', 'lase'],
                                 ['ma', '<SCONJ>', 'ma'],
+                                ['má', '<SCONJ>', 'ma'],
                                 ['ɫ', '<CCONJ>', 'no'],
                                 ['⁊', '<CCONJ>', 'ocus'],
                                 ['ol', '<SCONJ>', 'ol']]
     independent_particles = [['hí', '<PART>', 'hi'],
                              ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph']]
+    # list particles which have previously been compounded by the script below and need to be passed over
+    compounded_particles = [['nándun',
+                             '<PART Polarity=Neg | PronClass=C | PronNum=Plur | PronPers=1 | PronType=Prs,Rel>',
+                             'nandun']]
     verbcount = 0
     for tagged_word_data in pos_list:
         split_tagged_pos = split_pos_feats(tagged_word_data[1])
@@ -1321,6 +1354,9 @@ def matchword_levdist(gloss_mapping):
                                     # check if the preverbal affix is in the verb form
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                    # if the preverb is reduced to zero, move past it without reducing the verb form
+                                    elif verb_prefix == "-":
+                                        continue
                                     # if a preverb or infixed pronoun can't be found where expected in the verb form
                                     else:
                                         print(verb_prefix)
@@ -1466,7 +1502,7 @@ def matchword_levdist(gloss_mapping):
                                 # then ensure any remaining preverbs aren't repeated in the verb form
                                 elif first_affix_short_pos == "IFP":
                                     combined_last_original = last_original + first_affix_original
-                                    combined_last_pos = add_features(last_pos, first_affix_feats)
+                                    combined_last_pos = add_features(last_pos, first_affix_feats, ['PronType'])
                                     combined_last_standard = last_standard + first_affix_standard
                                     combined_last_data = [combined_last_original,
                                                           combined_last_pos,
@@ -1608,14 +1644,28 @@ def matchword_levdist(gloss_mapping):
                         elif last_original == "-" and last_standard == "-":
                             second_last_data = pos_list[j-last_pos_place-1]
                             # list all parts of speech that relative particles can fall into (cf. Thurn p.312)
-                            blank_rel_combos = [['hi', '<ADP AdpType=Prep | Definite=Ind>', 'hi']]
-                            if second_last_data in blank_rel_combos:
+                            blank_rel_combos = [['hi', '<ADP AdpType=Prep | Definite=Ind>', 'hi'],
+                                                ['hua', '<ADP AdpType=Prep | Definite=Ind>', 'hua']]
+                            # if the second last POS before the verb is a preposition into which the relative particle
+                            # can fall or onto which it can be attached, and the zero particle is a relative particle
+                            # combine the features of the particle with the preceding POS and delete the zero particle
+                            if second_last_data in blank_rel_combos \
+                                    and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
                                 sl_original = second_last_data[0]
                                 sl_pos = second_last_data[1]
                                 sl_standard = second_last_data[2]
                                 sl_pos = add_features(sl_pos, last_feats)
                                 second_last_data = [sl_original, sl_pos, sl_standard]
-                                pos_list = pos_list[:j-last_pos_place-1] + [second_last_data] + pos_list[j:]
+                                # check that the prepositional relative particle is not doubled in the verb form
+                                if sl_original == tagged_original[:len(sl_original)] \
+                                        and sl_standard == tagged_standard[:len(sl_standard)]:
+                                    tagged_original = tagged_original[len(sl_original):]
+                                    tagged_standard = tagged_standard[len(sl_standard):]
+                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                elif sl_original in tagged_original and sl_standard in tagged_standard:
+                                    raise RuntimeError("prepositional relative particle possibly doubled in verb form")
+                                rel_prep_combo = [second_last_data, tagged_word_data]
+                                pos_list = pos_list[:j-last_pos_place-1] + rel_prep_combo + pos_list[j+1:]
                                 combine_subtract = True
                                 break
                             else:
@@ -1625,6 +1675,25 @@ def matchword_levdist(gloss_mapping):
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
                                 raise RuntimeError("Empty relative particle preceded by unknown form")
+                        # if the verb is preceded by a prepositional relative particle
+                        # this verb has already been processed (directly above) and should be passed over
+                        elif last_short_pos == "ADP" \
+                                and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
+                            continue
+                        # if the verb is preceded by a preposition which is repeated in the verb form
+                        # remove the doubled preposition from the verb form and leave it stand separately
+                        elif last_short_pos == "ADP":
+                            if last_original == tagged_original[:len(last_original)] \
+                                    and last_standard == tagged_standard[:len(last_standard)]:
+                                tagged_original = tagged_original[len(last_original):]
+                                tagged_standard = tagged_standard[len(last_standard):]
+                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                pos_list[j] = tagged_word_data
+                                combine_subtract = True
+                                break
+                        # if the verb and POS have already been separated as necessary and need to be passed over
+                        elif last_pos_data in compounded_particles:
+                            continue
                         # if the last POS's data can't be found in any list
                         else:
                             print(last_pos_data)
@@ -2534,13 +2603,12 @@ def matchword_levdist(gloss_mapping):
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
 
-# Test edit distance function on all glosses
-test_on = glosslist
-for glossnum, gloss in enumerate(test_on):
-    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-    if check:
-        print(glossnum, check)
-        # pass
+# # Test edit distance function on all glosses
+# test_on = glosslist
+# for glossnum, gloss in enumerate(test_on):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+#     if check:
+#         print(glossnum, check)
 
 
 # # Print the number of glosses containing an error code of 0 (i.e. perfectly matched glosses)
