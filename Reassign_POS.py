@@ -1524,7 +1524,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART PartType=Dct"
             elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                          'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
                          'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.',
@@ -1535,7 +1535,7 @@ def clean_analysis(taglist, test_unknown=False):
                          'dat.pl.', 'dat.pl.masc.', 'dat.pl.neut.']:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART PartType=Dct"
     # Assign Prefixing particles (mí-, so-, do-, neph-) (PART)
     if An1 == 'particle':
         if An2 in ['prefix', 'prefix, intensive', 'prefix and preverb', 'prefix, privative']:
