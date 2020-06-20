@@ -6,7 +6,7 @@ import re
 from nltk import edit_distance as ed
 from Match_GlossSets import remove_glosshyphens, standardise_glosschars, standardise_wordchars
 from Map_GlossWords import map_glosswords
-from CoNLL_U import split_pos_feats, add_features, update_feature, update_tag
+from CoNLL_U import split_pos_feats, add_features, update_feature
 from Clean_Glosses import clean_gloss, clean_word
 
 
@@ -232,9 +232,11 @@ def matchword_levdist(gloss_mapping):
                  ['bith', '<AUX Polarity=Pos | VerbType=Cop>', 'bith'],  # Future
                  ['bit', '<AUX Polarity=Pos | VerbType=Cop>', 'bit'],
                  ['bas', '<AUX Polarity=Pos | VerbType=Cop>', 'bas']]  # (Rel.)
-    # list all verbal particles which can be used in conjunction with a copula
+    # list all verbal particles which can be used in conjunction with a copula, but should be separated from them
     verbal_particles = [['no', '<PART PartType=Vb>', 'no'],
                         ['nu', '<PART PartType=Vb>', 'nu']]
+    # list all preverbal particles which can be used in conjunction with a copula, and should remain attached
+    copula_preverbal_parts = [['ro', '<PVP Mood=Sub>', 'ro']]
     # list forms of the copula which have been combined with too many preceding parts of speech ((2<=) + copula)
     over_full_cops = [['cenid', '<AUX Polarity=Pos | VerbType=Cop>', 'cenid'],
                       ['cenobed', '<AUX Polarity=Pos | VerbType=Cop>', 'cenobed'],
@@ -646,78 +648,80 @@ def matchword_levdist(gloss_mapping):
                             # if there are preverb(s) preceding an overfull copula form
                             # they should remain part of the copula, but any preceding POS should be removed
                             if copula_preverbs:
-                                print(last_pos_data)
-                                print(copula_preverbs)
-                                print(tagged_word_data)
-                                raise RuntimeError("Copula preverbs found")
-                                # # if the last POS is a combinable conjunction and it is repeated in the copula form
-                                # # it should be separated from the copula form leaving only the preverb(s) attached
-                                # if last_pos_data in conj_combo_forms and \
-                                #         last_original == tagged_original[:len(last_original)]:
-                                #     reduced_copform = [tagged_original[len(last_original):],
-                                #                        tagged_pos,
-                                #                        tagged_standard[len(last_standard):]]
-                                #     reduced_original = reduced_copform[0]
-                                #     reduced_standard = reduced_copform[2]
-                                #     # as the preverb now potentially makes up part of the copula form, treat it as the
-                                #     # last POS, change the POS tag from PVP to PART, and add the PartType=Vb feature
-                                #     # there should be only one preverb attached to any copula in the St. Gall corpus
-                                #     if len(copula_preverbs) == 1:
-                                #         last_preverb_data = copula_preverbs[0]
-                                #         last_original, last_pos, last_standard = last_preverb_data[0], \
-                                #                                                  last_preverb_data[1], \
-                                #                                                  last_preverb_data[2]
-                                #         last_feats = split_pos_feats(last_pos)[1]
-                                #         last_pos = update_tag(last_pos, 'PART')
-                                #         last_pos = add_features(last_pos, ['PartType=Vb'])
-                                #         copula_preverb = [last_original, last_pos, last_standard]
-                                #         # if the preverb is a full (not reduced) variant spelling of 'ro' or 'no'
-                                #         if copula_preverb in verbal_particles:
-                                #             # if the preverb is already at the beginning of the reduced copula form
-                                #             # remove it to isolate the remaining, pure copula form
-                                #             if last_original == reduced_original[:len(last_original)]:
-                                #                 reduced_copform = [reduced_original[len(last_original):],
-                                #                                    tagged_pos,
-                                #                                    reduced_standard[len(last_standard):]]
-                                #                 reduced_check_cop = [reduced_copform[0],
-                                #                                      '<AUX Polarity=Pos | VerbType=Cop>',
-                                #                                      reduced_copform[2]]
-                                #                 # if the copula form remaining after removing the preverb is an enclitic
-                                #                 # recombine it with the preverb and keep the copula's POS information
-                                #                 if reduced_check_cop in enclitic_cops:
-                                #                     tagged_pos = add_features(tagged_pos, last_feats)
-                                #                     final_cop = [[last_original + reduced_copform[0],
-                                #                                  tagged_pos,
-                                #                                  last_standard + reduced_copform[2]]]
-                                #                 # if the copula form remaining after removing the preverb is a full form
-                                #                 # separate the preverb from the copula
-                                #                 elif reduced_check_cop in full_cops:
-                                #                     final_cop = [copula_preverb] + [reduced_copform]
-                                #                 # if the copula form is neither a known enclitic nor full form
-                                #                 else:
-                                #                     print(tagged_word_data)
-                                #                     print(copula_preverbs)
-                                #                     print(last_pos_data)
-                                #                     print(reduced_copform)
-                                #                     raise RuntimeError("Undetermined copula form, cannot combine")
-                                #                 pos_list = pos_list[:j-last_pos_place+1] + final_cop + pos_list[j+1:]
-                                #                 combine_subtract = True
-                                #                 break
-                                #             else:
-                                #                 print(tagged_word_data)
-                                #                 print(copula_preverbs)
-                                #                 print(last_pos_data)
-                                #                 raise RuntimeError("Could not separate over-full copula form")
-                                #         else:
-                                #             print(tagged_word_data)
-                                #             print(copula_preverb)
-                                #             print(last_pos_data)
-                                #             raise RuntimeError("Copula preceded unexpected preverb")
-                                #     else:
-                                #         print(tagged_word_data)
-                                #         print(copula_preverbs)
-                                #         print(last_pos_data)
-                                #         raise RuntimeError("Multiple preverbs between copula form and last POS")
+                                # if there are more than one preverb preceding the copula
+                                if len(copula_preverbs) > 1:
+                                    print(last_pos_data)
+                                    print(copula_preverbs)
+                                    print(tagged_word_data)
+                                    raise RuntimeError("Multiple copula preverbs found")
+                                # if the last POS is a combinable conjunction and it is repeated in the copula form
+                                # it should be separated from the copula form leaving only the preverb attached
+                                if last_pos_data in conj_combo_forms and \
+                                        last_original == tagged_original[:len(last_original)]:
+                                    reduced_copform = [tagged_original[len(last_original):],
+                                                       tagged_pos,
+                                                       tagged_standard[len(last_standard):]]
+                                    reduced_original = reduced_copform[0]
+                                    reduced_standard = reduced_copform[2]
+                                    copula_preverb = copula_preverbs[0]
+                                    cop_preverb_original = copula_preverb[0]
+                                    cop_preverb_pos = copula_preverb[0]
+                                    cop_preverb_standard = copula_preverb[2]
+                                    split_cop_preverb_pos = split_pos_feats(cop_preverb_pos)
+                                    cop_preverb_feats = split_cop_preverb_pos[1]
+                                    # if the preverb is a full (not reduced) variant spelling of an expected preverb
+                                    if copula_preverb in copula_preverbal_parts:
+                                        # if the preverb is already at the beginning of the reduced copula form
+                                        # remove it to isolate the remaining, pure copula form
+                                        if cop_preverb_original == reduced_original[:len(last_original)]:
+                                            reduced_copform = [reduced_original[len(cop_preverb_original):],
+                                                               tagged_pos,
+                                                               reduced_standard[len(cop_preverb_standard):]]
+                                            reduced_check_cop = [reduced_copform[0],
+                                                                 '<AUX Polarity=Pos | VerbType=Cop>',
+                                                                 reduced_copform[2]]
+                                            # if the copula form remaining after removing the preverb is an enclitic
+                                            # recombine it with the preverb
+                                            # combine the preverb's features with those of the copula
+                                            if reduced_check_cop in enclitic_cops:
+                                                tagged_pos = add_features(tagged_pos, cop_preverb_feats)
+                                                final_cop = [cop_preverb_original + reduced_copform[0],
+                                                             tagged_pos,
+                                                             cop_preverb_standard + reduced_copform[2]]
+                                            # if the copula form remaining after removing the preverb is a full form
+                                            elif reduced_check_cop in full_cops:
+                                                raise RuntimeError("Full copula form following preverb")
+                                            # if the copula form is neither a known enclitic nor full form
+                                            else:
+                                                print(last_pos_data)
+                                                print(copula_preverb)
+                                                print(tagged_word_data)
+                                                print(reduced_copform)
+                                                raise RuntimeError("Undetermined copula form, cannot combine")
+                                            pos_list = pos_list[:j-last_pos_place+1] + [final_cop] + pos_list[j+1:]
+                                            combine_subtract = True
+                                            break
+                                        # if the preverb isn't at the beginning of the copula form once the preceding
+                                        # combining conjunction has been removed
+                                        else:
+                                            print(tagged_word_data)
+                                            print(copula_preverbs)
+                                            print(last_pos_data)
+                                            raise RuntimeError("Could not separate over-full copula form")
+                                    # if the preverbal particle preceding the copula form is not listed
+                                    else:
+                                        print(tagged_word_data)
+                                        print(copula_preverb)
+                                        print(last_pos_data)
+                                        raise RuntimeError("Copula preceded by unknown preverb")
+                                # if the last POS is not a combining conjunction
+                                # or it does not occur at the start of the copula form
+                                else:
+                                    print(last_pos_data)
+                                    print(copula_preverbs)
+                                    print(tagged_word_data)
+                                    raise RuntimeError("POS preceding over-full copula form not found in copula form")
+
                                 # # if the last POS is not a combining conjunction, or the last POS is a combinable
                                 # # conjunction but is not repeated in the copula form along with preverb(s)
                                 # # as the preverb now potentially makes up part of the copula form, treat it as the
@@ -781,6 +785,7 @@ def matchword_levdist(gloss_mapping):
                                 #     print(copula_preverbs)
                                 #     print(last_pos_data)
                                 #     raise RuntimeError("More preverbs found preceding copula form than expected")
+
                             # if there are no preverbs preceding an overfull copula form but the last POS is a verbal
                             # particle which has been attached to the beginning of the over-full copula
                             # remove everything from the copula from, leaving only the base form itself
@@ -1092,7 +1097,9 @@ def matchword_levdist(gloss_mapping):
                             # if the last POS is a known negative conjunction delete the copula form
                             # but combine its features with the preceding conjunction's
                             if last_pos_data in neg_conjunctions:
-                                last_pos_data = [last_original, add_features(last_pos, tagged_feats), last_standard]
+                                last_pos_data = [last_original,
+                                                 add_features(last_pos, tagged_feats, ["PronType"]),
+                                                 last_standard]
                                 pos_list[j-last_pos_place] = last_pos_data
                                 del pos_list[j]
                                 combine_subtract = True
@@ -1159,6 +1166,7 @@ def matchword_levdist(gloss_mapping):
                           ['ná', '<PART Polarity=Neg | PronType=Rel>', 'na'],
                           ['nad', '<PART Polarity=Neg | PronType=Rel>', 'nad'],
                           ['nád', '<PART Polarity=Neg | PronType=Rel>', 'nad'],
+                          ['nnád', '<PART Polarity=Neg | PronType=Rel>', 'nnad'],
                           ['ni', '<PART Polarity=Neg>', 'ni'],
                           ['ní', '<PART Polarity=Neg>', 'ni'],
                           ['Ní', '<PART Polarity=Neg>', 'ni'],
@@ -1182,10 +1190,12 @@ def matchword_levdist(gloss_mapping):
                                 ['arindí', '<SCONJ>', 'arindi'],
                                 ['amal', '<SCONJ>', 'amal'],
                                 ['cenmitha', '<SCONJ>', 'cenmitha'],
+                                ['cenmithá', '<SCONJ>', 'cenmitha'],
                                 ['ce', '<SCONJ>', 'ce'],
                                 ['ci', '<SCONJ>', 'ci'],
                                 ['cia', '<SCONJ>', 'cia'],
                                 ['huare', '<SCONJ>', 'huare'],
+                                ['húare', '<SCONJ>', 'huare'],
                                 ['immurgu', '<SCONJ>', 'immurgu'],
                                 ['lase', '<SCONJ>', 'lase'],
                                 ['ma', '<SCONJ>', 'ma'],
@@ -1204,8 +1214,10 @@ def matchword_levdist(gloss_mapping):
     # list all parts of speech that relative particles can fall into (cf. Thurn p.312)
     blank_rel_combos = [['i', '<ADP AdpType=Prep | Definite=Ind>', 'i'],
                         ['hi', '<ADP AdpType=Prep | Definite=Ind>', 'hi'],
+                        ['ó', '<ADP AdpType=Prep | Definite=Ind>', 'o'],
                         ['ho', '<ADP AdpType=Prep | Definite=Ind>', 'ho'],
-                        ['hua', '<ADP AdpType=Prep | Definite=Ind>', 'hua']]
+                        ['hua', '<ADP AdpType=Prep | Definite=Ind>', 'hua'],
+                        ['húa', '<ADP AdpType=Prep | Definite=Ind>', 'hua']]
     verbcount = 0
     for tagged_word_data in pos_list:
         split_tagged_pos = split_pos_feats(tagged_word_data[1])
@@ -1237,6 +1249,18 @@ def matchword_levdist(gloss_mapping):
                                 if j-last_pos_place == 0 and split_last_pos[0] == "PVP":
                                     verbal_affixes.append(last_pos_data)
                                     break
+                                # check if a preverbal particle precedes a conjunct particle or dependent conjunction
+                                elif last_pos_data in conjunct_particles or last_pos_data in dependent_conjunctions:
+                                    second_last_data = pos_list[j-last_pos_place-1]
+                                    split_sl_pos = split_pos_feats(second_last_data[1])
+                                    if split_sl_pos[0] in ["PVP", "IFP"]:
+                                        verbal_affixes.append(last_pos_data)
+                                        last_pos_place += 1
+                                        last_pos_data = pos_list[j-last_pos_place]
+                                        split_last_pos = split_pos_feats(last_pos_data[1])
+                                        if j-last_pos_place == 0 and split_last_pos[0] == "PVP":
+                                            verbal_affixes.append(last_pos_data)
+                                            break
                         elif split_last_pos[0] in ["PVP", "IFP"] and j-last_pos_place == 0:
                             verbal_affixes.append(last_pos_data)
                     else:
@@ -1414,7 +1438,8 @@ def matchword_levdist(gloss_mapping):
                                 raise RuntimeError("Unexpected number of preverbs/infixes preceding verb form")
                     # if the last POS is a combinable type of POS
                     elif last_short_pos in verb_dependent_POS:
-                        # if the last POS is a conjunct particle separate it from the verbal cluster
+                        # if the last POS is a conjunct particle or combining conjunction
+                        # separate it from the verbal cluster
                         # treat any infixed pronouns as suffixed pronouns to the conjunct particle
                         if last_pos_data in conjunct_particles or last_pos_data in dependent_conjunctions:
                             # if there are no preverbs or infixed pronouns between the conjunct particle and the verb
@@ -1458,8 +1483,9 @@ def matchword_levdist(gloss_mapping):
                                         if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                             reduced_verbform = reduced_verbform[len(verb_prefix):]
                                             if verb_prefix_feats:
-                                                print(verb_prefix_data)
-                                                raise RuntimeError("Prefix features must be added to verb")
+                                                tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                                pos_list[j] = tagged_word_data
                                         # if the preverb is reduced to zero, move past it without reducing the verb form
                                         elif verb_prefix == "-":
                                             if verb_prefix_feats:
@@ -1624,12 +1650,13 @@ def matchword_levdist(gloss_mapping):
                                         combine_subtract = True
                                         break
                                     else:
+                                        print(verbal_affixes)
                                         print(last_pos_data)
                                         print(combined_last_data)
                                         print(tagged_word_data)
                                         print([k[0] for k in standard_mapping])
                                         print([k[0] for k in pos_list])
-                                        raise RuntimeError("Conjunct particle and pronoun not in verb form")
+                                        raise RuntimeError("Conjunct particle and suffixed pronoun not in verb form")
                                 else:
                                     print(last_pos_data)
                                     print(first_affix_data)
@@ -1687,6 +1714,25 @@ def matchword_levdist(gloss_mapping):
                                             tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                             tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                             pos_list[j] = tagged_word_data
+                                    # if the preverbal affix begins with an f, check that it's not lenited in the verb
+                                    elif verb_prefix[0] == 'f' \
+                                            and 'ḟ' + verb_prefix[1:] == reduced_verbform[:len(verb_prefix)]:
+                                        reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                        if verb_prefix_feats:
+                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                            tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                            pos_list[j] = tagged_word_data
+                                    # if the preverb is reduced to zero, move past it without reducing the verb form
+                                    elif verb_prefix == "-":
+                                        if verb_prefix_feats:
+                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                            tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                            print(pos_list)
+                                            pos_list[j] = tagged_word_data
+                                            print(pos_list)
+                                            raise RuntimeError("Prefix features must be added to verb")
+                                        else:
+                                            continue
                                     # if a preverb or infixed pronoun can't be found where expected in the verb form
                                     else:
                                         print(verb_prefix)
@@ -1702,14 +1748,16 @@ def matchword_levdist(gloss_mapping):
                         # if the last POS preceding the verb form is reduced to zero
                         elif last_original == "-" and last_standard == "-":
                             second_last_data = pos_list[j-last_pos_place-1]
+                            sl_original = second_last_data[0]
+                            sl_pos = second_last_data[1]
+                            sl_standard = second_last_data[2]
+                            split_sl_pos = split_pos_feats(sl_pos)
+                            sl_short_pos = split_sl_pos[0]
                             # if the second last POS before the verb is a preposition into which the relative particle
                             # can fall or onto which it can be attached, and the zero particle is a relative particle
                             # combine the features of the particle with the preceding POS and delete the zero particle
                             if second_last_data in blank_rel_combos \
                                     and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
-                                sl_original = second_last_data[0]
-                                sl_pos = second_last_data[1]
-                                sl_standard = second_last_data[2]
                                 sl_pos = add_features(sl_pos, last_feats)
                                 second_last_data = [sl_original, sl_pos, sl_standard]
                                 # check that the prepositional relative particle is not doubled in the verb form
@@ -1722,13 +1770,23 @@ def matchword_levdist(gloss_mapping):
                                 pos_list = pos_list[:j-last_pos_place-1] + rel_prep_combo + pos_list[j+1:]
                                 combine_subtract = True
                                 break
+                            # if the second last POS before the verb is a preverbal particle and the zero particle
+                            # is a relative particle, combine the relative particle's features with the verb's
+                            # remove the relative particle and preceding preverb from the POS list
+                            elif sl_short_pos == "PVP" \
+                                    and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
+                                tagged_pos = add_features(tagged_pos, last_feats)
+                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                pos_list = pos_list[:j-last_pos_place-1] + [tagged_word_data] + pos_list[j+1:]
+                                combine_subtract = True
+                                break
                             else:
                                 print(second_last_data)
                                 print(last_pos_data)
                                 print(tagged_word_data)
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
-                                raise RuntimeError("Empty relative particle preceded by unknown form")
+                                raise RuntimeError("Empty relative particle preceded by unknown form, add to list")
                         # if the verb is preceded by a prepositional relative particle
                         # this verb has already been processed (directly above) and should be passed over
                         elif last_short_pos == "ADP" \
