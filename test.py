@@ -376,6 +376,7 @@ def matchword_levdist(gloss_mapping):
                     if last_pos_data:
                         last_original, last_pos, last_standard = last_pos_data[0], last_pos_data[1], last_pos_data[2]
                         split_last_pos = split_pos_feats(last_pos)
+                        last_short_pos = split_last_pos[0]
                         last_feats = split_last_pos[1]
                         # if the last POS is an interrogative particle
                         # delete the empty copula as it does not change the form of the preceding POS
@@ -390,15 +391,19 @@ def matchword_levdist(gloss_mapping):
                             combine_subtract = True
                             break
                         # fix polarity of negative copula forms reduced to zero which are listed as positive by Bauer
-                        elif last_pos_data in neg_conj_combo_forms:
-                            neg_pos = update_feature(tagged_pos, "Polarity=Neg")
-                            tagged_word_data = [tagged_original, neg_pos, tagged_standard]
-                            pos_list[j] = tagged_word_data
-                            combine_subtract = True
-                            break
+                        elif last_short_pos == "SCONJ" and "Polarity=Neg" in last_feats:
+                            last_check_form = [last_original, "<SCONJ Polarity=Neg>", last_standard]
+                            if last_check_form in neg_conj_combo_forms:
+                                neg_pos = update_feature(tagged_pos, "Polarity=Neg")
+                                tagged_word_data = [tagged_original, neg_pos, tagged_standard]
+                                pos_list[j] = tagged_word_data
+                                combine_subtract = True
+                                break
+                            else:
+                                raise RuntimeError("Unknown negative conjunction preceding copula reduced to zero")
                         else:
-                            print(tagged_word_data)
                             print(last_pos_data)
+                            print(tagged_word_data)
                             print([k[0] for k in standard_mapping])
                             print([k[0] for k in pos_list])
                             raise RuntimeError("Copula reduced to zero, last POS not a known POS")
@@ -954,7 +959,10 @@ def matchword_levdist(gloss_mapping):
                          '<SCONJ Polarity=Neg | PronClass=C | PronGend=Neut '
                          '| PronNum=Sing | PronPers=3 | PronType=Prs>',
                          'nach'],
-                        ['nách', '<SCONJ Polarity=Neg>', 'nach'],
+                        ['nách',
+                         '<SCONJ Polarity=Neg | PronClass=C | PronGend=Neut '
+                         '| PronNum=Sing | PronPers=3 | PronType=Prs>',
+                         'nach'],
                         ['naich',
                          '<SCONJ Polarity=Neg | PronClass=C | PronGend=Neut '
                          '| PronNum=Sing | PronPers=3 | PronType=Prs>',
@@ -1156,7 +1164,7 @@ def matchword_levdist(gloss_mapping):
     #
     # remove doubled particles, etc. before verbs, or add to the verb if not doubled
     # count instances of verbs in the gloss
-    verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "NOUN", "NUM", "PRON", "PROPN", "VERB"]
+    verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "INTJ", "NOUN", "NUM", "PRON", "PROPN", "VERB"]
     verb_dependent_POS = ["ADP", "CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.135, 27.7)
     conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
@@ -1171,19 +1179,24 @@ def matchword_levdist(gloss_mapping):
                           ['ní', '<PART Polarity=Neg>', 'ni'],
                           ['Ní', '<PART Polarity=Neg>', 'ni'],
                           ['nicon', '<PART Polarity=Neg>', 'nicon'],
-                          ['no', '<PART PartType=Vb>', 'no']]
+                          ['nícon', '<PART Polarity=Neg>', 'nicon'],
+                          ['no', '<PART PartType=Vb>', 'no'],
+                          ['nu', '<PART PartType=Vb>', 'nu']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
     verbal_particles = [['ro', '<PVP Aspect=Perf>', 'ro']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     dependent_conjunctions = [['Ara', '<SCONJ>', 'ara'],
+                              ['ara', '<SCONJ>', 'ara'],
                               ['co', '<SCONJ>', 'co'],
                               ['con', '<SCONJ>', 'con'],
+                              ['dia', '<SCONJ>', 'dia'],
                               ['na', '<SCONJ Polarity=Neg>', 'na'],
                               ['nád', '<SCONJ Polarity=Neg>', 'nad']]
     # list conjunctions which do not take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     independent_conjunctions = [['a', '<SCONJ>', 'a'],
                                 ['acht', '<SCONJ>', 'acht'],
                                 ['air', '<SCONJ>', 'air'],
+                                ['Ar', '<SCONJ>', 'ar'],
                                 ['ar', '<SCONJ>', 'ar'],
                                 ['airindi', '<SCONJ>', 'airindi'],
                                 ['airindí', '<SCONJ>', 'airindi'],
@@ -1203,7 +1216,8 @@ def matchword_levdist(gloss_mapping):
                                 ['ɫ', '<CCONJ>', 'no'],
                                 ['⁊', '<CCONJ>', 'ocus'],
                                 ['ol', '<SCONJ>', 'ol']]
-    independent_particles = [['í', '<PART PartType=Dct>', 'i'],
+    independent_particles = [['i', '<PART PartType=Dct>', 'i'],
+                             ['í', '<PART PartType=Dct>', 'i'],
                              ['hí', '<PART PartType=Dct>', 'hi'],
                              ['ní', '<PART PartType=Dct>', 'ni'],
                              ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph']]
@@ -1299,6 +1313,8 @@ def matchword_levdist(gloss_mapping):
                                 # make sure any preverbal affix is in the verb form
                                 if verb_prefix_original == reduced_verbform[:len(verb_prefix_original)]:
                                     reduced_verbform = reduced_verbform[len(verb_prefix_original):]
+                                elif "n" + verb_prefix_original == reduced_verbform[:len(verb_prefix_original) + 1]:
+                                    reduced_verbform = reduced_verbform[len(verb_prefix_original) + 1:]
                                 # if the last POS is a verbal particle like 'ro', and no other POS precedes it,
                                 # and the verbal particle is not at the beginning of the following verb
                                 # everything that follows has to be part of the verb form (break out of the loop)
@@ -1410,6 +1426,9 @@ def matchword_levdist(gloss_mapping):
                                     # check if the preverbal affix is in the verb form
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                    elif "ṅ" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1] \
+                                            or "n" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1]:
+                                        reduced_verbform = reduced_verbform[len(verb_prefix) + 1:]
                                     # if the preverbal affix begins with an f, check that it's not lenited in the verb
                                     elif verb_prefix[0] == 'f' \
                                             and 'ḟ' + verb_prefix[1:] == reduced_verbform[:len(verb_prefix)]:
@@ -1419,6 +1438,7 @@ def matchword_levdist(gloss_mapping):
                                         continue
                                     # if a preverb or infixed pronoun can't be found where expected in the verb form
                                     else:
+                                        print(last_pos_data)
                                         print(verb_prefix)
                                         print(reduced_verbform)
                                         print(tagged_word_data)
