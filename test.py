@@ -1195,6 +1195,7 @@ def matchword_levdist(gloss_mapping):
     # list conjunctions which do not take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     independent_conjunctions = [['a', '<SCONJ>', 'a'],
                                 ['acht', '<SCONJ>', 'acht'],
+                                ['afamenad', '<CCONJ>', 'afamenad'],
                                 ['air', '<SCONJ>', 'air'],
                                 ['Ar', '<SCONJ>', 'ar'],
                                 ['ar', '<SCONJ>', 'ar'],
@@ -1355,7 +1356,7 @@ def matchword_levdist(gloss_mapping):
                                             collected_preverb_feats.append(preverbal_feature)
                             # if features have been added to the verb form, add them to the POS list
                             if collected_preverb_feats:
-                                tagged_pos = add_features(tagged_pos, collected_preverb_feats)
+                                tagged_pos = add_features(tagged_pos, collected_preverb_feats, ["PronType"])
                                 tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                             # remove the preverbs and infixed pronouns from the POS list
                             pos_list = pos_list[:j-last_pos_place] + [tagged_word_data] + pos_list[j+1:]
