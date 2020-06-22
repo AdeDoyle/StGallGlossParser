@@ -20,7 +20,7 @@ def split_pos_feats(pos_tag):
     return [pos, [i for i in feats]]
 
 
-def add_features(pos_tag, feat_list, doubling=None):
+def add_features(pos_tag, feat_list, doubling=None, doubling_list=None):
     """add all features in a list to the features in a full POS tag
        ensure features are ordered alphabetically
        if features already exist and no doubling/replacing of features isn't specified, raise error"""
@@ -47,17 +47,35 @@ def add_features(pos_tag, feat_list, doubling=None):
                 raise RuntimeError("Two features of the same type found when combining word features")
             elif doubling == "replace":
                 replace_feat_list.append(feat_type)
-            elif feat_type in doubling:
+            elif doubling == "combine":
                 doubled_feat_list.append(feat_type)
             else:
                 print(feat_type)
                 print(feats)
-                raise RuntimeError("Two features of the same type found when combining word features")
+                raise RuntimeError("Two features of the same type found when combining word features\n"
+                                   "Doubling option not recognised")
     if replace_feat_list:
-        for replace_feat in replace_feat_list:
-            for check_replace in feats:
-                if replace_feat in check_replace and check_replace not in feat_list:
-                    del feats[feats.index(check_replace)]
+        replaceables = doubling_list[0]
+        replacements = doubling_list[1]
+        for check_replace_type in replace_feat_list:
+            replace_feat, replace_with = False, False
+            for i, replaceable in enumerate(replaceables):
+                if check_replace_type in replaceable:
+                    replace_feat = replaceable
+                    replace_with = replacements[i]
+                    break
+            if replace_feat in feats and replace_with in feats:
+                del feats[feats.index(replace_feat)]
+            elif not replace_feat and not replace_with:
+                print(check_replace_type)
+                print(feats)
+                raise RuntimeError("Two features of the same type found when combining word features, "
+                                   "no replacement options given.")
+            else:
+                print(check_replace_type)
+                print(feats)
+                raise RuntimeError("Two features of the same type found when combining word features\n"
+                                   f"{replace_feat} can be replaced with {replace_with} only")
     elif doubled_feat_list:
         for double_feat in doubled_feat_list:
             doubled_values = list()
@@ -170,8 +188,9 @@ def compile_sent(sent):
 # # test add_features() function
 # print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
 # print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
-# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Case=Voc', 'Gender=Masc'], 'replace'))
-# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Gender=Masc'], ['Gender']))
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Case=Voc', 'Gender=Masc'],
+#                    "replace", [["Case=Nom", "Gender=Neut"], ["Case=Voc", "Gender=Masc"]]))
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Gender=Masc'], "combine", ['Gender']))
 
 # # test remove_features() function
 # print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))

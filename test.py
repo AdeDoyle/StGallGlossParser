@@ -474,12 +474,9 @@ def matchword_levdist(gloss_mapping):
                                         cop_combo = [pvp_original + tagged_original,
                                                      add_features(tagged_pos, pvp_feats),
                                                      pvp_standard + tagged_standard]
-                                        print(pos_list)
                                         pos_list = pos_list[:j-last_pos_place+1] + [cop_combo] + pos_list[j+1:]
-                                        print(pos_list)
                                         combine_subtract = True
-                                        # break
-                                        raise RuntimeError("Preverb not present in copula form")
+                                        break
                                     # if the preverb is doubled at the begining of the copula form
                                     # add the preverb's features to the copula's and remove the doubled preverb
                                     elif pvp_original == tagged_original[:len(pvp_original)] \
@@ -1106,7 +1103,7 @@ def matchword_levdist(gloss_mapping):
                             # but combine its features with the preceding conjunction's
                             if last_pos_data in neg_conjunctions:
                                 last_pos_data = [last_original,
-                                                 add_features(last_pos, tagged_feats, ["PronType"]),
+                                                 add_features(last_pos, tagged_feats, "combine", ["PronType"]),
                                                  last_standard]
                                 pos_list[j-last_pos_place] = last_pos_data
                                 del pos_list[j]
@@ -1191,11 +1188,14 @@ def matchword_levdist(gloss_mapping):
                               ['con', '<SCONJ>', 'con'],
                               ['dia', '<SCONJ>', 'dia'],
                               ['na', '<SCONJ Polarity=Neg>', 'na'],
+                              ['nna', '<SCONJ Polarity=Neg>', 'nna'],
+                              ['nná', '<SCONJ Polarity=Neg>', 'nna'],
                               ['nád', '<SCONJ Polarity=Neg>', 'nad']]
     # list conjunctions which do not take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     independent_conjunctions = [['a', '<SCONJ>', 'a'],
-                                ['acht', '<SCONJ>', 'acht'],
+                                ['abamin', '<CCONJ>', 'abamin'],
                                 ['afamenad', '<CCONJ>', 'afamenad'],
+                                ['acht', '<SCONJ>', 'acht'],
                                 ['air', '<SCONJ>', 'air'],
                                 ['Ar', '<SCONJ>', 'ar'],
                                 ['ar', '<SCONJ>', 'ar'],
@@ -1203,6 +1203,7 @@ def matchword_levdist(gloss_mapping):
                                 ['airindí', '<SCONJ>', 'airindi'],
                                 ['arindí', '<SCONJ>', 'arindi'],
                                 ['amal', '<SCONJ>', 'amal'],
+                                ['bíth', '<SCONJ>', 'bith'],
                                 ['cenmitha', '<SCONJ>', 'cenmitha'],
                                 ['cenmithá', '<SCONJ>', 'cenmitha'],
                                 ['ce', '<SCONJ>', 'ce'],
@@ -1216,7 +1217,8 @@ def matchword_levdist(gloss_mapping):
                                 ['má', '<SCONJ>', 'ma'],
                                 ['ɫ', '<CCONJ>', 'no'],
                                 ['⁊', '<CCONJ>', 'ocus'],
-                                ['ol', '<SCONJ>', 'ol']]
+                                ['ol', '<SCONJ>', 'ol'],
+                                ['resiu', '<SCONJ>', 'resiu']]
     independent_particles = [['i', '<PART PartType=Dct>', 'i'],
                              ['í', '<PART PartType=Dct>', 'i'],
                              ['hí', '<PART PartType=Dct>', 'hi'],
@@ -1225,7 +1227,11 @@ def matchword_levdist(gloss_mapping):
     # list particles which have previously been compounded by the script below and need to be passed over
     compounded_particles = [['nándun',
                              '<PART Polarity=Neg | PronClass=C | PronNum=Plur | PronPers=1 | PronType=Prs,Rel>',
-                             'nandun']]
+                             'nandun'],
+                            ['no',
+                             '<PART PartType=Vb | PronClass=C | PronGend=Neut '
+                             '| PronNum=Sing | PronPers=3 | PronType=Prs>',
+                             'no']]
     # list all parts of speech that relative particles can fall into (cf. Thurn p.312)
     blank_rel_combos = [['i', '<ADP AdpType=Prep | Definite=Ind>', 'i'],
                         ['hi', '<ADP AdpType=Prep | Definite=Ind>', 'hi'],
@@ -1244,7 +1250,6 @@ def matchword_levdist(gloss_mapping):
             tagged_original, tagged_pos, tagged_standard = tagged_word_data[0], tagged_word_data[1], tagged_word_data[2]
             split_tagged_pos = split_pos_feats(tagged_pos)
             tagged_short_pos = split_tagged_pos[0]
-            tagged_feats = split_tagged_pos[1]
             # if the POS is a verb
             if tagged_short_pos == "VERB":
                 # find the preceding POS or parts-of-speech
@@ -1356,7 +1361,7 @@ def matchword_levdist(gloss_mapping):
                                             collected_preverb_feats.append(preverbal_feature)
                             # if features have been added to the verb form, add them to the POS list
                             if collected_preverb_feats:
-                                tagged_pos = add_features(tagged_pos, collected_preverb_feats, ["PronType"])
+                                tagged_pos = add_features(tagged_pos, collected_preverb_feats, "combine", ["PronType"])
                                 tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                             # remove the preverbs and infixed pronouns from the POS list
                             pos_list = pos_list[:j-last_pos_place] + [tagged_word_data] + pos_list[j+1:]
@@ -1416,12 +1421,14 @@ def matchword_levdist(gloss_mapping):
                                     # check if any infixed pronouns precede the verb form
                                     # if so, add their features to the verb's
                                     if verb_prefix_short_pos == "IFP":
-                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats, ['PronType'])
+                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                  "combine", ['PronType'])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                         pos_list[j] = tagged_word_data
                                     # add features from any preverb to the verb's features also
                                     elif verb_prefix_short_pos == "PVP":
-                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                  "replace", [["Mood=Ind"], ["Mood=Pot"]])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                         pos_list[j] = tagged_word_data
                                     # check if the preverbal affix is in the verb form
@@ -1565,7 +1572,8 @@ def matchword_levdist(gloss_mapping):
                                             if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                                 reduced_verbform = reduced_verbform[len(verb_prefix):]
                                                 if verb_prefix_feats:
-                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats, ["Mood"])
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                              "combine", ["Mood"])
                                                     tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                                     pos_list[j] = tagged_word_data
                                             # if Bauer added the preverb to his analysis but not the nasalisation marker
@@ -1607,14 +1615,20 @@ def matchword_levdist(gloss_mapping):
                                 # suffix it to the conjunct particle and separate both from the verb
                                 # then ensure any remaining preverbs aren't repeated in the verb form
                                 elif first_affix_short_pos == "IFP":
-                                    combined_last_original = last_original + first_affix_original
-                                    combined_last_pos = add_features(last_pos, first_affix_feats, ['PronType'])
-                                    combined_last_standard = last_standard + first_affix_standard
+                                    # if the infixed pronoun is reduced to zero after the conjunct particle
+                                    if first_affix_original == "-" and first_affix_standard == "-":
+                                        combined_last_original = last_original
+                                        combined_last_standard = last_standard
+                                    else:
+                                        combined_last_original = last_original + first_affix_original
+                                        combined_last_standard = last_standard + first_affix_standard
+                                    combined_last_pos = add_features(last_pos, first_affix_feats,
+                                                                     "combine", ['PronType'])
                                     combined_last_data = [combined_last_original,
                                                           combined_last_pos,
                                                           combined_last_standard]
                                     # if the combined conjunct particle and now-suffixed pronoun are in the verb form
-                                    # they should be doubled at the beginning of the verb form, remove them if so
+                                    # they are likely to be doubled at the beginning of it, remove them if so
                                     # only add the features of any following preverbs to the verb's
                                     if combined_last_original == tagged_original[:len(combined_last_original)] and \
                                             combined_last_standard == tagged_standard[:len(combined_last_standard)]:
@@ -1725,7 +1739,8 @@ def matchword_levdist(gloss_mapping):
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
                                         if verb_prefix_feats:
-                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats, ["PronType"])
+                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                      "combine", ["PronType"])
                                             tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                             pos_list[j] = tagged_word_data
                                     # if Bauer added the preverb to his analysis but not the nasalisation marker
@@ -1841,6 +1856,7 @@ def matchword_levdist(gloss_mapping):
                         print([k[0] for k in standard_mapping])
                         print([k[0] for k in pos_list])
                         raise RuntimeError("Unknown POS type preceding verbal complex, identify POS")
+
 
     #                                               PART 2.1.2:
     #
