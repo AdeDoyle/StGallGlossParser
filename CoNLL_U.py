@@ -42,16 +42,12 @@ def add_features(pos_tag, feat_list, doubling=None, doubling_list=None):
             feat_type_list.append(feat_type)
         elif feat_type in feat_type_list:
             if not doubling:
-                print(feat_type)
-                print(feats)
                 raise RuntimeError("Two features of the same type found when combining word features")
             elif doubling == "replace":
                 replace_feat_list.append(feat_type)
             elif doubling == "combine":
                 doubled_feat_list.append(feat_type)
             else:
-                print(feat_type)
-                print(feats)
                 raise RuntimeError("Two features of the same type found when combining word features\n"
                                    "Doubling option not recognised")
     if replace_feat_list:
@@ -67,13 +63,9 @@ def add_features(pos_tag, feat_list, doubling=None, doubling_list=None):
             if replace_feat in feats and replace_with in feats:
                 del feats[feats.index(replace_feat)]
             elif not replace_feat and not replace_with:
-                print(check_replace_type)
-                print(feats)
                 raise RuntimeError("Two features of the same type found when combining word features, "
                                    "no replacement options given.")
             else:
-                print(check_replace_type)
-                print(feats)
                 raise RuntimeError("Two features of the same type found when combining word features\n"
                                    f"{replace_feat} can be replaced with {replace_with} only")
     elif doubled_feat_list:

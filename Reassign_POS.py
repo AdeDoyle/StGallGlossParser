@@ -478,22 +478,22 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Prs | Reflex:Yes"
+                        pos = "PRON PronType=Prs | Reflex=Yes"
             elif An3 in ['1sg.', '2sg.', '3sg.', '3sg.masc.', '3sg.neut.', '3sg.fem.', '3pl.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Prs | Reflex:Yes"
+                        pos = "PRON PronType=Prs | Reflex=Yes"
     # Possessive Pronouns
     if An1 == 'pronoun, possessive, stressed':
         if An2 in ['3sg and pl']:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss:Yes | PronType=Prs"
+                        pos = "PRON Poss=Yes | PronType=Prs"
             elif An3 in ['sg.', 'pl.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss:Yes | PronType=Prs"
+                        pos = "PRON Poss=Yes | PronType=Prs"
     if An1 == 'pronoun, possessive, unstressed':
         if An2 in ['1sg (leniting)',
                    '2sg',
@@ -503,11 +503,11 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss:Yes | PronType=Prs"
+                        pos = "PRON Poss=Yes | PronType=Prs"
             elif An3 in ['neut.', '3sg.neut.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss:Yes | PronType=Prs"
+                        pos = "PRON Poss=Yes | PronType=Prs"
     # Emphatic Pronouns
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
@@ -1171,7 +1171,7 @@ def clean_analysis(taglist, test_unknown=False):
                        '*']:
                 if not actpas:
                     if not rel:
-                        pos = "VERB VerbForm:Gdv"
+                        pos = "VERB VerbForm=Gdv"
 
     # Assign Adverb (ADV)
     if An1 == 'adverb':
