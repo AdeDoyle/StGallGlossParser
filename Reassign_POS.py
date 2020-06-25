@@ -1568,16 +1568,16 @@ def clean_analysis(taglist, test_unknown=False):
                        'rel part + tre 1']:
                 if not actpas:
                     if not rel:
-                        pos = "PART PartType=Vb | PronType=Rel"
+                        pos = "PART PronType=Rel"
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART PartType=Vb | PronType=Rel"
+                        pos = "PART PronType=Rel"
         elif An2 == 'demonstrative relative':
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART PartType=Vb | PronType=Dem,Rel"
+                        pos = "PART PronType=Dem,Rel"
     # Assign Deictic Particles
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:

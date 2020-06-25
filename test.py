@@ -310,7 +310,7 @@ def matchword_levdist(gloss_mapping):
     particle_combo_forms = [['i', '<PART PronType=Int>', 'i'],
                             ['im', '<PART PronType=Int>', 'im'],
                             ['in', '<PART PronType=Int>', 'in'],
-                            ['a', '<PART PartType=Vb | PronType=Rel>', 'a']]
+                            ['a', '<PART PronType=Rel>', 'a']]
     # list pronouns which can combine with enclitic forms of the copula
     combo_pron_forms = [['c', '<PRON PronType=Int>', 'c'],
                         ['ce', '<PRON PronType=Int>', 'ce'],
@@ -1121,9 +1121,9 @@ def matchword_levdist(gloss_mapping):
     verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "INTJ", "NOUN", "NUM", "PRON", "PROPN", "UNK", "VERB"]
     verb_dependent_POS = ["ADP", "CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.135, 27.7)
-    conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
-                          ['a', '<PART PartType=Vb | PronType=Dem,Rel>', 'a'],
-                          ['sa', '<PART PartType=Vb | PronType=Rel>', 'sa'],
+    conjunct_particles = [['a', '<PART PronType=Rel>', 'a'],
+                          ['a', '<PART PronType=Dem,Rel>', 'a'],
+                          ['sa', '<PART PronType=Rel>', 'sa'],
                           ['in', '<PART PronType=Int>', 'in'],
                           ['na', '<PART Polarity=Neg | PronType=Rel>', 'na'],
                           ['ná', '<PART Polarity=Neg | PronType=Rel>', 'na'],
@@ -1560,7 +1560,7 @@ def matchword_levdist(gloss_mapping):
                                                 backstep_pos = backword_data[1]
                                                 # if a relative particle is found,
                                                 # assume it is preceded by a preposition and add that too
-                                                if backstep_pos == '<PART PartType=Vb | PronType=Rel>':
+                                                if backstep_pos == '<PART PronType=Rel>':
                                                     start_position = j-2-backstep-len(verbal_affixes)
                                                     backword_data = pos_list[start_position]
                                                     backstep_orig = backword_data[0]
@@ -1863,8 +1863,7 @@ def matchword_levdist(gloss_mapping):
                             # if the second last POS before the verb is a preposition into which the relative particle
                             # can fall or onto which it can be attached, and the zero particle is a relative particle
                             # combine the features of the particle with the preceding POS and delete the zero particle
-                            if second_last_data in blank_rel_combos \
-                                    and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
+                            if second_last_data in blank_rel_combos and "PronType=Rel" in last_feats:
                                 sl_pos = add_features(sl_pos, last_feats)
                                 second_last_data = [sl_original, sl_pos, sl_standard]
                                 # check that the prepositional relative particle is not doubled in the verb form
@@ -1880,8 +1879,7 @@ def matchword_levdist(gloss_mapping):
                             # if the second last POS before the verb is a preverbal particle and the zero particle
                             # is a relative particle, combine the relative particle's features with the verb's
                             # remove the relative particle and preceding preverb from the POS list
-                            elif sl_short_pos == "PVP" \
-                                    and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
+                            elif sl_short_pos == "PVP" and "PronType=Rel" in last_feats:
                                 tagged_pos = add_features(tagged_pos, last_feats)
                                 tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
                                 pos_list = pos_list[:j-last_pos_place-1] + [tagged_word_data] + pos_list[j+1:]
@@ -1896,8 +1894,7 @@ def matchword_levdist(gloss_mapping):
                                 raise RuntimeError("Empty relative particle preceded by unknown form, add to list")
                         # if the verb is preceded by a prepositional relative particle
                         # this verb has already been processed (directly above) and should be passed over
-                        elif last_short_pos == "ADP" \
-                                and all(feat in last_feats for feat in ["PartType=Vb", "PronType=Rel"]):
+                        elif last_short_pos == "ADP" and "PronType=Rel" in last_feats:
                             continue
                         # if the verb is preceded by a preposition without a relative particle
                         elif last_short_pos == "ADP":
@@ -2146,6 +2143,7 @@ def matchword_levdist(gloss_mapping):
             split_last_pos = split_pos_feats(last_pos)
             last_short_pos = split_last_pos[0]
             last_feats = split_last_pos[1]
+            # if the last POS is an empty verbal particle, as expected
             if last_short_pos == "PART" and "PartType=Vb" in last_feats:
                 combined_last_original = last_original + tagged_original
                 combined_last_standard = last_standard + tagged_standard
@@ -2235,7 +2233,6 @@ def matchword_levdist(gloss_mapping):
             # if the tagged word is not a verb, move past it
             else:
                 continue
-
 
     #                                               PART 2.1.2:
     #
@@ -2408,6 +2405,43 @@ def matchword_levdist(gloss_mapping):
                             break
                 else:
                     raise RuntimeError("Could not find doubled parts of word to remove")
+    # remove '-' from pos_list where Bauer has used it to represent a word reduced to zero
+    # remove '-' from pos_list wherever it has not been automatically removed from parts-of-speech
+    # remove spacing from pos_list wherever it has not been automatically removed from parts-of-speech
+    for i, tagged_word_data in enumerate(pos_list):
+        tagged_original = tagged_word_data[0]
+        if tagged_original == "-":
+            split_tagged_pos = split_pos_feats(tagged_word_data[1])
+            tagged_pos = split_tagged_pos[0]
+            tagged_feats = split_tagged_pos[1]
+            # if a preposition has fallen into a following demonstrative particle
+            # add the feature to the particle to show the existence of the preposition
+            if tagged_pos == "ADP" and "AdpType=Prep" in tagged_feats:
+                next_word_data = pos_list[i+1]
+                if "PRON" in next_word_data[1]:
+                    next_word_data[1] = add_features(next_word_data[1], ["AdpType=Prep"])
+                    pos_list[i+1] = next_word_data
+                    del pos_list[i]
+                    combine_subtract = True
+            elif tagged_pos == "PART" and "PronType=Rel" in tagged_feats:
+                last_word_data = pos_list[i-1]
+                if "ADP" in last_word_data[1]:
+                    last_word_data[1] = add_features(last_word_data[1], tagged_feats)
+                    pos_list[i-1] = last_word_data
+                    del pos_list[i]
+                    combine_subtract = True
+            else:
+                print(tagged_word_data)
+                print(pos_list)
+                raise RuntimeError("Word reduced to zero")
+        elif "-" in tagged_original:
+            print(tagged_word_data)
+            print(pos_list)
+            raise RuntimeError("Hyphen in POS tagged word")
+        elif " " in tagged_original:
+            print(tagged_word_data)
+            print(pos_list)
+            raise RuntimeError("Space in POS tagged word")
 
     #                                             PART 2.1 (reprise):
     #
@@ -2469,12 +2503,7 @@ def matchword_levdist(gloss_mapping):
             for token in standard_list:
                 if token == ".i.":
                     pos_list.append([".i.", "<ADV Abbr=Yes>", ".i."])
-    # remove '-' from pos_list where Bauer has used it to represent a word reduced to zero
-    for i in pos_list:
-        if i == "-":
-            raise RuntimeError("Word reduced to zero")
-    pos_list = [i for i in pos_list if i[0] != "-"]
-    # check if there are duplicate parts-of-speech, if so flag this for later
+    # check if there are duplicate parts-of-speech which could cause identification problems, if so flag this for later
     duplicate_pos = False
     for i in pos_list:
         if pos_list.count(i) > 1:
@@ -2485,12 +2514,6 @@ def matchword_levdist(gloss_mapping):
     # increase one digit if no. of tokens don't match
     if len(pos_list) != len(standard_list):
         tags_rating += 10
-    # list known mismatches *fix in matching section later*
-    known_mismatches = [['asanarbaram', '<VERB>', 'asanarbaram']]
-    # list known edit-distance errors and do not allow them to be used as lowest edit distances
-    eddist_errors = [['ní', '<PART Polarity=Neg>', 'niro-graigther', 0, [[7, 0], 2]],
-                     ['ní', '<PART Polarity=Neg>', 'niro-graigther', 11, [[7, 1], 2]],
-                     ['con', '<SCONJ>', 'hoc', 4, [1, 0]]]
 
     #                                                 PART 3.1.0:
     #
@@ -2518,13 +2541,11 @@ def matchword_levdist(gloss_mapping):
                     # add Bauer's word, its POS tag, Hofman's word, the edit distance, and indices for the match to a
                     # matching-words list
                     if eddist == 0:
-                        l_ed_check = [original_word, tag, original_token, eddist, [token_place, pos_place]]
-                        if l_ed_check not in eddist_errors:
-                            sorted_list.append(token_place)
-                            lowest_eddist = l_ed_check
-                            alignment_list.append((pos_place, token_place))
-                            tagged_gloss.append(lowest_eddist)
-                            break
+                        sorted_list.append(token_place)
+                        lowest_eddist = [original_word, tag, original_token, eddist, [token_place, pos_place]]
+                        alignment_list.append((pos_place, token_place))
+                        tagged_gloss.append(lowest_eddist)
+                        break
     # if any words have been aligned yet
     if alignment_list:
         # isolate a list of used words (without used tags)
@@ -2563,14 +2584,14 @@ def matchword_levdist(gloss_mapping):
                         # add Bauer's word, its POS tag, Hofman's word, the edit distance, and indices for the match to
                         # a matching-words list
                         if eddist == 0:
-                            l_ed_check = [[original_word, tag, original_token, eddist, [token_place, pos_place]],
-                                          [next_word, next_tag, original_token, eddist, [token_place, pos_place + 1]]]
-                            if l_ed_check[0] not in eddist_errors and l_ed_check[1] not in eddist_errors:
-                                sorted_list.append(token_place)
-                                lowest_eddists = l_ed_check
-                                alignment_list.extend([(pos_place, token_place)] + [(pos_place + 1, token_place)])
-                                tagged_gloss.extend(lowest_eddists)
-                                break
+                            sorted_list.append(token_place)
+                            lowest_eddists = [[original_word, tag, original_token, eddist,
+                                               [token_place, pos_place]],
+                                              [next_word, next_tag, original_token, eddist,
+                                               [token_place, pos_place + 1]]]
+                            alignment_list.extend([(pos_place, token_place)] + [(pos_place + 1, token_place)])
+                            tagged_gloss.extend(lowest_eddists)
+                            break
     # if any words or word-combos have been aligned yet
     if alignment_list:
         # separate the list of words and word-combos which have been perfectly aligned into
@@ -2633,15 +2654,13 @@ def matchword_levdist(gloss_mapping):
                             if not lowest_eddist:
                                 max_poss_ed = len(standard_word) + len(standard_token)
                                 if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                    l_ed_check = [original_word, tag, original_token, eddist, [token_place, pos_place]]
-                                    if l_ed_check not in eddist_errors:
-                                        lowest_eddist = l_ed_check
+                                    lowest_eddist = [original_word, tag, original_token, eddist,
+                                                     [token_place, pos_place]]
                             elif eddist < lowest_eddist[3]:
                                 max_poss_ed = len(standard_word) + len(standard_token)
                                 if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                    l_ed_check = [original_word, tag, original_token, eddist, [token_place, pos_place]]
-                                    if l_ed_check not in eddist_errors:
-                                        lowest_eddist = l_ed_check
+                                    lowest_eddist = [original_word, tag, original_token, eddist,
+                                                     [token_place, pos_place]]
                     # if the token is part of a split token
                     except TypeError:
                         try:
@@ -2655,17 +2674,13 @@ def matchword_levdist(gloss_mapping):
                                 if not lowest_eddist:
                                     max_poss_ed = len(standard_word) + len(standard_token)
                                     if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                        l_ed_check = [original_word, tag, original_token, eddist,
-                                                      [token_place, pos_place]]
-                                        if l_ed_check not in eddist_errors:
-                                            lowest_eddist = l_ed_check
+                                        lowest_eddist = [original_word, tag, original_token, eddist,
+                                                         [token_place, pos_place]]
                                 elif eddist < lowest_eddist[3]:
                                     max_poss_ed = len(standard_word) + len(standard_token)
                                     if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                        l_ed_check = [original_word, tag, original_token, eddist,
-                                                      [token_place, pos_place]]
-                                        if l_ed_check not in eddist_errors:
-                                            lowest_eddist = l_ed_check
+                                        lowest_eddist = [original_word, tag, original_token, eddist,
+                                                         [token_place, pos_place]]
                         # if the token is not part of a split token, but the last matched token was
                         except TypeError:
                             last_match_firstplace = last_match[0]
@@ -2678,17 +2693,13 @@ def matchword_levdist(gloss_mapping):
                                 if not lowest_eddist:
                                     max_poss_ed = len(standard_word) + len(standard_token)
                                     if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                        l_ed_check = [original_word, tag, original_token, eddist,
-                                                      [token_place, pos_place]]
-                                        if l_ed_check not in eddist_errors:
-                                            lowest_eddist = l_ed_check
+                                        lowest_eddist = [original_word, tag, original_token, eddist,
+                                                         [token_place, pos_place]]
                                 elif eddist < lowest_eddist[3]:
                                     max_poss_ed = len(standard_word) + len(standard_token)
                                     if max_poss_ed > eddist and [pos_tag, token_place] not in dupos_list:
-                                        l_ed_check = [original_word, tag, original_token, eddist,
-                                                      [token_place, pos_place]]
-                                        if l_ed_check not in eddist_errors:
-                                            lowest_eddist = l_ed_check
+                                        lowest_eddist = [original_word, tag, original_token, eddist,
+                                                         [token_place, pos_place]]
                 # if the lowest non-zero edit distance has been found between the Bauer word and a Hofman token
                 # assume the two are a match
                 # add Bauer's word, its POS tag, the Hofman word, the edit distance, and indices for the match to a
@@ -2715,7 +2726,6 @@ def matchword_levdist(gloss_mapping):
     # for any leftover words in Bauer's analysis, in order
     # create a list of doubled-compounds to be removed from the pos_list if they cannot be matched
     compounds_found = list()
-    mismatches_found = list()
     # if they're not removable compounded words, add them to a list of potential sub-word matches
     for pos_place, pos_tag in enumerate(pos_list):
         if pos_place not in used_pos:
@@ -2740,16 +2750,12 @@ def matchword_levdist(gloss_mapping):
                             placement = "M"
                         possible_match_list.append([original_word, tag, original_token, token_place, placement])
                 if not placement:
-                    if pos_tag in known_mismatches:
-                        mismatches_found.append([pos_place, pos_tag])
-                    else:
-                        print(pos_tag)
-                        print([i[0] for i in standard_mapping])
-                        print([i[0] for i in pos_list])
-                        print([i for i in tagged_gloss])
-                        raise RuntimeError(f"Unused POS tagged word ({original_word}) could not be matched")
+                    print(pos_tag)
+                    print([i[0] for i in standard_mapping])
+                    print([i[0] for i in pos_list])
+                    print([i for i in tagged_gloss])
+                    raise RuntimeError(f"Unused POS tagged word ({original_word}) could not be matched")
     pos_list = [j for i, j in enumerate(pos_list) if [i, j] not in compounds_found]
-    pos_list = [j for i, j in enumerate(pos_list) if [i, j] not in mismatches_found]
 
     #                                                 PART 4:
     #
@@ -2911,7 +2917,6 @@ def matchword_levdist(gloss_mapping):
                                 recombine_list[recombine_list.index(duplicate)] = new_dup
                                 # add the word to the beginning of the string if it should be there
                                 if new_rempos_position == [[0, 0]]:
-                                    recombine_list = [new_rempos] + recombine_list
                                     raise RuntimeError("Test This")
                                 else:
                                     print(remaining_pos)
@@ -2920,15 +2925,10 @@ def matchword_levdist(gloss_mapping):
                                     print([i for i in recombine_list])
                                     raise RuntimeError("Test This")
                             else:
-                                # # solved once with trip_toks
-                                # # solved once with eddist_errors
                                 print(remaining_pos)
-                                # print(tagged_gloss_copy)
                                 print([i[0] for i in standard_mapping])
                                 print([i for i in pos_list])
-                                # print([i for i in tagged_gloss])
                                 print([i for i in recombine_list])
-                                # print([i[0] for i in recombine_list])
                                 raise RuntimeError("Ran through entire list of words but could not find pair")
                         # if the first place in the position of the POS is represented by a list
                         # (i.e. if the word makes up part of a split token)
@@ -2954,13 +2954,6 @@ def matchword_levdist(gloss_mapping):
                                 else:
                                     raise RuntimeError("Test This")
                             else:
-                                # # solved once with eddist_errors
-                                # print([i[0] for i in tagged_gloss_copy])
-                                # print(remaining_pos)
-                                # print([i[0] for i in standard_mapping])
-                                # print([i[0] for i in pos_list])
-                                # print([i for i in recombine_list])
-                                # print([i for i in tagged_gloss])
                                 raise RuntimeError("Test This")
     tagged_gloss = recombine_list
     # check reliability of cross-tagging and update score before output
