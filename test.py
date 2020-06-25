@@ -1118,10 +1118,11 @@ def matchword_levdist(gloss_mapping):
     #
     # remove doubled particles, etc. before verbs, or add to the verb if not doubled
     # count instances of verbs in the gloss
-    verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "INTJ", "NOUN", "NUM", "PRON", "PROPN", "VERB"]
+    verb_independent_POS = ["ADJ", "ADV", "AUX", "DET", "INTJ", "NOUN", "NUM", "PRON", "PROPN", "UNK", "VERB"]
     verb_dependent_POS = ["ADP", "CCONJ", "PART", "SCONJ"]
     # list conjunct and verbal particles which take conjunct forms of the verb (cf. Stifter p.135, 27.7)
     conjunct_particles = [['a', '<PART PartType=Vb | PronType=Rel>', 'a'],
+                          ['a', '<PART PartType=Vb | PronType=Dem,Rel>', 'a'],
                           ['sa', '<PART PartType=Vb | PronType=Rel>', 'sa'],
                           ['in', '<PART PronType=Int>', 'in'],
                           ['na', '<PART Polarity=Neg | PronType=Rel>', 'na'],
@@ -1184,7 +1185,10 @@ def matchword_levdist(gloss_mapping):
                              ['í', '<PART PartType=Dct>', 'i'],
                              ['hí', '<PART PartType=Dct>', 'hi'],
                              ['ní', '<PART PartType=Dct>', 'ni'],
-                             ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph']]
+                             ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph'],
+                             ['sa', '<PART PronType=Dem>', 'sa'],
+                             ['so', '<PART PronType=Dem>', 'so'],
+                             ['ucut', '<PART PronType=Dem>', 'ucut']]
     # list particles which have previously been compounded by the script below (or above) and need to be passed over
     compounded_particles = [['naṅd', '<PART Polarity=Neg | PronClass=C | PronGend=Neut '
                              '| PronNum=Sing | PronPers=3 | PronType=Prs,Rel>', 'nand'],
@@ -1223,13 +1227,13 @@ def matchword_levdist(gloss_mapping):
             tagged_short_pos = split_tagged_pos[0]
             # if the POS is a verb
             if tagged_short_pos == "VERB":
-                # find the preceding POS or parts-of-speech
+                # find the preceding part-of-speech or parts-of-speech
                 last_pos_place = 1
                 verbal_affixes = list()
                 try:
                     if j != 0:
                         last_pos_data = pos_list[j-last_pos_place]
-                        # find any preverbal particles used within the copula form
+                        # find any preverbal particles used within the verb form
                         split_last_pos = split_pos_feats(last_pos_data[1])
                         if split_last_pos[0] in ["PVP", "IFP"] and j-last_pos_place > 0:
                             while split_last_pos[0] in ["PVP", "IFP"]:
@@ -2150,6 +2154,88 @@ def matchword_levdist(gloss_mapping):
                 pos_list = pos_list[:i-1] + [combined_last_data] + pos_list[i+1:]
             else:
                 raise RuntimeError("Unusual infixed pronoun found")
+    # Remove doubled emphatic suffixes, pronouns, etc. from the end of verb forms
+    # list all POS types which are not likely to be suffixed to the end of a verb
+    independent_postverbs = ["ADJ", "ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ",
+                             "NOUN", "NUM", "PROPN", "SCONJ", "VERB"]
+    dependent_postverbs = ["PART", "PRON"]
+    verbcount = 0
+    for tagged_word_data in pos_list:
+        split_tagged_pos = split_pos_feats(tagged_word_data[1])
+        tagged_short_pos = split_tagged_pos[0]
+        if tagged_short_pos == "VERB":
+            verbcount += 1
+    for i in range(verbcount):
+        for j, tagged_word_data in enumerate(pos_list):
+            tagged_original, tagged_pos, tagged_standard = tagged_word_data[0], tagged_word_data[1], tagged_word_data[2]
+            split_tagged_pos = split_pos_feats(tagged_pos)
+            tagged_short_pos = split_tagged_pos[0]
+            # if the POS is a verb
+            if tagged_short_pos == "VERB":
+                # find the following POS
+                next_pos_place = j + 1
+                if next_pos_place < len(pos_list):
+                    next_pos_data = pos_list[next_pos_place]
+                else:
+                    next_pos_data = False
+                if next_pos_data:
+                    next_original, next_pos, next_standard = next_pos_data[0], next_pos_data[1], next_pos_data[2]
+                    split_next_pos = split_pos_feats(next_pos)
+                    next_short_pos = split_next_pos[0]
+                    next_feats = split_next_pos[1]
+                    # if the word following the verb is never suffixed to a verb form
+                    if next_short_pos in independent_postverbs:
+                        continue
+                    elif next_short_pos in dependent_postverbs:
+                        if "PronType=Emp" in next_feats:
+                            if next_original == tagged_original[-len(next_original):]:
+                                tagged_original = tagged_original[:-len(next_original)]
+                                tagged_standard = tagged_standard[:-len(next_standard)]
+                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                pos_list[j] = tagged_word_data
+                            else:
+                                continue
+                        elif "PronType=Ana" in next_feats:
+                            if next_original == tagged_original[-len(next_original):]:
+                                tagged_original = tagged_original[:-len(next_original)]
+                                tagged_standard = tagged_standard[:-len(next_standard)]
+                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard]
+                                pos_list[j] = tagged_word_data
+                            else:
+                                continue
+                        elif "PronType=Dem" in next_feats:
+                            if next_original == tagged_original[-len(next_original):]:
+                                raise RuntimeError("Potentially doubled verb suffix found")
+                            else:
+                                continue
+                        elif "PronType=Prs" in next_feats:
+                            continue
+                        elif "PronType=Ind" in next_feats:
+                            continue
+                        elif "PronType=Int" in next_feats:
+                            continue
+                        elif "PartType=Vb" in next_feats:
+                            continue
+                        elif "Polarity=Neg" in next_feats:
+                            continue
+                        else:
+                            print(tagged_word_data)
+                            print(next_pos_data)
+                            print([k[0] for k in standard_mapping])
+                            print([k[0] for k in pos_list])
+                            raise RuntimeError("Potentially doubled verb suffix found")
+                    # if the POS of the following word is unknown
+                    else:
+                        print(f'"{next_short_pos}"')
+                        print(tagged_word_data)
+                        print(next_pos_data)
+                        print([k[0] for k in standard_mapping])
+                        print([k[0] for k in pos_list])
+                        raise RuntimeError("Unknown POS type following verb form, add to list")
+            # if the tagged word is not a verb, move past it
+            else:
+                continue
+
 
     #                                               PART 2.1.2:
     #
@@ -2254,16 +2340,20 @@ def matchword_levdist(gloss_mapping):
                 if last_pos_data:
                     last_three_pos = pos_list[j-3:j]
                     if last_three_pos in [[['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
+                                                   '| Number=Sing | PronType=Art>', 'ind'],
                                            ['í', '<PART PartType=Dct>', 'i']],
                                           [['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
+                                                   '| Number=Sing | PronType=Art>', 'ind'],
                                            ['i', '<PART PartType=Dct>', 'i']],
                                           [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
+                                                   '| Number=Sing | PronType=Art>', 'ind'],
                                            ['í', '<PART PartType=Dct>', 'i']],
                                           [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut | Number=Sing>', 'ind'],
+                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
+                                                   '| Number=Sing | PronType=Art>', 'ind'],
                                            ['i', '<PART PartType=Dct>', 'i']]]:
                         del pos_list[j]
                         combine_subtract = True

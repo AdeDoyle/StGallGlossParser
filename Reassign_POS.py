@@ -539,7 +539,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON  PronType=Ana"
+                        pos = "PRON PronType=Ana"
             elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                          'acc.sg.', 'acc.sg.fem.',
                          'gen.sg.', 'gen.sg.neut.', 'gen.sg.fem.',
@@ -647,9 +647,10 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         try:
-                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender} | Number={number}'
+                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender} ' \
+                                  f'| Number={number} | PronType=Art'
                         except UnboundLocalError:
-                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender}'
+                            pos = f'DET Case={case.capitalize()[:-1]} | Gender={gender} | PronType=Art'
     # Assign Pronominal Articles - the '(s)in(d) and '(s)naib' endings of pronouns (DET)
     if An1 == 'article':
         if An2 in ['m', 'n', 'fem']:
@@ -688,7 +689,8 @@ def clean_analysis(taglist, test_unknown=False):
                     number = numdict.get(numcheck)
                 if not actpas:
                     if not rel:
-                        pos = f'DET AdpType=Prep | Case={case.capitalize()[:-1]} | Gender={gender} | Number={number}'
+                        pos = f'DET AdpType=Prep | Case={case.capitalize()[:-1]} | Gender={gender} ' \
+                              f'| Number={number} | PronType=Art'
 
     #                                             ADJECTIVES
     # Assign Adjectives (ADJ)
@@ -712,59 +714,117 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg.masc + ó 1',
                        'comparative', 'superlative',
                        'clitic form', 'composition form']:
+                case = False
+                casepat = re.compile(r'(nom|voc|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                    case = case.capitalize()[:-1]
+                degree = "Pos"
+                if An3 == "comparative":
+                    degree = "Cmp"
+                elif An3 == "superlative":
+                    degree = "Sup"
+                gend_dict = {"masc.": "Masc", "neut.": "Neut", "fem.": "Fem"}
+                gender = False
+                gendpat = re.compile(r'(masc|neut|fem)\.')
+                gendpatiter = gendpat.finditer(An3)
+                for gend_find in gendpatiter:
+                    gender = gend_dict.get(gend_find.group())
+                numdict = {'.sg.': 'Sing', '.du.': 'Dual', '.pl.': 'Plur'}
+                number = False
+                numpat = re.compile(r'\.(sg|du|pl)\.')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
+                    number = numdict.get(number)
+                prefix = False
+                if An3 == "composition form":
+                    prefix = "Yes"
                 if not actpas:
                     if not rel:
                         if "as noun:" not in trans:
-                            pos = "ADJ"
+                            feat_list = list()
+                            if case:
+                                feat_list.append(f'Case={case}')
+                            feat_list.append(f'Degree={degree}')
+                            if gender:
+                                feat_list.append(f'Gender={gender}')
+                            if number:
+                                feat_list.append(f'Number={number}')
+                            if prefix:
+                                feat_list.append(f'Prefix={prefix}')
+                            features = " | ".join(feat_list)
+                            pos = f'ADJ {features}'
             elif not An3:
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
+                        pos = "ADJ Degree=Pos"
         elif not An2:
             if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.',
                        'acc.sg.',
                        'gen.sg.', 'gen.sg.masc.',
                        'dat.pl.masc.',
                        'in adverbial phrase i recc']:
+                case = False
+                casepat = re.compile(r'(nom|acc|gen|dat)\.')
+                casepatiter = casepat.finditer(An3)
+                for find_case in casepatiter:
+                    case = find_case.group()
+                    case = case.capitalize()[:-1]
+                degree = "Pos"
+                gend_dict = {"masc.": "Masc", "neut.": "Neut"}
+                gender = False
+                gendpat = re.compile(r'(masc|neut)\.')
+                gendpatiter = gendpat.finditer(An3)
+                for gend_find in gendpatiter:
+                    gender = gend_dict.get(gend_find.group())
+                numdict = {'.sg.': 'Sing', '.pl.': 'Plur'}
+                number = False
+                numpat = re.compile(r'\.(sg|pl)\.')
+                numpatiter = numpat.finditer(An3)
+                for find_num in numpatiter:
+                    number = find_num.group()
+                    number = numdict.get(number)
+                feat_list = list()
+                if case:
+                    feat_list.append(f'Case={case}')
+                feat_list.append(f'Degree={degree}')
+                if gender:
+                    feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
+                        pos = f'ADJ {features}'
             elif not An3:
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
+                        pos = "ADJ Degree=Pos"
     if An1 == 'adjective and noun':
         if An2 in ['u']:
             if An3 in ['nom.sg.']:
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
+                        pos = "ADJ Case=Nom | Degree=Pos | Number=Sing"
     if An1 == 'noun and adjective':
         if An2 in ['o, ā']:
             if An3 in ['comparative', 'composition form']:
+                degree = "Pos"
+                if An3 == "comparative":
+                    degree = "Cmp"
+                prefix = False
+                if An3 == "composition form":
+                    prefix = "Yes"
+                feat_list = list()
+                feat_list.append(f'Degree={degree}')
+                if prefix:
+                    feat_list.append(f'Prefix={prefix}')
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
-                        pos = "ADJ"
-    # Assign Demonstrative Adjectives
-    if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal']:
-        if not An2:
-            if An3 in ['nom.pl.neut.', 'dat.pl.fem.']:
-                if not actpas:
-                    if not rel:
-                        pos = "ADJ"
-        elif An2 == 'this, these':
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "ADJ"
-            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.',
-                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                         'nom.pl.masc.', 'nom.pl.fem.',
-                         'acc.pl.',
-                         'dat.pl.masc.', 'dat.pl.neut.']:
-                if not actpas:
-                    if not rel:
-                        pos = "ADJ"
+                        pos = f'ADJ {features}'
 
     #                                        VERBS, COPULA & ADVERBS
     # Assign Verbs (VERB)
@@ -1491,7 +1551,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART"
+                        pos = "PART PartType=Num"
     # Assign Relative Particles
     if An1 == 'particle':
         if An2 == 'relative':
@@ -1517,7 +1577,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PART PartType=Vb | PronType=Rel"
+                        pos = "PART PartType=Vb | PronType=Dem,Rel"
     # Assign Deictic Particles
     if An1 == 'pronoun, indeclinable, accented, deictic':
         if not An2:
@@ -1552,6 +1612,26 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART Polarity=Neg | Prefix=Yes"
+    # Assign Demonstrative Particles (Adjectives)
+    if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal']:
+        if not An2:
+            if An3 in ['nom.pl.neut.', 'dat.pl.fem.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART PronType=Dem"
+        elif An2 == 'this, these':
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART PronType=Dem"
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.',
+                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                         'nom.pl.masc.', 'nom.pl.fem.',
+                         'acc.pl.',
+                         'dat.pl.masc.', 'dat.pl.neut.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART PronType=Dem"
 
     #                                   INTERJECTIONS, NUMERALS & ABBREVIATIONS
     # Assign Interjections (INTJ)
