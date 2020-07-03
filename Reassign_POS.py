@@ -275,36 +275,6 @@ def clean_analysis(taglist, test_unknown=False):
                    'f, i (?)', 'f, i, ī', 'f, i and n', 'f, i, later also k', 'f, n (?)',
                    'gender not attested in OIr.', 'gender unknown, i-stem', 'uncertain gender',
                    'unknown declension', 'irregular']:
-            # # gender is a lexical property which does not change the morphology of an individual noun
-            # # hence it should not be included in UD features
-            # # the code below will isolate certain m, n, and f nouns from uncertain gender nouns however
-            # # in case this information is of use later
-            # gendpat = re.compile(r'(^[mnf](,|$| (and|or) \w))')
-            # gendpatiter = gendpat.finditer(An2)
-            # gender = False
-            # for gend in gendpatiter:
-            #     gender = gend.group()
-            #     if any(separator in gender for separator in ['and', 'or']):
-            #         gender = "unclear"
-            #     elif len(gender) == 2:
-            #         gender = gender[:1]
-            #     elif len(gender) != 1:
-            #         raise RuntimeError("Unexpecged Noun Gender")
-            # if not gender:
-            #     unknown_genders = ["gender not attested in OIr.", "irregular", "uncertain gender", "unknown declension",
-            #                        "gender unknown, i-stem", "o (gender uncertain)",
-            #                        "i", "i̯o", "n (?), o", "o", "o (?)", "u (?)",
-            #                        "m u (?)", "[n] ?"]
-            #     if An2 in unknown_genders:
-            #         gender = "unclear"
-            #     else:
-            #         gendpat = re.compile(r'\[[mfn]\]?(, | )')
-            #         gendpatiter = gendpat.finditer(An2)
-            #         for gend in gendpatiter:
-            #             gender = gend.group()
-            #             gender = gender[1]
-            # if gender:
-            #     print(gender)
             if An3 in ['nom.sg.', 'nom.sg.masc.',
                        'voc.sg.',
                        'acc.sg.',
@@ -489,25 +459,55 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss=Yes | PronType=Prs"
+                        pos = "PRON Person=3 | Poss=Yes | PronType=Prs"
             elif An3 in ['sg.', 'pl.']:
+                person = False
+                numdict = {'sg.': 'Sing', 'pl.': 'Plur'}
+                perspat = re.compile(r'(sg|pl)\.')
+                perspatiter = perspat.finditer(An3)
+                for pers_find in perspatiter:
+                    person = numdict.get(pers_find.group())
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss=Yes | PronType=Prs"
+                        pos = f"PRON Number={person} | Person=3 | Poss=Yes | PronType=Prs"
     if An1 == 'pronoun, possessive, unstressed':
         if An2 in ['1sg (leniting)',
                    '2sg',
                    '3sg m, n (leniting)', '3sg f',
                    '1pl (nasalizing)',
                    '3pl (nasalizing)']:
+            person = False
+            number = False
+            gender = False
+            numdict = {'sg': 'Sing', 'pl': 'Plur'}
+            perspat = re.compile(r'\d(sg|pl)( \w)?')
+            perspatiter = perspat.finditer(An2)
+            for pers_find in perspatiter:
+                pers_combo = pers_find.group()
+                person = pers_combo[0]
+                number = numdict.get(pers_combo[1:3])
+                if " " in pers_combo:
+                    gender = pers_combo[-1]
+                    if gender == "f":
+                        gender = "Fem"
+                    else:
+                        gender = "Masc,Neut"
+            feat_list = list()
+            if gender:
+                feat_list.append(f'Gender={gender}')
+            if number:
+                feat_list.append(f'Number={number}')
+            if person:
+                feat_list.append(f'Person={person}')
+            features = " | ".join(feat_list)
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss=Yes | PronType=Prs"
+                        pos = f"PRON {features} | Poss=Yes | PronType=Prs"
             elif An3 in ['neut.', '3sg.neut.']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Poss=Yes | PronType=Prs"
+                        pos = f"PRON {features} | Poss=Yes | PronType=Prs"
     # Emphatic Pronouns
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
@@ -573,20 +573,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PRON Polarity=Neg | PronType=Int"
-    # Assign Demonstrative Pronouns
-    if An1 == 'pronoun, demonstrative':
-        if An2 in ['this, these', 'that, those', 'neuter, indeclinable']:
-            if not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "PRON PronType=Dem"
-            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                         'dat.sg.neut.',
-                         'nom.pl.', 'nom.pl.masc.']:
-                if not actpas:
-                    if not rel:
-                        pos = "PRON PronType=Dem"
     # Assign Prepositional Pronouns (PRON)
     prepprontype = ['acc. + suff.pron.1sg.',
                     'acc. + suff.pron.2sg.',
@@ -1612,7 +1598,7 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART Polarity=Neg | Prefix=Yes"
-    # Assign Demonstrative Particles (Adjectives)
+    # Assign Demonstrative Adjectives (PART)
     if An1 in ['adjective, demonstrative', 'adjective, demonstrative pronominal']:
         if not An2:
             if An3 in ['nom.pl.neut.', 'dat.pl.fem.']:
@@ -1629,6 +1615,20 @@ def clean_analysis(taglist, test_unknown=False):
                          'nom.pl.masc.', 'nom.pl.fem.',
                          'acc.pl.',
                          'dat.pl.masc.', 'dat.pl.neut.']:
+                if not actpas:
+                    if not rel:
+                        pos = "PART PronType=Dem"
+    # Assign Demonstrative Pronouns (PART)
+    if An1 == 'pronoun, demonstrative':
+        if An2 in ['that, those', 'neuter, indeclinable']:
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "PART PronType=Dem"
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+                         'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                         'dat.sg.neut.',
+                         'nom.pl.', 'nom.pl.masc.']:
                 if not actpas:
                     if not rel:
                         pos = "PART PronType=Dem"
