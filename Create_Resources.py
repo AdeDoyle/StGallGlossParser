@@ -6,6 +6,7 @@ from Clean_Glosses import create_clean_glossdict, create_clean_worddict
 from OpenXlsx import list_xlsx
 from Reassign_POS import save_sorted_tags, sort_tag_levels, list_tag_levels,\
     save_all_pos_combos_list, create_pos_taglist, create_glosslist, create_wordlist
+from Match_GlossSets import save_poslist
 
 
 # #                                             REMOVE OLD FILES
@@ -20,6 +21,7 @@ def rem_files():
                  "POS_taglist.pkl",
                  "Relative Options List.pkl",
                  "SG. Combined Data.xlsx",
+                 "SG POS-tagged.pkl",
                  "Translations List.pkl",
                  "Words_List.pkl"]
     for filename in resources:
@@ -62,6 +64,9 @@ def make_files():
     # Create 'Gloss_List.pkl' and 'Words_List.pkl'
     print(create_glosslist(analyses))
     print(create_wordlist(analyses))
+
+    # Create 'SG POS-tagged.pkl'
+    print(save_poslist())
 
     return ""
 

@@ -1,7 +1,7 @@
 """Level 1"""
 
 from OpenXlsx import list_xlsx
-from Pickle import open_obj
+from Pickle import open_obj, save_obj
 import re
 from nltk import edit_distance as ed
 from Map_GlossWords import map_glosswords
@@ -3249,6 +3249,22 @@ def matchword_levdist(gloss_mapping):
     # then add reliability score for gloss and any possible word matches to the tagged-gloss list before output
     tagged_gloss = [tags_rating, tph_ref, [[i[0], i[4], i[1]] for i in tagged_gloss], gloss_trans]
     return tagged_gloss
+
+
+# save a list of all POS-tagged glosses
+def save_poslist():
+    pos_list = list()
+    for glossnum, gloss in enumerate(glosslist):
+        tagged_gloss = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+        pos_list.append(tagged_gloss[1:])
+    save_obj("SG POS-tagged", pos_list)
+    return "Created File: 'SG POS-tagged.pkl'"
+
+
+# #                                              CREATE RESOURCES
+
+
+# print(save_poslist())
 
 
 # #                                               TEST FUNCTIONS

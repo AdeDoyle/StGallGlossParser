@@ -2,6 +2,7 @@
 from conllu import parse, TokenList
 from collections import OrderedDict
 import re
+from Pickle import open_obj
 
 
 def split_pos_feats(pos_tag):
@@ -153,18 +154,46 @@ def get_feats(pos_tag):
 
 
 def compile_sent(sent):
-    """compile a list of sublists, [word, full POS] format, into a CoNLL-U format sentence"""
+    """compile a list of sublists, [word, head, full POS] format, into a CoNLL-U format sentence"""
     sent_list = list()
     for i, tok_data in enumerate(sent):
         tok_id = i + 1
         tok = tok_data[0]
-        pos = get_pos(tok_data[1])
-        feats = get_feats(tok_data[1])
-        compiled_tok = OrderedDict({'id': tok_id, 'form': tok, 'lemma': tok, 'upostag': pos, 'xpostag': None,
+        head = tok_data[1]
+        pos = get_pos(tok_data[2])
+        feats = get_feats(tok_data[2])
+        compiled_tok = OrderedDict({'id': tok_id, 'form': tok, 'lemma': head, 'upostag': pos, 'xpostag': None,
                                     'feats': feats, 'head': None, 'deprel': None, 'deps': None, 'misc': None})
         sent_list.append(compiled_tok)
     sent_list = TokenList(sent_list).serialize()
     return sent_list
+
+
+def compile_SGG(tagged_glosses):
+    """compile a .conllu file of the POS-tagged glosses"""
+    sgg_file = None
+    sent_id = 0
+    for i in tagged_glosses:
+        sent_id += 1
+        this_id = f'# sent_id = {sent_id}'
+        ref = f'# reference = {i[0]}'
+        wordlist = i[1]
+        full_gloss = f'# text = {" ".join([j[0] for j in wordlist])}'
+        translation = f'# translation = {i[2]}'
+        sgg_meta = f'{this_id}\n{ref}\n{full_gloss}\n{translation}\n'
+        if not sgg_file:
+            sgg_file = sgg_meta + compile_sent(wordlist)
+        else:
+            sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
+    with open("SGG.conllu", "w", encoding="utf-8") as text_file:
+        print(f"{sgg_file}", file=text_file)
+    return "Created File: 'SGG.conllu'"
+
+
+# #                                                 CREATE RESOURCES
+
+# pos_list = open_obj("SG POS-tagged.pkl")
+# print(compile_SGG(pos_list))
 
 
 # #                                                  Test Functions

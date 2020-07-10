@@ -360,7 +360,7 @@ def clean_analysis(taglist, test_unknown=False):
                     case = find_case.group()
                 if not actpas:
                     if not rel:
-                        pos = f'PROPN {case.capitalize()[:-1]} | Number=Sing'
+                        pos = f'PROPN Case={case.capitalize()[:-1]} | Number=Sing'
         elif An2 in ['m, i̯o', 'f, i']:
             if An3 in ['nom.sg.masc.', 'gen.sg.', 'nom.pl.']:
                 case = False
@@ -376,7 +376,7 @@ def clean_analysis(taglist, test_unknown=False):
                     number = find_num.group()
                 if not actpas:
                     if not rel:
-                        pos = f'PROPN {case.capitalize()[:-1]} | Number={numdict.get(number)}'
+                        pos = f'PROPN Case={case.capitalize()[:-1]} | Number={numdict.get(number)}'
     if An1 == 'noun, proper':
         if not An2:
             if not An3:
