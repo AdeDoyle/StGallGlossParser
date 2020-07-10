@@ -279,12 +279,23 @@ def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gree
     return gloss
 
 
+@lru_cache(maxsize=2500)
+def clean_lemma(lemma):
+    if lemma:
+        lemma = lemma.lower()
+        lemma = lemma.strip()
+        for i, char in enumerate(lemma):
+            if char == "æ":
+                lemma = f'{lemma[:i]}ae{lemma[i + 1:]}'
+    return lemma
+
+
 def create_clean_glossdict():
     sgData = list_xlsx("SG. Combined Data", "Sheet 1")
     glosslist = list()
     lastgloss = ""
     for i in sgData:
-        thisgloss = i[8]
+        thisgloss = i[10]
         if thisgloss != lastgloss:
             glosslist.append(thisgloss)
             lastgloss = thisgloss
@@ -299,7 +310,7 @@ def create_clean_worddict():
     sgData = list_xlsx("SG. Combined Data", "Sheet 1")
     wordlist = list()
     for i in sgData:
-        thisword = i[1]
+        thisword = i[2]
         if thisword:
             if thisword not in wordlist:
                 wordlist.append(thisword)

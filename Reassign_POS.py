@@ -2,7 +2,7 @@
 from Clean_ExcelLists import create_data_combo
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
-from Clean_Glosses import clean_gloss, clean_word
+from Clean_Glosses import clean_gloss, clean_word, clean_lemma
 import matplotlib.pyplot as plt
 import re
 
@@ -39,12 +39,12 @@ def list_tag_levels(excel_list):
     testRel = list()
     testTrans = list()
     for i in excel_list:
-        A1 = i[3]
-        A2 = i[4]
-        A3 = i[5]
-        vb_actpas = i[6]
-        vb_rel = i[7]
-        Tr = i[2]
+        A1 = i[5]
+        A2 = i[6]
+        A3 = i[7]
+        vb_actpas = i[8]
+        vb_rel = i[9]
+        Tr = i[4]
         if not A1:
             noA1.append(i)
         elif A1.strip() not in testA1:
@@ -115,16 +115,12 @@ def save_sorted_tags(sorted_tags):
 #    Optionally reduce recreated forms in level A3 to * to reduce complexity
 def clean_onetag(taglist, clean_contractions=True):
     cleaned_tag = list()
-    C = taglist[2]
+    l3_analysis = taglist[2]
     for tag_piece in taglist:
         if tag_piece:
-            if tag_piece != C:
-                tag_piece = tag_piece.strip()
-            else:
-                tag_piece = tag_piece.strip()
-                if clean_contractions:
-                    if tag_piece[0] == "*":
-                        tag_piece = "*"
+            tag_piece = tag_piece.strip()
+            if tag_piece == l3_analysis and clean_contractions and tag_piece[0] == "*":
+                tag_piece = "*"
         cleaned_tag.append(tag_piece)
     return cleaned_tag
 
@@ -133,7 +129,7 @@ def clean_onetag(taglist, clean_contractions=True):
 def save_all_pos_combos_list(excel_list):
     alltag_combos = list()
     for entry in excel_list:
-        tag_combo = entry[3:8] + [entry[2]]
+        tag_combo = entry[5:10] + [entry[4]]
         tag_combo_clean = clean_onetag(tag_combo)
         if tag_combo_clean not in alltag_combos:
             alltag_combos.append(tag_combo_clean)
@@ -145,14 +141,14 @@ def save_all_pos_combos_list(excel_list):
 # Count total potential POS tag combinations, print total
 # Count the number times each unique POS tag is used, return a list of unique tags with their use-count
 def count_tag_usage(ordered_list, full_list):
-    print("Total Tags: {}".format(len(ordered_list)))
+    print(f"Total Tags: {len(ordered_list)}")
     tag_usage = list()
     for tag in ordered_list:
         # for each tag combination used by Bauer
         count = 0
         for an in full_list:
             # check each analysis against each possible tag combination used
-            if tag == clean_onetag(an[3:8] + [an[2]]):
+            if tag == clean_onetag(an[5:10] + [an[4]]):
                 # if the tags match, increase the usage-count for this tag
                 count += 1
         # add the total useage-count to the tag
@@ -205,7 +201,7 @@ def findall_thistag(wordlist, tag, tag_level=1):
     tag_level = tag_level - 1
     taglist = list()
     for word_data in wordlist:
-        entry_tag = word_data[3 + tag_level]
+        entry_tag = word_data[5 + tag_level]
         if entry_tag == tag:
             taglist.append(word_data)
     return taglist
@@ -216,7 +212,7 @@ def findall_excltag(wordlist, excl_tag, tag_level=1):
     tag_level = tag_level - 1
     taglist = list()
     for word_data in wordlist:
-        tag = word_data[3 + tag_level]
+        tag = word_data[5 + tag_level]
         if tag != excl_tag:
             taglist.append(word_data)
     return taglist
@@ -227,17 +223,17 @@ def findall_notnulltag(wordlist, tag_level=1):
     tag_level = tag_level - 1
     taglist = list()
     for word_data in wordlist:
-        search_tag = word_data[3 + tag_level]
+        search_tag = word_data[5 + tag_level]
         if search_tag:
             taglist.append(word_data)
     return taglist
 
 
-# Reduces contents of wordlist to only include word and POS-tag information
+# Reduces contents of wordlist to only include gloss number, word and POS-tag information
 def clean_wordlist(wordlist):
     new_wordlist = list()
     for i in wordlist:
-        new_wordlist.append([i[0], clean_word(i[1])] + clean_onetag(i[3:8]))
+        new_wordlist.append([i[0], clean_word(i[2])] + clean_onetag(i[5:10]))
     return new_wordlist
 
 
@@ -1834,28 +1830,30 @@ def loop_tags(taglist, test_unknown=False):
     new_poslist = list()
     for full_tag in taglist:
         glossnum = full_tag[0]
-        word = clean_word(full_tag[1])
-        trans = full_tag[2]
-        tag = clean_onetag(full_tag[3:8] + [trans])
-        gloss = clean_gloss(full_tag[8])
+        gloss_ref = full_tag[1]
+        word = clean_word(full_tag[2])
+        trans = full_tag[4]
+        tag = clean_onetag(full_tag[5:10] + [trans])
+        gloss = clean_gloss(full_tag[10])
+        gloss_trans = full_tag[11]
         try:
             pos_tag = clean_analysis(tag, test_unknown)
             full_tag.append(pos_tag)
             new_poslist.append(full_tag)
         except ZeroDivisionError:
-            print("Broke at gloss no. {}\n'{}', in gloss, '{}'.\n"
-                  "url: http://www.stgallpriscian.ie/index.php?id={}&an=1\n"
-                  "Analysis: {}\n\nSimilar tags:".format(glossnum, word, gloss, glossnum, tag))
+            print(f"Broke at gloss no. {glossnum}: {gloss_ref}\nWord: '{word}', in Gloss: '{gloss}' - {gloss_trans}.\n"
+                  f"url: http://www.stgallpriscian.ie/index.php?id={glossnum}&an=1\n"
+                  f"Analysis: {tag}\n\nSimilar tags:")
             for comp in taglist:
-                if clean_onetag(comp[3:8]) == tag[:-1]:
+                if clean_onetag(comp[5:10]) == tag[:-1]:
                     comp_glossnum = comp[0]
-                    comp_word = clean_word(comp[1])
-                    comp_trans = str(comp[2])
-                    comp_tag = clean_onetag(comp[3:8])
-                    comp_gloss = clean_gloss(comp[8])
-                    print(comp_tag, comp_glossnum, "'" + comp_word + "',", "'" + comp_trans + "',",
-                          "in: '" + comp_gloss +
-                          "' - http://www.stgallpriscian.ie/index.php?id={}&an=1".format(comp_glossnum))
+                    comp_tph_ref = comp[1]
+                    comp_word = clean_word(comp[2])
+                    comp_trans = str(comp[4])
+                    comp_tag = clean_onetag(comp[5:10])
+                    comp_gloss = clean_gloss(comp[10])
+                    print(f"{comp_tag} {comp_tph_ref} '{comp_word}', '{comp_trans}, in: '{comp_gloss}'"
+                          f" - http://www.stgallpriscian.ie/index.php?id={comp_glossnum}&an=1")
             return "\nLoop Broken!\n"
     return new_poslist
 
@@ -1879,57 +1877,64 @@ def percent_complete(excel_data):
 def create_pos_taglist():
     pos_list = list()
     for i in loop_tags(analyses, True):
-        tagged_i = i[1], i[-1]
+        tagged_i = i[2], i[12]
         pos_list.append(tagged_i)
     save_obj("POS_taglist", pos_list)
     return "Created file: 'POS_taglist.pkl'"
 
 
-# Create and save an ordered list of glosses (uncleaned) from Hofman's Corpus
+# Create and save an ordered list of glosses (uncleaned) with translations and TPH references
 def create_glosslist(excel_combo):
     glosslist = list()
     lastgloss = ""
     for i in excel_combo:
-        thisgloss = i[8]
+        thisref = i[1]
+        thisgloss = i[10]
+        thistrans = i[11]
         if thisgloss != lastgloss:
             lastgloss = thisgloss
-            glosslist.append(thisgloss)
+            glosslist.append([thisref, thisgloss, thistrans])
     save_obj("Gloss_List", glosslist)
     return "Created file: 'Gloss_List.pkl'"
 
 
 # Create and save an ordered list of word-lists
-# words-list = [word, [analysis and translation]] (all uncleaned)
+# words-list = [word, headword, [analysis (levels 1-5) and translation/meaning]] (all uncleaned)
 def create_wordlist(excel_combo):
     wordslist = list()
     thesewords = list()
     lastgloss = ""
     for i in excel_combo:
         # For each analysis (word)
-        thisgloss = i[8]
-        thisword = i[1]
-        thistrans = i[2]
-        thistag = i[3:8] + [thistrans]
+        thisgloss = i[10]
+        thisword = i[2]
+        thisheadword = i[3]
+        thistrans = i[4]
+        thistag = i[5:10] + [thistrans]
+        # if this is a new gloss, i.e. it's different from the last gloss checked in the loop
         if thisgloss != lastgloss:
-            # if this word is from a new gloss
+            # set the current gloss as this (new) gloss
             lastgloss = thisgloss
-            # update the current gloss
+            # if there is a list of words left over from the last gloss (it isn't blank/false)
             if thesewords:
-                # if there is a word (it isn't blank/false)
+                # add it to the list of all glosses' word-lists
                 wordslist.append(thesewords)
+            # if there is a word to start the new gloss
             if thisword:
-                # if there is a word to start the new gloss
-                thesewords = [[thisword, thistag]]
+                # create a new these-words list for this new gloss, and add the new gloss's first word's word-list
+                thesewords = [[thisword, thisheadword, thistag]]
+            # if there's a missing word at beginning of the new gloss
             else:
-                # if there's a missing word at beginning of the new gloss
-                thesewords = []
-        else:
-            # if this word is from the same gloss as last
-            if thisword:
-                # if there actually is a word/it's not a blank entry
-                thesewords.append([thisword, thistag])
+                # create a new these-words list for this new gloss, but leave it empty
+                thesewords = list()
+        # if this word is from the same gloss as the last one, i.e. it's the same as the last gloss checked in the loop
+        # and there actually is a word, i.e. it's not a blank entry
+        elif thisword:
+            # add the word's word-list to the current these-words list for the gloss
+            thesewords.append([thisword, thisheadword, thistag])
+        # if this word was the last word in the corpus
         if i == excel_combo[-1]:
-            # if this word is the last word
+            # add the last gloss's list of words to the list of all glosses' word-lists
             wordslist.append(thesewords)
     save_obj("Words_List", wordslist)
     return "Created file: 'Words_List.pkl'"
@@ -1976,19 +1981,19 @@ def create_wordlist(excel_combo):
 # for i in A1_list:
 #     print(i)
 # for i in noA1:
-#     output = [i[1]] + i[3:8]
+#     output = [i[1]] + [i[0]] + i[5:10]
 #     print(output)
 
 # for i in A2_list:
 #     print(i)
 # for i in noA2:
-#     output = [i[1]] + i[3:8]
+#     output = [i[1]] + [i[0]] + i[5:10]
 #     print(output)
 
 # for i in A3_list:
 #     print(i)
 # for i in noA3:
-#     output = [i[1]] + i[3:8]
+#     output = [i[1]] + [i[0]] + i[5:10]
 #     print(output)
 
 # # Test all entries for verb information (active/passive, relative) and translations
@@ -2016,12 +2021,10 @@ def create_wordlist(excel_combo):
 
 # print(sort_tag_levels(list_tag_levels(analyses)))
 
-# print(save_sorted_tags(sort_tag_levels(list_tag_levels(analyses))))
-
 
 # # Test clean_onetag function
 # for tag in analyses:
-#     print(clean_onetag(tag[3:8]))
+#     print(clean_onetag(tag[5:10]))
 
 
 # # Function to create a .pkl file listing all unique POS-tag combinations used in order
@@ -2040,11 +2043,12 @@ def create_wordlist(excel_combo):
 # print(len(l2_taglist))
 # for tag in l2_taglist:
 #     found_glossnum = tag[0]
-#     found_word = clean_word(tag[1])
-#     found_trans = tag[2]
-#     found_tag = clean_onetag(tag[3:8])
-#     found_gloss = clean_gloss(tag[8])
-#     print(found_tag, found_glossnum, "'" + found_word + "'/'" + found_trans + "'", "in, '" + found_gloss + "'")
+#     found_tph_ref = tag[1]
+#     found_word = clean_word(tag[2])
+#     found_trans = tag[4]
+#     found_tag = clean_onetag(tag[5:10])
+#     found_gloss = clean_gloss(tag[10])
+#     print(found_tag, found_tph_ref, found_glossnum, f"'{found_word}'/'{found_trans}' in, '{found_gloss}'")
 
 # # Finds all of a given tag type from various levels
 # l1_taglist = findall_thistag(analyses, "verb")
@@ -2064,7 +2068,6 @@ def create_wordlist(excel_combo):
 # for tag in clean_wordlist(l5_taglist):
 #     print(tag)
 
-
 # # Find all instances of a given tag
 # test_taglist = findall_thistag(analyses, A1_list[2])
 # # # find all instances of a given tag where another tag level is not null
@@ -2081,7 +2084,7 @@ def create_wordlist(excel_combo):
 # allpos = open_obj("All POS Combos Used.pkl")
 # notlist = list()
 # for i in analyses:
-#     itag_noisy = i[3:8]
+#     itag_noisy = i[5:10] + [i[4]]
 #     itag = list()
 #     for j in itag_noisy:
 #         if j:
@@ -2120,4 +2123,4 @@ def create_wordlist(excel_combo):
 
 # # List each Token and its POS
 # for i in loop_tags(analyses, False):
-#     print("'" + i[1] + "',", i[-1])
+#     print(f"'{i[2]}', {i[12]}")
