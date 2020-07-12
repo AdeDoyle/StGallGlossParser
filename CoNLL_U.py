@@ -178,16 +178,21 @@ def compile_SGG(tagged_glosses):
         this_id = f'# sent_id = {sent_id}'
         ref = f'# reference = {i[0]}'
         wordlist = i[1]
-        full_gloss = f'# text = {" ".join([j[0] for j in wordlist])}'
+        full_gloss = " ".join([j[0] for j in wordlist])
+        if "ᚐ" in full_gloss:
+            full_gloss = " ".join(full_gloss.split(" "))
+        if "᚛ " in full_gloss:
+            full_gloss = "᚛".join(full_gloss.split("᚛ "))
+        full_gloss = f'# text = {full_gloss}'
         translation = f'# translation = {i[2]}'
         sgg_meta = f'{this_id}\n{ref}\n{full_gloss}\n{translation}\n'
         if not sgg_file:
             sgg_file = sgg_meta + compile_sent(wordlist)
         else:
             sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
-    with open("SGG.conllu", "w", encoding="utf-8") as text_file:
+    with open("sga_dipsgg-ud-test.conllu", "w", encoding="utf-8") as text_file:
         print(f"{sgg_file}", file=text_file)
-    return "Created File: 'SGG.conllu'"
+    return "Created File: 'sga_dipsgg-ud-test.conllu'"
 
 
 # #                                                 CREATE RESOURCES

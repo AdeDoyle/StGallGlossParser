@@ -205,9 +205,19 @@ def matchword_levdist(gloss_mapping):
     tph_ref = gloss_mapping[0]
     gloss_string = gloss_mapping[1]
     gloss_trans = gloss_mapping[2]
-    gloss_list = gloss_string.split(" ")
+    if "ᚐ" in gloss_string:
+        gloss_list = gloss_string.split(" ")
+        if gloss_list[0][0] == "᚛":
+            gloss_list = ["᚛", gloss_list[0][1:]] + gloss_list[1:]
+    else:
+        gloss_list = gloss_string.split(" ")
     standard_string = remove_glosshyphens(standardise_glosschars(gloss_string))
-    standard_list = standard_string.split(" ")
+    if "ᚐ" in standard_string:
+        standard_list = standard_string.split(" ")
+        if standard_list[0][0] == "᚛":
+            standard_list = ["᚛", standard_list[0][1:]] + standard_list[1:]
+    else:
+        standard_list = standard_string.split(" ")
     standard_mapping = False
     pos_list = gloss_mapping[3]
     tags_rating = 0
@@ -3221,8 +3231,12 @@ def matchword_levdist(gloss_mapping):
     matched_toks = [i[0] for i in tagged_matches]
     for i, lat_word_data in enumerate(standard_mapping):
         if i not in matched_toks:
-            latin_implant = [lat_word_data[0], "<X Foreign=Yes>", lat_word_data[1], 0, "_",
-                             [lat_word_data[2], lat_word_data[2]]]
+            if lat_word_data[0] == "᚛":
+                latin_implant = [lat_word_data[0], "<PUNCT>", lat_word_data[1], 0, "᚛",
+                                 [lat_word_data[2], lat_word_data[2]]]
+            else:
+                latin_implant = [lat_word_data[0], "<X Foreign=Yes>", lat_word_data[1], 0, "_",
+                                 [lat_word_data[2], lat_word_data[2]]]
             place_at = 0
             for j, check_match in enumerate(tagged_gloss):
                 check_tagplace = check_match[5][0]
