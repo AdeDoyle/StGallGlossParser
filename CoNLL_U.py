@@ -190,7 +190,8 @@ def compile_SGG(tagged_glosses):
             sgg_file = sgg_meta + compile_sent(wordlist)
         else:
             sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
-    with open("sga_dipsgg-ud-test.conllu", "w", encoding="utf-8") as text_file:
+    sgg_file = sgg_file.strip("\n")
+    with open("sga_dipsgg-ud-test1.conllu", "w", encoding="utf-8") as text_file:
         print(f"{sgg_file}", file=text_file)
     return "Created File: 'sga_dipsgg-ud-test.conllu'"
 

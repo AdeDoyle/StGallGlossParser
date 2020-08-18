@@ -489,18 +489,25 @@ def clean_analysis(taglist, test_unknown=False):
                     else:
                         gender = "Masc,Neut"
             feat_list = list()
-            if gender:
-                feat_list.append(f'Gender={gender}')
-            if number:
-                feat_list.append(f'Number={number}')
-            if person:
-                feat_list.append(f'Person={person}')
-            features = " | ".join(feat_list)
             if not An3:
+                if gender:
+                    feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                if person:
+                    feat_list.append(f'Person={person}')
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
                         pos = f"PRON {features} | Poss=Yes | PronType=Prs"
             elif An3 in ['neut.', '3sg.neut.']:
+                gender = "Neut"
+                feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                if person:
+                    feat_list.append(f'Person={person}')
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
                         pos = f"PRON {features} | Poss=Yes | PronType=Prs"
@@ -1713,7 +1720,7 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'PronType={relative}')
                 if not actpas:
                     pos = "PVP"
-                    if trans == "dummy particle":
+                    if trans in ["dummy particle", "dummy particle: before secondary tenses"]:
                         pos = "PART"
                         feat_list.append("PartType=Vb")
                         feat_list.sort()
@@ -2111,6 +2118,7 @@ def create_wordlist(excel_combo):
 
 
 # # Test the loop_tags function
+# loop_tags(analyses, True)
 # print(loop_tags(analyses, True))
 
 
