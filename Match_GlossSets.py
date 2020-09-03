@@ -2240,6 +2240,13 @@ def matchword_levdist(gloss_mapping):
                                 pos_list = pos_list[:j-last_pos_place-1] + [tagged_word_data] + pos_list[j+1:]
                                 combine_subtract = True
                                 break
+                            # if the second last POS before the verb is not a preverbal particle, and the zero particle
+                            # is a verbal dummy particle which Bauer introduced despite not being in the gloss itself,
+                            # remove the particle.
+                            elif sl_short_pos == "NOUN" and last_pos_data == ['-', '<PART PartType=Vb>', '-', 'no']:
+                                del pos_list[last_pos_place]
+                                combine_subtract = True
+                                break
                             else:
                                 print(second_last_data)
                                 print(last_pos_data)
