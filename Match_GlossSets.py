@@ -201,7 +201,7 @@ def remove_glosshyphens(gloss):
 #    10 - different number of POS tagged words in Bauer's analysis and tokens in Hofman's gloss
 #   100 - some spelling variation in words matched between Bauer's analysis and Hofman's gloss
 # THIRD VERSION
-def matchword_levdist(gloss_mapping):
+def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     tph_ref = gloss_mapping[0]
     gloss_string = gloss_mapping[1]
     gloss_trans = gloss_mapping[2]
@@ -2619,6 +2619,8 @@ def matchword_levdist(gloss_mapping):
     #                                                ARTICLE
     #
     # combine compounded articles with preceding prepositions
+    if combine_wordtoks:
+        pass
 
     #                                               PART 2.1.3:
     #
@@ -3273,19 +3275,24 @@ def matchword_levdist(gloss_mapping):
 
 
 # save a list of all POS-tagged glosses
-def save_poslist():
+def save_poslist(combine_wordtoks=True):
     pos_list = list()
     for glossnum, gloss in enumerate(glosslist):
-        tagged_gloss = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
+        tagged_gloss = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]), combine_wordtoks)
         pos_list.append(tagged_gloss[1:])
-    save_obj("SG POS-tagged", pos_list)
-    return "Created File: 'SG POS-tagged.pkl'"
+    if combine_wordtoks:
+        save_obj("SG POS-tagged combined", pos_list)
+        return "Created File: 'SG POS-tagged combined.pkl'"
+    else:
+        save_obj("SG POS-tagged separated", pos_list)
+        return "Created File: 'SG POS-tagged separated.pkl'"
 
 
 # #                                              CREATE RESOURCES
 
 
-# print(save_poslist())
+# print(save_poslist(True))
+# print(save_poslist(False))
 
 
 # #                                               TEST FUNCTIONS

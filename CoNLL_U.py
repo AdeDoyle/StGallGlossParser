@@ -12,7 +12,7 @@ def split_pos_feats(pos_tag):
     pos = None
     for posfind in pospatitir:
         pos = posfind.group()[1:-1]
-    featspat = re.compile(r' [\w\d =|]+>')
+    featspat = re.compile(r' [\w\d =|,]+>')
     featspatitir = featspat.finditer(pos_tag)
     feats = ""
     for featsfind in featspatitir:
@@ -142,7 +142,7 @@ def get_pos(pos_tag):
 
 def get_feats(pos_tag):
     """return an ordered dictionary containing each feature (if any) from a full POS"""
-    featspat = re.compile(r' [\w\d =|]+>')
+    featspat = re.compile(r' [\w\d =|,]+>')
     featspatitir = featspat.finditer(pos_tag)
     feats = None
     for featsfind in featspatitir:
@@ -169,7 +169,7 @@ def compile_sent(sent):
     return sent_list
 
 
-def compile_SGG(tagged_glosses):
+def compile_SGG(tagged_glosses, combine_wordtoks=True):
     """compile a .conllu file of the POS-tagged glosses"""
     sgg_file = None
     sent_id = 0
@@ -191,45 +191,56 @@ def compile_SGG(tagged_glosses):
         else:
             sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
     sgg_file = sgg_file.strip("\n")
-    with open("sga_dipsgg-ud-test1.conllu", "w", encoding="utf-8") as text_file:
-        print(f"{sgg_file}", file=text_file)
-    return "Created File: 'sga_dipsgg-ud-test.conllu'"
+    if combine_wordtoks:
+        with open("sga_dipsgg-ud-test1.conllu", "w", encoding="utf-8") as text_file:
+            print(f"{sgg_file}", file=text_file)
+        return "Created File: 'sga_dipsgg-ud-test1.conllu'"
+    else:
+        with open("sga_dipsgg-ud-test2.conllu", "w", encoding="utf-8") as text_file:
+            print(f"{sgg_file}", file=text_file)
+        return "Created File: 'sga_dipsgg-ud-test2.conllu'"
 
 
 # #                                                 CREATE RESOURCES
 
-# pos_list = open_obj("SG POS-tagged.pkl")
-# print(compile_SGG(pos_list))
+# pos_list1 = open_obj("SG POS-tagged combined.pkl")
+# pos_list2 = open_obj("SG POS-tagged separated.pkl")
+# print(compile_SGG(pos_list1, True))
+# print(compile_SGG(pos_list2, False))
 
 
 # #                                                  Test Functions
 
-# test_pos1 = '<DET Case=Nom | Gender=Neut | Number=Sing>'
-# test_pos2 = '<CCONJ>'
+# test_pos1 = '<CCONJ>'
+# test_pos2 = '<DET Case=Nom | Gender=Neut | Number=Sing>'
+# test_pos3 = '<VERB Aspect=Perf | Number=Sing | Person=3 | PronClass=C | PronGend=Neut | PronNum=Sing | ' \
+#             'PronPers=3 | PronType=Prs,Rel | Tense=Past | Voice=Act>'
+
 
 
 # # test split_pos_feats() function
-# print(split_pos_feats(test_pos1))
 # print(split_pos_feats(test_pos2))
+# print(split_pos_feats(test_pos1))
+# print(split_pos_feats(test_pos3))
 
 # # test add_features() function
-# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
 # print(add_features(test_pos2, ['Polarity=Neg', 'Person=3']))
-# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Case=Voc', 'Gender=Masc'],
+# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3']))
+# print(add_features(test_pos2, ['Polarity=Neg', 'Person=3', 'Case=Voc', 'Gender=Masc'],
 #                    "replace", [["Case=Nom", "Gender=Neut"], ["Case=Voc", "Gender=Masc"]]))
-# print(add_features(test_pos1, ['Polarity=Neg', 'Person=3', 'Gender=Masc'], "combine", ['Gender']))
+# print(add_features(test_pos2, ['Polarity=Neg', 'Person=3', 'Gender=Masc'], "combine", ['Gender']))
 
 # # test remove_features() function
-# print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))
 # print(remove_features(test_pos2, ['Gender=Neut', 'Case=Nom']))
+# print(remove_features(test_pos1, ['Gender=Neut', 'Case=Nom']))
 
 # # test update_feature() function
-# print(update_feature(test_pos1, 'Case=Acc'))
 # print(update_feature(test_pos2, 'Case=Acc'))
+# print(update_feature(test_pos1, 'Case=Acc'))
 
 # # test update_feature() function
-# print(update_tag(test_pos1, "PART"))
 # print(update_tag(test_pos2, "PART"))
+# print(update_tag(test_pos1, "PART"))
 
 
 # s1 = [['.i.', '<SYM Abbr=Yes>'], ['cid', '<AUX Polarity=Pos | VerbType=Cop>'], ['bec', '<ADJ>'],
@@ -241,12 +252,16 @@ def compile_SGG(tagged_glosses):
 #       ['do', '<ADP AdpType=Prep | Definite=Ind>'], ['buith', '<NOUN>'], ['dait', '<PRON>'], ['siu', '<PRON>'],
 #       ['hi', '<ADP AdpType=Prep | Definite=Ind>'], ['coimthecht', '<NOUN>'], ['oco', '<PRON>']]
 # s2 = [['buaid', '<NOUN>'], ['lie', '<NOUN>'], ['vel', '<X>'], ['lapis', '<X>'], ['victorie', '<X>']]
+# s3 = [['rongab', '<VERB Aspect=Perf | Number=Sing | Person=3 | PronClass=C | PronGend=Neut | PronNum=Sing | '
+#                  'PronPers=3 | PronType=Prs,Rel | Tense=Past | Voice=Act>']]
+
 
 # # test get_pos() and get_feats() functions
 # test_tok = 0
 # print(s1[test_tok][0])
 # print(get_pos(s1[test_tok][1]))
 # print(get_feats(s1[test_tok][1]))
+# print(get_feats(s3[test_tok][1]))
 
 # # test compile_sent() function
 # print(compile_sent(s1))

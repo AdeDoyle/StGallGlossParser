@@ -7,6 +7,8 @@ from OpenXlsx import list_xlsx
 from Reassign_POS import save_sorted_tags, sort_tag_levels, list_tag_levels,\
     save_all_pos_combos_list, create_pos_taglist, create_glosslist, create_wordlist
 from Match_GlossSets import save_poslist
+from CoNLL_U import compile_SGG
+from Pickle import open_obj
 
 
 # #                                             REMOVE OLD FILES
@@ -21,7 +23,8 @@ def rem_files():
                  "POS_taglist.pkl",
                  "Relative Options List.pkl",
                  "SG. Combined Data.xlsx",
-                 "SG POS-tagged.pkl",
+                 "SG POS-tagged combined.pkl", "SG POS-tagged separated.pkl",
+                 "sga_dipsgg-ud-test1.conllu", "sga_dipsgg-ud-test2.conllu",
                  "Translations List.pkl",
                  "Words_List.pkl"]
     for filename in resources:
@@ -65,8 +68,13 @@ def make_files():
     print(create_glosslist(analyses))
     print(create_wordlist(analyses))
 
-    # Create 'SG POS-tagged.pkl'
-    print(save_poslist())
+    # Create 'SG POS-tagged combined.pkl' and 'SG POS-tagged separated.pkl'
+    print(save_poslist(True))
+    # print(save_poslist(False))
+
+    # Create 'sga_dipsgg-ud-test1.conllu' and 'sga_dipsgg-ud-test2.conllu'
+    print(compile_SGG(open_obj("SG POS-tagged combined.pkl"), True))
+    # print(compile_SGG(open_obj("SG POS-tagged separated.pkl"), False))
 
     return ""
 
