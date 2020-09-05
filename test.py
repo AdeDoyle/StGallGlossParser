@@ -1,8 +1,7 @@
 """Level 1"""
 
 from OpenXlsx import list_xlsx
-from Pickle import open_obj, save_obj
-import re
+from Pickle import open_obj
 from nltk import edit_distance as ed
 from Map_GlossWords import map_glosswords
 from CoNLL_U import split_pos_feats, add_features, update_feature
@@ -22,7 +21,7 @@ wordslist = open_obj("Words_List.pkl")
 #    10 - different number of POS tagged words in Bauer's analysis and tokens in Hofman's gloss
 #   100 - some spelling variation in words matched between Bauer's analysis and Hofman's gloss
 # THIRD VERSION
-def matchword_levdist(gloss_mapping):
+def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     tph_ref = gloss_mapping[0]
     gloss_string = gloss_mapping[1]
     gloss_trans = gloss_mapping[2]
@@ -1026,7 +1025,11 @@ def matchword_levdist(gloss_mapping):
                             # add the features of the combined preverbs to the copula features
                             # do not break out of the loop, the negative particle still needs to be checked
                             if combined_preverbs[0] in tagged_original and combined_preverbs[1] in tagged_standard:
-                                tagged_pos = add_features(tagged_pos, combined_preverb_feats)
+                                try:
+                                    tagged_pos = add_features(tagged_pos, combined_preverb_feats)
+                                except RuntimeError:
+                                    tagged_pos = add_features(tagged_pos, combined_preverb_feats, "replace",
+                                                              [["Mood=Ind"], ["Mood=Cnd"]])
                                 tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                 pos_list = pos_list[:j-last_pos_place+1] + [tagged_word_data] + pos_list[j+1:]
                             # if the combined preverbs cannot be found within the copula form
@@ -1404,7 +1407,11 @@ def matchword_levdist(gloss_mapping):
                                 # if the preverb is already present in the following verb form
                                 if first_preverb_original == tagged_original[:len(first_preverb_original)]:
                                     if first_preverb_feats:
-                                        tagged_pos = add_features(tagged_pos, first_preverb_feats)
+                                        try:
+                                            tagged_pos = add_features(tagged_pos, first_preverb_feats)
+                                        except RuntimeError:
+                                            tagged_pos = add_features(tagged_pos, first_preverb_feats, "replace",
+                                                                      [["Mood=Ind"], ["Mood=Pot"]])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                     pos_list = pos_list[:j-1] + [tagged_word_data] + pos_list[j+1:]
                                     combine_subtract = True
@@ -1492,11 +1499,9 @@ def matchword_levdist(gloss_mapping):
                                         try:
                                             tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                         except RuntimeError:
-                                            if "Mood=Pot" in verb_prefix_feats:
-                                                tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                          "combine", ["Mood"])
-                                            else:
-                                                tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                            if "Mood=Ind" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
+                                                tagged_pos = add_features(tagged_pos, verb_prefix_feats, "replace",
+                                                                          [["Mood=Ind"], ["Mood=Pot"]])
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                         pos_list[j] = tagged_word_data
                                     # check if the preverbal affix is in the verb form
@@ -1658,11 +1663,17 @@ def matchword_levdist(gloss_mapping):
                                                 try:
                                                     tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                                 except RuntimeError:
-                                                    if "Mood=Pot" in verb_prefix_feats:
+                                                    if "Mood=Ind" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                                  "replace",
+                                                                                  [["Mood=Ind"], ["Mood=Pot"]])
+                                                    elif "Mood=Sub" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
                                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats,
                                                                                   "combine", ["Mood"])
                                                     else:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                                  "replace",
+                                                                                  [["Mood=Ind"], ["Mood=Cnd"]])
                                                 tagged_word_data = [tagged_original, tagged_pos,
                                                                     tagged_standard, tagged_head]
                                                 pos_list[j] = tagged_word_data
@@ -1722,14 +1733,7 @@ def matchword_levdist(gloss_mapping):
                                             if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                                 reduced_verbform = reduced_verbform[len(verb_prefix):]
                                                 if verb_prefix_feats:
-                                                    try:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats)
-                                                    except RuntimeError:
-                                                        if "Mood=Pot" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "combine", ["Mood"])
-                                                        else:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                                     tagged_word_data = [tagged_original, tagged_pos,
                                                                         tagged_standard, tagged_head]
                                                     pos_list[j] = tagged_word_data
@@ -1738,7 +1742,12 @@ def matchword_levdist(gloss_mapping):
                                                     or "n" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1]:
                                                 reduced_verbform = reduced_verbform[len(verb_prefix) + 1:]
                                                 if verb_prefix_feats:
-                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                    try:
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                    except RuntimeError:
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                                  "replace",
+                                                                                  [["Mood=Ind"], ["Mood=Sub"]])
                                                     tagged_word_data = [tagged_original, tagged_pos,
                                                                         tagged_standard, tagged_head]
                                                     pos_list[j] = tagged_word_data
@@ -2440,6 +2449,8 @@ def matchword_levdist(gloss_mapping):
     #                                                ARTICLE
     #
     # combine compounded articles with preceding prepositions
+    if combine_wordtoks:
+        pass
 
     #                                               PART 2.1.3:
     #
@@ -2593,15 +2604,20 @@ def matchword_levdist(gloss_mapping):
                 except IndexError:
                     next_pos_data = False
                 olchena_parts = [[['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
-                                  ['chene', '<PRON PronType=Prs>', 'chene', 'cen']],
+                                  ['chene', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
+                                            '| Number=3 | Person=Sing | PronType=Prs>', 'chene', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
-                                  ['chenæ', '<PRON PronType=Prs>', 'chenae', 'cen']],
+                                  ['chenæ', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
+                                            '| Number=3 | Person=Sing | PronType=Prs>', 'chenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
-                                  ['chenae', '<PRON PronType=Prs>', 'chenae', 'cen']],
+                                  ['chenae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
+                                             '| Number=3 | Person=Sing | PronType=Prs>', 'chenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
-                                  ['chænae', '<PRON PronType=Prs>', 'chaenae', 'cen']],
+                                  ['chænae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
+                                             '| Number=3 | Person=Sing | PronType=Prs>', 'chaenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
-                                  ['chaenae', '<PRON PronType=Prs>', 'chaenae', 'cen']]]
+                                  ['chaenae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
+                                              '| Number=3 | Person=Sing | PronType=Prs>', 'chaenae', 'cen']]]
                 # find the two POS preceding and following the combined form, if there are two
                 if last_pos_data:
                     # check if the preceding two POS make up the combined form and delete them if so
@@ -3095,11 +3111,17 @@ def matchword_levdist(gloss_mapping):
 
 # # Test Function: matchword_levdist()
 
-# Test edit distance function on all glosses
-for glossnum, gloss in enumerate(glosslist):
-    check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]))
-    if check:
-        print(glossnum, check)
+# # Test edit distance function on all glosses (combining small tokens)
+# for glossnum, gloss in enumerate(glosslist):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]), True)
+#     if check:
+#         print(glossnum, check)
+
+# # Test edit distance function on all glosses (separating small tokens)
+# for glossnum, gloss in enumerate(glosslist):
+#     check = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]), False)
+#     if check:
+#         print(glossnum, check)
 
 # # Test edit distance function on a range of glosses
 # test_on = glosslist

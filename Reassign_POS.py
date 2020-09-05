@@ -386,19 +386,45 @@ def clean_analysis(taglist, test_unknown=False):
 
     # Assign Pronouns (PRON)
     # Personal Pronouns
+    numdict = {'sg': 'Sing', 'pl': 'Plur'}
+    gend_dict = {"m": "Masc", "n": "Neut", "f": "Fem"}
     if An1 == 'pronoun, personal':
+        person = False
+        number = False
+        gender = False
         if An2 in ['1sg',
                    '2sg',
                    '3sg m', '3sg f', '3sg n',
                    '3pl']:
+            perspat = re.compile(r'\d\w{2}')
+            perspatiter = perspat.finditer(An2)
+            for persfind in perspatiter:
+                person = persfind.group()[:1]
+            numpat = re.compile(r'\d\w{2}')
+            numpatiter = numpat.finditer(An2)
+            for numfind in numpatiter:
+                number = numdict.get(numfind.group()[1:3])
+            gendpat = re.compile(r'\d\w{2}( \w)?')
+            gendpatiter = gendpat.finditer(An2)
+            for gendfind in gendpatiter:
+                gender = gend_dict.get(gendfind.group()[-1:])
+            feat_list = list()
+            if gender:
+                feat_list.append(f'Gender={gender}')
+            if number:
+                feat_list.append(f'Number={number}')
+            if person:
+                feat_list.append(f'Person={person}')
+            feat_list.append("PronType=Prs")
+            features = " | ".join(feat_list)
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Prs"
+                        pos = f"PRON {features}"
             elif An3 in ['voc.sg.', 'composition form', 'formal pred, immediately after copula']:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Prs"
+                        pos = f"PRON {features}"
     # Assign Indefinite Pronouns (PRON)
     if An1 == 'pronoun, non-neuter':
         if not An2:
@@ -427,17 +453,27 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = "PRON PronType=Ind"
         elif An2 == 'm':
+            case = False
+            number = False
             if An3 in indpron_case:
+                casepat = re.compile(r'\w{3}\.')
+                casepatiter = casepat.finditer(An3)
+                for casefind in casepatiter:
+                    case = casefind.group()[:-1].capitalize()
+                numpat = re.compile(r'\.\w{2}\.')
+                numpatiter = numpat.finditer(An3)
+                for numfind in numpatiter:
+                    number = numdict.get(numfind.group()[1:-1])
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Ind"
+                        pos = f"PRON Case={case} | Gender=Masc | Number={number} | PronType=Ind"
     # Assign Suffixed Pronouns (PRON)
     if An1 == 'pronoun, suffixed':
         if An2 in ['3sg m, n', '3sg m, n (nasalizing)']:
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Prs"
+                        pos = "PRON Gender=Masc,Neut | Number=Sing | Person=3 | PronType=Prs"
     # Reflexive Pronouns
     if An1 == 'pronoun, reflexive':
         if not An2:
@@ -515,14 +551,39 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
                    '1pl', '2pl', '3pl']:
+            person = An2[0]
+            number = False
+            gender = False
+            feat_list = list()
+            if " m, n" in An2:
+                gender = "Masc,Neut"
+            elif " f" in An2:
+                gender = "Fem"
+            if "sg" in An2:
+                number = "Sing"
+            elif "pl" in An2:
+                number = "Plur"
             if not An3:
+                if gender:
+                    feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                feat_list.append(f'Person={person}')
+                feat_list.append("PronType=Emp")
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Emp"
+                        pos = f"PRON {features}"
             elif An3 in ['masc.', '3sg.masc.']:
+                feat_list.append(f'Gender=Masc')
+                if number:
+                    feat_list.append(f'Number={number}')
+                feat_list.append(f'Person={person}')
+                feat_list.append("PronType=Emp")
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Emp"
+                        pos = f"PRON {features}"
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
         if An2 in ['stressed', 'neuter, stressed']:
@@ -531,10 +592,38 @@ def clean_analysis(taglist, test_unknown=False):
                        'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
                        'acc.pl.', 'acc.pl.masc.',
                        'dat.pl.', 'dat.pl.neut.']:
+                case = False
+                gender = False
+                number = False
+                feat_list = list()
+                case = An3[:3].capitalize()
+                if ".masc." in An3:
+                    gender = "Masc"
+                elif ".neut." in An3:
+                    gender = "Neut"
+                elif ".fem" in An3:
+                    gender = "Fem"
+                if ".sg." in An3:
+                    number = "Sing"
+                elif ".pl." in An3:
+                    number = "Plur"
+                if case:
+                    feat_list.append(f'Case={case}')
+                if gender:
+                    feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                feat_list.append("PronType=Ana")
+                features = " | ".join(feat_list)
+                if not actpas:
+                    if not rel:
+                        pos = f"PRON {features}"
+            elif not An3:
                 if not actpas:
                     if not rel:
                         pos = "PRON PronType=Ana"
-            elif not An3:
+        if An2 == 'neuter, stressed':
+            if An3 in ['acc.sg.', 'dat.sg.']:
                 if not actpas:
                     if not rel:
                         pos = "PRON PronType=Ana"
@@ -576,34 +665,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PRON Polarity=Neg | PronType=Int"
-    # Assign Prepositional Pronouns (PRON)
-    prepprontype = ['acc. + suff.pron.1sg.',
-                    'acc. + suff.pron.2sg.',
-                    'acc. + suff.pron.3sg.masc./neut.',
-                    'acc. + suff.pron.3sg.fem.',
-                    'acc. + suff.pron.1pl.',
-                    'acc. + suff.pron.3pl.',
-                    'dat. + suff.pron.1sg.',
-                    'dat. + suff.pron.2sg.',
-                    'dat. + suff.pron.3sg.',
-                    'dat. + suff.pron.3sg.masc./neut.',
-                    'dat. + suff.pron.3sg.fem.',
-                    'dat. + suff.pron.3sg.fem. + -si 1',
-                    'dat. + suff.pron.1pl.',
-                    'dat. + suff.pron.2pl.',
-                    'dat. + suff.pron.3pl.',
-                    'eter + suff pron 3sg n']
-    if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
-               'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
-               'preposition, with dat; geminating',
-               'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
-        if not An2:
-            if An3 in prepprontype:
-                if not actpas:
-                    if not rel:
-                        pos = "PRON PronType=Prs"
-                    elif rel in ['Y']:
-                        pos = "PRON PronType=Prs"
 
     #                                        ARTICLES & DETERMINERS
     # Assign Articles (DET)
@@ -950,6 +1011,8 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Aspect={aspect}')
                 if mood:
                     feat_list.append(f'Mood={mood}')
+                else:
+                    feat_list.append('Mood=Ind')
                 if number:
                     feat_list.append(f'Number={number}')
                 if person:
@@ -957,6 +1020,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if relative:
                     feat_list.append(f'PronType={relative}')
                 if tense:
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Imp":
+                    tense = "Pres"
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Cnd":
+                    tense = "Fut"
                     feat_list.append(f'Tense={tense}')
                 if voice:
                     feat_list.append(f'Voice={voice}')
@@ -1026,11 +1095,6 @@ def clean_analysis(taglist, test_unknown=False):
                 moodpatiter = moodpat.finditer(An3)
                 for find_mood in moodpatiter:
                     mood = mooddict.get(find_mood.group())
-                voice = False
-                if actpas == 'Active':
-                    voice = "Act"
-                elif actpas in ['Passive', 'Pass']:
-                    voice = "Pass"
                 relative = False
                 if rel in ['Y', 'Maybe']:
                     relative = "Rel"
@@ -1039,6 +1103,8 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Aspect={aspect}')
                 if mood:
                     feat_list.append(f'Mood={mood}')
+                else:
+                    feat_list.append('Mood=Ind')
                 if number:
                     feat_list.append(f'Number={number}')
                 if person:
@@ -1048,21 +1114,23 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'PronType={relative}')
                 if tense:
                     feat_list.append(f'Tense={tense}')
+                elif mood == "Imp":
+                    tense = "Pres"
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Cnd":
+                    tense = "Fut"
+                    feat_list.append(f'Tense={tense}')
                 feat_list.append(f'VerbType=Cop')
-                if voice:
-                    feat_list.append(f'Voice={voice}')
                 features = " | ".join(feat_list)
                 pos = f'AUX {features}'
             elif An3 in verb_tensepersinfix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos "\
-                              "| Tense=Pres | VerbType=Cop | Voice=Act"
+                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos | Tense=Pres | VerbType=Cop"
             elif An3 in verb_tenseperssuffix:
                 if actpas == 'Active':
                     if not rel:
-                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos " \
-                              "| Tense=Pres | VerbType=Cop | Voice=Act"
+                        pos = "AUX Mood=Ind | Number=Sing | Person=3 | Polarity=Pos | Tense=Pres | VerbType=Cop"
     # General Verbs
         elif An2 in ['AI', 'AII', 'AIII', 'BI', 'BII', 'BIII', 'BIV', 'BV',
                      'AII (?)', 'BI (?)', 'BII (?)', 'defective', 'inflexion not clear', 'unclear',
@@ -1104,6 +1172,8 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Aspect={aspect}')
                 if mood:
                     feat_list.append(f'Mood={mood}')
+                else:
+                    feat_list.append('Mood=Ind')
                 if number:
                     feat_list.append(f'Number={number}')
                 if person:
@@ -1111,6 +1181,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if relative:
                     feat_list.append(f'PronType={relative}')
                 if tense:
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Imp":
+                    tense = "Pres"
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Cnd":
+                    tense = "Fut"
                     feat_list.append(f'Tense={tense}')
                 if voice:
                     feat_list.append(f'Voice={voice}')
@@ -1154,6 +1230,8 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Aspect={aspect}')
                 if mood:
                     feat_list.append(f'Mood={mood}')
+                else:
+                    feat_list.append('Mood=Ind')
                 if number:
                     feat_list.append(f'Number={number}')
                 if person:
@@ -1161,6 +1239,12 @@ def clean_analysis(taglist, test_unknown=False):
                 if relative:
                     feat_list.append(f'PronType={relative}')
                 if tense:
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Imp":
+                    tense = "Pres"
+                    feat_list.append(f'Tense={tense}')
+                elif mood == "Cnd":
+                    tense = "Fut"
                     feat_list.append(f'Tense={tense}')
                 if voice:
                     feat_list.append(f'Voice={voice}')
@@ -1356,6 +1440,61 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "ADP AdpType=Prep | Definite=Ind"
+    # Assign Prepositional Pronouns (ADP)
+    prepprontype = ['acc. + suff.pron.1sg.',
+                    'acc. + suff.pron.2sg.',
+                    'acc. + suff.pron.3sg.masc./neut.',
+                    'acc. + suff.pron.3sg.fem.',
+                    'acc. + suff.pron.1pl.',
+                    'acc. + suff.pron.3pl.',
+                    'dat. + suff.pron.1sg.',
+                    'dat. + suff.pron.2sg.',
+                    'dat. + suff.pron.3sg.',
+                    'dat. + suff.pron.3sg.masc./neut.',
+                    'dat. + suff.pron.3sg.fem.',
+                    'dat. + suff.pron.3sg.fem. + -si 1',
+                    'dat. + suff.pron.1pl.',
+                    'dat. + suff.pron.2pl.',
+                    'dat. + suff.pron.3pl.',
+                    'eter + suff pron 3sg n']
+    if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
+               'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
+               'preposition, with dat; geminating',
+               'preposition, with dat and acc; leniting', 'preposition, with dat and acc; nasalizing']:
+        if not An2:
+            if An3 in prepprontype:
+                gender = False
+                number = False
+                person = False
+                numdict = {'sg': 'Sing', 'pl': 'Plur'}
+                if ".masc./neut." in An3 or "3sg n" in An3:
+                    gender = "Masc,Neut"
+                elif ".fem." in An3:
+                    gender = "Fem"
+                persnumpat = re.compile(r'[. ]\d\w{2}[. ]')
+                persnumpatiter = persnumpat.finditer(An3)
+                for persnumfind in persnumpatiter:
+                    persnum = persnumfind.group()
+                    number = persnum[1:2]
+                    person = numdict.get(persnum[2:4])
+                feat_list = list()
+                feat_list.append("AdpType=Prep")
+                feat_list.append("Definite=Ind")
+                if gender:
+                    feat_list.append(f'Gender={gender}')
+                if number:
+                    feat_list.append(f'Number={number}')
+                if person:
+                    feat_list.append(f'Person={person}')
+                if not actpas:
+                    if not rel:
+                        feat_list.append("PronType=Prs")
+                        features = " | ".join(feat_list)
+                        pos = f"ADP {features}"
+                    elif rel == 'Y':
+                        feat_list.append("PronType=Prs,Rel")
+                        features = " | ".join(feat_list)
+                        pos = f"ADP {features}"
     # Assign Deterministic Prepositions - preceding prepositional articles (ADP)
     if An1 in ['preposition, with acc', 'preposition, with acc; leniting', 'preposition, with acc; geminating',
                'preposition, with dat', 'preposition, with dat; leniting', 'preposition, with dat; nasalizing',
