@@ -367,6 +367,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     # list all enclitic forms of the copula
     enclitic_cops = [['th', '<AUX Polarity=Pos | VerbType=Cop>', 'th'],  # Present (Indic.)
                      ['id', '<AUX Polarity=Pos | VerbType=Cop>', 'id'],
+                     ['nid', '<AUX Polarity=Pos | VerbType=Cop>', 'nid'],
                      ['so', '<AUX Polarity=Pos | VerbType=Cop>', 'so'],
                      ['su', '<AUX Polarity=Pos | VerbType=Cop>', 'su'],
                      ['tu', '<AUX Polarity=Pos | VerbType=Cop>', 'tu'],
