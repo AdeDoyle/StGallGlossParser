@@ -169,10 +169,70 @@ def compile_sent(sent):
     return sent_list
 
 
+def order_SGG(tagged_glosses):
+    """Put glosses in order in accordance with their TPH folio, column and number ID"""
+    glosses_sortlist = list()
+    col_dict = {'top': 0, 'a': 1, 'b': 2, ',': 3, 'bottom': 4}
+    for i in tagged_glosses:
+        ref = i[0]
+        folio = False
+        column = False
+        number = False
+        folpat = re.compile(r'((f\.)?\d{1,3}[ ,ab]|Not in Thesaurus Palaeohibernicus)')
+        folpatiter = folpat.finditer(ref)
+        for folfind in folpatiter:
+            folio = folfind.group()
+            if folio == "Not in Thesaurus Palaeohibernicus":
+                folio = last_fol
+            elif "f." in folio:
+                folio = folio[2:-1]
+            else:
+                folio = folio[:-1]
+            last_fol = folio
+        colpat = re.compile(r'(\d{1,3}[,ab]| (top|bottom) marg.|Not in Thesaurus Palaeohibernicus)')
+        colpatiter = colpat.finditer(ref)
+        for colfind in colpatiter:
+            column = colfind.group()
+            if column == "Not in Thesaurus Palaeohibernicus":
+                column = last_col
+            elif "marg." in column:
+                column = column[1:-6]
+            else:
+                column = column[-1:]
+            last_col = column
+        numpat = re.compile(r'(\d[,ab]\d{1,2}|[Nn]ot in Thesaurus Palaeohibernicus)')
+        numpatiter = numpat.finditer(ref)
+        for numfind in numpatiter:
+            number = numfind.group()
+            if number == "Not in Thesaurus Palaeohibernicus" or number == "not in Thesaurus Palaeohibernicus":
+                number = last_num + ".5"
+            else:
+                number = number[2:]
+            last_num = number
+        sorting = list()
+        if folio:
+            sorting.append(int(folio))
+        else:
+            sorting.append(0)
+        if column:
+            sorting.append(col_dict.get(column))
+        else:
+            sorting.append(0)
+        if number:
+            sorting.append(float(number))
+        else:
+            sorting.append(0)
+        glosses_sortlist.append([i, sorting])
+    glosses_sortlist = sorted(glosses_sortlist, key=lambda x: x[1])
+    glosses_sortlist = [i[0] for i in glosses_sortlist]
+    return glosses_sortlist
+
+
 def compile_SGG(tagged_glosses, combine_wordtoks=True):
     """compile a .conllu file of the POS-tagged glosses"""
     sgg_file = None
     sent_id = 0
+    tagged_glosses = order_SGG(tagged_glosses)
     for i in tagged_glosses:
         sent_id += 1
         this_id = f'# sent_id = {sent_id}'
@@ -265,6 +325,16 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
 
 # # test compile_sent() function
 # print(compile_sent(s1))
+
+
+# test order_SGG() function
+# pos_list1 = open_obj("SG POS-tagged combined.pkl")[2190:2200]
+# pos_list1 = reversed(open_obj("SG POS-tagged combined.pkl")[2190:2200])
+# for i in pos_list1:
+#     print(i)
+# print(order_SGG(pos_list1))
+# for ordered_gloss in order_SGG(pos_list1):
+#     print(ordered_gloss)
 
 
 # #                                                  Test conllu Library

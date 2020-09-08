@@ -11740,7 +11740,7 @@
 1	comparit	comparit	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 1069
-# reference = 44a1
+# reference = 44b1
 # text = iure .i. e airdíxa hi peneuilt
 # translation = […] i.e. long e in (the) penult
 1	iure	_	X	_	Foreign=Yes	_	_	_	_
@@ -11751,7 +11751,7 @@
 6	peneuilt	peneuilt	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 1070
-# reference = 44a2
+# reference = 44b2
 # text = it lia déṡillabchi
 # translation = they are more than disyllabism
 1	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -11759,7 +11759,7 @@
 3	déṡillabchi	déṡillabche	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 
 # sent_id = 1071
-# reference = 44a3
+# reference = 44b3
 # text = ci asingbat árim déṡillabche compariti ⁊ superlati
 # translation = that comparatives and superlatives should exceed the number of disyllabism
 1	ci	cía	SCONJ	_	_	_	_	_	_
@@ -13306,63 +13306,54 @@
 3	sainṡamail	sainemail	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 1253
-# reference = f.50 bottom marg. (TPH p.xx)
-# text = ᚛ᚃᚓᚏᚔᚐ ᚉᚐᚔ ᚆᚑᚇᚔᚓ
-# translation = False
-1	᚛	᚛	PUNCT	_	_	_	_	_	_
-2	ᚃᚓᚏᚔᚐ	_	X	_	Foreign=Yes	_	_	_	_
-3	ᚉᚐᚔ	cai	PROPN	_	_	_	_	_	_
-4	ᚆᚑᚇᚔᚓ	_	X	_	Foreign=Yes	_	_	_	_
-
-# sent_id = 1254
 # reference = 50b1
 # text = traigthech
 # translation = pedestrian
 1	traigthech	traigthech	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1255
+# sent_id = 1254
 # reference = 50b2
 # text = óinechaid
 # translation = rider
 1	óinechaid	óinechaid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1256
+# sent_id = 1255
 # reference = 50b3
 # text = dítiu
 # translation = covering
 1	dítiu	dítiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1257
+# sent_id = 1256
 # reference = 50b4
 # text = félmae
 # translation = fence
 1	félmae	félmae	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1258
+# sent_id = 1257
 # reference = 50b5
 # text = sreth
 # translation = that which is laid out/strewn
 1	sreth	sreth	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1259
+# sent_id = 1258
 # reference = 50b6
 # text = ár
 # translation = slaughter
 1	ár	ár	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1260
+# sent_id = 1259
 # reference = 50b7
 # text = sulbaire
 # translation = cheerfulness
 1	sulbaire	sulbaire	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1261
+# sent_id = 1260
 # reference = 50b8
 # text = immimgabaim
 # translation = I evade
 1	immimgabaim	immimgaib	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 1262
+# sent_id = 1261
 # reference = 50b9
 # text = teichthech .i. similis vitanti
 # translation = inclined to flight, i.e. similar <in meaning> to ‘vitans’ (avoiding)
@@ -13371,25 +13362,25 @@
 3	similis	_	X	_	Foreign=Yes	_	_	_	_
 4	vitanti	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 1263
+# sent_id = 1262
 # reference = 50b10
 # text = létenach
 # translation = daring
 1	létenach	léitenach	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 1264
+# sent_id = 1263
 # reference = 50b11
 # text = bíde
 # translation = pitchy
 1	bíde	bídae	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
-# sent_id = 1265
+# sent_id = 1264
 # reference = 50b12
 # text = bíde
 # translation = pitchy
 1	bíde	bídae	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 1266
+# sent_id = 1265
 # reference = 50b13
 # text = civitas .i. masu ed
 # translation = if it is so
@@ -13398,7 +13389,7 @@
 3	masu	má	SCONJ	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 4	ed	ed	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
-# sent_id = 1267
+# sent_id = 1266
 # reference = 50b14
 # text = .i. habent l ante a similiter n ⁊ r ante a beos
 # translation = i.e. they have an ‘l’ before the ‘a’, and similarly an ‘n’ and also an ‘r’ before the ‘a’
@@ -13415,19 +13406,19 @@
 11	a	_	X	_	Foreign=Yes	_	_	_	_
 12	beos	beus	ADV	_	_	_	_	_	_
 
-# sent_id = 1268
+# sent_id = 1267
 # reference = 50b15
 # text = lainne
 # translation = eagerness
 1	lainne	lainne	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1269
+# sent_id = 1268
 # reference = 50b16
 # text = armthatu
 # translation = armour
 1	armthatu	armthatu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1270
+# sent_id = 1269
 # reference = 50b17
 # text = .i. ní tia araḟóimat sidi oc a cruthugud ó anmmanaib diil tanisi acht is a tantum super genitivum nominum secundae declinationis …
 # translation = i.e. it is not -tia that these assume in their formation from nouns of the second declension, but it is etc.
@@ -13454,13 +13445,13 @@
 21	declinationis	_	X	_	Foreign=Yes	_	_	_	_
 22	…	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 1271
+# sent_id = 1270
 # reference = 50b18
 # text = cid
 # translation = even
 1	cid	cía	SCONJ	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 
-# sent_id = 1272
+# sent_id = 1271
 # reference = 50b19
 # text = .i. medón testemin són
 # translation = i.e. this is the middle of the period
@@ -13469,19 +13460,28 @@
 3	testemin	testimin	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	són	son	PRON	_	PronType=Ana	_	_	_	_
 
-# sent_id = 1273
+# sent_id = 1272
 # reference = 50b20
 # text = iar testemin
 # translation = the conclusion of the period
 1	iar	íar	NOUN	_	Prefix=Yes	_	_	_	_
 2	testemin	testimin	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1274
+# sent_id = 1273
 # reference = 50b21
 # text = .i. féle
 # translation = i.e. modesty
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	féle	féle	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 1274
+# reference = f.50 bottom marg. (TPH p.xx)
+# text = ᚛ᚃᚓᚏᚔᚐ ᚉᚐᚔ ᚆᚑᚇᚔᚓ
+# translation = False
+1	᚛	᚛	PUNCT	_	_	_	_	_	_
+2	ᚃᚓᚏᚔᚐ	_	X	_	Foreign=Yes	_	_	_	_
+3	ᚉᚐᚔ	cai	PROPN	_	_	_	_	_	_
+4	ᚆᚑᚇᚔᚓ	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 1275
 # reference = 51a1
@@ -13664,18 +13664,25 @@
 12	díib	de	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 
 # sent_id = 1298
+# reference = f.52 top marg. (TPH p.xx)
+# text = daman ṡianach
+# translation = a little skulk of foxes
+1	daman	dámán	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+2	ṡianach	sinnach	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+
+# sent_id = 1299
 # reference = 52a1
 # text = cridech
 # translation = cordial
 1	cridech	cridech	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 1299
+# sent_id = 1300
 # reference = 52a2
 # text = fissith
 # translation = learned man
 1	fissith	fisid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1300
+# sent_id = 1301
 # reference = 52a3
 # text = cennmar ɫ cenn mar
 # translation = a proper name, or greatheaded
@@ -13684,14 +13691,14 @@
 3	cenn	cenn	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	mar	már	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
 
-# sent_id = 1301
+# sent_id = 1302
 # reference = 52a4
 # text = huá ṡail
 # translation = from dirt
 1	huá	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	ṡail	sal	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 1302
+# sent_id = 1303
 # reference = 52a5
 # text = slithid ɫ ban bachlach icidorus banbachlach conciliator ⁊ conciliatrix stupri
 # translation = procuress or female servant
@@ -13706,63 +13713,63 @@
 9	conciliatrix	_	X	_	Foreign=Yes	_	_	_	_
 10	stupri	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 1303
+# sent_id = 1304
 # reference = 52a6
 # text = fledaichthith
 # translation = gormandizer
 1	fledaichthith	fledaichthid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1304
+# sent_id = 1305
 # reference = 52a7
 # text = fledaichthidi
 # translation = gormandizers
 1	fledaichthidi	fledaichthid	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 
-# sent_id = 1305
+# sent_id = 1306
 # reference = 52a8
 # text = forbbart
 # translation = increase
 1	forbbart	forbart	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1306
+# sent_id = 1307
 # reference = 52a9
 # text = óg dílgend
 # translation = complete extinction
 1	óg	óg	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 2	dílgend	dílgend	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1307
+# sent_id = 1308
 # reference = 52a10
 # text = fergnia
 # translation = male-worker
 1	fergnia	fergnia	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1308
+# sent_id = 1309
 # reference = 52a11
 # text = dub chorcur
 # translation = dark purple
 1	dub	dub	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
 2	chorcur	corcair	NOUN	_	Prefix=Yes	_	_	_	_
 
-# sent_id = 1309
+# sent_id = 1310
 # reference = 52a12
 # text = meirc
 # translation = rust
 1	meirc	meirc	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1310
+# sent_id = 1311
 # reference = 52a13
 # text = hirud
 # translation = margin
 1	hirud	irud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1311
+# sent_id = 1312
 # reference = 52a14
 # text = bacc
 # translation = grub-hoe
 1	bacc	bacc	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1312
+# sent_id = 1313
 # reference = 52a15
 # text = cid timmartae péneuilt
 # translation = that the penult should be short
@@ -13770,26 +13777,26 @@
 2	timmartae	timortae	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 3	péneuilt	peneuilt	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1313
+# sent_id = 1314
 # reference = 52a16
 # text = lainne
 # translation = eagerness
 1	lainne	lainne	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1314
+# sent_id = 1315
 # reference = 52a17
 # text = .i. somailse
 # translation = i.e. sweetness
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	somailse	somailse	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1315
+# sent_id = 1316
 # reference = 52a18
 # text = etargabál
 # translation = interception
 1	etargabál	etargabál	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 1316
+# sent_id = 1317
 # reference = 52a19
 # text = do n chétni persin as bunad do
 # translation = to the first person, which is its origin
@@ -13800,13 +13807,6 @@
 5	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 6	bunad	bunad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 7	do	do	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
-
-# sent_id = 1317
-# reference = f.52 top marg. (TPH p.xx)
-# text = daman ṡianach
-# translation = a little skulk of foxes
-1	daman	dámán	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	ṡianach	sinnach	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 
 # sent_id = 1318
 # reference = 52b1
@@ -15884,7 +15884,7 @@
 1	fid	fid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 1542
-# reference = 61a7
+# reference = 61b7
 # text = do glúais a n-arbos
 # translation = arbos is by way of gloss
 1	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -16456,26 +16456,20 @@
 2	bestia	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 1600
-# reference = f.64a, not in Thesaurus Palaeohibernicus
-# text = cuithe
-# translation = pit
-1	cuithe	cuithe	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 1601
-# reference = 64b1
+# reference = 64a1
 # text = inna cenél sin
 # translation = of those nations
 1	inna	a	DET	_	Case=Gen|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
 2	cenél	cenél	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 3	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 1602
+# sent_id = 1601
 # reference = 64a2
 # text = lairt
 # translation = (king) Lar
 1	lairt	lart	PROPN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 1603
+# sent_id = 1602
 # reference = 64a3
 # text = inna cenel sin
 # translation = of those nations
@@ -16483,25 +16477,31 @@
 2	cenel	cenél	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 3	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 1604
+# sent_id = 1603
 # reference = 64a4
 # text = do ainmmnid
 # translation = as nominative
 1	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	ainmmnid	ainmmnid	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 1605
+# sent_id = 1604
 # reference = 64a5
 # text = mall són
 # translation = that is ,slow’
 1	mall	mall	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 2	són	són	PRON	_	PronType=Ana	_	_	_	_
 
-# sent_id = 1606
+# sent_id = 1605
 # reference = 64a6
 # text = druimmchlí
 # translation = ceiling
 1	druimmchlí	druimmchlí	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 1606
+# reference = f.64a, not in Thesaurus Palaeohibernicus
+# text = cuithe
+# translation = pit
+1	cuithe	cuithe	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 1607
 # reference = 64a7
@@ -19466,7 +19466,7 @@
 7	dliged	dliged	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 1913
-# reference = 73a7
+# reference = 73b7
 # text = do ṡlund nach ḟolaid triit feissin
 # translation = to express by itself any substance
 1	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -19477,7 +19477,7 @@
 6	feissin	fadesin	PRON	_	PronType=Prs|Reflex=Yes	_	_	_	_
 
 # sent_id = 1914
-# reference = 73a8
+# reference = 73b8
 # text = .i. bit dechomsuidigthi asbertar mad hed in sin asberthar díib
 # translation = i.e. they will be called decomposita, if that be said of them
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -20544,11 +20544,10 @@
 5	dano	dano	ADV	_	_	_	_	_	_
 
 # sent_id = 2006
-# reference = Not in Thesaurus Palaeohibernicus
-# text = ar chiunn
-# translation = further on
-1	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-2	chiunn	cenn	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+# reference = 92a1
+# text = comrar
+# translation = a box
+1	comrar	comrar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2007
 # reference = Not in Thesaurus Palaeohibernicus
@@ -20559,12 +20558,6 @@
 3	chiunn	cenn	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 2008
-# reference = 92a1
-# text = comrar
-# translation = a box
-1	comrar	comrar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 2009
 # reference = 92a2
 # text = .i. airdiden ind ainmnedo téte in a
 # translation = i.e. the production of the nominative which ends in a
@@ -20576,7 +20569,7 @@
 6	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 7	a	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2010
+# sent_id = 2009
 # reference = 92a3
 # text = .i. airdíxa a and fo chosmailius grec
 # translation = i.e. a (is) long in it, after the fashion of the Greeks
@@ -20587,6 +20580,13 @@
 5	fo	fo	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 6	chosmailius	cosmailius	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 7	grec	gréc	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+
+# sent_id = 2010
+# reference = Not in Thesaurus Palaeohibernicus
+# text = ar chiunn
+# translation = further on
+1	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+2	chiunn	cenn	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 2011
 # reference = 92a4
@@ -21337,13 +21337,12 @@
 
 # sent_id = 2084
 # reference = 101b1
-# text = .i. i ndegaid ṅ ṅdé
+# text = .i. i ndegaid ṅdé
 # translation = i.e. after God
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 3	ndegaid	degaid	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-4	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-5	ṅdé	día	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+4	ṅdé	día	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 2085
 # reference = 101b2
@@ -22056,7 +22055,7 @@
 1	cucan	cucann	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2151
-# reference = 108b1
+# reference = 108a1
 # text = a ngné
 # translation = the kind
 1	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
@@ -25958,7 +25957,7 @@
 10	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2506
-# reference = 154a2
+# reference = 154b2
 # text = .i. ni fil chumtubairt ata nanmman sidi
 # translation = i.e. there is no doubt that these are nouns
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -27267,14 +27266,6 @@
 8	o	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2608
-# reference = f.165 bottom marg. (TPH p.xxi)
-# text = is dorchæ dom
-# translation = it is dark for me
-1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-2	dorchæ	dorchae	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-3	dom	do	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
-
-# sent_id = 2609
 # reference = 165a1
 # text = .i. aicned bis i sin chetni persin in presenti is ed bís in pre-terito
 # translation = i.e. the nature that is in the first person in the present it is this that is in the preterite. 
@@ -27293,7 +27284,7 @@
 13	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 14	pre-terito	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2610
+# sent_id = 2609
 # reference = 165b1
 # text = .i. ar cia beid b hí suidib non in una syllaba atá b ⁊ s
 # translation = i.e. for although b be (as it is) in them, b and s are not in one syllable
@@ -27313,7 +27304,7 @@
 14	⁊	_	X	_	Foreign=Yes	_	_	_	_
 15	s	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2611
+# sent_id = 2610
 # reference = 165b2
 # text = .i. is syllab fo leith in remṡuidigud
 # translation = i.e. the preposition is a syllable apart
@@ -27325,7 +27316,7 @@
 6	in	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 7	remṡuidigud	remṡuidigud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 2612
+# sent_id = 2611
 # reference = 165b3
 # text = .i. sí feisine ⁊ ní bí ní tar a hesi ar is feidligud di si dia mbé són
 # translation = i.e. it itself, and there is nothing in place of it, for it is permanence to it if that be
@@ -27348,6 +27339,14 @@
 17	mbé	attá	VERB	_	Mood=Sub|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 18	són	són	PRON	_	PronType=Ana	_	_	_	_
 
+# sent_id = 2612
+# reference = f.165 bottom marg. (TPH p.xxi)
+# text = is dorchæ dom
+# translation = it is dark for me
+1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+2	dorchæ	dorchae	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+3	dom	do	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
+
 # sent_id = 2613
 # reference = 166a1
 # text = .i. oct ṅdelbæ ⁊ oct ṅgné cenélcha and som sé tarmmorcenn immurgu reliqua
@@ -27367,7 +27366,7 @@
 13	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2614
-# reference = 166b2
+# reference = 166a2
 # text = .i. ailigid gnei ⁊ ní hilaigedar tairmmoircniu a ní siu
 # translation = i.e. this (kind of preterite) changes the form and does not multiply the terminations
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -27910,18 +27909,18 @@
 4	comsuidigthib	comṡuidigthe	ADJ	_	Case=Dat|Degree=Pos|Number=Plur	_	_	_	_
 
 # sent_id = 2663
-# reference = 176a1
-# text = lígim
-# translation = I lick
-1	lígim	ligid	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
-
-# sent_id = 2664
 # reference = f.176 top marg. (TPH p.xxi)
 # text = uit mo chrob
 # translation = alas! my hand
 1	uit	uit	INTJ	_	_	_	_	_	_
 2	mo	mo	PRON	_	Number=Sing|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
 3	chrob	crob	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 2664
+# reference = 176a1
+# text = lígim
+# translation = I lick
+1	lígim	ligid	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2665
 # reference = 176b1
@@ -28360,6 +28359,12 @@
 2	nid	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
 
 # sent_id = 2703
+# reference = f.182 top marg. (TPH p.xxi)
+# text = finguine
+# translation = False
+1	finguine	finguine	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 2704
 # reference = 182a1
 # text = .i. ni bí cello ɫ celleo
 # translation = i.e. cello or celleo does not exist
@@ -28370,7 +28375,7 @@
 5	ɫ	nó	CCONJ	_	_	_	_	_	_
 6	celleo	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2704
+# sent_id = 2705
 # reference = 182a2
 # text = o nd í as excello
 # translation = from excello
@@ -28380,18 +28385,12 @@
 4	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 5	excello	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2705
+# sent_id = 2706
 # reference = Not in Thesaurus Palaeohibernicus
 # text = a ní
 # translation = that
 1	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 2	ní	í	PART	_	PartType=Dct	_	_	_	_
-
-# sent_id = 2706
-# reference = f.182 top marg. (TPH p.xxi)
-# text = finguine
-# translation = False
-1	finguine	finguine	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2707
 # reference = 182b1
@@ -28673,7 +28672,7 @@
 5	uathataib	úathad	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
 
 # sent_id = 2730
-# reference = 186b3
+# reference = 186a3
 # text = fri sin cetni persin
 # translation = to the first person
 1	fri	fri	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
@@ -30195,6 +30194,19 @@
 7	ranngabál	ranngabál	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 
 # sent_id = 2846
+# reference = f.194 top marg. (TPH p.xxi)
+# text = donngus
+# translation = Dongus
+1	donngus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 2847
+# reference = f.194 top marg. (TPH p.xxi)
+# text = ᚛ᚉᚑᚉᚐᚏᚈ
+# translation = correction
+1	᚛	᚛	PUNCT	_	_	_	_	_	_
+2	ᚉᚑᚉᚐᚏᚈ	cocart	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 2848
 # reference = 194a1
 # text = enod cainti oco nd ṡruth sin
 # translation = an oath that used to be sworn at that river
@@ -30205,7 +30217,7 @@
 5	ṡruth	sruth	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 6	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 2847
+# sent_id = 2849
 # reference = 194a2
 # text = gním ind í as fio
 # translation = the active of fio
@@ -30215,7 +30227,26 @@
 4	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 5	fio	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2848
+# sent_id = 2850
+# reference = 194b1
+# text = ciall gnímo ⁊ chésto
+# translation = (the) meaning of action and passion
+1	ciall	cíall	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+2	gnímo	gním	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+3	⁊	ocus	CCONJ	_	_	_	_	_	_
+4	chésto	césad	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+
+# sent_id = 2851
+# reference = 194b2
+# text = .i. it anman amal sodain
+# translation = i.e. they are nouns in that case
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+3	anman	ainm	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
+4	amal	amal	SCONJ	_	_	_	_	_	_
+5	sodain	suide	PRON	_	PronType=Ana	_	_	_	_
+
+# sent_id = 2852
 # reference = f.194 bottom marg. (TPH p.xxi)
 # text = do inis maddoc dún .i. me isse ⁊ choirbbre
 # translation = We are from Inis Maddoc i.e. Coirbbre and I
@@ -30228,38 +30259,6 @@
 7	isse	sa	PRON	_	Number=Sing|Person=1|PronType=Emp	_	_	_	_
 8	⁊	ocus	CCONJ	_	_	_	_	_	_
 9	choirbbre	coirbbre	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 2849
-# reference = f.194 top marg. (TPH p.xxi)
-# text = donngus
-# translation = Dongus
-1	donngus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 2850
-# reference = f.194 top marg. (TPH p.xxi)
-# text = ᚛ᚉᚑᚉᚐᚏᚈ
-# translation = correction
-1	᚛	᚛	PUNCT	_	_	_	_	_	_
-2	ᚉᚑᚉᚐᚏᚈ	cocart	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 2851
-# reference = 194b1
-# text = ciall gnímo ⁊ chésto
-# translation = (the) meaning of action and passion
-1	ciall	cíall	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	gnímo	gním	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-3	⁊	ocus	CCONJ	_	_	_	_	_	_
-4	chésto	césad	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-
-# sent_id = 2852
-# reference = 194b2
-# text = .i. it anman amal sodain
-# translation = i.e. they are nouns in that case
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-3	anman	ainm	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
-4	amal	amal	SCONJ	_	_	_	_	_	_
-5	sodain	suide	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 2853
 # reference = f.195 top marg. (TPH p.xxi)
@@ -31589,13 +31588,6 @@
 16	sidi	side	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 2949
-# reference = f.199 bottom marg. (TPH p.xxi)
-# text = ní mmall
-# translation = it is not slow
-1	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
-2	mmall	mall	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-
-# sent_id = 2950
 # reference = 199b1
 # text = .i. gnim do neuch forrochongart cesad do neuch forrorcongrad gním iarum do nd í dodechuid cesad do nd í co sa tuidches
 # translation = i.e. action to him who has ordered: passion to him that has been ordered: action, then, to him who has come: passion to him who has been come to
@@ -31622,7 +31614,7 @@
 21	sa	a	PART	_	PronType=Rel	_	_	_	_
 22	tuidches	dotét	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Past|Voice=Pass	_	_	_	_
 
-# sent_id = 2951
+# sent_id = 2950
 # reference = 199b2
 # text = .i. hérchoiliud cetnae persine
 # translation = i.e. a definition of the first person
@@ -31631,7 +31623,7 @@
 3	cetnae	cétnae	ADJ	_	Case=Gen|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 4	persine	persan	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
-# sent_id = 2952
+# sent_id = 2951
 # reference = 199b3
 # text = .i. is airi it é inna fír érchóilte in so do dobiur nam reliqua
 # translation = i.e. therefore these are the true definitions that I give, nam etc.
@@ -31650,7 +31642,7 @@
 13	nam	_	X	_	Foreign=Yes	_	_	_	_
 14	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2953
+# sent_id = 2952
 # reference = 199b4
 # text = .i. mad he herchoiliud cétne persine in sin .i. co ni bbé dese and
 # translation = i.e. if that be the definition of the first person, i.e. that de se be not there
@@ -31669,7 +31661,7 @@
 13	dese	_	X	_	Foreign=Yes	_	_	_	_
 14	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 2954
+# sent_id = 2953
 # reference = 199b5
 # text = nil de se loqui .i. conic som hi suidiu nad labrathar dese sech nach persin ind ṡainriuth
 # translation = i.e. it is able here not to speak de se rather than any person especially
@@ -31691,7 +31683,7 @@
 16	ind	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 17	ṡainriuth	sainred	ADV	_	_	_	_	_	_
 
-# sent_id = 2955
+# sent_id = 2954
 # reference = 199b6
 # text = .i. ní labrathar di feisne amal sodain
 # translation = i.e. it speaks not of itself in that case
@@ -31703,7 +31695,7 @@
 6	amal	amal	SCONJ	_	_	_	_	_	_
 7	sodain	suide	PRON	_	PronType=Ana	_	_	_	_
 
-# sent_id = 2956
+# sent_id = 2955
 # reference = 199b7
 # text = .i. ma ní bé directo sermone and is inderb iarum in prima nod labrathar ɫ tertia
 # translation = i.e. if directo sermone be not there, it is uncertain then whether prima says it or tertia
@@ -31724,7 +31716,7 @@
 15	ɫ	nó	CCONJ	_	_	_	_	_	_
 16	tertia	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 2957
+# sent_id = 2956
 # reference = 199b8
 # text = .i. is coitchen doib huili
 # translation = i.e. it is common to them all
@@ -31734,7 +31726,7 @@
 4	doib	do	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 5	huili	uile	ADJ	_	Case=Dat|Degree=Pos|Number=Plur	_	_	_	_
 
-# sent_id = 2958
+# sent_id = 2957
 # reference = 199b9
 # text = .i. mad ed nammá no bed i sind herchóiliud
 # translation = i.e. if that alone were in the definition
@@ -31748,7 +31740,7 @@
 8	sind	in	DET	_	AdpType=Prep|Case=Dat|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 9	herchóiliud	érchoiliud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 2959
+# sent_id = 2958
 # reference = 199b10
 # text = .i. cetna persan di féisin
 # translation = i.e. the first person of itself
@@ -31758,7 +31750,7 @@
 4	di	de	ADP	_	AdpType=Prep|Definite=Ind|Gender=Fem|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 5	féisin	fadesin	PRON	_	PronType=Prs|Reflex=Yes	_	_	_	_
 
-# sent_id = 2960
+# sent_id = 2959
 # reference = 199b11
 # text = .i. hua naib herchoiltib tóisechaib
 # translation = i.e. (made use) of the first definitions
@@ -31768,19 +31760,26 @@
 4	herchoiltib	érchoiliud	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
 5	tóisechaib	toísech	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Plur	_	_	_	_
 
-# sent_id = 2961
+# sent_id = 2960
 # reference = 199b12
 # text = ce rricc
 # translation = why? (lit. what does it reach?)
 1	ce	cía	PRON	_	PronType=Int	_	_	_	_
 2	rricc	roicc	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 2962
+# sent_id = 2961
 # reference = 199b13
 # text = inna sochuide
 # translation = of the multitude
 1	inna	in	DET	_	Case=Gen|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 2	sochuide	sochuide	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+
+# sent_id = 2962
+# reference = f.199 bottom marg. (TPH p.xxi)
+# text = ní mmall
+# translation = it is not slow
+1	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
+2	mmall	mall	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 2963
 # reference = 200a1
@@ -32641,7 +32640,7 @@
 21	alaili	aile	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 
 # sent_id = 3030
-# reference = 202b6
+# reference = 202a6
 # text = .i. ní nach aile
 # translation = i.e. it is no other
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -32650,7 +32649,7 @@
 4	aile	aile	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 3031
-# reference = 202b7
+# reference = 202a7
 # text = .i. as mmé m oínur aridrochell ar mad ego nammá asberad bes no bed nach aile leis oc ind airchellad amal ṡodain
 # translation = i.e. that it is I alone who have taken it away: for if he had said ego only, perchance another might have been with him at the taking away in that case
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -33105,87 +33104,6 @@
 10	calléic	calléic	ADV	_	_	_	_	_	_
 
 # sent_id = 3065
-# reference = f.203 bottom marg. (TPH p.xxi)
-# text = maithas patric ⁊ brigtae ar máel brigtae namba olcc a menma frimm ar in scribund roscribad in dul so
-# translation = the beneficence of Patrick and Brigit on Mael Brigte, that he may not be angry with me for the writing that has been written this time
-1	maithas	maithes	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	patric	pátric	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
-3	⁊	ocus	CCONJ	_	_	_	_	_	_
-4	brigtae	brigit	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
-5	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-6	máel	máel	PROPN	_	Case=Acc|Number=Sing	_	_	_	_
-7	brigtae	brigtae	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
-8	namba	ná	SCONJ	_	Mood=Sub|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-9	olcc	olc	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-10	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-11	menma	menma	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-12	frimm	fri	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
-13	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-14	in	a	DET	_	AdpType=Prep|Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-15	scribund	scríbend	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-16	roscribad	scríbaid	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Past|Voice=Pass	_	_	_	_
-17	in	in	DET	_	Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-18	dul	dul	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-19	so	so	PART	_	PronType=Dem	_	_	_	_
-
-# sent_id = 3066
-# reference = f.203-204 bottom marg. (TPH p.290)
-# text = Domfarcai fidbaidae fál fomchain lóid luin lúad nad cél huas mo lebrán ind línech fomchain trírech inna ṅén Fommchain cói menn medair mass hi ṁbrot glass de dindgnaib doss debrath nom choimmdiu cóima cáin scríbaimm fo róida ross
-# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—
-above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes:
-may the Lord be kind to me! I write well under the greenwood
-1	Domfarcai	dofarcai	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
-2	fidbaidae	fidbaid	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-3	fál	fál	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-4	fomchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
-5	lóid	lóid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-6	luin	lon	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-7	lúad	lúad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-8	nad	nád	PART	_	Polarity=Neg|PronType=Rel	_	_	_	_
-9	cél	ceilid	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Rel|Tense=Fut|Voice=Act	_	_	_	_
-10	huas	úas	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-11	mo	mo	PRON	_	Number=Sing|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
-12	lebrán	lebrán	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-13	ind	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-14	línech	línech	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-15	fomchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
-16	trírech	trírech	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-17	inna	in	DET	_	Case=Gen|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
-18	ṅén	én	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-19	Fommchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
-20	cói	cói	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-21	menn	menn	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
-22	medair	medar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-23	mass	mass	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
-24	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-25	ṁbrot	bratt	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-26	glass	glas	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-27	de	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-28	dindgnaib	dindgna	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
-29	doss	dos	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-30	debrath	debrath	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-31	nom	no	PART	_	PartType=Vb|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs	_	_	_	_
-32	choimmdiu	coimdiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-33	cóima	coímaid	VERB	_	Mood=Sub|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-34	cáin	caín	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-35	scríbaimm	scríbaid	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
-36	fo	fo	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-37	róida	rúd	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-38	ross	ros	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-
-# sent_id = 3067
-# reference = f.203 bottom marg. (TPH p.xxii)
-# text = maraith sercc céin mardda aithne a máelecán
-# translation = Love remains as long as property (lit. deposit, ,opes’ Nigra) remains, O Maellecan
-1	maraith	maraid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-2	sercc	serc	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-3	céin	céin	ADV	_	_	_	_	_	_
-4	mardda	maraid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-5	aithne	aithne	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-6	a	a	PART	_	Case=Voc	_	_	_	_
-7	máelecán	maellecan	PROPN	_	Case=Voc|Number=Sing	_	_	_	_
-
-# sent_id = 3068
 # reference = 203b1
 # text = a pronomen asberr eiusdem ⁊ cach pronomen dano chene is folud persine inchosig
 # translation = the pronoun eiusdem and every pronoun besides, it is the substance of a person that it signifies
@@ -33203,7 +33121,7 @@ may the Lord be kind to me! I write well under the greenwood
 12	persine	persan	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 13	inchosig	incoisig	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3069
+# sent_id = 3066
 # reference = 203b2
 # text = ni nibad pronomen airi
 # translation = it would not therefore be a pronoun
@@ -33212,7 +33130,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	pronomen	_	X	_	Foreign=Yes	_	_	_	_
 4	airi	ar	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3070
+# sent_id = 3067
 # reference = 203b3
 # text = o nach múd etir són ɫ ó cach mud .i. ni ó cach múd is airiti
 # translation = in any way at all, or in every way, i.e. not in every way is it to be accepted
@@ -33233,7 +33151,7 @@ may the Lord be kind to me! I write well under the greenwood
 15	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 16	airiti	airiti	VERB	_	VerbForm=Gdv	_	_	_	_
 
-# sent_id = 3071
+# sent_id = 3068
 # reference = 203b4
 # text = .i. ó nd oén ranndato són .i. o nd óen gné randatad ⁊ folid air is folud persine doḟoirde eiusdem intamail méte immurgu doḟoirnde tantundem
 # translation = i.e. from the same particularity, i.e. from the same kind of paricularity and substance, for it is the substance of a person that eiusdem denotes: (it is the) similitude of quantity, however that tantundem denotes
@@ -33263,7 +33181,7 @@ may the Lord be kind to me! I write well under the greenwood
 24	doḟoirnde	dofoirndea	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 25	tantundem	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3072
+# sent_id = 3069
 # reference = 203b5
 # text = pronomen hi foirciunn indib robu samlid dano robói modi eius huius hi tosuch ⁊ reliqua
 # translation = a pronoun at the end in them. It was thus then that modi huius was in the beginning etc.
@@ -33283,7 +33201,7 @@ may the Lord be kind to me! I write well under the greenwood
 14	⁊	ocus	CCONJ	_	_	_	_	_	_
 15	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3073
+# sent_id = 3070
 # reference = 203b5
 # text = .i. pronomen indib fo deud
 # translation = i.e. a pronoun in them at the end
@@ -33293,7 +33211,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	fo	fo	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	deud	dead	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3074
+# sent_id = 3071
 # reference = 203b6
 # text = .i. it anman asṁbiur diib nitat pronomina
 # translation = i.e. it is nouns which I call them, not pronouns
@@ -33305,14 +33223,14 @@ may the Lord be kind to me! I write well under the greenwood
 6	nitat	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
 7	pronomina	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3075
+# sent_id = 3072
 # reference = 203b7
 # text = tre chomaisṅdís
 # translation = by apposition
 1	tre	tre	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	chomaisṅdís	comaisndís	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
-# sent_id = 3076
+# sent_id = 3073
 # reference = 203b8
 # text = aliter quos … exige … in compositione .i. con rop samlid beit in compositione amal rombatar hi comaisṅdís quos .i. casus exigebat
 # translation = ... so that thus they may be in composition as they were in apposition
@@ -33339,7 +33257,7 @@ may the Lord be kind to me! I write well under the greenwood
 21	casus	_	X	_	Foreign=Yes	_	_	_	_
 22	exigebat	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3077
+# sent_id = 3074
 # reference = 203b9
 # text = .i. condib innon in fogor hitar hothad ⁊ hilar air is hé in fogur cétna filter and
 # translation = i.e. so that the sound be the same in both singular and plural, for it is the same sound that is inflected there
@@ -33361,7 +33279,7 @@ may the Lord be kind to me! I write well under the greenwood
 16	filter	fillid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 17	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3078
+# sent_id = 3075
 # reference = 203b10
 # text = ataat persin in nomine ⁊ in participio ceto écintecha
 # translation = there are persons in the noun and in the participle, though they are indefinite
@@ -33375,14 +33293,14 @@ may the Lord be kind to me! I write well under the greenwood
 8	ceto	cía	SCONJ	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 9	écintecha	écintech	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Plur	_	_	_	_
 
-# sent_id = 3079
+# sent_id = 3076
 # reference = 203b11
 # text = doḟoirdet áraim
 # translation = which signify number
 1	doḟoirdet	dofoirndea	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 2	áraim	áram	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
-# sent_id = 3080
+# sent_id = 3077
 # reference = 203b12
 # text = .i. co noén guth no filte amal filter ainm
 # translation = i.e. with one sound to be inflected as a noun is inflected
@@ -33395,6 +33313,49 @@ may the Lord be kind to me! I write well under the greenwood
 7	amal	amal	SCONJ	_	_	_	_	_	_
 8	filter	fillid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 9	ainm	ainm	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 3078
+# reference = f.203 bottom marg. (TPH p.xxi)
+# text = maithas patric ⁊ brigtae ar máel brigtae namba olcc a menma frimm ar in scribund roscribad in dul so
+# translation = the beneficence of Patrick and Brigit on Mael Brigte, that he may not be angry with me for the writing that has been written this time
+1	maithas	maithes	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+2	patric	pátric	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
+3	⁊	ocus	CCONJ	_	_	_	_	_	_
+4	brigtae	brigit	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
+5	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+6	máel	máel	PROPN	_	Case=Acc|Number=Sing	_	_	_	_
+7	brigtae	brigtae	PROPN	_	Case=Gen|Number=Sing	_	_	_	_
+8	namba	ná	SCONJ	_	Mood=Sub|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+9	olcc	olc	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+10	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+11	menma	menma	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+12	frimm	fri	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
+13	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+14	in	a	DET	_	AdpType=Prep|Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+15	scribund	scríbend	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+16	roscribad	scríbaid	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Past|Voice=Pass	_	_	_	_
+17	in	in	DET	_	Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+18	dul	dul	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
+19	so	so	PART	_	PronType=Dem	_	_	_	_
+
+# sent_id = 3079
+# reference = f.203 bottom marg. (TPH p.xxii)
+# text = maraith sercc céin mardda aithne a máelecán
+# translation = Love remains as long as property (lit. deposit, ,opes’ Nigra) remains, O Maellecan
+1	maraith	maraid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+2	sercc	serc	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+3	céin	céin	ADV	_	_	_	_	_	_
+4	mardda	maraid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+5	aithne	aithne	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+6	a	a	PART	_	Case=Voc	_	_	_	_
+7	máelecán	maellecan	PROPN	_	Case=Voc|Number=Sing	_	_	_	_
+
+# sent_id = 3080
+# reference = f.204 top marg. (TPH p.xxii)
+# text = ᚛ᚂᚐᚈᚆᚓᚔᚏᚈ
+# translation = massive hangover
+1	᚛	᚛	PUNCT	_	_	_	_	_	_
+2	ᚂᚐᚈᚆᚓᚔᚏᚈ	laithirt	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3081
 # reference = 204a1
@@ -33421,7 +33382,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	filius	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3084
-# reference = 204a14
+# reference = 204a4
 # text = inna ái .i. filius reliqua
 # translation = of theirs (or their)
 1	inna	in	DET	_	Case=Gen|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
@@ -33470,19 +33431,12 @@ may the Lord be kind to me! I write well under the greenwood
 5	grammatice	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3089
-# reference = f.204 top marg. (TPH p.xxii)
-# text = ᚛ᚂᚐᚈᚆᚓᚔᚏᚈ
-# translation = massive hangover
-1	᚛	᚛	PUNCT	_	_	_	_	_	_
-2	ᚂᚐᚈᚆᚓᚔᚏᚈ	laithirt	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-
-# sent_id = 3090
 # reference = 204b1
 # text = comlabridi
 # translation = allocutive
 1	comlabridi	comlabride	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
-# sent_id = 3091
+# sent_id = 3090
 # reference = 204b2
 # text = a mo aine .i. a mo chland vel proprium
 # translation = My delight! i.e. My child! Or a proper name
@@ -33496,7 +33450,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	vel	_	X	_	Foreign=Yes	_	_	_	_
 9	proprium	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3092
+# sent_id = 3091
 # reference = 204b3
 # text = .i. nostrás dano
 # translation = i.e. nostrás also (is the vocative)
@@ -33504,14 +33458,14 @@ may the Lord be kind to me! I write well under the greenwood
 2	nostrás	_	X	_	Foreign=Yes	_	_	_	_
 3	dano	dano	ADV	_	_	_	_	_	_
 
-# sent_id = 3093
+# sent_id = 3092
 # reference = 204b4
 # text = delba tuisel
 # translation = forms of cases
 1	delba	delb	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 2	tuisel	tuisel	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 
-# sent_id = 3094
+# sent_id = 3093
 # reference = 204b5
 # text = is airi nís tabor
 # translation = therefore I do not give them
@@ -33520,7 +33474,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	nís	ní	PART	_	Polarity=Neg|PronClass=A|PronNum=Plur|PronPers=3|PronType=Prs	_	_	_	_
 4	tabor	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3095
+# sent_id = 3094
 # reference = 204b6
 # text = a thu su
 # translation = You!
@@ -33528,7 +33482,7 @@ may the Lord be kind to me! I write well under the greenwood
 2	thu	tú	PRON	_	Number=Sing|Person=2|PronType=Prs	_	_	_	_
 3	su	so	PRON	_	Number=Sing|Person=2|PronType=Emp	_	_	_	_
 
-# sent_id = 3096
+# sent_id = 3095
 # reference = 204b7
 # text = .i. file for diull pronominis ⁊ in aliis dano
 # translation = i.e. which are (inflected) according to the pronominal declension and in others also
@@ -33542,7 +33496,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	aliis	_	X	_	Foreign=Yes	_	_	_	_
 9	dano	dano	ADV	_	_	_	_	_	_
 
-# sent_id = 3097
+# sent_id = 3096
 # reference = 204b8
 # text = .i. is airi nis tabor
 # translation = i.e. therefore I do not give them
@@ -33552,7 +33506,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	nis	ní	PART	_	Polarity=Neg|PronClass=A|PronNum=Plur|PronPers=3|PronType=Prs	_	_	_	_
 5	tabor	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3098
+# sent_id = 3097
 # reference = 204b9
 # text = in doracdid in sin
 # translation = that is in the Doric fashion
@@ -33561,20 +33515,20 @@ may the Lord be kind to me! I write well under the greenwood
 3	in	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 4	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 3099
+# sent_id = 3098
 # reference = 204b10
 # text = .i. tís
 # translation = i.e. below
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	tís	tís	ADV	_	_	_	_	_	_
 
-# sent_id = 3100
+# sent_id = 3099
 # reference = 204b11
 # text = sis
 # translation = below
 1	sis	sís	ADV	_	_	_	_	_	_
 
-# sent_id = 3101
+# sent_id = 3100
 # reference = 204b12
 # text = ut mis tis
 # translation = as mis. below
@@ -33582,12 +33536,57 @@ may the Lord be kind to me! I write well under the greenwood
 2	mis	_	X	_	Foreign=Yes	_	_	_	_
 3	tis	tís	ADV	_	_	_	_	_	_
 
-# sent_id = 3102
+# sent_id = 3101
 # reference = 204b13
 # text = .i. sis
 # translation = i.e. below
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	sis	sis	ADV	_	_	_	_	_	_
+
+# sent_id = 3102
+# reference = f.203-204 bottom marg. (TPH p.290)
+# text = Domfarcai fidbaidae fál fomchain lóid luin lúad nad cél huas mo lebrán ind línech fomchain trírech inna ṅén Fommchain cói menn medair mass hi ṁbrot glass de dindgnaib doss debrath nom choimmdiu cóima cáin scríbaimm fo róida ross
+# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—
+above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes:
+may the Lord be kind to me! I write well under the greenwood
+1	Domfarcai	dofarcai	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+2	fidbaidae	fidbaid	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+3	fál	fál	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+4	fomchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+5	lóid	lóid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+6	luin	lon	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+7	lúad	lúad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+8	nad	nád	PART	_	Polarity=Neg|PronType=Rel	_	_	_	_
+9	cél	ceilid	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Rel|Tense=Fut|Voice=Act	_	_	_	_
+10	huas	úas	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+11	mo	mo	PRON	_	Number=Sing|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
+12	lebrán	lebrán	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+13	ind	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+14	línech	línech	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+15	fomchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+16	trírech	trírech	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+17	inna	in	DET	_	Case=Gen|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
+18	ṅén	én	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+19	Fommchain	focain	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+20	cói	cói	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+21	menn	menn	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
+22	medair	medar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+23	mass	mass	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
+24	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+25	ṁbrot	bratt	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+26	glass	glas	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+27	de	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+28	dindgnaib	dindgna	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
+29	doss	dos	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+30	debrath	debrath	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+31	nom	no	PART	_	PartType=Vb|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs	_	_	_	_
+32	choimmdiu	coimdiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+33	cóima	coímaid	VERB	_	Mood=Sub|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+34	cáin	caín	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+35	scríbaimm	scríbaid	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
+36	fo	fo	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+37	róida	rúd	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+38	ross	ros	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
 # sent_id = 3103
 # reference = 205a1
@@ -33767,6 +33766,12 @@ may the Lord be kind to me! I write well under the greenwood
 3	femin	femen	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 3118
+# reference = f.207 top marg. (TPH p.xxii)
+# text = dongus
+# translation = Dongus
+1	dongus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 3119
 # reference = 207a1
 # text = .i. tar hǽsi foxlada femin
 # translation = i.e. in place of a feminine ablative
@@ -33776,7 +33781,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	foxlada	fochslaid	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 5	femin	femen	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
-# sent_id = 3119
+# sent_id = 3120
 # reference = 207a2
 # text = .i. is airi ní thabur la dligeda arside reliqua
 # translation = i.e. therefore I do not give it with the rules of the ancients etc.
@@ -33790,7 +33795,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	arside	arsaid	ADJ	_	Case=Gen|Degree=Pos|Number=Plur	_	_	_	_
 9	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3120
+# sent_id = 3121
 # reference = 207a3
 # text = .i. frisalethar ṁbís qui ar chintech
 # translation = i.e. he expects that qui is (used) for the definite
@@ -33801,7 +33806,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 6	chintech	cinntech	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 3121
+# sent_id = 3122
 # reference = 207a4
 # text = .i. quando fit solus ut qui .i. int í sin
 # translation = i.e. that
@@ -33816,7 +33821,7 @@ may the Lord be kind to me! I write well under the greenwood
 9	í	í	PART	_	PartType=Dct	_	_	_	_
 10	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 3122
+# sent_id = 3123
 # reference = 207a5
 # text = .i. iss ed a aicned som són
 # translation = i.e. this is its nature
@@ -33828,7 +33833,7 @@ may the Lord be kind to me! I write well under the greenwood
 6	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 7	són	són	PRON	_	PronType=Ana	_	_	_	_
 
-# sent_id = 3123
+# sent_id = 3124
 # reference = 207a6
 # text = .i. ind aiccend bias for sind ainmnid is é bias for snaib cam thuislib .i. circunflexus
 # translation = i.e. the accent which will be on the nominative is that which will be on the oblique cases, viz. a circumflex
@@ -33849,7 +33854,7 @@ may the Lord be kind to me! I write well under the greenwood
 15	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 16	circunflexus	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3124
+# sent_id = 3125
 # reference = 207a7
 # text = in tan ṁbíte a nóinur
 # translation = when they are alone
@@ -33859,7 +33864,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 5	nóinur	óinar	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
-# sent_id = 3125
+# sent_id = 3126
 # reference = 207a8
 # text = .i. ar mad hi suidiu is graif bís foraib som
 # translation = i.e. for if it be in this (in lectione) the grave is upon them
@@ -33874,7 +33879,7 @@ may the Lord be kind to me! I write well under the greenwood
 9	foraib	for	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 10	som	som	PRON	_	Number=Plur|Person=3|PronType=Emp	_	_	_	_
 
-# sent_id = 3126
+# sent_id = 3127
 # reference = 207a9
 # text = .i. beta nóin syllabcha
 # translation = i.e. that they shall be monosyllabic
@@ -33883,7 +33888,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	nóin	oín	NUM	_	_	_	_	_	_
 4	syllabcha	sillabach	ADJ	_	Case=Nom|Degree=Pos|Number=Plur	_	_	_	_
 
-# sent_id = 3127
+# sent_id = 3128
 # reference = 207a10
 # text = .i. oin syllabche hi cui ⁊ huic
 # translation = i.e. monosyllabism in cui and huic
@@ -33895,24 +33900,18 @@ may the Lord be kind to me! I write well under the greenwood
 6	⁊	_	X	_	Foreign=Yes	_	_	_	_
 7	huic	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3128
+# sent_id = 3129
 # reference = 207a11
 # text = analach
 # translation = analogy
 1	analach	analach	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 3129
+# sent_id = 3130
 # reference = 207a12
 # text = tre indlach
 # translation = by diaeresis
 1	tre	tre	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	indlach	indlach	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-
-# sent_id = 3130
-# reference = f.207 top marg. (TPH p.xxii)
-# text = dongus
-# translation = Dongus
-1	dongus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3131
 # reference = 207b1
@@ -34995,14 +34994,6 @@ may the Lord be kind to me! I write well under the greenwood
 12	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 
 # sent_id = 3202
-# reference = 209b27
-# text = .i. naich ṅdeirsed
-# translation = i.e. that he would not desert him
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	naich	nach	SCONJ	_	Polarity=Neg|PronClass=C|PronGend=Masc|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
-3	ṅdeirsed	doérig	VERB	_	Aspect=Imp|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
-
-# sent_id = 3203
 # reference = 209b26
 # text = ut darem .i. co ndartin do arrogáid dom is sí dano in chiall hí sin araḟocladar som quando dicit in eandem ab alia…
 # translation = ut darem, i.e. that I should give to him what he had asked of me. That, then, is the meaning which he expresses when he says in eandem ab alia
@@ -35029,6 +35020,14 @@ may the Lord be kind to me! I write well under the greenwood
 21	eandem	_	X	_	Foreign=Yes	_	_	_	_
 22	ab	_	X	_	Foreign=Yes	_	_	_	_
 23	alia…	_	X	_	Foreign=Yes	_	_	_	_
+
+# sent_id = 3203
+# reference = 209b27
+# text = .i. naich ṅdeirsed
+# translation = i.e. that he would not desert him
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	naich	nach	SCONJ	_	Polarity=Neg|PronClass=C|PronGend=Masc|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+3	ṅdeirsed	doérig	VERB	_	Aspect=Imp|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
 
 # sent_id = 3204
 # reference = 209b28
@@ -35358,6 +35357,63 @@ may the Lord be kind to me! I write well under the greenwood
 6	verbo	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3222
+# reference = 210b1
+# text = .i. ind í as sui
+# translation = i.e. of sui
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	ind	a	DET	_	Case=Gen|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+3	í	í	PART	_	PartType=Dct	_	_	_	_
+4	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+5	sui	_	X	_	Foreign=Yes	_	_	_	_
+
+# sent_id = 3223
+# reference = 210b2
+# text = .i. intṡliuchta
+# translation = i.e. of meaning
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	intṡliuchta	intliucht	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+
+# sent_id = 3224
+# reference = 210b3
+# text = .i. is dílmain
+# translation = i.e. it is permitted
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+3	dílmain	dílmain	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+
+# sent_id = 3225
+# reference = 210b4
+# text = .i. feib conrerortatar is ind í as quis
+# translation = i.e. as they have erred in quis
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	feib	feb	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+3	conrerortatar	conerairg	VERB	_	Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|Voice=Act	_	_	_	_
+4	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+5	ind	a	DET	_	Case=Gen|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+6	í	í	PART	_	PartType=Dct	_	_	_	_
+7	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+8	quis	_	X	_	Foreign=Yes	_	_	_	_
+
+# sent_id = 3226
+# reference = 210b5
+# text = .i. air cia chruth arafóimtar
+# translation = i.e. for how are they accepted?
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	air	ar	SCONJ	_	_	_	_	_	_
+3	cia	cía	PRON	_	PronType=Int	_	_	_	_
+4	chruth	cruth	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+5	arafóimtar	arfoím	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
+
+# sent_id = 3227
+# reference = 210b6
+# text = a ní as quis
+# translation = that which is quis
+1	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+2	ní	í	PART	_	PartType=Dct	_	_	_	_
+3	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+4	quis	_	X	_	Foreign=Yes	_	_	_	_
+
+# sent_id = 3228
 # reference = f.210 bottom marg. (TPH p.xxii)
 # text = tiach didiu mad ferr lat .i. d o o
 # translation = I will go then, if you prefer it
@@ -35371,75 +35427,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	o	_	X	_	Foreign=Yes	_	_	_	_
 9	o	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3223
-# reference = 210b1
-# text = .i. ind í as sui
-# translation = i.e. of sui
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	ind	a	DET	_	Case=Gen|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-3	í	í	PART	_	PartType=Dct	_	_	_	_
-4	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-5	sui	_	X	_	Foreign=Yes	_	_	_	_
-
-# sent_id = 3224
-# reference = 210b2
-# text = .i. intṡliuchta
-# translation = i.e. of meaning
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	intṡliuchta	intliucht	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-
-# sent_id = 3225
-# reference = 210b3
-# text = .i. is dílmain
-# translation = i.e. it is permitted
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-3	dílmain	dílmain	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-
-# sent_id = 3226
-# reference = 210b4
-# text = .i. feib conrerortatar is ind í as quis
-# translation = i.e. as they have erred in quis
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	feib	feb	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-3	conrerortatar	conerairg	VERB	_	Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|Voice=Act	_	_	_	_
-4	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-5	ind	a	DET	_	Case=Gen|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-6	í	í	PART	_	PartType=Dct	_	_	_	_
-7	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-8	quis	_	X	_	Foreign=Yes	_	_	_	_
-
-# sent_id = 3227
-# reference = 210b5
-# text = .i. air cia chruth arafóimtar
-# translation = i.e. for how are they accepted?
-1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	air	ar	SCONJ	_	_	_	_	_	_
-3	cia	cía	PRON	_	PronType=Int	_	_	_	_
-4	chruth	cruth	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-5	arafóimtar	arfoím	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
-
-# sent_id = 3228
-# reference = 210b6
-# text = a ní as quis
-# translation = that which is quis
-1	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-2	ní	í	PART	_	PartType=Dct	_	_	_	_
-3	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-4	quis	_	X	_	Foreign=Yes	_	_	_	_
-
 # sent_id = 3229
-# reference = f.211 bottom marg. (TPH p.xxii)
-# text = uch mo chliab a nóib ingen
-# translation = O my breast, Holy Virgin
-1	uch	uch	INTJ	_	_	_	_	_	_
-2	mo	mo	PRON	_	Number=Sing|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
-3	chliab	clíab	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-4	a	a	PART	_	Case=Voc	_	_	_	_
-5	nóib	nóib	ADJ	_	Case=Voc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
-6	ingen	ingen	NOUN	_	Case=Voc|Number=Sing	_	_	_	_
-
-# sent_id = 3230
 # reference = 211a1
 # text = .i. is sí a inne in sin
 # translation = i.e. that is its quality
@@ -35451,7 +35439,7 @@ may the Lord be kind to me! I write well under the greenwood
 6	in	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 7	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 3231
+# sent_id = 3230
 # reference = 211a2
 # text = .i. olchenae cenmithá unus ⁊ reliqua
 # translation = i.e. (all) others except unus etc.
@@ -35462,7 +35450,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	⁊	_	X	_	Foreign=Yes	_	_	_	_
 6	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3232
+# sent_id = 3231
 # reference = 211a3
 # text = .i. iss ed ám a nécóir putare reliqua
 # translation = i.e. this indeed is the wrongness to think etc.
@@ -35475,7 +35463,7 @@ may the Lord be kind to me! I write well under the greenwood
 7	putare	_	X	_	Foreign=Yes	_	_	_	_
 8	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3233
+# sent_id = 3232
 # reference = 211a4
 # text = .i. ní suppellectis dogní
 # translation = i.e. it is not suppellectis that it (suppellex) makes
@@ -35484,7 +35472,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	suppellectis	_	X	_	Foreign=Yes	_	_	_	_
 4	dogní	dogní	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3234
+# sent_id = 3233
 # reference = 211a5
 # text = .i. ni coitchen
 # translation = i.e. it is not common
@@ -35492,7 +35480,7 @@ may the Lord be kind to me! I write well under the greenwood
 2	ni	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
 3	coitchen	coitchenn	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 3235
+# sent_id = 3234
 # reference = 211a6
 # text = .i. ar ṁbad hí pronomen tantum no bed foilsigud
 # translation = i.e. that there should be demonstration in a pronoun only
@@ -35506,7 +35494,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	bed	is	AUX	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Past|VerbType=Cop	_	_	_	_
 9	foilsigud	foillsigud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 3236
+# sent_id = 3235
 # reference = 211a8
 # text = .i. ní adchumtig na aill do línad ind ḟoilsigthe fil and acht foilsigthi feisin cen ainm do thórmuch fris
 # translation = i.e. it does not ‘adstruct’ anything else to perfect the demonstration which is therein; but it demonstrates it itself without the addition of a noun to it
@@ -35530,7 +35518,7 @@ may the Lord be kind to me! I write well under the greenwood
 18	thórmuch	tormach	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 19	fris	fri	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3237
+# sent_id = 3236
 # reference = 211a9
 # text = .i. ⁊ na aill di an echtar do ḟoilsigud a folaid
 # translation = i.e. and anything else from without to demonstrate its [lit. her] substance
@@ -35546,7 +35534,7 @@ may the Lord be kind to me! I write well under the greenwood
 10	a	a	PRON	_	Gender=Fem|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 11	folaid	folad	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
-# sent_id = 3238
+# sent_id = 3237
 # reference = 211a10
 # text = .i. ní ed a mét foilsigther ind inne robói hipyrr acht is écen co nṅdárbastar inne ind í sa maltar .i. fri
 # translation = i.e. not only is the quality which was in Pyrrhus demonstrated, but it is necessary that the quality of that to which he is compared, i.e. father
@@ -35573,7 +35561,7 @@ may the Lord be kind to me! I write well under the greenwood
 21	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 22	fri	fri	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 
-# sent_id = 3239
+# sent_id = 3238
 # reference = 211a11
 # text = .i. bis i sind anmmaim riam
 # translation = i.e. which is in the noun before
@@ -35584,7 +35572,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	anmmaim	ainm	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 6	riam	re	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3240
+# sent_id = 3239
 # reference = 211a12
 # text = .i. a ndonaidbdem
 # translation = i.e. when we show
@@ -35592,7 +35580,7 @@ may the Lord be kind to me! I write well under the greenwood
 2	a	a	SCONJ	_	_	_	_	_	_
 3	ndonaidbdem	doadbat	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3241
+# sent_id = 3240
 # reference = 211a13
 # text = .i. quasi comparare hi céill
 # translation = i.e. as if to compare in sense
@@ -35602,7 +35590,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	céill	cíall	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3242
+# sent_id = 3241
 # reference = 211a14
 # text = .i. a cosmiligmmer dúli ecsamli .i. do chenelaib ⁊ áirmib ecsamlib ar is écsamil a cenél cetne fil i sind í as mare ⁊ as nilus…
 # translation = i.e. when we compare different things, i.e. to different genders and numbers, for different is the same gender which is in mare and Nilus 
@@ -35633,7 +35621,7 @@ may the Lord be kind to me! I write well under the greenwood
 25	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 26	nilus…	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3243
+# sent_id = 3242
 # reference = 211a15
 # text = iss ed se an nomen foilsigthech
 # translation = i.e. this is the demonstrative noun
@@ -35644,7 +35632,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	nomen	_	X	_	Foreign=Yes	_	_	_	_
 6	foilsigthech	foillsigthech	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
-# sent_id = 3244
+# sent_id = 3243
 # reference = 211a16
 # text = .i. ecsamlus ceneiuil a ni siu
 # translation = i.e. diversity of gender this
@@ -35655,7 +35643,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	ni	í	PART	_	PartType=Dct	_	_	_	_
 6	siu	so	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 3245
+# sent_id = 3244
 # reference = 211a17
 # text = ecsamlus áirme híc
 # translation = diversity of number here
@@ -35663,7 +35651,7 @@ may the Lord be kind to me! I write well under the greenwood
 2	áirme	áirem	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 3	híc	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3246
+# sent_id = 3245
 # reference = 211b1
 # text = a ní as huic
 # translation = that which is huic
@@ -35672,7 +35660,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 4	huic	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3247
+# sent_id = 3246
 # reference = 211b2
 # text = a ní as similis
 # translation = that which is similis
@@ -35681,7 +35669,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 4	similis	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3248
+# sent_id = 3247
 # reference = 211b3
 # text = .i. a folud feisin ar chuit pronominis
 # translation = i.e. its [lit. her] own substance as regards a pronoun
@@ -35693,7 +35681,7 @@ may the Lord be kind to me! I write well under the greenwood
 6	chuit	cuit	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 7	pronominis	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3249
+# sent_id = 3248
 # reference = 211b4
 # text = .i. ar chuit ind anmme .i. in tan asṁbeir huiusmodi .i. in chrut so .i. is ecen taidbse inna inne fri sa samaltar
 # translation = i.e. as regards the noun, i.e. when he says huiusmodi, i.e. in this manner, i.e. it is necessary to show the quality to which it is compared
@@ -35721,7 +35709,7 @@ may the Lord be kind to me! I write well under the greenwood
 22	sa	a	PART	_	PronType=Rel	_	_	_	_
 23	samaltar	samlaither	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 
-# sent_id = 3250
+# sent_id = 3249
 # reference = 211b5
 # text = .i. tri a ḟolud feisin
 # translation = i.e. by its own substance
@@ -35731,7 +35719,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	ḟolud	folad	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 5	feisin	fadesin	PRON	_	PronType=Prs|Reflex=Yes	_	_	_	_
 
-# sent_id = 3251
+# sent_id = 3250
 # reference = 211b6
 # text = .i. ind anmme fil in na chomsuidigud .i. modi
 # translation = i.e. of the noun which is in its compound, i.e. modi
@@ -35745,7 +35733,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 9	modi	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3252
+# sent_id = 3251
 # reference = 211b7
 # text = .i. ciaso ḟolud frecṅdairc sluindes a pronomen fil i sin chomsuidigthiu tuas .i. huius .i. huiusmodi
 # translation = i.e. although it is a present substance that signifies the pronoun which is in the compound above, i.e. huius, i.e. huiusmodi
@@ -35766,7 +35754,7 @@ may the Lord be kind to me! I write well under the greenwood
 15	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 16	huiusmodi	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3253
+# sent_id = 3252
 # reference = 211b8
 # text = .i. ainmnid ilair
 # translation = i.e. nominative plural
@@ -35774,7 +35762,7 @@ may the Lord be kind to me! I write well under the greenwood
 2	ainmnid	ainmmnid	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 3	ilair	ilar	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
-# sent_id = 3254
+# sent_id = 3253
 # reference = 211b9
 # text = .i. ⁊ it tert persin
 # translation = i.e. and they are third persons
@@ -35784,7 +35772,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	tert	teirt	NUM	_	_	_	_	_	_
 5	persin	persan	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 
-# sent_id = 3255
+# sent_id = 3254
 # reference = 211b10
 # text = ar is ecintech in tert persan
 # translation = for the third person is indefinite
@@ -35795,7 +35783,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	tert	teirt	NUM	_	_	_	_	_	_
 6	persan	persan	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 3256
+# sent_id = 3255
 # reference = 211b11
 # text = .i. ar is secunda persona adgládathar ind aicnetid
 # translation = for it is the second person which it addresses naturally
@@ -35808,7 +35796,7 @@ may the Lord be kind to me! I write well under the greenwood
 7	ind	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 8	aicnetid	aicnetae	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
-# sent_id = 3257
+# sent_id = 3256
 # reference = 211b12
 # text = .i. a ní .i. alius
 # translation = i.e. that i.e. alius
@@ -35818,13 +35806,13 @@ may the Lord be kind to me! I write well under the greenwood
 4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 5	alius	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3258
+# sent_id = 3257
 # reference = 211b13
 # text = arlega
 # translation = he recites
 1	arlega	arléga	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3259
+# sent_id = 3258
 # reference = 211b14
 # text = a ní as ipse
 # translation = that which is ipse
@@ -35832,6 +35820,17 @@ may the Lord be kind to me! I write well under the greenwood
 2	ní	í	PART	_	PartType=Dct	_	_	_	_
 3	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 4	ipse	_	X	_	Foreign=Yes	_	_	_	_
+
+# sent_id = 3259
+# reference = f.211 bottom marg. (TPH p.xxii)
+# text = uch mo chliab a nóib ingen
+# translation = O my breast, Holy Virgin
+1	uch	uch	INTJ	_	_	_	_	_	_
+2	mo	mo	PRON	_	Number=Sing|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
+3	chliab	clíab	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+4	a	a	PART	_	Case=Voc	_	_	_	_
+5	nóib	nóib	ADJ	_	Case=Voc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
+6	ingen	ingen	NOUN	_	Case=Voc|Number=Sing	_	_	_	_
 
 # sent_id = 3260
 # reference = 212a1
@@ -36987,20 +36986,6 @@ may the Lord be kind to me! I write well under the greenwood
 4	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
 # sent_id = 3359
-# reference = f.217 bottom marg. (TPH p.xxii)
-# text = memmbrum naue droch dub ó ní epur na haill
-# translation = New parchment, bad ink. O I say nothing more.
-1	memmbrum	membrum	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	naue	nuae	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-3	droch	droch	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
-4	dub	dub	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-5	ó	ó	INTJ	_	_	_	_	_	_
-6	ní	ní	PART	_	Polarity=Neg	_	_	_	_
-7	epur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
-8	na	nach	PRON	_	PronType=Ind	_	_	_	_
-9	haill	aile	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
-
-# sent_id = 3360
 # reference = 217a1
 # text = .i. in i comsuidigud fa hi comasṅdís bíit fa a ndíis
 # translation = i.e. whether they are in composition or in apposition or in both of them
@@ -37016,7 +37001,7 @@ may the Lord be kind to me! I write well under the greenwood
 10	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 11	ndíis	días	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3361
+# sent_id = 3360
 # reference = 217a2
 # text = .i. ci si chiall bís indib amal rondgab proximitas in ad
 # translation = i.e. what is the meaning that is in them, as there is proximity in ad
@@ -37032,13 +37017,13 @@ may the Lord be kind to me! I write well under the greenwood
 10	in	_	X	_	Foreign=Yes	_	_	_	_
 11	ad	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3362
+# sent_id = 3361
 # reference = 217a3
 # text = saigim
 # translation = I go towards
 1	saigim	saigid	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 
-# sent_id = 3363
+# sent_id = 3362
 # reference = 217a4
 # text = .i. oc na fothaircthib palnacdib .i. de nomine philophi araanic a cenelae fothaircthe sin
 # translation = i.e. at the Pallacine baths: from the name of a philosopher who invented that kind of baths
@@ -37057,7 +37042,7 @@ may the Lord be kind to me! I write well under the greenwood
 13	fothaircthe	fothrucud	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 14	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
-# sent_id = 3364
+# sent_id = 3363
 # reference = 217a5
 # text = cia ar neoch dorrignis
 # translation = for what have you done it?
@@ -37066,7 +37051,7 @@ may the Lord be kind to me! I write well under the greenwood
 3	neoch	nech	PRON	_	Case=Dat|Gender=Masc|Number=Sing|PronType=Ind	_	_	_	_
 4	dorrignis	dogní	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|Person=2|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
 
-# sent_id = 3365
+# sent_id = 3364
 # reference = 217a6
 # text = .i. dóchomadasaigthe .i. comadasogod ⁊ chosmailigud neich di alailiu
 # translation = i.e. accommodated, that is, (the) accommodation and assimilation of one to another
@@ -37080,14 +37065,14 @@ may the Lord be kind to me! I write well under the greenwood
 8	di	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 9	alailiu	aile	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
 
-# sent_id = 3366
+# sent_id = 3365
 # reference = 217a7
 # text = do ingin
 # translation = to (the) nail
 1	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	ingin	ingen	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3367
+# sent_id = 3366
 # reference = 217a8
 # text = .i. inna olc sa amal nibed ad and
 # translation = i.e. these evils, as if ad were not there
@@ -37100,7 +37085,7 @@ may the Lord be kind to me! I write well under the greenwood
 7	ad	_	X	_	Foreign=Yes	_	_	_	_
 8	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3368
+# sent_id = 3367
 # reference = 217b1
 # text = hi fír lugu
 # translation = in (the) true oath
@@ -37108,14 +37093,14 @@ may the Lord be kind to me! I write well under the greenwood
 2	fír	fír	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
 3	lugu	lugae	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3369
+# sent_id = 3368
 # reference = 217b2
 # text = tar ioib
 # translation = by Jupiter
 1	tar	tar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	ioib	iób	PROPN	_	Case=Acc|Number=Sing	_	_	_	_
 
-# sent_id = 3370
+# sent_id = 3369
 # reference = 217b3
 # text = tar sna deo
 # translation = by the gods
@@ -37123,21 +37108,21 @@ may the Lord be kind to me! I write well under the greenwood
 2	sna	in	DET	_	AdpType=Prep|Case=Acc|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
 3	deo	día	NOUN	_	Case=Acc|Number=Plur	_	_	_	_
 
-# sent_id = 3371
+# sent_id = 3370
 # reference = 217b4
 # text = torut su
 # translation = by you
 1	torut	tar	ADP	_	AdpType=Prep|Definite=Ind|Number=2|Person=Sing|PronType=Prs	_	_	_	_
 2	su	so	PRON	_	Number=Sing|Person=2|PronType=Emp	_	_	_	_
 
-# sent_id = 3372
+# sent_id = 3371
 # reference = 217b5
 # text = ind adbol
 # translation = greatly
 1	ind	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 2	adbol	adbal	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
-# sent_id = 3373
+# sent_id = 3372
 # reference = 217b6
 # text = .i. iar tain .i. adverbium
 # translation = i.e. afterwards
@@ -37147,13 +37132,13 @@ may the Lord be kind to me! I write well under the greenwood
 4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 5	adverbium	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3374
+# sent_id = 3373
 # reference = 217b7
 # text = fann
 # translation = a postern
 1	fann	fann	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 3375
+# sent_id = 3374
 # reference = 217b8
 # text = .i. cen alpande .i. fri alpai ṅ ṅdesiu
 # translation = i.e. cisalpine, i.e. on this side of the Alps
@@ -37166,7 +37151,7 @@ may the Lord be kind to me! I write well under the greenwood
 7	ṅ	_	X	_	Foreign=Yes	_	_	_	_
 8	ṅdesiu	deṡiu	ADV	_	_	_	_	_	_
 
-# sent_id = 3376
+# sent_id = 3375
 # reference = 217b9
 # text = cisalpina .i. comṡuidigthe .i. in gallia cen alpande cen alpai ṅ etarru
 # translation = cis-alpina, i.e. a compound, the cisalpine Gaul, without the Alps between them (and it)
@@ -37183,14 +37168,14 @@ may the Lord be kind to me! I write well under the greenwood
 11	ṅ	_	X	_	Foreign=Yes	_	_	_	_
 12	etarru	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 
-# sent_id = 3377
+# sent_id = 3376
 # reference = 217b10
 # text = .i. comasṅdís
 # translation = i.e. apposition
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	comasṅdís	comaisndís	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
-# sent_id = 3378
+# sent_id = 3377
 # reference = 217b11
 # text = .i. cen rian ṅ ṅetrom
 # translation = i.e. without the Rhine between me (and it)
@@ -37200,7 +37185,7 @@ may the Lord be kind to me! I write well under the greenwood
 4	ṅ	_	X	_	Foreign=Yes	_	_	_	_
 5	ṅetrom	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3379
+# sent_id = 3378
 # reference = 217b12
 # text = .i. cesu locdatu as aicned and
 # translation = i.e. though locality is its natural meaning
@@ -37211,7 +37196,7 @@ may the Lord be kind to me! I write well under the greenwood
 5	aicned	aicned	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 6	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 
-# sent_id = 3380
+# sent_id = 3379
 # reference = 217b12
 # text = .i. tar crích innunn .i. cesu fri crích deṡiu a aicned som nó reliqua
 # translation = i.e. beyond the boundary, i.e. though its natural meaning is on this side of the boundary
@@ -37230,7 +37215,7 @@ may the Lord be kind to me! I write well under the greenwood
 13	nó	_	X	_	Foreign=Yes	_	_	_	_
 14	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
-# sent_id = 3381
+# sent_id = 3380
 # reference = 217b13
 # text = .i. sech in naimsir crichnigthi hínnunn
 # translation = i.e. beyond the definite time
@@ -37241,14 +37226,14 @@ may the Lord be kind to me! I write well under the greenwood
 5	crichnigthi	críchnaigthe	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 6	hínnunn	inunn	ADJ	_	Degree=Pos	_	_	_	_
 
-# sent_id = 3382
+# sent_id = 3381
 # reference = 217b14
 # text = .i. al
 # translation = i.e. beyond
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	al	ol	ADV	_	_	_	_	_	_
 
-# sent_id = 3383
+# sent_id = 3382
 # reference = 217b15
 # text = .i. amal bid ed in sin asbertha
 # translation = i.e. as if it were this that was said
@@ -37260,7 +37245,7 @@ may the Lord be kind to me! I write well under the greenwood
 6	sin	sin	PART	_	PronType=Dem	_	_	_	_
 7	asbertha	asbeir	VERB	_	Aspect=Imp|Mood=Sub|Number=Sing|Person=2|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
 
-# sent_id = 3384
+# sent_id = 3383
 # reference = 217b16
 # text = .i. echta recht .i. docoid tar recht ṅaicnid hinnun
 # translation = i.e. outside the law, i.e. he has transgressed a law of nature to there
@@ -37274,11 +37259,25 @@ may the Lord be kind to me! I write well under the greenwood
 8	ṅaicnid	aicned	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 9	hinnun	inunn	ADJ	_	Degree=Pos	_	_	_	_
 
-# sent_id = 3385
+# sent_id = 3384
 # reference = 217b17
 # text = comasṅdéis
 # translation = apposition
 1	comasṅdéis	comaisndís	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 3385
+# reference = f.217 bottom marg. (TPH p.xxii)
+# text = memmbrum naue droch dub ó ní epur na haill
+# translation = New parchment, bad ink. O I say nothing more.
+1	memmbrum	membrum	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+2	naue	nuae	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+3	droch	droch	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
+4	dub	dub	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+5	ó	ó	INTJ	_	_	_	_	_	_
+6	ní	ní	PART	_	Polarity=Neg	_	_	_	_
+7	epur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
+8	na	nach	PRON	_	PronType=Ind	_	_	_	_
+9	haill	aile	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
 # sent_id = 3386
 # reference = 218a1
@@ -37431,6 +37430,12 @@ may the Lord be kind to me! I write well under the greenwood
 2	maith	maith	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
 # sent_id = 3404
+# reference = f.219 top marg. (TPH p.xxii)
+# text = cobthach
+# translation = False
+1	cobthach	cobthach	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
+
+# sent_id = 3405
 # reference = 219a1
 # text = níbí hi comsuidigud
 # translation = (erga) is not in composition
@@ -37438,17 +37443,11 @@ may the Lord be kind to me! I write well under the greenwood
 2	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 3	comsuidigud	comṡuidigud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
-# sent_id = 3405
+# sent_id = 3406
 # reference = 219a2
 # text = saindíles
 # translation = peculiar
 1	saindíles	saindíles	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
-
-# sent_id = 3406
-# reference = f.219 top marg. (TPH p.xxii)
-# text = cobthach
-# translation = False
-1	cobthach	cobthach	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3407
 # reference = f.220 top marg. (TPH p.xxii)
@@ -37921,14 +37920,14 @@ may the Lord be kind to me! I write well under the greenwood
 4	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
 # sent_id = 3449
-# reference = 220b2
+# reference = 222b2
 # text = ind inidleán
 # translation = secretly
 1	ind	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 2	inidleán	inidleán	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 3450
-# reference = 220b3
+# reference = 222b3
 # text = inidil
 # translation = clandestine
 1	inidil	inidil	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
