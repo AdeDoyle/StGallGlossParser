@@ -42,6 +42,14 @@ def clean_nan(somelist):
 glosslist = [gloss_keeplist] + list_xlsx("glosses_full", "glosses", gloss_droptup)
 glosslist = [[g[0], g[1], g[3], g[2], g[5], g[4], g[6]] for g in glosslist]
 glosslist = clean_nan(glosslist)
+fix_trans_list = list()
+for i in glosslist:
+    if i[4]:
+        fix_trans_list.append(i)
+    else:
+        i[4] = "* no translation available *"
+        fix_trans_list.append(i)
+glosslist = fix_trans_list
 # Gets only required fields from analysis spreadsheet, puts them in preferable order, removes replaces NaN instances
 wordlist = [word_keeplist] + list_xlsx("glosses_words", "words", word_droptup)
 wordlist = [[w[0], w[1], w[8], w[4], w[2], w[3], w[5], w[6], w[7]] for w in wordlist]

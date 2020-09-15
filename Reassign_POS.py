@@ -1574,18 +1574,28 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "SCONJ"
-        elif An2 in ['negative subordinating',
-                     'negative (geminating), before non-verbs; na before stressed words']:
+        elif An2 == 'negative subordinating':
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "SCONJ Polarity=Neg"
-            elif An3 == 'joining two nouns':
+        elif An2 == 'negative (geminating), before non-verbs; na before stressed words':
+            if An3 == 'joining two nouns':
                 if not actpas:
                     if not rel:
                         pos = "SCONJ Polarity=Neg"
-        elif An2 in ['relative negative, with infixed pronouns Class C',
-                     'subordinate negative, with infixed pronouns Class C']:
+            elif not An3:
+                feat_list = list()
+                feat_list.append('Polarity=Neg')
+                feat_list.append('PronGend=Neut')
+                feat_list.append('PronNum=Sing')
+                feat_list.append('PronPers=3')
+                feat_list.append('PronType=Prs')
+                if not actpas:
+                    if not rel:
+                        features = " | ".join(feat_list)
+                        pos = f"SCONJ {features}"
+        elif An2 == 'subordinate negative, with infixed pronouns Class C':
             feat_list = list()
             feat_list.append('Polarity=Neg')
             feat_list.append('PronClass=C')
@@ -1656,6 +1666,19 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PART Polarity=Neg | PronType=Rel"
+        elif An2 == 'relative negative, with infixed pronouns Class C':
+            feat_list = list()
+            feat_list.append('Polarity=Neg')
+            feat_list.append('PronClass=C')
+            feat_list.append('PronGend=Neut')
+            feat_list.append('PronNum=Sing')
+            feat_list.append('PronPers=3')
+            feat_list.append('PronType=Prs')
+            if not An3:
+                if not actpas:
+                    if not rel:
+                        features = " | ".join(feat_list)
+                        pos = f"PART {features}"
     # Assign Interrogative Particles
     if An1 == 'particle':
         if An2 == 'interrrogative':  # Yes, really, three.
