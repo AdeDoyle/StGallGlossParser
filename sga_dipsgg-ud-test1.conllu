@@ -22181,12 +22181,11 @@
 
 # sent_id = 2164
 # reference = 109a5
-# text = a nas n nairdíxa
+# text = a nas nairdíxa
 # translation = when it is lengthened
 1	a	a	SCONJ	_	_	_	_	_	_
 2	nas	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-3	n	_	X	_	Foreign=Yes	_	_	_	_
-4	nairdíxa	airdíxa	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+3	nairdíxa	airdíxa	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 2165
 # reference = f.110a not in Thesaurus Palaeohibernicus
@@ -22809,15 +22808,14 @@
 
 # sent_id = 2227
 # reference = 119a2
-# text = .i. inna n nanman tiagdde in eus
+# text = .i. inna nanman tiagdde in eus
 # translation = i.e. of the nouns that end in -eus
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	inna	a	DET	_	Case=Gen|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
-3	n	_	X	_	Foreign=Yes	_	_	_	_
-4	nanman	ainm	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-5	tiagdde	téit	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-6	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-7	eus	_	X	_	Foreign=Yes	_	_	_	_
+3	nanman	ainm	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+4	tiagdde	téit	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+5	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+6	eus	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2228
 # reference = 119b1
@@ -23499,31 +23497,32 @@
 
 # sent_id = 2290
 # reference = 136a2
-# text = Aliter is glantar as ⁊ ind a toisech ind ḟerso dédenaich et ind u do accomol fri sin fers ṅdédenach ut maximus dicit
+# text = Aliter is m glantar as ⁊ ind a toisech ind ḟerso dédenaich et ind u do accomol fri sin fers ṅdédenach ut maximus dicit
 # translation = Otherwise: m is elided from it, and the initial a of the posterior verse, and the u is to be added to the posterior verse, as Maximianus says
 1	Aliter	_	X	_	Foreign=Yes	_	_	_	_
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-3	glantar	glanaid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
-4	as	a	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs,Rel	_	_	_	_
-5	⁊	ocus	CCONJ	_	_	_	_	_	_
-6	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
-7	a	_	X	_	Foreign=Yes	_	_	_	_
-8	toisech	toísech	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
-9	ind	in	DET	_	Case=Gen|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-10	ḟerso	fers	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-11	dédenaich	dédenach	ADJ	_	Case=Gen|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-12	et	_	X	_	Foreign=Yes	_	_	_	_
-13	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
-14	u	_	X	_	Foreign=Yes	_	_	_	_
-15	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-16	accomol	accomol	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-17	fri	fri	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
-18	sin	in	DET	_	AdpType=Prep|Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-19	fers	fers	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-20	ṅdédenach	dédenach	ADJ	_	Case=Acc|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-21	ut	_	X	_	Foreign=Yes	_	_	_	_
-22	maximus	_	X	_	Foreign=Yes	_	_	_	_
-23	dicit	_	X	_	Foreign=Yes	_	_	_	_
+3	m	_	X	_	Foreign=Yes	_	_	_	_
+4	glantar	glanaid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
+5	as	a	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs,Rel	_	_	_	_
+6	⁊	ocus	CCONJ	_	_	_	_	_	_
+7	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
+8	a	_	X	_	Foreign=Yes	_	_	_	_
+9	toisech	toísech	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
+10	ind	in	DET	_	Case=Gen|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+11	ḟerso	fers	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+12	dédenaich	dédenach	ADJ	_	Case=Gen|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+13	et	_	X	_	Foreign=Yes	_	_	_	_
+14	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
+15	u	_	X	_	Foreign=Yes	_	_	_	_
+16	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+17	accomol	accomol	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+18	fri	fri	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
+19	sin	in	DET	_	AdpType=Prep|Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+20	fers	fers	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
+21	ṅdédenach	dédenach	ADJ	_	Case=Acc|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+22	ut	_	X	_	Foreign=Yes	_	_	_	_
+23	maximus	_	X	_	Foreign=Yes	_	_	_	_
+24	dicit	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2291
 # reference = 136a3
