@@ -21066,12 +21066,11 @@
 
 # sent_id = 2057
 # reference = 97b1
-# text = iar ṅ ṅdiul tanisiu
+# text = iar ṅdiul tanisiu
 # translation = according to the second declension
 1	iar	íar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-2	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-3	ṅdiul	díall	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-4	tanisiu	tánaise	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+2	ṅdiul	díall	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+3	tanisiu	tánaise	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
 
 # sent_id = 2058
 # reference = 97b2
@@ -21504,11 +21503,10 @@
 
 # sent_id = 2101
 # reference = 104b3
-# text = ainmm ṅ ṅairm
+# text = ainmm ṅairm
 # translation = name of a weapon
 1	ainmm	ainm	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-3	ṅairm	arm	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+2	ṅairm	arm	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 2102
 # reference = 104b4
@@ -23631,18 +23629,17 @@
 
 # sent_id = 2300
 # reference = 137b9
-# text = .i. is fuath ṅ ṅeperta int inbodugud do n menmmain
+# text = .i. is fuath ṅeperta int inbodugud do n menmmain
 # translation = i.e. it is a figure of speech, the wedding of the mind
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	fuath	fúath	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-4	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-5	ṅeperta	epert	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-6	int	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-7	inbodugud	inbothugud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-8	do	do	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
-9	n	in	DET	_	AdpType=Prep|Case=Dat|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-10	menmmain	menma	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+4	ṅeperta	epert	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+5	int	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+6	inbodugud	inbothugud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+7	do	do	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
+8	n	in	DET	_	AdpType=Prep|Case=Dat|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
+9	menmmain	menma	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 2301
 # reference = 137b10
@@ -24112,7 +24109,7 @@
 
 # sent_id = 2343
 # reference = 140a4
-# text = .i. do thaidbse rombói fo r amal in ṁbrethir ṅ ṅdiuit
+# text = .i. do thaidbse rombói fo r amal in ṁbrethir ṅdiuit
 # translation = i.e. to show that it was in r, like the simple verb.
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -24123,12 +24120,11 @@
 7	amal	amal	SCONJ	_	_	_	_	_	_
 8	in	in	DET	_	Case=Acc|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 9	ṁbrethir	bríathar	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-10	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-11	ṅdiuit	díuit	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
+10	ṅdiuit	díuit	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 
 # sent_id = 2344
 # reference = 140a4
-# text = vel verius ní comṡuidigther acht is ar in ṁbrethir ṅ ṅdiuit doberr
+# text = vel verius ní comṡuidigther acht is ar in ṁbrethir ṅdiuit doberr
 # translation = Or more truly, it is not compounded, but it is put for the simple verb
 1	vel	_	X	_	Foreign=Yes	_	_	_	_
 2	verius	_	X	_	Foreign=Yes	_	_	_	_
@@ -24139,9 +24135,8 @@
 7	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 8	in	in	DET	_	Case=Acc|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 9	ṁbrethir	bríathar	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-10	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-11	ṅdiuit	díuit	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
-12	doberr	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
+10	ṅdiuit	díuit	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
+11	doberr	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 2345
 # reference = 140a5
@@ -27183,12 +27178,11 @@
 
 # sent_id = 2600
 # reference = 163b7
-# text = uare as ṅ ṅdruálnide
+# text = uare as ṅdruálnide
 # translation = because it is corrupt
 1	uare	óre	SCONJ	_	_	_	_	_	_
 2	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-3	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-4	ṅdruálnide	trúailnide	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+3	ṅdruálnide	trúailnide	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 2601
 # reference = 163b8
@@ -29682,12 +29676,11 @@
 
 # sent_id = 2802
 # reference = 189b8
-# text = folad ṅ ṅóin persine
+# text = folad ṅóin persine
 # translation = the substance of one person
 1	folad	folad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-3	ṅóin	oín	NUM	_	_	_	_	_	_
-4	persine	persan	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+2	ṅóin	oín	NUM	_	_	_	_	_	_
+3	persine	persan	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 2803
 # reference = 189b9
@@ -29787,14 +29780,13 @@
 
 # sent_id = 2812
 # reference = 190b1
-# text = .i. cit coitchenna anmman ṅ ṅadiechta
+# text = .i. cit coitchenna anmman ṅadiechta
 # translation = i.e. (it is no wonder) though they are common, like nouns adjective
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	cit	cía	SCONJ	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	coitchenna	coitchenn	ADJ	_	Case=Nom|Degree=Pos|Number=Plur	_	_	_	_
 4	anmman	ainm	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-5	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-6	ṅadiechta	adiacht	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
+5	ṅadiechta	adiacht	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
 
 # sent_id = 2813
 # reference = 190b2
@@ -32383,16 +32375,15 @@
 
 # sent_id = 3009
 # reference = 201b6
-# text = .i. is for nóin ṅ ṅdeilb biit semper
+# text = .i. is for nóin ṅdeilb biit semper
 # translation = i.e. it is according to one paradigm they are always (declined)
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	for	for	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	nóin	oín	NUM	_	_	_	_	_	_
-5	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-6	ṅdeilb	delb	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-7	biit	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-8	semper	_	X	_	Foreign=Yes	_	_	_	_
+5	ṅdeilb	delb	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
+6	biit	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+7	semper	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3010
 # reference = 201b7
@@ -37137,7 +37128,7 @@ may the Lord be kind to me! I write well under the greenwood
 
 # sent_id = 3374
 # reference = 217b8
-# text = .i. cen alpande .i. fri alpai ṅ ṅdesiu
+# text = .i. cen alpande .i. fri alpai ṅdesiu
 # translation = i.e. cisalpine, i.e. on this side of the Alps
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	cen	cen	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -37145,12 +37136,11 @@ may the Lord be kind to me! I write well under the greenwood
 4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 5	fri	fri	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 6	alpai	alpae	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-7	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-8	ṅdesiu	deṡiu	ADV	_	_	_	_	_	_
+7	ṅdesiu	deṡiu	ADV	_	_	_	_	_	_
 
 # sent_id = 3375
 # reference = 217b9
-# text = cisalpina .i. comṡuidigthe .i. in gallia cen alpande cen alpai ṅ etarru
+# text = cisalpina .i. comṡuidigthe .i. in gallia cen alpande cen alpai ṅetarru
 # translation = cis-alpina, i.e. a compound, the cisalpine Gaul, without the Alps between them (and it)
 1	cisalpina	_	X	_	Foreign=Yes	_	_	_	_
 2	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -37162,8 +37152,7 @@ may the Lord be kind to me! I write well under the greenwood
 8	alpande	alpande	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 9	cen	cen	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 10	alpai	alpae	NOUN	_	Case=Acc|Number=Plur	_	_	_	_
-11	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-12	etarru	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
+11	ṅetarru	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 
 # sent_id = 3376
 # reference = 217b10
@@ -37174,13 +37163,12 @@ may the Lord be kind to me! I write well under the greenwood
 
 # sent_id = 3377
 # reference = 217b11
-# text = .i. cen rian ṅ ṅetrom
+# text = .i. cen rian ṅetrom
 # translation = i.e. without the Rhine between me (and it)
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	cen	cen	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 3	rian	rían	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-4	ṅ	_	X	_	Foreign=Yes	_	_	_	_
-5	ṅetrom	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
+4	ṅetrom	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=1|Person=Sing|PronType=Prs	_	_	_	_
 
 # sent_id = 3378
 # reference = 217b12
