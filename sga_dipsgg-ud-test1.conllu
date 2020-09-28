@@ -506,10 +506,10 @@
 
 # sent_id = 45
 # reference = 3b13
-# text = in dasian .i. i mbucai ɫ lethit
+# text = i ndasian .i. i mbucai ɫ lethit
 # translation = into rough breathing or into soft breathing or breadth
-1	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-2	dasian	dasian	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
+1	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+2	ndasian	dasian	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 3	.i.	.i.	ADV	_	Abbr=Yes|Typo=Yes	_	_	_	_
 4	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	mbucai	bucae	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
@@ -538,11 +538,11 @@
 
 # sent_id = 48
 # reference = 3b16
-# text = .i. in dasian ɫ psilin
+# text = .i. i ndasian ɫ psilin
 # translation = i.e. in rough breathing or psilin
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-3	dasian	dasian	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+2	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+3	ndasian	dasian	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 4	ɫ	nó	CCONJ	_	_	_	_	_	_
 5	psilin	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -727,13 +727,13 @@
 
 # sent_id = 63
 # reference = 3b31
-# text = .i. a nas niarm úidigthe r ut pro reliqua
+# text = .i. a nas niarm uidigthe r ut pro reliqua
 # translation = i.e. when r is postponed, as (in) pro, etc.
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	a	a	SCONJ	_	_	_	_	_	_
 3	nas	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 4	niarm	íar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-5	úidigthe	suidigthe	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+5	uidigthe	suidiugud	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 6	r	_	X	_	Foreign=Yes	_	_	_	_
 7	ut	_	X	_	Foreign=Yes	_	_	_	_
 8	pro	_	X	_	Foreign=Yes	_	_	_	_
@@ -872,7 +872,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	a	a	SCONJ	_	_	_	_	_	_
 3	nas	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-4	suidigthe	suidigthe	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+4	suidigthe	suidiugud	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 75
 # reference = 4a12
@@ -11062,7 +11062,7 @@
 
 # sent_id = 1005
 # reference = 40b7
-# text = noch ní cóir son acht co rop máa i óen ṡillaib in comparit iss ed as chóir
+# text = noch ní cóir son acht co rop máa i nóen ṡillaib in comparit iss ed as chóir
 # translation = yet this is not right - only that the comparative be greater by one syllable, this is what it is right
 1	noch	noch	SCONJ	_	_	_	_	_	_
 2	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -11073,7 +11073,7 @@
 7	rop	is	AUX	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 8	máa	már	ADJ	_	Degree=Cmp	_	_	_	_
 9	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-10	óen	oín	NUM	_	_	_	_	_	_
+10	nóen	oín	NUM	_	_	_	_	_	_
 11	ṡillaib	sillab	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 12	in	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 13	comparit	comparit	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -30102,7 +30102,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	iure	_	X	_	Foreign=Yes	_	_	_	_
 3	predicto	_	X	_	Foreign=Yes	_	_	_	_
-4	suidigthe	suidigthe	ADJ	_	Case=Gen|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
+4	suidigthe	suidiugud	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 5	anmme	ainm	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 6	⁊	ocus	CCONJ	_	_	_	_	_	_
 7	brethre	bríathar	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
