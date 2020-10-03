@@ -29,28 +29,37 @@ def add_features(pos_tag, feat_list, doubling=None, doubling_list=None):
     pos = pos_split[0]
     feats = pos_split[1]
     recombined_pos = f'<{pos}>'
+    # add all new features to the feats list
     for extra_feat in feat_list:
         if extra_feat not in feats:
             feats.append(extra_feat)
+    # sort the feats list so that new features appear in the correct alphabetical order
     feats.sort()
     feat_type_list = list()
     replace_feat_list = list()
     doubled_feat_list = list()
+    # for every feature now in the feats list (some may have duplicates, eg. ["Mood=Ind", "Mood=Pos"])
     for full_feat in feats:
         feat_split = full_feat.split("=")
         feat_type = feat_split[0]
+        # if no duplicate feature type has been found yet, add the feature type to a list of feature types
         if feat_type not in feat_type_list:
             feat_type_list.append(feat_type)
+        # if a duplicate feature type is found determine if it should be combined or replaced
         elif feat_type in feat_type_list:
+            # if it is not specified what to do if there is any type of duplicate feature, throw an error
             if not doubling:
                 raise RuntimeError("Two features of the same type found when combining word features")
+            # if replacement of some features is specified, add all duplicate features to a replacement list
             elif doubling == "replace":
                 replace_feat_list.append(feat_type)
+            # if combining of some features is specified, add all duplicate features to a doubled features list
             elif doubling == "combine":
                 doubled_feat_list.append(feat_type)
             else:
                 raise RuntimeError("Two features of the same type found when combining word features\n"
                                    "Doubling option not recognised")
+    # if there is a list of potentially replaceable feature types
     if replace_feat_list:
         replaceables = doubling_list[0]
         replacements = doubling_list[1]
@@ -64,26 +73,37 @@ def add_features(pos_tag, feat_list, doubling=None, doubling_list=None):
             if replace_feat in feats and replace_with in feats:
                 del feats[feats.index(replace_feat)]
             elif not replace_feat and not replace_with:
-                raise RuntimeError("Two features of the same type found when combining word features, "
-                                   "no replacement options given.")
+                raise RuntimeError(f"Two features of the same type, {check_replace_type}, found when combining word "
+                                   f"features, no replacement options given.")
             else:
-                raise RuntimeError("Two features of the same type found when combining word features\n"
-                                   f"{replace_feat} can be replaced with {replace_with} only")
+                raise RuntimeError(f"Two features of the same type, {check_replace_type}, found when combining word "
+                                   f"features\n{replace_feat} can be replaced with {replace_with} only")
+    # if there is a list of potentially combinable feature types
     elif doubled_feat_list:
         for double_feat in doubled_feat_list:
-            doubled_values = list()
-            for check_double in feats:
-                if double_feat in check_double:
-                    double_val = check_double.split("=")[1]
-                    if double_val not in doubled_values:
-                        doubled_values.append(double_val)
-            if doubled_values:
-                doubled_values.sort()
-                doubled_values = ','.join(doubled_values)
-                doubled_value = f'{double_feat}={doubled_values}'
-                feats = [i for i in feats if double_feat not in i]
-                feats.append(doubled_value)
-                feats.sort()
+            # if each doubled feature is of a type that can actually be combined
+            if double_feat in doubling_list:
+                doubled_values = list()
+                # add the value of the doubled feature to a list
+                for check_double in feats:
+                    if double_feat in check_double:
+                        double_val = check_double.split("=")[1]
+                        if double_val not in doubled_values:
+                            doubled_values.append(double_val)
+                # alphabetically sort the list of doubled values then combine them together
+                # combine the feature name to the combined values
+                # replace the uncombined feature in the feats list with the new combined one, then sort the feats list
+                if doubled_values:
+                    doubled_values.sort()
+                    doubled_values = ','.join(doubled_values)
+                    doubled_value = f'{double_feat}={doubled_values}'
+                    feats = [i for i in feats if double_feat not in i]
+                    feats.append(doubled_value)
+                    feats.sort()
+            # if it is not specified how to combine a particular doubled feature
+            else:
+                raise RuntimeError(f"Two features of the same type, {double_feat}, found when combining word features:"
+                                   f"\n{pos_tag}\n{feat_list}")
     feats = " | ".join(feats)
     if feats:
         recombined_pos = f'<{pos} {feats}>'

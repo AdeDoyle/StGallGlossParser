@@ -7572,7 +7572,7 @@
 6	asberar	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 7	diib	de	ADP	_	AdpType=Prep|Definite=Ind|Number=3|Person=Plur|PronType=Prs	_	_	_	_
 8	huare	óre	SCONJ	_	_	_	_	_	_
-9	rombí	attá	VERB	_	Aspect=Hab|Mood=Ind,Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+9	rombí	attá	VERB	_	Aspect=Hab|Mood=Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 10	cechtar	cechtar	PRON	_	PronType=Ind	_	_	_	_
 11	de	de	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 12	sech	sech	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -7598,7 +7598,7 @@
 3	cuit	cuit	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	atoíbthe	attoíbed	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 5	huare	óre	SCONJ	_	_	_	_	_	_
-6	rombí	attá	VERB	_	Aspect=Hab|Mood=Ind,Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+6	rombí	attá	VERB	_	Aspect=Hab|Mood=Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 7	cechtar	cechtar	PRON	_	PronType=Ind	_	_	_	_
 8	de	de	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=3|Person=Sing|PronType=Prs	_	_	_	_
 9	sech	sech	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
@@ -11942,7 +11942,7 @@
 # text = .i. robbí uár recar less dígbail ind ḟolaid conid écen suin fri a slond sidi huare nád robatar suin do ṡlund in dúildetad inchoisget
 # translation = i.e. there may be a time when it is necessary to diminish the substance so that there is need of words to signify it, because there were not words (enough) to signify the proper nature which they express
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	robbí	attá	VERB	_	Aspect=Hab|Mood=Ind,Pot|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+2	robbí	attá	VERB	_	Aspect=Hab|Mood=Pot|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 3	uár	úar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	recar	roicc	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 5	less	less	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
@@ -23707,7 +23707,7 @@
 # reference = 138a5
 # text = robiat ar chuit folid ce nid rubat ar chuit suin
 # translation = they can be in respect of substance, though they cannot be in respect of sound
-1	robiat	attá	VERB	_	Aspect=Hab|Mood=Cnd,Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+1	robiat	attá	VERB	_	Aspect=Hab|Mood=Cnd|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 2	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 3	chuit	cuit	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 4	folid	folad	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
@@ -29121,7 +29121,7 @@
 # translation = i.e. before it was connected with the derivative
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	resiu	resíu	SCONJ	_	_	_	_	_	_
-3	adrochomolta	adcomla	VERB	_	Aspect=Imp,Perf|Mood=Sub|Number=Sing|Person=3|Tense=Past|Voice=Pass	_	_	_	_
+3	adrochomolta	adcomla	VERB	_	Aspect=Perf|Mood=Sub|Number=Sing|Person=3|Tense=Past|Voice=Pass	_	_	_	_
 4	fri	fri	ADP	_	AdpType=Prep|Definite=Def|Prefix=Yes	_	_	_	_
 5	sa	a	DET	_	AdpType=Prep|Case=Acc|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 6	ndíruidigthe	díṡruthigthe	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
@@ -29820,7 +29820,7 @@
 # text = .i. atrobair cach cenel
 # translation = i.e. every gender can say it (of itself, scil. amo, moneo, etc.)
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	atrobair	asbeir	VERB	_	Mood=Cnd,Sub|Number=Sing|Person=3|PronClass=B|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+2	atrobair	asbeir	VERB	_	Mood=Pot,Sub|Number=Sing|Person=3|PronClass=B|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
 3	cach	cach	PRON	_	PronType=Ind	_	_	_	_
 4	cenel	cenél	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
@@ -29847,7 +29847,7 @@
 # translation = i.e. as they are in the optative
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	amal	amal	SCONJ	_	_	_	_	_	_
-3	rondgabsat	gaibid	VERB	_	Aspect=Perf|Mood=Cnd,Ind|Number=Plur|Person=3|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Past|Voice=Act	_	_	_	_
+3	rondgabsat	gaibid	VERB	_	Aspect=Perf|Mood=Cnd|Number=Plur|Person=3|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Past|Voice=Act	_	_	_	_
 4	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	noptit	optait	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
@@ -31258,12 +31258,12 @@
 # translation = i.e. because a wife can say meus filius and a husband can say mea filia as to possessor
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	úare	óre	SCONJ	_	_	_	_	_	_
-3	asrobair	asbeir	VERB	_	Mood=Ind,Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+3	asrobair	asbeir	VERB	_	Mood=Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 4	mulier	_	X	_	Foreign=Yes	_	_	_	_
 5	meus	_	X	_	Foreign=Yes	_	_	_	_
 6	filius	_	X	_	Foreign=Yes	_	_	_	_
 7	⁊	ocus	CCONJ	_	_	_	_	_	_
-8	asrobair	asbeir	VERB	_	Mood=Ind,Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+8	asrobair	asbeir	VERB	_	Mood=Pot|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 9	vir	_	X	_	Foreign=Yes	_	_	_	_
 10	mea	_	X	_	Foreign=Yes	_	_	_	_
 11	filia	_	X	_	Foreign=Yes	_	_	_	_
