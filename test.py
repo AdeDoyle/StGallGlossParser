@@ -291,8 +291,6 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                          ['mad', '<AUX Polarity=Pos | VerbType=Cop>', 'mad'],
                          ['nud', '<AUX Polarity=Pos | VerbType=Cop>', 'nud'],  # should not be possible (524-551 below)
                          ['robo', '<AUX Polarity=Pos | VerbType=Cop>', 'robo']]
-    # # list parts-of-speech which can occur before a copula form but cannot be conjoined with it
-    # cop_independent_POS = ["NOUN", "VERB"]
     # list independent conjunctions (p.247-249) which cannot be combined with enclitic forms of the copula
     indie_conj = [['amal', '<SCONJ>', 'amal', 'amal'],
                   ['ar', '<SCONJ>', 'ar', 'ar'],
@@ -300,8 +298,6 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                   ['acht', '<SCONJ>', 'acht', 'acht'],
                   ['dég', '<SCONJ>', 'deg', 'dég'],
                   ['ore', '<SCONJ>', 'ore', 'óre']]
-    # # list independent prepositions which cannot be combined with enclitic forms of the copula
-    # indie_prep = [['indib', '<ADP AdpType=Prep | Definite=Ind | Number=3 | Person=Plur | PronType=Prs>', 'indib', 'i']]
     # list conjunctions which can combine with enclitic forms of the copula (not necessarily dependent conjunctions)
     conj_combo_forms = [['a', '<SCONJ>', 'a', 'a'],  # Temporal (independent)
                         ['ara', '<SCONJ>', 'ara', 'ara'],  # Consecutive & Final
@@ -373,9 +369,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 print([k[0] for k in standard_mapping])
                                 print([k[0] for k in pos_list])
                                 raise RuntimeError("PVP found before copula form reduced to zero")
-                            elif split_last_pos[0] == "PVP" and j - last_pos_place == 0:
-                                copula_preverbs.append(last_pos_data)
-                                last_pos_data = False
+                            elif split_last_pos[0] == "PVP" and j-last_pos_place == 0:
+                                raise RuntimeError()
                         else:
                             last_pos_data = False
                     except IndexError:
@@ -1328,24 +1323,54 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                           ['nu', '<PART PartType=Vb>', 'nu', 'no']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
     verbal_particles = [['ro', '<PVP Aspect=Perf>', 'ro', 'ro'],
+                        ['ru', '<PVP Aspect=Perf>', 'ru', 'ro'],
                         ['ro', '<PVP Mood=Cnd>', 'ro', 'ro'],
-                        ['ro', '<PVP Mood=Pot>', 'ro', 'ro']]
+                        ['ro', '<PVP Mood=Pot>', 'ro', 'ro'],
+                        ['ro', '<PVP Mood=Sub>', 'ro', 'ro']]
     # list all preverbs which can be separated from the verbal complex when separating small parts-of-speech
     small_parts = [['a', '<PART PartType=Vb>', 'a', 'ad'],
+                   ['ad', '<PART PartType=Vb>', 'ad', 'ad'],
                    ['Ad', '<PART PartType=Vb>', 'ad', 'ad'],
                    ['at', '<PART PartType=Vb>', 'at', 'ad'],
                    ['At', '<PART PartType=Vb>', 'at', 'ad'],
+                   ['air', '<PART PartType=Vb>', 'air', 'ar'],
                    ['ar', '<PART PartType=Vb>', 'ar', 'ar'],
+                   ['ara', '<PART PartType=Vb>', 'ara', 'ar'],
                    ['as', '<PART PartType=Vb>', 'as', 'as'],
                    ['asa', '<PART PartType=Vb>', 'asa', 'as'],
+                   ['assa', '<PART PartType=Vb>', 'assa', 'as'],
+                   ['e', '<PART PartType=Vb>', 'e', 'as'],
                    ['con', '<PART PartType=Vb>', 'con', 'com'],
                    ['con', '<PART PartType=Vb>', 'con', 'con'],
+                   ['di', '<PART PartType=Vb>', 'di', 'de'],
                    ['do', '<PART PartType=Vb>', 'do', 'de'],
+                   ['d', '<PART PartType=Vb>', 'd', 'do'],
+                   ['di', '<PART PartType=Vb>', 'di', 'do'],
                    ['do', '<PART PartType=Vb>', 'do', 'do'],
+                   ['Do', '<PART PartType=Vb>', 'do', 'do'],
+                   ['t', '<PART PartType=Vb>', 't', 'do'],
+                   ['th', '<PART PartType=Vb>', 'th', 'do'],
+                   ['to', '<PART PartType=Vb>', 'to', 'do'],
+                   ['tu', '<PART PartType=Vb>', 'tu', 'do'],
+                   ['thu', '<PART PartType=Vb>', 'thu', 'do'],
                    ['etar', '<PART PartType=Vb>', 'etar', 'eter'],
+                   ['f', '<PART PartType=Vb>', 'f', 'fo'],
                    ['fo', '<PART PartType=Vb>', 'fo', 'fo'],
+                   ['Fo', '<PART PartType=Vb>', 'fo', 'fo'],
+                   ['fu', '<PART PartType=Vb>', 'fu', 'fo'],
+                   ['fo', '<PART PartType=Vb>', 'fo', 'for'],
+                   ['far', '<PART PartType=Vb>', 'far', 'for'],
                    ['for', '<PART PartType=Vb>', 'for', 'for'],
-                   ['fris', '<PART PartType=Vb>', 'fris', 'fris']]
+                   ['fri', '<PART PartType=Vb>', 'fri', 'fris'],
+                   ['fris', '<PART PartType=Vb>', 'fris', 'fris'],
+                   ['iarma', '<PART PartType=Vb>', 'iarma', 'íarmi'],
+                   ['im', '<PART PartType=Vb>', 'im', 'imm'],
+                   ['imme', '<PART PartType=Vb>', 'imme', 'imm'],
+                   ['in', '<PART PartType=Vb>', 'in', 'in'],
+                   ['r', '<PART PartType=Vb>', 'r', 'ro'],
+                   ['ro', '<PART PartType=Vb>', 'ro', 'ro'],
+                   ['ró', '<PART PartType=Vb>', 'ro', 'ro'],
+                   ['sechmo', '<PART PartType=Vb>', 'sechmo', 'sechmo']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     dependent_conjunctions = [['Ara', '<SCONJ>', 'ara', 'ara'],
                               ['ara', '<SCONJ>', 'ara', 'ara'],
@@ -1673,8 +1698,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         verb_prefix_short_pos = split_verb_prefix[0]
                                         verb_prefix_feats = split_verb_prefix[1]
                                         if verb_prefix_short_pos == "PVP":
-                                            verb_prefix_pos = add_features("<PART>", verb_prefix_feats +
-                                                                           ["PartType=Vb"])
+                                            verb_prefix_pos = add_features("<PART PartType=Vb>", verb_prefix_feats)
                                         elif verb_prefix_short_pos == "IFP":
                                             ifp_feats = list()
                                             for old_feat in verb_prefix_feats:
@@ -1744,38 +1768,89 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             split_first_preverb = split_pos_feats(first_preverb_data[1])
                             first_preverb_short_pos = split_first_preverb[0]
                             first_preverb_feats = split_first_preverb[1]
+                            first_preverb_head = first_preverb_data[3]
                             # if there is only one preverbal affix and it is a preverb, not an infixed pronoun
                             if len(verbal_affixes) == 1 and first_preverb_short_pos == "PVP":
                                 # if the preverb is already present in the following verb form
                                 if first_preverb_original == tagged_original[:len(first_preverb_original)]:
-                                    if first_preverb_feats:
+                                    if combine_wordtoks:
+                                        if first_preverb_feats:
+                                            try:
+                                                tagged_pos = add_features(tagged_pos, first_preverb_feats)
+                                            except RuntimeError:
+                                                tagged_pos = add_features(tagged_pos, first_preverb_feats, "replace",
+                                                                          [["Mood=Ind"], ["Mood=Pot"]])
+                                            tagged_word_data = [tagged_original, tagged_pos,
+                                                                tagged_standard, tagged_head]
+                                        pos_list = pos_list[:j-1] + [tagged_word_data] + pos_list[j+1:]
+                                        combine_subtract = True
+                                        break
+                                    elif first_preverb_data not in verbal_particles:
+                                        first_preverb_pos = add_features("<PART PartType=Vb>", first_preverb_feats)
+                                        first_preverb_data = [first_preverb_original, first_preverb_pos,
+                                                              first_preverb_standard, first_preverb_head]
+                                        tagged_original = tagged_original[len(first_preverb_original):]
+                                        tagged_standard = tagged_standard[len(first_preverb_standard):]
+                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                        if first_preverb_data in small_parts:
+                                            pos_list[j-1] = first_preverb_data
+                                            pos_list[j] = tagged_word_data
+                                            combine_subtract = True
+                                            break
+                                        else:
+                                            print(last_pos_data)
+                                            print(first_preverb_data)
+                                            print(tagged_word_data)
+                                            print([k[0] for k in standard_mapping])
+                                            print([k[0] for k in pos_list])
+                                            raise RuntimeError("Unknown separable preverb, add to list")
+                                    elif first_preverb_data in verbal_particles:
                                         try:
                                             tagged_pos = add_features(tagged_pos, first_preverb_feats)
                                         except RuntimeError:
-                                            tagged_pos = add_features(tagged_pos, first_preverb_feats, "replace",
-                                                                      [["Mood=Ind"], ["Mood=Pot"]])
+                                            if "Mood=Ind" in tagged_feats and "Mood=Pot" in first_preverb_feats:
+                                                tagged_pos = add_features(tagged_pos, first_preverb_feats,
+                                                                          "replace", [["Mood=Ind"], ["Mood=Pot"]])
+                                            else:
+                                                raise RuntimeError(f"{tagged_word_data}, {first_preverb_feats}")
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                    pos_list = pos_list[:j-1] + [tagged_word_data] + pos_list[j+1:]
-                                    combine_subtract = True
-                                    break
-                                # if the preverb has been reduced to zero
-                                elif first_preverb_original == "-" and first_preverb_standard == "-":
-                                    if first_preverb_feats:
-                                        tagged_pos = add_features(tagged_pos, first_preverb_feats)
-                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                    pos_list = pos_list[:j - 1] + [tagged_word_data] + pos_list[j + 1:]
-                                    combine_subtract = True
-                                    break
+                                        pos_list = pos_list[:j - 1] + [tagged_word_data] + pos_list[j + 1:]
+                                        combine_subtract = True
+                                        break
                                 # if the preverb is not in the following verb form at all, combine them
                                 elif first_preverb_original not in tagged_original:
-                                    tagged_original = first_preverb_original + tagged_original
-                                    tagged_standard = first_preverb_standard + tagged_standard
-                                    if first_preverb_feats:
+                                    if combine_wordtoks:
+                                        tagged_original = first_preverb_original + tagged_original
+                                        tagged_standard = first_preverb_standard + tagged_standard
+                                        if first_preverb_feats:
+                                            tagged_pos = add_features(tagged_pos, first_preverb_feats)
+                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                        pos_list = pos_list[:j - 1] + [tagged_word_data] + pos_list[j + 1:]
+                                        combine_subtract = True
+                                        break
+                                    elif first_preverb_data not in verbal_particles:
+                                        first_preverb_pos = add_features("<PART PartType=Vb>", first_preverb_feats)
+                                        first_preverb_data = [first_preverb_original, first_preverb_pos,
+                                                              first_preverb_standard, first_preverb_head]
+                                        if first_preverb_data in small_parts:
+                                            pos_list[j-1] = first_preverb_data
+                                            combine_subtract = True
+                                            break
+                                        else:
+                                            print(last_pos_data)
+                                            print(first_preverb_data)
+                                            print(tagged_word_data)
+                                            print([k[0] for k in standard_mapping])
+                                            print([k[0] for k in pos_list])
+                                            raise RuntimeError("Unknown separable preverb, add to list")
+                                    elif first_preverb_data in verbal_particles:
+                                        tagged_original = first_preverb_original + tagged_original
+                                        tagged_standard = first_preverb_standard + tagged_standard
                                         tagged_pos = add_features(tagged_pos, first_preverb_feats)
-                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                    pos_list = pos_list[:j-1] + [tagged_word_data] + pos_list[j+1:]
-                                    combine_subtract = True
-                                    break
+                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                        pos_list = pos_list[:j-1] + [tagged_word_data] + pos_list[j+1:]
+                                        combine_subtract = True
+                                        break
                                 # if the compounding preverb is present in the following verb form
                                 elif first_preverb_original in tagged_original and len(first_preverb_original) > 1:
                                     combined_prepos_orig = ""
@@ -1791,17 +1866,50 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                 and combined_prepos_std == tagged_standard[:len(combined_prepos_std)]:
                                             reduced_verb_original = tagged_original[len(combined_prepos_orig):]
                                             reduced_verb_standard = tagged_standard[len(combined_prepos_std):]
-                                            tagged_original = first_preverb_original + reduced_verb_original
-                                            tagged_standard = first_preverb_standard + reduced_verb_standard
+                                            if combine_wordtoks:
+                                                tagged_original = first_preverb_original + reduced_verb_original
+                                                tagged_standard = first_preverb_standard + reduced_verb_standard
+                                            elif first_preverb_data not in verbal_particles:
+                                                tagged_original = reduced_verb_original
+                                                tagged_standard = reduced_verb_standard
+                                            elif first_preverb_data in verbal_particles:
+                                                print(reduced_verb_original)
+                                                print(last_pos_data)
+                                                print(first_preverb_data)
+                                                print(tagged_word_data)
+                                                print([k[0] for k in standard_mapping])
+                                                print([k[0] for k in pos_list])
+                                                raise RuntimeError()
                                             break
-                                    if tagged_word_data == [tagged_original, tagged_pos, tagged_standard, tagged_head]:
-                                        continue
-                                    else:
-                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                    if combine_wordtoks:
                                         pos_list[j] = tagged_word_data
                                         del pos_list[j - 1]
                                         combine_subtract = True
                                         break
+                                    elif first_preverb_data not in verbal_particles:
+                                        first_preverb_pos = add_features("<PART PartType=Vb>", first_preverb_feats)
+                                        first_preverb_data = [first_preverb_original, first_preverb_pos,
+                                                              first_preverb_standard, first_preverb_head]
+                                        if first_preverb_data in small_parts:
+                                            pos_list[j] = tagged_word_data
+                                            pos_list[j-1] = first_preverb_data
+                                            combine_subtract = True
+                                            break
+                                        else:
+                                            print(last_pos_data)
+                                            print(first_preverb_data)
+                                            print(tagged_word_data)
+                                            print([k[0] for k in standard_mapping])
+                                            print([k[0] for k in pos_list])
+                                            raise RuntimeError("Unknown separable preverb, add to list")
+                                    else:
+                                        print(last_pos_data)
+                                        print(first_preverb_data)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Augment preceding verb form, must be combined")
                                 else:
                                     print(last_pos_data)
                                     print(first_preverb_data)
@@ -1822,40 +1930,118 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             # if there are more than one preverbal affixes preceding a verb form
                             elif len(verbal_affixes) > 1:
                                 # check if every preverbal particle and infixed pronoun is already in the full verb form
+                                verb_start_pos = 1
                                 reduced_verbform = tagged_original
-                                for verb_prefix_data in verbal_affixes:
+                                for verb_prefix_place, verb_prefix_data in enumerate(verbal_affixes):
                                     verb_prefix = verb_prefix_data[0]
                                     verb_prefix_pos = verb_prefix_data[1]
+                                    verb_prefix_standard = verb_prefix_data[2]
+                                    verb_prefix_head = verb_prefix_data[3]
                                     split_verb_prefix = split_pos_feats(verb_prefix_pos)
                                     verb_prefix_short_pos = split_verb_prefix[0]
                                     verb_prefix_feats = split_verb_prefix[1]
                                     # check if any infixed pronouns precede the verb form
-                                    # if so, add their features to the verb's
                                     if verb_prefix_short_pos == "IFP":
-                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                  "combine", ['PronType'])
-                                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                        pos_list[j] = tagged_word_data
-                                    # add features from any preverb to the verb's features also
+                                        # if so, updtate the start point of the verb
+                                        # if combining small POS, add their features to the verb's
+                                        verb_start_pos = verb_prefix_place + 1
+                                        if combine_wordtoks:
+                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                      "combine", ['PronType'])
+                                            tagged_word_data = [tagged_original, tagged_pos,
+                                                                tagged_standard, tagged_head]
+                                            pos_list[j] = tagged_word_data
+                                        # if separating small POS, replace the pronoun in the POS list
+                                        else:
+                                            ifp_feats = list()
+                                            for old_feat in verb_prefix_feats:
+                                                old_feat_split = old_feat.split("=")
+                                                old_key = old_feat_split[0]
+                                                old_val = old_feat_split[1]
+                                                if old_key in separate_feats_dict and old_key != "PronType":
+                                                    ifp_feats.append(
+                                                        "=".join([separate_feats_dict.get(old_key), old_val]))
+                                                elif old_key == "PronType":
+                                                    ifp_feats.append(old_feat)
+                                                elif old_key == "PronClass":
+                                                    continue
+                                                else:
+                                                    print(old_feat)
+                                                    print(verb_prefix_data)
+                                                    raise RuntimeError("Could not convert features for separated IFP")
+                                            verb_prefix_pos = add_features("<PRON>", ifp_feats)
+                                            verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                                verb_prefix_standard, verb_prefix_head]
+                                            verbal_affixes[verb_prefix_place] = verb_prefix_data
+                                            pos_list[j-verb_prefix_place] = verb_prefix_data
+                                    # check for preverbal particles preceding the verb
                                     elif verb_prefix_short_pos == "PVP":
-                                        try:
-                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats)
-                                        except RuntimeError:
-                                            if "Mood=Ind" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
-                                                tagged_pos = add_features(tagged_pos, verb_prefix_feats, "replace",
-                                                                          [["Mood=Ind"], ["Mood=Pot"]])
+                                        # if combining small POS add features from any preverb to the verb's features
+                                        if combine_wordtoks:
+                                            if verb_prefix_feats:
+                                                try:
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                except RuntimeError:
+                                                    if "Mood=Ind" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                                  "replace",
+                                                                                  [["Mood=Ind"], ["Mood=Pot"]])
+                                        # if separating small POS add features of any non-initial preverb, or of any
+                                        # initial augment to the verb
+                                        # also replace the preverbs in the POS list
+                                        elif verb_prefix_data != first_preverb_data:
+                                            if verb_prefix_feats:
+                                                try:
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats)
+                                                except RuntimeError:
+                                                    if "Mood=Ind" in tagged_pos and "Mood=Pot" in verb_prefix_feats:
+                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
+                                                                                  "replace",
+                                                                                  [["Mood=Ind"], ["Mood=Pot"]])
+                                            verb_prefix_pos = add_features("<PART PartType=Vb>", verb_prefix_feats)
+                                            verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                                verb_prefix_standard, verb_prefix_head]
+                                            verbal_affixes[verb_prefix_place] = verb_prefix_data
+                                        elif verb_prefix_data in verbal_particles:
+                                            if verb_prefix_feats:
+                                                tagged_pos = remove_features(tagged_pos, verb_prefix_feats)
+                                            verb_prefix_pos = add_features("<PART>", verb_prefix_feats)
+                                            verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                                verb_prefix_standard, verb_prefix_head]
+                                            verbal_affixes[verb_prefix_place] = verb_prefix_data
+                                        elif verb_prefix_data == first_preverb_data:
+                                            verb_prefix_pos = add_features("<PART PartType=Vb>", verb_prefix_feats)
+                                            verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                                verb_prefix_standard, verb_prefix_head]
+                                            if verb_prefix_data in small_parts:
+                                                verbal_affixes[verb_prefix_place] = verb_prefix_data
+                                            else:
+                                                print(last_pos_data)
+                                                print(verb_prefix_data)
+                                                print(tagged_word_data)
+                                                print([k[0] for k in standard_mapping])
+                                                print([k[0] for k in pos_list])
+                                                raise RuntimeError("Unknown separable preverb, add to list")
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                         pos_list[j] = tagged_word_data
                                     # check if the preverbal affix is in the verb form
                                     if verb_prefix == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
-                                    elif "ṅ" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1] \
-                                            or "n" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1]:
-                                        reduced_verbform = reduced_verbform[len(verb_prefix) + 1:]
+                                    elif "n" + verb_prefix == reduced_verbform[:len(verb_prefix)+1]:
+                                        reduced_verbform = reduced_verbform[len(verb_prefix)+1:]
+                                        verb_prefix = "n" + verb_prefix
+                                        verb_prefix_standard = "n" + verb_prefix_standard
+                                        verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                            verb_prefix_standard, verb_prefix_head]
+                                        verbal_affixes[verb_prefix_place] = verb_prefix_data
                                     # if the preverbal affix begins with an f, check that it's not lenited in the verb
                                     elif verb_prefix[0] == 'f' \
                                             and 'ḟ' + verb_prefix[1:] == reduced_verbform[:len(verb_prefix)]:
                                         reduced_verbform = reduced_verbform[len(verb_prefix):]
+                                        verb_prefix = "ḟ" + verb_prefix[1:]
+                                        verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                            verb_prefix_standard, verb_prefix_head]
+                                        verbal_affixes[verb_prefix_place] = verb_prefix_data
                                     # if the preverb is reduced to zero, move past it without reducing the verb form
                                     elif verb_prefix == "-":
                                         continue
@@ -1869,9 +2055,30 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         print([k[0] for k in pos_list])
                                         raise RuntimeError("Not all preverbs found in following verb form")
                                 # remove the preverbs and infixed pronouns from the POS list
-                                pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
-                                combine_subtract = True
-                                break
+                                if combine_wordtoks:
+                                    pos_list = pos_list[:j-last_pos_place+1] + pos_list[j:]
+                                    combine_subtract = True
+                                    break
+                                else:
+                                    separate_from_verb = verbal_affixes[:verb_start_pos]
+                                    separate_original = "".join([o[0] for o in separate_from_verb])
+                                    separate_standard = "".join([o[2] for o in separate_from_verb])
+                                    if separate_original == tagged_original[:len(separate_original)] and \
+                                            separate_standard == tagged_standard[:len(separate_standard)]:
+                                        tagged_word_data = [tagged_original[len(separate_original):], tagged_pos,
+                                                            tagged_standard[len(separate_standard):], tagged_head]
+                                    else:
+                                        print(separate_original, tagged_original)
+                                        print(last_pos_data)
+                                        print(verbal_affixes)
+                                        print(tagged_word_data)
+                                        print([k[0] for k in standard_mapping])
+                                        print([k[0] for k in pos_list])
+                                        raise RuntimeError("Can't find pre-verbal affixes in verb form")
+                                    pos_list = pos_list[:j-last_pos_place+1] + separate_from_verb + \
+                                               [tagged_word_data] + pos_list[j+1:]
+                                    combine_subtract = True
+                                    break
                             else:
                                 print(last_pos_data)
                                 print(first_preverb_data)
@@ -2071,8 +2278,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                     combined_prepos_std = backstep_std + combined_prepos_std
                                                 if combined_prepos_orig == tagged_original[:len(
                                                         combined_prepos_orig)] \
-                                                        and combined_prepos_std == tagged_standard[:len(
-                                                    combined_prepos_std)]:
+                                                        and combined_prepos_std == tagged_standard[
+                                                                                   :len(combined_prepos_std)]:
                                                     tagged_original = tagged_original[len(combined_prepos_orig):]
                                                     reduced_verbform = tagged_original
                                                     tagged_standard = tagged_standard[len(combined_prepos_std):]
@@ -2714,7 +2921,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             verbcount += 1
     for i in range(verbcount):
         for j, tagged_word_data in enumerate(pos_list):
-            tagged_original, tagged_pos, tagged_standard = tagged_word_data[0], tagged_word_data[1], tagged_word_data[2]
+            tagged_original, tagged_pos, tagged_standard, tagged_head = \
+                tagged_word_data[0], tagged_word_data[1], tagged_word_data[2], tagged_word_data[3]
             split_tagged_pos = split_pos_feats(tagged_pos)
             tagged_short_pos = split_tagged_pos[0]
             # if the POS is a verb
@@ -2777,6 +2985,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         elif "PartType=Vb" in next_feats:
                             continue
                         elif "Polarity=Neg" in next_feats:
+                            continue
+                        elif "Aspect=Perf" in next_feats:
                             continue
                         else:
                             print(tagged_word_data)
@@ -2872,8 +3082,6 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             pass
                     # if there is a POS following the two combining POS
                     if third_pos_data:
-                        third_original, third_pos, third_standard, third_head = \
-                            third_pos_data[0], third_pos_data[1], third_pos_data[2], third_pos_data[3]
                         compounded_form = [tagged_original + next_original,
                                            next_pos,
                                            tagged_standard + next_standard,
@@ -2943,6 +3151,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
         if tagged_word_data in olchena_list:
             olchena_count += 1
     for i in range(olchena_count):
+        last_two_pos = False
+        next_two_pos = False
         for j, tagged_word_data in enumerate(pos_list):
             if tagged_word_data in olchena_list:
                 try:
@@ -3079,9 +3289,9 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             if missing_count > 0:
                 # check for instances of 'vel' in Hofman's gloss used instead, and change them to 'ɫ'
                 for k in range(missing_count):
-                    for l, tok_maping in enumerate(standard_mapping):
+                    for m, tok_maping in enumerate(standard_mapping):
                         if tok_maping[:2] == ('vel', 'vel'):
-                            standard_mapping[l] = ('ɫ', 'no', tok_maping[2])
+                            standard_mapping[m] = ('ɫ', 'no', tok_maping[2])
             # if there are more instances in Hofman's gloss than Bauer's analysis
             elif missing_count < 0:
                 # look for instances of nó written in full in Bauer's gloss
@@ -3142,6 +3352,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             next_original = False
             next_tag = False
             next_standard = False
+            next_head = False
             next_combo_standard = False
             if pos_place < last_pos_place and pos_place + 1 not in used_pos:
                 next_pos_data = pos_list[pos_place + 1]
@@ -3155,6 +3366,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             third_pos_data = False
             third_original = False
             third_tag = False
+            third_head = False
             third_combo_standard = False
             if pos_place < last_pos_place - 1 and pos_place + 1 not in used_pos and pos_place + 2 not in used_pos:
                 third_pos_data = pos_list[pos_place + 2]
@@ -3241,10 +3453,12 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             next_pos_data = False
             next_original = False
             next_tag = False
+            next_head = False
             next_combo_standard = False
             third_pos_data = False
             third_original = False
             third_tag = False
+            third_head = False
             third_combo_standard = False
             # if the tagged word is not the last word in the analysis, and the following word hasn't been used yet
             # get the following word's data also
@@ -3481,4 +3695,3 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
 # stop_gloss = 27
 # for glossnum in range(start_gloss, stop_gloss):
 #     print(glossnum, matchword_levdist(map_glosswords(test_on[glossnum], wordslist[glossnum])))
-
