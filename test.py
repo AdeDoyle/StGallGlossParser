@@ -1320,7 +1320,9 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                           ['nicon', '<PART Polarity=Neg>', 'nicon', 'nícon'],
                           ['nícon', '<PART Polarity=Neg>', 'nicon', 'nícon'],
                           ['no', '<PART PartType=Vb>', 'no', 'no'],
-                          ['nu', '<PART PartType=Vb>', 'nu', 'no']]
+                          ['nu', '<PART PartType=Vb>', 'nu', 'no'],
+                          ['no', '<PART Gender=Neut | Number=Sing | PartType=Vb | Person=3 | PronType=Prs>',
+                           'no', 'no']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
     verbal_particles = [['ro', '<PVP Aspect=Perf>', 'ro', 'ro'],
                         ['ru', '<PVP Aspect=Perf>', 'ru', 'ro'],
@@ -2091,14 +2093,34 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         # remove pronoun class from negative conjunctions
                         if last_short_pos == "SCONJ" and last_standard in ["nach", "naich"] \
                                 and "PronClass=C" in last_feats:
-                            last_pos_data = [last_original,
-                                             remove_features(last_pos, ['PronClass=C']),
-                                             last_standard, last_head]
-                            pos_list[j - last_pos_place] = last_pos_data
+                            if combine_wordtoks:
+                                last_pos_data = [last_original,
+                                                 remove_features(last_pos, ['PronClass=C']),
+                                                 last_standard, last_head]
+                                pos_list[j - last_pos_place] = last_pos_data
+                            else:
+                                ifp_original = last_original[2:]
+                                ifp_pos = remove_features(last_pos, ['Polarity=Neg', 'PronClass=C'])
+                                ifp_split_pos = split_pos_feats(ifp_pos)
+                                ifp_feats = ifp_split_pos[1]
+                                ifp_pos = add_features("<IFP>", ifp_feats)
+                                ifp_standard = last_standard[2:]
+                                ifp_head = last_original[2:]
+                                ifp_pos_data = [ifp_original, ifp_pos, ifp_standard, ifp_head]
+                                verbal_affixes = [ifp_pos_data] + verbal_affixes
+                                last_original = last_original[:2]
+                                last_pos = remove_features(last_pos, ["PronClass=C", "PronGend=Masc",
+                                                                      "PronNum=Sing", "PronPers=3", "PronType=Prs"])
+                                last_standard = last_standard[:2]
+                                last_pos_data = [last_original, last_pos, last_standard, last_head]
+                                pos_list = pos_list[:j-last_pos_place] + [last_pos_data, ifp_pos_data] +\
+                                           pos_list[j-last_pos_place+1:]
+                                j += 1
                             combine_subtract = True
                         # if the last POS is a conjunct particle or combining conjunction
                         # separate it from the verbal cluster
-                        # treat any infixed pronouns as suffixed pronouns to the conjunct particle
+                        # if combining small POS, treat any IFPs as suffixed pronouns to the conjunct particle
+                        # otherwise, separate them too
                         if last_pos_data in conjunct_particles or last_pos_data in dependent_conjunctions:
                             # if there are no preverbs or infixed pronouns between the conjunct particle and the verb
                             # ensure the conjunct particle is not represented in the verb form
@@ -2129,8 +2151,11 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                             tagged_original = tagged_original[len(combined_prepos_orig):]
                                             tagged_standard = tagged_standard[len(combined_prepos_std):]
                                             break
+                                    # if the original verb form hasn't changed it means the last POS wasn't contained
+                                    # within it, so nothing needs to be changed
                                     if tagged_word_data == [tagged_original, tagged_pos, tagged_standard, tagged_head]:
                                         continue
+                                    # otherwise, update the original verb form to remove the last POS and any preceding
                                     else:
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                         pos_list[j] = tagged_word_data
@@ -2199,9 +2224,11 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 if first_affix_short_pos == "PVP":
                                     # check if every preverbal affix is already in the full verb form
                                     reduced_verbform = tagged_original
-                                    for verb_prefix_data in verbal_affixes:
+                                    for m, verb_prefix_data in enumerate(verbal_affixes):
                                         verb_prefix = verb_prefix_data[0]
                                         verb_prefix_pos = verb_prefix_data[1]
+                                        verb_prefix_standard = verb_prefix_data[2]
+                                        verb_prefix_head = verb_prefix_data[3]
                                         split_verb_prefix = split_pos_feats(verb_prefix_pos)
                                         verb_prefix_short_pos = split_verb_prefix[0]
                                         verb_prefix_feats = split_verb_prefix[1]
@@ -2276,10 +2303,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                     combined_prepos_orig = backstep_orig + combined_prepos_orig
                                                     backstep_std = backword_data[2]
                                                     combined_prepos_std = backstep_std + combined_prepos_std
-                                                if combined_prepos_orig == tagged_original[:len(
-                                                        combined_prepos_orig)] \
-                                                        and combined_prepos_std == tagged_standard[
-                                                                                   :len(combined_prepos_std)]:
+                                                if combined_prepos_orig == tagged_original[
+                                                                           :len(combined_prepos_orig)] and \
+                                                        combined_prepos_std == tagged_standard[
+                                                                               :len(combined_prepos_std)]:
                                                     tagged_original = tagged_original[len(combined_prepos_orig):]
                                                     reduced_verbform = tagged_original
                                                     tagged_standard = tagged_standard[len(combined_prepos_std):]
@@ -2295,9 +2322,16 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                                         tagged_standard, tagged_head]
                                                     pos_list[j] = tagged_word_data
                                             # if Bauer added the preverb to his analysis but not the nasalisation marker
-                                            elif "ṅ" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1] \
-                                                    or "n" + verb_prefix == reduced_verbform[:len(verb_prefix) + 1]:
-                                                reduced_verbform = reduced_verbform[len(verb_prefix) + 1:]
+                                            elif "ṅ" + verb_prefix == reduced_verbform[:len(verb_prefix)+1] \
+                                                    or "n" + verb_prefix == reduced_verbform[:len(verb_prefix)+1]:
+                                                nasal_marker = reduced_verbform[0]
+                                                verb_prefix = nasal_marker + verb_prefix
+                                                verb_prefix_standard = "n" + verb_prefix_standard
+                                                verb_prefix_data = [verb_prefix, verb_prefix_pos,
+                                                                    verb_prefix_standard, verb_prefix_head]
+                                                verbal_affixes[m] = verb_prefix_data
+                                                pos_list[j-len(verbal_affixes)+m] = verb_prefix_data
+                                                reduced_verbform = reduced_verbform[len(verb_prefix):]
                                                 if verb_prefix_feats:
                                                     try:
                                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats)
@@ -2352,6 +2386,30 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                           combined_last_pos,
                                                           combined_last_standard,
                                                           last_head]
+                                    replace_pron = False
+                                    if not combine_wordtoks:
+                                        ifp_original = first_affix_original
+                                        ifp_pos = first_affix_pos
+                                        ifp_pos = remove_features(ifp_pos, ['PronClass=A', 'PronClass=C'])
+                                        ifp_standard = first_affix_standard
+                                        ifp_head = first_affix_data[3]
+                                        ifp_split_pos = split_pos_feats(ifp_pos)
+                                        ifp_feats = ifp_split_pos[1]
+                                        new_feats = list()
+                                        for old_feat in ifp_feats:
+                                            old_feat_split = old_feat.split("=")
+                                            old_key = old_feat_split[0]
+                                            old_val = old_feat_split[1]
+                                            if old_key in separate_feats_dict and old_key != "PronType":
+                                                new_feats.append("=".join([separate_feats_dict.get(old_key), old_val]))
+                                            elif old_key == "PronType":
+                                                new_feats.append(old_feat)
+                                            else:
+                                                raise RuntimeError("Could not convert features for split POS")
+                                        check_pron_pos = add_features("<PRON>", new_feats)
+                                        check_pronoun = [ifp_original, check_pron_pos,
+                                                         ifp_standard, ifp_head]
+                                        replace_pron = check_pronoun
                                     # if the combined conjunct particle and now-suffixed pronoun were in the verb form
                                     # the conjunct particle will likely have been removed above
                                     # test to make sure their combination is not still at the beginning of the verb form
@@ -2410,8 +2468,13 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         tagged_original = tagged_original[len(first_affix_original):]
                                         tagged_standard = tagged_standard[len(first_affix_standard):]
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                        pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + \
-                                                   [tagged_word_data] + pos_list[j+1:]
+                                        if combine_wordtoks:
+                                            pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + \
+                                                       [tagged_word_data] + pos_list[j+1:]
+                                        else:
+                                            pos_list[j-len(verbal_affixes)-1] = replace_pron
+                                            pos_list = pos_list[:j-len(verbal_affixes)] + [tagged_word_data] + \
+                                                       pos_list[j+1:]
                                         combine_subtract = True
                                         break
                                     # if the infixed pronoun can't be found within the following verb form,
@@ -2420,7 +2483,19 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                     else:
                                         # if the only preverbal affix is the infixed pronoun
                                         if len(verbal_affixes) == 1:
-                                            pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + pos_list[j:]
+                                            if combine_wordtoks:
+                                                pos_list = pos_list[:j-last_pos_place] + \
+                                                           [combined_last_data] + pos_list[j:]
+                                            elif first_affix_original != "-" and first_affix_standard != "-":
+                                                pos_list = pos_list[:j-len(verbal_affixes)] + [replace_pron] + \
+                                                           pos_list[j:]
+                                            else:
+                                                replace_feats = split_pos_feats(replace_pron[1])[1]
+                                                replace_pron = [last_original,
+                                                                add_features(last_pos_data[1], replace_feats),
+                                                                last_standard, last_head]
+                                                pos_list = pos_list[:j-len(verbal_affixes)-1] + [replace_pron] + \
+                                                           pos_list[j:]
                                             combine_subtract = True
                                             break
                                         elif len(verbal_affixes) > 1:
@@ -2453,8 +2528,19 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                     tagged_pos = add_features(tagged_pos, remaining_affix_feats)
                                             tagged_word_data = [tagged_original, tagged_pos,
                                                                 tagged_standard, tagged_head]
-                                            pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + \
-                                                       [tagged_word_data] + pos_list[j+1:]
+                                            if combine_wordtoks:
+                                                pos_list = pos_list[:j-last_pos_place] + [combined_last_data] + \
+                                                           [tagged_word_data] + pos_list[j+1:]
+                                            elif first_affix_original != "-" and first_affix_standard != "-":
+                                                pos_list = pos_list[:j-last_pos_place+1] + [replace_pron] + \
+                                                           [tagged_word_data] + pos_list[j+1:]
+                                            else:
+                                                replace_feats = split_pos_feats(replace_pron[1])[1]
+                                                replace_pron = [last_original,
+                                                                add_features(last_pos_data[1], replace_feats),
+                                                                last_standard, last_head]
+                                                pos_list = pos_list[:j-len(verbal_affixes)-2] + [replace_pron] + \
+                                                           [tagged_word_data] + pos_list[j+1:]
                                             combine_subtract = True
                                             break
                                         else:
