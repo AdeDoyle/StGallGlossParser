@@ -126,9 +126,13 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             match_place = token_match[2]
             new_split = False
             if match_standard in ["airindi", "arindi"]:
-                new_split = [(match_original[:-4], match_standard[:-4], match_place),
-                             (match_original[-4:-1], match_standard[-4:-1], match_place),
-                             (match_original[-1:], match_standard[-1:], match_place)]
+                if combine_wordtoks:
+                    new_split = [(match_original[:-1], match_standard[:-1], match_place),
+                                 (match_original[-1:], match_standard[-1:], match_place)]
+                else:
+                    new_split = [(match_original[:-4], match_standard[:-4], match_place),
+                                 (match_original[-4:-1], match_standard[-4:-1], match_place),
+                                 (match_original[-1:], match_standard[-1:], match_place)]
             elif match_standard in ["anisin", "anisiu"]:
                 new_split = [(match_original[:1], match_standard[:1], match_place),
                              (match_original[1:3], match_standard[1:3], match_place),
@@ -3513,8 +3517,47 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     #                                                ARTICLE
     #
     # combine compounded articles with preceding prepositions
-    if combine_wordtoks:
-        pass
+    artcount = 0
+    for tagged_word_data in pos_list:
+        split_tagged_pos = split_pos_feats(tagged_word_data[1])
+        tagged_short_pos = split_tagged_pos[0]
+        if tagged_short_pos == "DET":
+            artcount += 1
+    for i in range(artcount):
+        for j, tagged_word_data in enumerate(pos_list):
+            tagged_original, tagged_pos, tagged_standard, tagged_head = \
+                tagged_word_data[0], tagged_word_data[1], tagged_word_data[2], tagged_word_data[3]
+            split_tagged_pos = split_pos_feats(tagged_pos)
+            tagged_short_pos = split_tagged_pos[0]
+            tagged_feats = split_tagged_pos[1]
+            # if the POS is a determiner
+            if tagged_short_pos == "DET":
+                last_pos_data = pos_list[j-1]
+                last_original, last_pos, last_standard, last_head = \
+                    last_pos_data[0], last_pos_data[1], last_pos_data[2], last_pos_data[3]
+                split_last_pos = split_pos_feats(last_pos)
+                last_short_pos = split_last_pos[0]
+                last_feats = split_last_pos[1]
+                if last_short_pos == "ADP" and "Prefix=Yes" in last_feats:
+                    if combine_wordtoks:
+                        combined_original = last_original + tagged_original
+                        combined_standard = last_standard + tagged_standard
+                        last_pos = remove_features(last_pos, ["Prefix=Yes"])
+                        combined_pos = add_features(last_pos, tagged_feats)
+                        combined_pos = remove_features(combined_pos, ["PronType=Art"])
+                        combined_pos_data = [combined_original, combined_pos, combined_standard, last_head]
+                        pos_list = pos_list[:j-1] + [combined_pos_data] + pos_list[j+1:]
+                        combine_subtract = True
+                        break
+                    else:
+                        last_pos = remove_features(last_pos, ["Definite=Def", "Prefix=Yes"])
+                        last_pos_data = [last_original, last_pos, last_standard, last_head]
+                        tagged_pos = remove_features(tagged_pos, ["AdpType=Prep"])
+                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                        pos_list[j-1] = last_pos_data
+                        pos_list[j] = tagged_word_data
+                        combine_subtract = True
+                        break
 
     #                                               PART 2.1.3:
     #
@@ -3616,30 +3659,54 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                 except IndexError:
                     raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
                 if last_pos_data:
-                    last_three_pos = pos_list[j-3:j]
-                    if last_three_pos in [[['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
-                                                   '| Number=Sing | PronType=Art>', 'ind', 'a'],
-                                           ['í', '<PART PartType=Dct>', 'i', 'í']],
-                                          [['ar', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'ar', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
-                                                   '| Number=Sing | PronType=Art>', 'ind', 'a'],
-                                           ['i', '<PART PartType=Dct>', 'i', 'í']],
-                                          [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
-                                                   '| Number=Sing | PronType=Art>', 'ind', 'a'],
-                                           ['í', '<PART PartType=Dct>', 'i', 'í']],
-                                          [['air', '<ADP AdpType=Prep | Definite=Def | Prefix=Yes>', 'air', 'ar'],
-                                           ['ind', '<DET AdpType=Prep | Case=Dat | Gender=Neut '
-                                                   '| Number=Sing | PronType=Art>', 'ind', 'a'],
-                                           ['i', '<PART PartType=Dct>', 'i', 'í']]]:
-                        del pos_list[j]
-                        combine_subtract = True
+                    if combine_wordtoks:
+                        last_three_pos = pos_list[j-2:j]
+                        if last_three_pos in [[['arind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
+                                                         '| Gender=Neut | Number=Sing>', 'arind', 'ar'],
+                                               ['í', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['arind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
+                                                         '| Gender=Neut | Number=Sing>', 'arind', 'ar'],
+                                               ['i', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['airind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
+                                                          '| Gender=Neut | Number=Sing>', 'airind', 'ar'],
+                                               ['í', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['airind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
+                                                          '| Gender=Neut | Number=Sing>', 'airind', 'ar'],
+                                               ['i', '<PART PartType=Dct>', 'i', 'í']]]:
+                            del pos_list[j]
+                            combine_subtract = True
+                            break
+                        else:
+                            print(last_three_pos)
+                            print([i[0] for i in pos_list])
+                            print([i[0] for i in standard_mapping])
+                            raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
                     else:
-                        print(last_three_pos)
-                        print([i[0] for i in pos_list])
-                        print([i[0] for i in standard_mapping])
-                        raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
+                        last_three_pos = pos_list[j-3:j]
+                        if last_three_pos in [[['ar', '<ADP AdpType=Prep>', 'ar', 'ar'],
+                                               ['ind', '<DET Case=Dat | Gender=Neut '
+                                                       '| Number=Sing | PronType=Art>', 'ind', 'a'],
+                                               ['í', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['ar', '<ADP AdpType=Prep>', 'ar', 'ar'],
+                                               ['ind', '<DET Case=Dat | Gender=Neut '
+                                                       '| Number=Sing | PronType=Art>', 'ind', 'a'],
+                                               ['i', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['air', '<ADP AdpType=Prep>', 'air', 'ar'],
+                                               ['ind', '<DET Case=Dat | Gender=Neut '
+                                                       '| Number=Sing | PronType=Art>', 'ind', 'a'],
+                                               ['í', '<PART PartType=Dct>', 'i', 'í']],
+                                              [['air', '<ADP AdpType=Prep>', 'air', 'ar'],
+                                               ['ind', '<DET Case=Dat | Gender=Neut '
+                                                       '| Number=Sing | PronType=Art>', 'ind', 'a'],
+                                               ['i', '<PART PartType=Dct>', 'i', 'í']]]:
+                            del pos_list[j]
+                            combine_subtract = True
+                            break
+                        else:
+                            print(last_three_pos)
+                            print([i[0] for i in pos_list])
+                            print([i[0] for i in standard_mapping])
+                            raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
     # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
     # cf. eDIL entries for 'olchena' and '1 ol, (al)' vs. entries for 'arindí' and '1 ar'
     olchena_list = [['olchene', '<ADV>', 'olchene', 'olchena'],
