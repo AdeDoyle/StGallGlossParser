@@ -272,13 +272,13 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
             sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
     sgg_file = sgg_file.strip("\n")
     if combine_wordtoks:
-        with open("sga_dipsgg-ud-test1.conllu", "w", encoding="utf-8") as text_file:
+        with open("sga_dipsgg-ud-test_combined_POS.conllu", "w", encoding="utf-8") as text_file:
             print(f"{sgg_file}", file=text_file)
-        return "Created File: 'sga_dipsgg-ud-test1.conllu'"
+        return "Created File: 'sga_dipsgg-ud-test_combined_POS.conllu'"
     else:
-        with open("sga_dipsgg-ud-test2.conllu", "w", encoding="utf-8") as text_file:
+        with open("sga_dipsgg-ud-test_split_POS.conllu", "w", encoding="utf-8") as text_file:
             print(f"{sgg_file}", file=text_file)
-        return "Created File: 'sga_dipsgg-ud-test2.conllu'"
+        return "Created File: 'sga_dipsgg-ud-test_split_POS.conllu'"
 
 
 # #                                                 CREATE RESOURCES

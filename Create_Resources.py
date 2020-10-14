@@ -24,7 +24,7 @@ def rem_files():
                  "Relative Options List.pkl",
                  "SG. Combined Data.xlsx",
                  "SG POS-tagged combined.pkl", "SG POS-tagged separated.pkl",
-                 "sga_dipsgg-ud-test1.conllu", "sga_dipsgg-ud-test2.conllu",
+                 "sga_dipsgg-ud-test_combined_POS.conllu", "sga_dipsgg-ud-test_split_POS.conllu",
                  "Translations List.pkl",
                  "Words_List.pkl"]
     for filename in resources:
@@ -70,11 +70,11 @@ def make_files():
 
     # Create 'SG POS-tagged combined.pkl' and 'SG POS-tagged separated.pkl'
     print(save_poslist(True))
-    # print(save_poslist(False))
+    print(save_poslist(False))
 
     # Create 'sga_dipsgg-ud-test1.conllu' and 'sga_dipsgg-ud-test2.conllu'
     print(compile_SGG(open_obj("SG POS-tagged combined.pkl"), True))
-    # print(compile_SGG(open_obj("SG POS-tagged separated.pkl"), False))
+    print(compile_SGG(open_obj("SG POS-tagged separated.pkl"), False))
 
     return ""
 
