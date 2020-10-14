@@ -3544,13 +3544,33 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         combined_standard = last_standard + tagged_standard
                         last_pos = remove_features(last_pos, ["Prefix=Yes"])
                         combined_pos = add_features(last_pos, tagged_feats)
-                        combined_pos = remove_features(combined_pos, ["PronType=Art"])
                         combined_pos_data = [combined_original, combined_pos, combined_standard, last_head]
                         pos_list = pos_list[:j-1] + [combined_pos_data] + pos_list[j+1:]
                         combine_subtract = True
                         break
                     else:
-                        last_pos = remove_features(last_pos, ["Definite=Def", "Prefix=Yes"])
+                        last_pos = remove_features(last_pos, ["Prefix=Yes"])
+                        last_pos_data = [last_original, last_pos, last_standard, last_head]
+                        tagged_pos = remove_features(tagged_pos, ["AdpType=Prep"])
+                        tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                        pos_list[j-1] = last_pos_data
+                        pos_list[j] = tagged_word_data
+                        combine_subtract = True
+                        break
+                elif last_short_pos == "ADP" and "AdpType=Prep" in tagged_feats:
+                    if combine_wordtoks:
+                        combined_original = last_original + tagged_original
+                        combined_standard = last_standard + tagged_standard
+                        last_pos = remove_features(last_pos, ["Definite=Ind", "Prefix=Yes"])
+                        last_pos = add_features(last_pos, ["Definite=Def"])
+                        combined_pos = add_features(last_pos, tagged_feats)
+                        combined_pos_data = [combined_original, combined_pos, combined_standard, last_head]
+                        pos_list = pos_list[:j-1] + [combined_pos_data] + pos_list[j+1:]
+                        combine_subtract = True
+                        break
+                    else:
+                        last_pos = remove_features(last_pos, ["Definite=Ind", "Prefix=Yes"])
+                        last_pos = add_features(last_pos, ["Definite=Def"])
                         last_pos_data = [last_original, last_pos, last_standard, last_head]
                         tagged_pos = remove_features(tagged_pos, ["AdpType=Prep"])
                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
@@ -3575,7 +3595,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                     ['im', '<PART Prefix=Yes>', 'im', 'imm'],
                     ['mi', '<PART Prefix=Yes>', 'mi', 'mí'],
                     ['mí', '<PART Prefix=Yes>', 'mi', 'mí'],
-                    ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph', 'neph']]
+                    ['neph', '<PART Polarity=Neg | Prefix=Yes>', 'neph', 'neph'],
+                    ['nephchom', '<PART Prefix=Yes>', 'nephchom', 'neph-com']]
     # count the instances of prefixed particles in the gloss
     prepart_count = 0
     for tagged_word_data in pos_list:
@@ -3605,6 +3626,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                 if next_pos_data:
                     next_original, next_pos, next_standard, next_head = \
                         next_pos_data[0], next_pos_data[1], next_pos_data[2], next_pos_data[3]
+                    compounded_form = False
                     try:
                         third_pos_data = pos_list[j+2]
                     # if no POS follows the two combining POS, combine the two to create the compounded form
@@ -3613,14 +3635,14 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         compounded_form = [tagged_original + next_original,
                                            next_pos,
                                            tagged_standard + next_standard,
-                                           next_head]
+                                           tagged_head + "-" + next_head]
                         # if the compound form of the two POS is found elsewhere in the gloss
-                        if compounded_form in pos_list:
+                        if compounded_form[:3] in [k[:3] for k in pos_list]:
                             print(tagged_word_data)
                             print(next_pos_data)
                             print(compounded_form)
-                            print([i[0] for i in standard_mapping])
-                            print([i[0] for i in pos_list])
+                            print([m[0] for m in standard_mapping])
+                            print([m[0] for m in pos_list])
                             raise RuntimeError("Compound word form in gloss, but not following separate parts")
                         # if there is no compounded form of the two POS in the gloss, the gloss is already in order
                         else:
@@ -3630,18 +3652,43 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         compounded_form = [tagged_original + next_original,
                                            next_pos,
                                            tagged_standard + next_standard,
-                                           next_head]
+                                           tagged_head + "-" + next_head]
                         # if the prefixed particle and following POS are duplicated in the third POS
                         if third_pos_data[:3] == compounded_form[:3]:
-                            del pos_list[j+2]
+                            if combine_wordtoks:
+                                pos_list[j+2] = pos_list[j+2][:3] + [compounded_form[3]]
+                                del pos_list[j:j+2]
+                                combine_subtract = True
+                                break
+                            else:
+                                del pos_list[j+2]
+                                combine_subtract = True
+                                break
                         # if the prefixed particle and following POS are duplicated somewhere else in the gloss
-                        elif compounded_form in pos_list:
+                        elif compounded_form[:3] in pos_list[:3]:
                             print(tagged_word_data)
                             print(next_pos_data)
                             print(compounded_form)
                             print([i[0] for i in standard_mapping])
                             print([i[0] for i in pos_list])
                             raise RuntimeError("Compound word form in gloss, but not following separate parts")
+                        elif combine_wordtoks:
+                            for m, comp in enumerate(standard_mapping):
+                                if "-" in comp[0] and comp[0] == standard_mapping[m+1][0]:
+                                    del standard_mapping[m+1]
+                                    break
+                            pos_list = pos_list[:j] + [compounded_form] + pos_list[j+2:]
+                            combine_subtract = True
+                            break
+                    elif compounded_form:
+                        if combine_wordtoks:
+                            for m, comp in enumerate(standard_mapping):
+                                if "-" in comp[0] and comp[0] == standard_mapping[m+1][0]:
+                                    del standard_mapping[m+1]
+                                    break
+                            pos_list = pos_list[:j] + [compounded_form] + pos_list[j+2:]
+                            combine_subtract = True
+                            break
     # remove combined conjunction, 'arindí', where it doubles the breakdown, 'ar', 'ind', and 'í'
     arindi_list = [['airindi', '<SCONJ>', 'airindi', 'arindí'],
                    ['airindí', '<SCONJ>', 'airindi', 'arindí'],
@@ -3662,16 +3709,20 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                     if combine_wordtoks:
                         last_three_pos = pos_list[j-2:j]
                         if last_three_pos in [[['arind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
-                                                         '| Gender=Neut | Number=Sing>', 'arind', 'ar'],
+                                                         '| Gender=Neut | Number=Sing | PronType=Art>',
+                                                'arind', 'ar'],
                                                ['í', '<PART PartType=Dct>', 'i', 'í']],
                                               [['arind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
-                                                         '| Gender=Neut | Number=Sing>', 'arind', 'ar'],
+                                                         '| Gender=Neut | Number=Sing | PronType=Art>',
+                                                'arind', 'ar'],
                                                ['i', '<PART PartType=Dct>', 'i', 'í']],
                                               [['airind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
-                                                          '| Gender=Neut | Number=Sing>', 'airind', 'ar'],
+                                                          '| Gender=Neut | Number=Sing | PronType=Art>',
+                                                'airind', 'ar'],
                                                ['í', '<PART PartType=Dct>', 'i', 'í']],
                                               [['airind', '<ADP AdpType=Prep | Case=Dat | Definite=Def '
-                                                          '| Gender=Neut | Number=Sing>', 'airind', 'ar'],
+                                                          '| Gender=Neut | Number=Sing | PronType=Art>',
+                                                'airind', 'ar'],
                                                ['i', '<PART PartType=Dct>', 'i', 'í']]]:
                             del pos_list[j]
                             combine_subtract = True
@@ -3683,19 +3734,19 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
                     else:
                         last_three_pos = pos_list[j-3:j]
-                        if last_three_pos in [[['ar', '<ADP AdpType=Prep>', 'ar', 'ar'],
+                        if last_three_pos in [[['ar', '<ADP AdpType=Prep | Definite=Def>', 'ar', 'ar'],
                                                ['ind', '<DET Case=Dat | Gender=Neut '
                                                        '| Number=Sing | PronType=Art>', 'ind', 'a'],
                                                ['í', '<PART PartType=Dct>', 'i', 'í']],
-                                              [['ar', '<ADP AdpType=Prep>', 'ar', 'ar'],
+                                              [['ar', '<ADP AdpType=Prep | Definite=Def>', 'ar', 'ar'],
                                                ['ind', '<DET Case=Dat | Gender=Neut '
                                                        '| Number=Sing | PronType=Art>', 'ind', 'a'],
                                                ['i', '<PART PartType=Dct>', 'i', 'í']],
-                                              [['air', '<ADP AdpType=Prep>', 'air', 'ar'],
+                                              [['air', '<ADP AdpType=Prep | Definite=Def>', 'air', 'ar'],
                                                ['ind', '<DET Case=Dat | Gender=Neut '
                                                        '| Number=Sing | PronType=Art>', 'ind', 'a'],
                                                ['í', '<PART PartType=Dct>', 'i', 'í']],
-                                              [['air', '<ADP AdpType=Prep>', 'air', 'ar'],
+                                              [['air', '<ADP AdpType=Prep | Definite=Def>', 'air', 'ar'],
                                                ['ind', '<DET Case=Dat | Gender=Neut '
                                                        '| Number=Sing | PronType=Art>', 'ind', 'a'],
                                                ['i', '<PART PartType=Dct>', 'i', 'í']]]:
@@ -3707,8 +3758,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             print([i[0] for i in pos_list])
                             print([i[0] for i in standard_mapping])
                             raise RuntimeError("Could not find breakdown of combined conjunction, 'airindí'")
-    # remove doubled 'ol', and 'chenae' breakdown of adverb 'olchenae'
-    # cf. eDIL entries for 'olchena' and '1 ol, (al)' vs. entries for 'arindí' and '1 ar'
+    # remove combined adverb, 'olchenae', where it doubles the breakdown, 'ol', and 'chenae'
     olchena_list = [['olchene', '<ADV>', 'olchene', 'olchena'],
                     ['olchenae', '<ADV>', 'olchenae', 'olchena'],
                     ['olchenæ', '<ADV>', 'olchenae', 'olchena'],
@@ -3753,13 +3803,13 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                 if last_pos_data:
                     # check if the preceding two POS make up the combined form and delete them if so
                     if last_two_pos in olchena_parts:
-                        pos_list = pos_list[:j-2] + pos_list[j:]
+                        del pos_list[j]
                         combine_subtract = True
                         break
                     # if the preceding two POS did not make up the combined form, check the following two instead
                     elif next_pos_data:
                         if next_two_pos in olchena_parts:
-                            pos_list = pos_list[:j+1] + pos_list[j+3:]
+                            del pos_list[j]
                             combine_subtract = True
                             break
                 else:
