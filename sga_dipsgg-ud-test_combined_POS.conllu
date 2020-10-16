@@ -33230,9 +33230,7 @@
 # sent_id = 3102
 # reference = f.203-204 bottom marg. (TPH p.290)
 # text = Domfarcai fidbaidae fál fomchain lóid luin lúad nad cél huas mo lebrán ind línech fomchain trírech inna ṅén Fommchain cói menn medair mass hi ṁbrot glass de dindgnaib doss debrath nom choimmdiu cóima cáin scríbaimm fo róida ross
-# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—
-above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes:
-may the Lord be kind to me! I write well under the greenwood
+# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes: may the Lord be kind to me! I write well under the greenwood
 1	Domfarcai	dofarcai	VERB	_	Mood=Ind|Number=Sing|Person=3|PronClass=A|PronNum=Sing|PronPers=1|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
 2	fidbaidae	fidbaid	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 3	fál	fál	NOUN	_	Case=Nom|Number=Sing	_	_	_	_

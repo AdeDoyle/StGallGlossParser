@@ -34395,9 +34395,7 @@
 # sent_id = 3102
 # reference = f.203-204 bottom marg. (TPH p.290)
 # text = Do m farcai fidbaidae fál fo m chain lóid luin lúad nad cél huas mo lebrán ind línech fo m chain trírech inna ṅén Fo mm chain cói menn medair mass hi ṁbrot glass de dindgnaib doss debrath no m choimmdiu cóima cáin scríbaimm fo róida ross
-# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—
-above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes:
-may the Lord be kind to me! I write well under the greenwood
+# translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes: may the Lord be kind to me! I write well under the greenwood
 1	Do	do	PART	_	PartType=Vb	_	_	_	_
 2	m	m	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
 3	farcai	dofarcai	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_

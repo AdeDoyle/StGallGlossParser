@@ -5,6 +5,7 @@ from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word, clean_lemma
 import matplotlib.pyplot as plt
 import re
+from conllu import parse
 
 
 try:
@@ -156,6 +157,75 @@ def count_tag_usage(ordered_list, full_list):
         # save the updated tag to the tag_usage list
         tag_usage.append(tag)
     return tag_usage
+
+
+# As above for new UD POS tags only
+def count_pos_usage(file):
+    with open(file, "r", encoding="utf-8") as conllu_file:
+        sentences = parse(conllu_file.read())
+    ordered_list = list()
+    full_list = list()
+    for tok_list in sentences:
+        for tok_data in tok_list:
+            tok_pos = tok_data["upos"]
+            if tok_pos not in ordered_list:
+                ordered_list.append(tok_pos)
+            full_list.append(tok_pos)
+    ordered_list.sort()
+    print(f"Total Tags: {len(ordered_list)}")
+    pos_usage = list()
+    # for each unique POS
+    for pos in ordered_list:
+        count = 0
+        # check the unique POS against every POS used
+        for an in full_list:
+            # if the POS match, increase the usage-count for this POS by one
+            if pos == an:
+                count += 1
+        # add the total useage-count to the POS
+        pos = [count] + [pos]
+        # save the updated tag to the tag_usage list
+        pos_usage.append(pos)
+    return pos_usage
+
+
+# As above for new UD POS tags with features
+def count_feat_usage(file):
+    with open(file, "r", encoding="utf-8") as conllu_file:
+        sentences = parse(conllu_file.read())
+    ordered_list = list()
+    full_list = list()
+    for tok_list in sentences:
+        for tok_data in tok_list:
+            tok_pos = tok_data["upos"]
+            tok_feats_dict = tok_data["feats"]
+            tok_feats_list = list()
+            if tok_feats_dict:
+                for key in tok_feats_dict:
+                    tok_feats_list.append(f'{key}={tok_feats_dict[key]}')
+            tok_feats = " | ".join(tok_feats_list)
+            combined_pos = tok_pos
+            if tok_feats:
+                combined_pos = f'{tok_pos} {tok_feats}'
+            if combined_pos not in ordered_list:
+                ordered_list.append(combined_pos)
+            full_list.append(combined_pos)
+    ordered_list.sort()
+    print(f"Total Tags: {len(ordered_list)}")
+    pos_usage = list()
+    # for each unique POS
+    for pos in ordered_list:
+        count = 0
+        # check the unique POS against every POS used
+        for an in full_list:
+            # if the POS match, increase the usage-count for this POS by one
+            if pos == an:
+                count += 1
+        # add the total useage-count to the POS
+        pos = [count] + [pos]
+        # save the updated tag to the tag_usage list
+        pos_usage.append(pos)
+    return pos_usage
 
 
 # Count, print and graph the number of POS tag combinations which are used a given number of times
@@ -2180,6 +2250,18 @@ def create_wordlist(excel_combo):
 
 # # Count, print and plot tag usage figures
 # plot_tag_use(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses))
+
+# # Counts the number of times each unique POS or feature-set is used for the new corpora
+# for i in count_pos_usage("sga_test.conllu"):
+#     print(i)
+# for i in count_feat_usage("sga_test.conllu"):
+#     print(i)
+
+# # Count, print and plot tag usage figures for the new corpora
+# plot_tag_use(count_pos_usage("sga_dipsgg-ud-test_combined_POS.conllu"))
+# plot_tag_use(count_pos_usage("sga_dipsgg-ud-test_split_POS.conllu"))
+# plot_tag_use(count_feat_usage("sga_dipsgg-ud-test_combined_POS.conllu"))
+# plot_tag_use(count_feat_usage("sga_dipsgg-ud-test_split_POS.conllu"))
 
 
 # #                                                FUNCTION TESTS:
