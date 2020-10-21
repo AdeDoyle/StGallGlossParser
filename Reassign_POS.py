@@ -266,6 +266,98 @@ def plot_tag_use(tags_with_use_count):
     plt.show()
 
 
+def plot_all_tag_use(tags_with_use_count, tags2, tags3):
+    tag_usage = list()
+    for use_count_tag in tags_with_use_count:
+        tag_usage.append(use_count_tag[0])
+    # count the number of tags used each given number of times and add [count of use-count, use-count] to ordered list
+    tags_usecount = list()
+    alltagcount = sorted(tag_usage)
+    uniquetagscount = sorted(set(tag_usage))
+    for i in uniquetagscount:
+        tagusecount = alltagcount.count(i)
+        tags_usecount.append([i, tagusecount])
+    # plot 'use-count' and 'count of use-count' on X and Y axes respectively
+    X = list()
+    Y = list()
+    # identify highest number 'count of use-count' to use as an upper limit
+    high_usecount = tags_usecount[-1][0]
+    for i in range(high_usecount + 1):
+        for j in tags_usecount:
+            usecount = j[0]
+            if usecount == i:
+                countnum = j[1]
+                X.append(usecount)
+                Y.append(countnum)
+                print("No. of tags used {} time(s): {}".format(usecount, countnum))
+            elif usecount < i:
+                X.append(i)
+                Y.append(0)
+            else:
+                break
+    tag_usage = list()
+    for use_count_tag in tags2:
+        tag_usage.append(use_count_tag[0])
+    # count the number of tags used each given number of times and add [count of use-count, use-count] to ordered list
+    tags_usecount = list()
+    alltagcount = sorted(tag_usage)
+    uniquetagscount = sorted(set(tag_usage))
+    for i in uniquetagscount:
+        tagusecount = alltagcount.count(i)
+        tags_usecount.append([i, tagusecount])
+    # plot 'use-count' and 'count of use-count' on X and Y axes respectively
+    Q = list()
+    U = list()
+    # identify highest number 'count of use-count' to use as an upper limit
+    high_usecount = tags_usecount[-1][0]
+    for i in range(high_usecount + 1):
+        for j in tags_usecount:
+            usecount = j[0]
+            if usecount == i:
+                countnum = j[1]
+                Q.append(usecount)
+                U.append(countnum)
+                print("No. of tags used {} time(s): {}".format(usecount, countnum))
+            elif usecount < i:
+                Q.append(i)
+                U.append(0)
+            else:
+                break
+    tag_usage = list()
+    for use_count_tag in tags3:
+        tag_usage.append(use_count_tag[0])
+    # count the number of tags used each given number of times and add [count of use-count, use-count] to ordered list
+    tags_usecount = list()
+    alltagcount = sorted(tag_usage)
+    uniquetagscount = sorted(set(tag_usage))
+    for i in uniquetagscount:
+        tagusecount = alltagcount.count(i)
+        tags_usecount.append([i, tagusecount])
+    # plot 'use-count' and 'count of use-count' on X and Y axes respectively
+    M = list()
+    N = list()
+    # identify highest number 'count of use-count' to use as an upper limit
+    high_usecount = tags_usecount[-1][0]
+    for i in range(high_usecount + 1):
+        for j in tags_usecount:
+            usecount = j[0]
+            if usecount == i:
+                countnum = j[1]
+                M.append(usecount)
+                N.append(countnum)
+                print("No. of tags used {} time(s): {}".format(usecount, countnum))
+            elif usecount < i:
+                M.append(i)
+                N.append(0)
+            else:
+                break
+    plt.plot(X, Y, Q, U, M, N)
+    plt.title("Graph of Tag Usage in St. Gall Glosses")
+    plt.xlabel("Number of Times a Tag Is Used")
+    plt.ylabel("Number of Tags Used X Times")
+    plt.show()
+
+
 # Get all entries for a given POS-tag at any level
 def findall_thistag(wordlist, tag, tag_level=1):
     tag_level = tag_level - 1
@@ -2252,9 +2344,9 @@ def create_wordlist(excel_combo):
 # plot_tag_use(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses))
 
 # # Counts the number of times each unique POS or feature-set is used for the new corpora
-# for i in count_pos_usage("sga_test.conllu"):
+# for i in count_pos_usage("sga_dipsgg-ud-test_combined_POS.conllu"):
 #     print(i)
-# for i in count_feat_usage("sga_test.conllu"):
+# for i in count_feat_usage("sga_dipsgg-ud-test_combined_POS.conllu"):
 #     print(i)
 
 # # Count, print and plot tag usage figures for the new corpora
@@ -2262,6 +2354,9 @@ def create_wordlist(excel_combo):
 # plot_tag_use(count_pos_usage("sga_dipsgg-ud-test_split_POS.conllu"))
 # plot_tag_use(count_feat_usage("sga_dipsgg-ud-test_combined_POS.conllu"))
 # plot_tag_use(count_feat_usage("sga_dipsgg-ud-test_split_POS.conllu"))
+# plot_all_tag_use(count_tag_usage(open_obj("All POS Combos Used.pkl"), analyses),
+#                  count_feat_usage("sga_dipsgg-ud-test_combined_POS.conllu"),
+#                  count_feat_usage("sga_dipsgg-ud-test_split_POS.conllu"))
 
 
 # #                                                FUNCTION TESTS:
