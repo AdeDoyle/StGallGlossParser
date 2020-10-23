@@ -433,7 +433,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     # list all verbal particles which can be used in conjunction with a copula, but should be separated from them
     verbal_particles = [['nu', '<PART PartType=Vb>', 'nu', 'no']]
     # list all preverbal particles which can be used in conjunction with a copula, and should remain attached
-    copula_preverbal_parts = [['ro', '<PVP Mood=Sub>', 'ro', 'ro']]
+    copula_preverbal_parts = [['ro', '<PVP PartType=Aug>', 'ro', 'ro']]
     # list forms of the copula which have been combined with too many preceding parts of speech ((2<=) + copula)
     over_full_cops = [['cenid', '<AUX Polarity=Pos | VerbType=Cop>', 'cenid'],
                       ['corop', '<AUX Polarity=Pos | VerbType=Cop>', 'corop'],
@@ -1509,14 +1509,17 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                           ['no', '<PART Gender=Neut | Number=Sing | PartType=Vb | Person=3 | PronType=Prs>',
                            'no', 'no']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
-    verbal_particles = [['ro', '<PVP Aspect=Perf>', 'ro', 'ro'],
-                        ['rro', '<PVP Aspect=Perf>', 'rro', 'ro'],
-                        ['ru', '<PVP Aspect=Perf>', 'ru', 'ro'],
-                        ['ro', '<PVP Mood=Cnd>', 'ro', 'ro'],
-                        ['ro', '<PVP Mood=Pot>', 'ro', 'ro'],
-                        ['r', '<PVP Mood=Sub>', 'r', 'ro'],
-                        ['ro', '<PVP Mood=Sub>', 'ro', 'ro'],
-                        ['ru', '<PVP Mood=Sub>', 'ru', 'ro']]
+    verbal_particles = [['co', '<PVP PartType=Aug>', 'co', 'con'],
+                        ['có', '<PVP PartType=Aug>', 'co', 'com'],
+                        ['r', '<PVP PartType=Aug>', 'r', 'ro'],
+                        ['ri', '<PVP PartType=Aug>', 'ri', 'ro'],
+                        ['rri', '<PVP PartType=Aug>', 'rri', 'ro'],
+                        ['ro', '<PVP PartType=Aug>', 'ro', 'ro'],
+                        ['ró', '<PVP PartType=Aug>', 'ro', 'ro'],
+                        ['rro', '<PVP PartType=Aug>', 'rro', 'ro'],
+                        ['rror', '<PVP PartType=Aug>', 'rror', 'ro'],
+                        ['ru', '<PVP PartType=Aug>', 'ru', 'ro'],
+                        ['rru', '<PVP PartType=Aug>', 'rru', 'ro']]
     # list all preverbs which can be separated from the verbal complex when separating small parts-of-speech
     small_parts = [['a', '<PART PartType=Vb>', 'a', 'ad'],
                    ['ad', '<PART PartType=Vb>', 'ad', 'ad'],
@@ -2192,7 +2195,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats,
                                                                                   "replace",
                                                                                   [["Mood=Ind"], ["Mood=Pot"]])
-                                            verb_prefix_pos = add_features("<PART PartType=Vb>", verb_prefix_feats)
+                                            if verb_prefix_data in verbal_particles:
+                                                verb_prefix_pos = add_features("<PART>", verb_prefix_feats)
+                                            else:
+                                                verb_prefix_pos = add_features("<PART PartType=Vb>", verb_prefix_feats)
                                             verb_prefix_data = [verb_prefix, verb_prefix_pos,
                                                                 verb_prefix_standard, verb_prefix_head]
                                             verbal_affixes[verb_prefix_place] = verb_prefix_data
@@ -2840,22 +2846,6 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                             and "PronType=Prs" in verb_prefix_feats:
                                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats,
                                                                                   "combine", ["PronType"])
-                                                    elif "Mood=Ind" in tagged_feats and "Mood=Cnd" in verb_prefix_feats:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                  "replace",
-                                                                                  [["Mood=Ind"], ["Mood=Cnd"]])
-                                                    elif "Mood=Ind" in tagged_feats and "Mood=Pot" in verb_prefix_feats:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                  "replace",
-                                                                                  [["Mood=Ind"], ["Mood=Pot"]])
-                                                    elif "Mood=Sub" in tagged_feats and "Mood=Cnd" in verb_prefix_feats:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                  "combine", ["Mood"])
-                                                    elif "Aspect=Imp" in tagged_feats \
-                                                            and "Aspect=Perf" in verb_prefix_feats:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                  "replace",
-                                                                                  [["Aspect=Imp"], ["Aspect=Perf"]])
                                                     else:
                                                         raise RuntimeError(f"{tagged_word_data}, {verb_prefix_feats}")
                                                 tagged_word_data = [tagged_original, tagged_pos,
@@ -2867,40 +2857,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                     try:
                                                         tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                                     except RuntimeError:
-                                                        if "Mood=Ind" in tagged_feats \
-                                                                and "Mood=Pot" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "replace",
-                                                                                      [["Mood=Ind"], ["Mood=Pot"]])
-                                                        elif "Mood=Sub" in tagged_feats \
-                                                                and "Mood=Cnd" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "combine", ["Mood"])
-                                                        elif "Aspect=Imp" in tagged_feats \
-                                                                and "Aspect=Perf" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "replace",
-                                                                                      [["Aspect=Imp"], ["Aspect=Perf"]])
-                                                        else:
-                                                            print(tagged_pos, verb_prefix_feats)
-                                                            raise RuntimeError("Could not combine features")
+                                                        print(tagged_pos, verb_prefix_feats)
+                                                        raise RuntimeError("Could not combine features")
                                                 elif verb_prefix_data in verbal_particles:
-                                                    try:
-                                                        tagged_pos = add_features(tagged_pos, verb_prefix_feats)
-                                                    except RuntimeError:
-                                                        if "Mood=Ind" in tagged_feats \
-                                                                and "Mood=Pot" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "replace",
-                                                                                      [["Mood=Ind"], ["Mood=Pot"]])
-                                                        elif "Mood=Ind" in tagged_feats \
-                                                                and "Mood=Cnd" in verb_prefix_feats:
-                                                            tagged_pos = add_features(tagged_pos, verb_prefix_feats,
-                                                                                      "replace",
-                                                                                      [["Mood=Ind"], ["Mood=Cnd"]])
-                                                        else:
-                                                            print(tagged_pos, verb_prefix_feats)
-                                                            raise RuntimeError("Could not combine features")
+                                                    tagged_pos = add_features(tagged_pos, verb_prefix_feats)
                                                 tagged_word_data = [tagged_original, tagged_pos,
                                                                     tagged_standard, tagged_head]
                                                 pos_list[j] = tagged_word_data
@@ -2995,7 +2955,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         separate_short_pos = split_separate_pos[0]
                                         separate_feats = split_separate_pos[1]
                                         if separate_short_pos == "PVP":
-                                            separate_pos = add_features("<PART PartType=Vb>", separate_feats)
+                                            if separate_data in verbal_particles:
+                                                separate_pos = add_features("<PART>", separate_feats)
+                                            else:
+                                                separate_pos = add_features("<PART PartType=Vb>", separate_feats)
                                         elif separate_short_pos == "PRON":
                                             continue
                                         else:
@@ -3108,8 +3071,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                     elif second_last_data in verbal_particles and "PronType=Rel" in tagged_feats:
                                         tagged_original = sl_original + tagged_original
                                         tagged_standard = sl_standard + tagged_standard
-                                        tagged_pos = add_features(tagged_pos, sl_feats, "replace",
-                                                                  [["Mood=Ind"], ["Mood=Cnd"]])
+                                        tagged_pos = add_features(tagged_pos, sl_feats)
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
                                         second_last_data = False
                                         last_pos_data = False
@@ -3396,6 +3358,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 first_preverb_feats = split_first_preverb[1]
                                 if first_preverb_short_pos != "PVP":
                                     raise RuntimeError("first verbal affix following preposition is not a preverb")
+                                elif first_preverb_data in verbal_particles:
+                                    first_preverb_pos = add_features("<PART>", first_preverb_feats)
+                                    first_preverb_data = [first_preverb_original, first_preverb_pos,
+                                                          first_preverb_standard, first_preverb_head]
                                 else:
                                     first_preverb_pos = add_features("<PART PartType=Vb>", first_preverb_feats)
                                     first_preverb_data = [first_preverb_original, first_preverb_pos,
@@ -3438,9 +3404,14 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                     affix_feats = split_affix[1]
                                     replace_pron = False
                                     if affix_short_pos == "PVP":
-                                        affix_pos = add_features("<PART PartType=Vb>", affix_feats)
-                                        affix_data = [affix_original, affix_pos, affix_standard, affix_head]
-                                        pos_list[j-last_pos_place+1+affix_place] = affix_data
+                                        if affix_data in verbal_particles:
+                                            affix_pos = add_features("<PART>", affix_feats)
+                                            affix_data = [affix_original, affix_pos, affix_standard, affix_head]
+                                            pos_list[j - last_pos_place + 1 + affix_place] = affix_data
+                                        else:
+                                            affix_pos = add_features("<PART PartType=Vb>", affix_feats)
+                                            affix_data = [affix_original, affix_pos, affix_standard, affix_head]
+                                            pos_list[j-last_pos_place+1+affix_place] = affix_data
                                     elif affix_short_pos == "IFP":
                                         verb_start_pos = affix_place + 1
                                         if not combine_wordtoks:
@@ -3671,9 +3642,9 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             continue
                         elif "PartType=Vb" in next_feats:
                             continue
-                        elif "Polarity=Neg" in next_feats:
+                        elif "PartType=Aug" in next_feats:
                             continue
-                        elif "Aspect=Perf" in next_feats:
+                        elif "Polarity=Neg" in next_feats:
                             continue
                         else:
                             print(tagged_word_data)
@@ -3967,19 +3938,19 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                     next_pos_data = False
                 olchena_parts = [[['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
                                   ['chene', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
-                                            '| Number=3 | Person=Sing | PronType=Prs>', 'chene', 'cen']],
+                                            '| Number=Sing | Person=3 | PronType=Prs>', 'chene', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
                                   ['chenæ', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
-                                            '| Number=3 | Person=Sing | PronType=Prs>', 'chenae', 'cen']],
+                                            '| Number=Sing | Person=3 | PronType=Prs>', 'chenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
                                   ['chenae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
-                                             '| Number=3 | Person=Sing | PronType=Prs>', 'chenae', 'cen']],
+                                             '| Number=Sing | Person=3 | PronType=Prs>', 'chenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
                                   ['chænae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
-                                             '| Number=3 | Person=Sing | PronType=Prs>', 'chaenae', 'cen']],
+                                             '| Number=Sing | Person=3 | PronType=Prs>', 'chaenae', 'cen']],
                                  [['ol', '<ADP AdpType=Prep | Definite=Ind>', 'ol', 'ol'],
                                   ['chaenae', '<ADP AdpType=Prep | Definite=Ind | Gender=Masc,Neut '
-                                              '| Number=3 | Person=Sing | PronType=Prs>', 'chaenae', 'cen']]]
+                                              '| Number=Sing | Person=3 | PronType=Prs>', 'chaenae', 'cen']]]
                 # find the two POS preceding and following the combined form, if there are two
                 if last_pos_data:
                     # check if the preceding two POS make up the combined form and delete them if so

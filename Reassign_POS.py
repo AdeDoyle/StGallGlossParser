@@ -1637,8 +1637,8 @@ def clean_analysis(taglist, test_unknown=False):
                 persnumpatiter = persnumpat.finditer(An3)
                 for persnumfind in persnumpatiter:
                     persnum = persnumfind.group()
-                    number = persnum[1:2]
-                    person = numdict.get(persnum[2:4])
+                    number = numdict.get(persnum[2:4])
+                    person = persnum[1:2]
                 feat_list = list()
                 feat_list.append("AdpType=Prep")
                 feat_list.append("Definite=Ind")
@@ -2024,22 +2024,10 @@ def clean_analysis(taglist, test_unknown=False):
                 relative = False
                 if rel == "Y":
                     relative = "Rel"
-                aspect = False
-                mood = False
-                if trans:
-                    if trans == "perfective particle":
-                        aspect = "Perf"
-                    elif trans == "subjunctive ro":
-                        mood = "Sub"
-                    elif trans == "ro of possibility":
-                        mood = "Pot"
-                    elif trans == "conditional ro":
-                        mood = "Cnd"
                 feat_list = list()
-                if aspect:
-                    feat_list.append(f'Aspect={aspect}')
-                if mood:
-                    feat_list.append(f'Mood={mood}')
+                if trans:
+                    if trans in ["perfective particle", "subjunctive ro", "ro of possibility", "conditional ro"]:
+                        feat_list.append('PartType=Aug')
                 if relative:
                     feat_list.append(f'PronType={relative}')
                 if not actpas:
