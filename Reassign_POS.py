@@ -1134,7 +1134,7 @@ def clean_analysis(taglist, test_unknown=False):
                  'fut.': 'Fut', 'sec.fut.': 'Fut'}
     numdict = {'pl.': 'Plur', 'sg.': 'Sing'}
     mooddict = {'cond.': 'Cnd', 'sec.fut.': 'Cnd', 'impv.': 'Imp', 'ind.': 'Ind', 'subj.': 'Sub'}
-    aspdict = {'cons.pres.': 'Hab', 'imperf.': 'Imp', 'perf.': 'Perf'}
+    aspdict = {'cons.pres.': 'Hab', 'imperf.': 'Imp'}
     # Substantive Verb
     if An1 == 'verb':
         if An2 == 'substantive verb':
@@ -1153,7 +1153,7 @@ def clean_analysis(taglist, test_unknown=False):
                 for find_tense in tensepatiter:
                     tense = tensedict.get(find_tense.group())
                 aspect = False
-                asppat = re.compile(r'(cons\.pres|imperf|perf)\.')
+                asppat = re.compile(r'(cons\.pres|imperf)\.')
                 asppatiter = asppat.finditer(An3)
                 for asp_find in asppatiter:
                     aspect = aspdict.get(asp_find.group())
@@ -2050,13 +2050,10 @@ def clean_analysis(taglist, test_unknown=False):
                 mood = False
                 if An3 == 'subjunctive ro':
                     mood = 'Sub'
-                aspect = False
+                feat_list = list()
                 if trans:
                     if trans == "perfective particle":
-                        aspect = "Perf"
-                feat_list = list()
-                if aspect:
-                    feat_list.append(f'Aspect={aspect}')
+                        feat_list.append('PartType=Aug')
                 if mood:
                     feat_list.append(f'Mood={mood}')
                 if not actpas:

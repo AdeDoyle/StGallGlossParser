@@ -1509,8 +1509,9 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                           ['no', '<PART Gender=Neut | Number=Sing | PartType=Vb | Person=3 | PronType=Prs>',
                            'no', 'no']]
     # list preverbs which are sometimes described as verbal particles, but can be compounded within the verbal complex
-    verbal_particles = [['co', '<PVP PartType=Aug>', 'co', 'con'],
-                        ['có', '<PVP PartType=Aug>', 'co', 'com'],
+    verbal_particles = [['có', '<PVP PartType=Aug>', 'co', 'com'],
+                        ['ch', '<PVP PartType=Aug>', 'ch', 'con'],
+                        ['co', '<PVP PartType=Aug>', 'co', 'con'],
                         ['r', '<PVP PartType=Aug>', 'r', 'ro'],
                         ['ri', '<PVP PartType=Aug>', 'ri', 'ro'],
                         ['rri', '<PVP PartType=Aug>', 'rri', 'ro'],
