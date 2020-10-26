@@ -527,7 +527,7 @@
 # text = cenmitha fodailter ind rann insce
 # translation = besides that the part of speech is divided
 1	cenmitha	cenmithá	SCONJ	_	_	_	_	_	_
-2	fodailter	fodáli	VERB	_	Mood=Ind|Voice=Pass	_	_	_	_
+2	fodailter	fodáli	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 3	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 4	rann	rann	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	insce	insce	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
@@ -1633,7 +1633,7 @@
 # text = ní roscríbad ar aill na
 # translation = it has not been written for anything else unless, etc.
 1	ní	ní	PART	_	Polarity=Neg	_	_	_	_
-2	roscríbad	scríbaid	VERB	_	Mood=Ind|PartType=Aug|Voice=Act	_	_	_	_
+2	roscríbad	scríbaid	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=3|Tense=Past|Voice=Pass	_	_	_	_
 3	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	aill	aile	ADJ	_	Case=Acc|Degree=Pos|Number=Plur	_	_	_	_
 5	na	nach	PRON	_	PronType=Ind	_	_	_	_
@@ -2306,7 +2306,7 @@
 1	in	in	DET	_	Case=Acc|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 2	tan	tan	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 3	aran-ecatar	_	X	_	Foreign=Yes	_	_	_	_
-4	aranecatar	aricc	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+4	aranecatar	aricc	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 206
 # reference = 8a6
@@ -2714,7 +2714,7 @@
 10	carachtar	cárachtar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 11	tinfith	tinfed	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 12	amal	amal	SCONJ	_	_	_	_	_	_
-13	dondgnítis	dogní	VERB	_	Mood=Ind|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs,Rel|Voice=Act	_	_	_	_
+13	dondgnítis	dogní	VERB	_	Aspect=Imp|Mood=Ind|Number=Plur|Person=3|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs,Rel|Tense=Past|Voice=Act	_	_	_	_
 14	sen	sen	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
 15	greic	gréc	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 
@@ -3940,7 +3940,7 @@
 # text = nis narróetmar ni sidi
 # translation = we have not accepted this
 1	nis	ní	PART	_	Polarity=Neg|PronClass=A|PronGend=Fem|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
-2	narróetmar	arfoím	VERB	_	Mood=Ind|PartType=Aug|Voice=Act	_	_	_	_
+2	narróetmar	arfoím	VERB	_	Aspect=Perf|Mood=Ind|Number=Plur|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
 3	ni	ni	PRON	_	Number=Plur|Person=1|PronType=Emp	_	_	_	_
 4	sidi	side	PRON	_	PronType=Ana	_	_	_	_
 
@@ -4593,7 +4593,7 @@
 # text = .i. conroscaiged ei ɫ i in e hi suidib
 # translation = i.e. ei or i was changed into e in these examples
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	conroscaiged	conoscaigi	VERB	_	Mood=Ind|PartType=Aug|Voice=Pass	_	_	_	_
+2	conroscaiged	conoscaigi	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|PartType=Aug|Person=3|Tense=Past|Voice=Pass	_	_	_	_
 3	ei	_	X	_	Foreign=Yes	_	_	_	_
 4	ɫ	nó	CCONJ	_	_	_	_	_	_
 5	i	_	X	_	Foreign=Yes	_	_	_	_
@@ -5507,7 +5507,7 @@
 # reference = 24a14
 # text = airléch
 # translation = recite!
-1	airléch	arléga	VERB	_	Mood=Ind|Voice=Act	_	_	_	_
+1	airléch	arléga	VERB	_	Mood=Imp|Number=Sing|Person=2|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 515
 # reference = 24a15
@@ -5998,7 +5998,7 @@
 10	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 11	carachtar	cárachtar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 12	ci	cía	SCONJ	_	_	_	_	_	_
-13	aridberam	arbeir	VERB	_	Mood=Ind|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs,Rel|Voice=Act	_	_	_	_
+13	aridberam	arbeir	VERB	_	Mood=Ind|Number=Plur|Person=1|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs,Rel|Tense=Pres|Voice=Act	_	_	_	_
 14	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 15	céill	cíall	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 16	a	_	X	_	Foreign=Yes	_	_	_	_
@@ -6053,7 +6053,7 @@
 10	apud	_	X	_	Foreign=Yes	_	_	_	_
 11	adverbium	_	X	_	Foreign=Yes	_	_	_	_
 12	numerant	_	X	_	Foreign=Yes	_	_	_	_
-13	atarimet	adrími	VERB	_	Mood=Ind|PronClass=A|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Voice=Act	_	_	_	_
+13	atarimet	adrími	VERB	_	Mood=Ind|Number=Plur|Person=3|PronClass=A|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
 14	comroirnich	comroircnech	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Plur	_	_	_	_
 15	inna	in	DET	_	Case=Gen|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
 16	grec	gréc	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
@@ -6251,7 +6251,7 @@
 10	Dofúasailcet	dofúasailci	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 11	a	a	DET	_	Case=Acc|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 12	nimmchomarc	imchomarc	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-13	immechomarcar	immcomairc	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+13	immechomarcar	immcomairc	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 14	tri	tre	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 15	quis	_	X	_	Foreign=Yes	_	_	_	_
 16	⁊	_	X	_	Foreign=Yes	_	_	_	_
@@ -6784,7 +6784,7 @@
 # text = .i. notaitir
 # translation = i.e. they are written
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	notaitir	notaid	VERB	_	Mood=Ind|Voice=Pass	_	_	_	_
+2	notaitir	notaid	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 620
 # reference = 28a12
@@ -7113,7 +7113,7 @@
 4	didiu	didiu	ADV	_	_	_	_	_	_
 5	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 6	hé	é	PRON	_	Number=Plur|Person=3|PronType=Prs	_	_	_	_
-7	doḟormmagddar	doformaig	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+7	doḟormmagddar	doformaig	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 8	donaib	do	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
 9	anmmanaib	ainm	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
 10	adiectaib	adiacht	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
@@ -7419,7 +7419,7 @@
 5	dílsi	díles	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
 6	di	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 7	a	a	PART	_	PronType=Rel	_	_	_	_
-8	nacomlatar	adcomla	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+8	nacomlatar	adcomla	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 9	híc	_	X	_	Foreign=Yes	_	_	_	_
 10	tantum	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -8082,7 +8082,7 @@
 14	laithe	lae	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 15	in	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 16	sin	sin	PART	_	PronType=Dem	_	_	_	_
-17	roṅgenair	gainithir	VERB	_	Mood=Ind|PartType=Aug|PronType=Rel|Voice=Act	_	_	_	_
+17	roṅgenair	gainithir	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|PartType=Aug|Person=3|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
 18	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 19	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
 20	arind	ar	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
@@ -9029,7 +9029,7 @@
 2	primitivorum	_	X	_	Foreign=Yes	_	_	_	_
 3	hu	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	a	a	PART	_	PronType=Rel	_	_	_	_
-5	ndirrudigeddar	díṡruthaigidir	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+5	ndirrudigeddar	díṡruthaigidir	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 803
 # reference = 33a24
@@ -10312,7 +10312,7 @@
 5	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 6	hé	é	PRON	_	Number=Plur|Person=3|PronType=Prs	_	_	_	_
 7	sidi	side	PRON	_	PronType=Ana	_	_	_	_
-8	conṅdelggaddar	condelca	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+8	conṅdelggaddar	condelca	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 9	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 10	persanaib	persan	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
 
@@ -10780,7 +10780,7 @@
 4	ní	ní	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	a	a	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 6	sa	a	PART	_	PronType=Rel	_	_	_	_
-7	narbaram	arbeir	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+7	narbaram	arbeir	VERB	_	Mood=Ind|Number=Plur|Person=1|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 8	dærscugud	derscugud	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 9	di	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 10	neuch	nech	PRON	_	Case=Dat|Gender=Masc|Number=Sing|PronType=Ind	_	_	_	_
@@ -12506,7 +12506,7 @@
 # translation = because l is not doubled
 1	huare	óre	SCONJ	_	_	_	_	_	_
 2	nád	ná	PART	_	Polarity=Neg|PronType=Rel	_	_	_	_
-3	nemantar	emnaid	VERB	_	Mood=Ind|PronType=Rel|Voice=Pass	_	_	_	_
+3	nemantar	emnaid	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 4	l	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 1174
@@ -14551,8 +14551,8 @@
 # sent_id = 1413
 # reference = 56b11
 # text = cosmailigeddar
-# translation = (can) be compared
-1	cosmailigeddar	cosmailigidir	VERB	_	Mood=Ind|Voice=Pass	_	_	_	_
+# translation = which is compared
+1	cosmailigeddar	cosmailigidir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 1414
 # reference = 56b12
@@ -15575,7 +15575,7 @@
 # reference = 61a14
 # text = conmescatar da cenél indib
 # translation = two genders are mixed in them
-1	conmescatar	conmesca	VERB	_	Mood=Ind|Voice=Pass	_	_	_	_
+1	conmescatar	conmesca	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 2	da	da	NUM	_	_	_	_	_	_
 3	cenél	cenél	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 4	indib	i	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
@@ -19231,7 +19231,7 @@
 # translation = i.e. though the words that are in the compound are separated they return to integrity, and signify somewhat after their separation
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	cia	cía	SCONJ	_	_	_	_	_	_
-3	etirscartar	etarscara	VERB	_	Mood=Ind|Voice=Pass	_	_	_	_
+3	etirscartar	etarscara	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 4	inna	in	DET	_	Case=Nom|Gender=Fem|Number=Plur|PronType=Art	_	_	_	_
 5	eperta	epert	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 6	bíte	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
@@ -31300,7 +31300,7 @@
 6	cesad	césad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 7	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 8	neuch	nech	PRON	_	Case=Dat|Gender=Masc|Number=Sing|PronType=Ind	_	_	_	_
-9	forrorcongrad	forcongair	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|PartType=Aug|Person=3|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
+9	forrorcongrad	forcongair	VERB	_	Aspect=Perf|Mood=Ind|Number=Sing|PartType=Aug|Person=3|PronType=Rel|Tense=Past|Voice=Pass	_	_	_	_
 10	gním	gnim	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 11	iarum	íar	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 12	dond	do	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
