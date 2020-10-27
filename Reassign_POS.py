@@ -2096,15 +2096,18 @@ def clean_analysis(taglist, test_unknown=False):
                 pronpers = numpers[0]
                 if " " in numpers:
                     prongend = gend_dict.get(numpers[-1])
-            feat_list = list()
-            feat_list.append(f'PronClass={pronclass}')
-            if prongend:
-                feat_list.append(f'PronGend={prongend}')
-            feat_list.append(f'PronNum={pronnum}')
-            feat_list.append(f'PronPers={pronpers}')
-            feat_list.append('PronType=Prs')
-            features = " | ".join(feat_list)
             if not An3:
+                feat_list = list()
+                if trans not in ['after ma + indicative', 'with cía 2 + indicative']:
+                    feat_list.append(f'PronClass={pronclass}')
+                    if prongend:
+                        feat_list.append(f'PronGend={prongend}')
+                    feat_list.append(f'PronNum={pronnum}')
+                    feat_list.append(f'PronPers={pronpers}')
+                    feat_list.append('PronType=Prs')
+                else:
+                    feat_list.append('PronType=Void')
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
                         pos = f"IFP {features}"

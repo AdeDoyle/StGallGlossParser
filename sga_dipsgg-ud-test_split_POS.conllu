@@ -4251,7 +4251,7 @@
 7	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 8	ci	cía	SCONJ	_	_	_	_	_	_
 9	nu	no	PART	_	PartType=Vb	_	_	_	_
-10	d	is	AUX	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+10	d	d	PRON	_	PronType=Void	_	_	_	_
 11	…	_	X	_	Foreign=Yes	_	_	_	_
 12	ɫ	nó	CCONJ	_	_	_	_	_	_
 13	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -7771,7 +7771,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
 3	no	no	PART	_	PartType=Vb	_	_	_	_
-4	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+4	d	d	PRON	_	PronType=Void	_	_	_	_
 5	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 6	chotarsnataith	cotarsnatu	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 7	etarru	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
@@ -12547,7 +12547,7 @@
 # translation = although it has not a masculine or feminine comparative
 1	ce	cía	SCONJ	_	_	_	_	_	_
 2	ni	ní	PART	_	Polarity=Neg	_	_	_	_
-3	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+3	d	d	PRON	_	PronType=Void	_	_	_	_
 4	ḟil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 5	comparit	comparit	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 6	masculinus	_	X	_	Foreign=Yes	_	_	_	_
@@ -15260,18 +15260,20 @@
 
 # sent_id = 1440
 # reference = 58b1
-# text = ci ruburt a mbuith as nominibus secundae declinationis ⁊ id
+# text = ci as id ruburt a mbuith a nominibus secundae declinationis ⁊ tertiae
 # translation = although I have said that they are from nouns of the second and third declension
 1	ci	cía	SCONJ	_	_	_	_	_	_
-2	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
-3	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-4	mbuith	both	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-5	as	as	PART	_	PartType=Vb	_	_	_	_
-6	nominibus	_	X	_	Foreign=Yes	_	_	_	_
-7	secundae	_	X	_	Foreign=Yes	_	_	_	_
-8	declinationis	_	X	_	Foreign=Yes	_	_	_	_
-9	⁊	_	X	_	Foreign=Yes	_	_	_	_
-10	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+2	as	as	PART	_	PartType=Vb	_	_	_	_
+3	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+4	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
+5	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+6	mbuith	both	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+7	a	_	X	_	Foreign=Yes	_	_	_	_
+8	nominibus	_	X	_	Foreign=Yes	_	_	_	_
+9	secundae	_	X	_	Foreign=Yes	_	_	_	_
+10	declinationis	_	X	_	Foreign=Yes	_	_	_	_
+11	⁊	_	X	_	Foreign=Yes	_	_	_	_
+12	tertiae	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 1441
 # reference = 58b2
@@ -15384,7 +15386,7 @@
 # translation = though I say that it is from uitis
 1	cia	cía	SCONJ	_	_	_	_	_	_
 2	as	as	PART	_	PartType=Vb	_	_	_	_
-3	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+3	id	d	PRON	_	PronType=Void	_	_	_	_
 4	biur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 5	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	buith	both	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -17594,7 +17596,7 @@
 
 # sent_id = 1690
 # reference = 66b10
-# text = air is aimser derb do foirnde in na hilur is airi is masculinda air in tain as bir di is derb a lín lathe a nd apir
+# text = air is aimser derb do foirnde in na hilur is airi is masculinda air in tain as bir dies is derb a lín lathe di a nd apir
 # translation = since it is a certain time that it signifies in its plural, therefore it is masculine, for when you say dies the number of days of which you so speak is certain
 1	air	ar	SCONJ	_	_	_	_	_	_
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -17614,15 +17616,16 @@
 16	tain	tan	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 17	as	as	PART	_	PartType=Vb	_	_	_	_
 18	bir	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=2|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-19	di	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+19	dies	_	X	_	Foreign=Yes	_	_	_	_
 20	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 21	derb	derb	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 22	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 23	lín	lín	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 24	lathe	lae	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
-25	a	a	PART	_	PronType=Rel	_	_	_	_
-26	nd	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-27	apir	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=2|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+25	di	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+26	a	a	PART	_	PronType=Rel	_	_	_	_
+27	nd	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+28	apir	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=2|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 1691
 # reference = 66b11
@@ -21618,7 +21621,7 @@
 
 # sent_id = 2065
 # reference = 99a3
-# text = .i. ar ni iovis genitivus ind í as iuppiter id ruburt túas ar biid cia cene as
+# text = .i. ar ni iovis genitivus ind í as iuppiter cia as id ruburt túas ar biid iovis cene nominativo
 # translation = i.e. for the genitive of Jupiter is not Jovis, though I have said it above, for Jovis is already as a nominative
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ar	ar	SCONJ	_	_	_	_	_	_
@@ -21629,14 +21632,16 @@
 7	í	í	PART	_	PartType=Dct	_	_	_	_
 8	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 9	iuppiter	_	X	_	Foreign=Yes	_	_	_	_
-10	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-11	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
-12	túas	túas	ADV	_	_	_	_	_	_
-13	ar	ar	SCONJ	_	_	_	_	_	_
-14	biid	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-15	cia	cía	SCONJ	_	_	_	_	_	_
-16	cene	cían	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-17	as	as	PART	_	PartType=Vb	_	_	_	_
+10	cia	cía	SCONJ	_	_	_	_	_	_
+11	as	as	PART	_	PartType=Vb	_	_	_	_
+12	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+13	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
+14	túas	túas	ADV	_	_	_	_	_	_
+15	ar	ar	SCONJ	_	_	_	_	_	_
+16	biid	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+17	iovis	_	X	_	Foreign=Yes	_	_	_	_
+18	cene	cían	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+19	nominativo	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2066
 # reference = 99b1
@@ -22197,7 +22202,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ci	cía	SCONJ	_	_	_	_	_	_
 3	as	as	PART	_	PartType=Vb	_	_	_	_
-4	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+4	id	d	PRON	_	PronType=Void	_	_	_	_
 5	biur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 6	sa	sa	PRON	_	Number=Sing|Person=1|PronType=Emp	_	_	_	_
 7	frit	fri	ADP	_	AdpType=Prep|Definite=Ind|Number=Sing|Person=2|PronType=Prs	_	_	_	_
@@ -22639,7 +22644,7 @@
 # translation = though I say uetus
 1	cia	cía	SCONJ	_	_	_	_	_	_
 2	as	as	PART	_	PartType=Vb	_	_	_	_
-3	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+3	id	d	PRON	_	PronType=Void	_	_	_	_
 4	biur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
 5	sa	sa	PRON	_	Number=Sing|Person=1|PronType=Emp	_	_	_	_
 6	vetus	_	X	_	Foreign=Yes	_	_	_	_
@@ -25689,7 +25694,7 @@
 
 # sent_id = 2436
 # reference = 148b8
-# text = delb tri tuisel foraib ɫ it rec tri tuisil hi
+# text = delb tri tuisel foraib ɫ it tri tuisil hi rec reliqua quod melius
 # translation = i.e. a paradigm of three cases upon them: or it is three cases simply, quod melius
 1	delb	delb	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 2	tri	trí	NUM	_	_	_	_	_	_
@@ -25697,10 +25702,13 @@
 4	foraib	for	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 5	ɫ	nó	CCONJ	_	_	_	_	_	_
 6	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-7	rec	recc	ADJ	_	Degree=Pos	_	_	_	_
-8	tri	trí	NUM	_	_	_	_	_	_
-9	tuisil	tuisel	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
-10	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+7	tri	trí	NUM	_	_	_	_	_	_
+8	tuisil	tuisel	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
+9	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+10	rec	recc	ADJ	_	Degree=Pos	_	_	_	_
+11	reliqua	_	X	_	Foreign=Yes	_	_	_	_
+12	quod	_	X	_	Foreign=Yes	_	_	_	_
+13	melius	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2437
 # reference = 148b9
@@ -27855,22 +27863,25 @@
 
 # sent_id = 2603
 # reference = 163b10
-# text = .i. do berr dondligudso i frithcheist .i. dligud do fuit dechor n so personas
+# text = .i. do berr do n dligud so i frithcheist .i. cur non fuit dechor inter primas personas
 # translation = i.e. (the question) is put to this law in opposition, i.e. why was there no difference between the first persons
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	do	do	PART	_	PartType=Vb	_	_	_	_
 3	berr	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
-4	dondligudso	_	X	_	Foreign=Yes	_	_	_	_
-5	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-6	frithcheist	frithchest	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-7	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-8	dligud	dliged	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-9	do	do	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
-10	fuit	_	X	_	Foreign=Yes	_	_	_	_
-11	dechor	dechor	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-12	n	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-13	so	so	PART	_	PronType=Dem	_	_	_	_
-14	personas	_	X	_	Foreign=Yes	_	_	_	_
+4	do	do	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
+5	n	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+6	dligud	dliged	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+7	so	so	PART	_	PronType=Dem	_	_	_	_
+8	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+9	frithcheist	frithchest	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+10	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+11	cur	_	X	_	Foreign=Yes	_	_	_	_
+12	non	_	X	_	Foreign=Yes	_	_	_	_
+13	fuit	_	X	_	Foreign=Yes	_	_	_	_
+14	dechor	dechor	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+15	inter	_	X	_	Foreign=Yes	_	_	_	_
+16	primas	_	X	_	Foreign=Yes	_	_	_	_
+17	personas	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2604
 # reference = 164a1
@@ -30749,7 +30760,7 @@
 # translation = though there is a Greek positive to it
 1	ce	cía	SCONJ	_	_	_	_	_	_
 2	no	no	PART	_	PartType=Vb	_	_	_	_
-3	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+3	d	d	PRON	_	PronType=Void	_	_	_	_
 4	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 5	posit	posit	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 6	grecda	grécde	ADJ	_	Case=Acc|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
@@ -30902,7 +30913,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
 3	no	no	PART	_	PartType=Vb	_	_	_	_
-4	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+4	d	d	PRON	_	PronType=Void	_	_	_	_
 5	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 6	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 7	nerchre	airchrae	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
@@ -31473,7 +31484,7 @@
 # translation = if it determines
 1	ma	má	SCONJ	_	_	_	_	_	_
 2	nu	no	PART	_	PartType=Vb	_	_	_	_
-3	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+3	d	d	PRON	_	PronType=Void	_	_	_	_
 4	chinni	cinnid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2885
@@ -33736,7 +33747,7 @@
 
 # sent_id = 3049
 # reference = 203a10
-# text = .i. co mbad air no beth cum fri fine sna sa ar choibnius comaccomla
+# text = .i. co mbad air no beth cum in fine in supradictis ar choibnius fri sna comaccomla sa
 # translation = i.e. it would be therefore that cum is in fine in the words aforesaid, on account of its affinity to these conjunctions
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	co	co	SCONJ	_	_	_	_	_	_
@@ -33745,13 +33756,16 @@
 5	no	no	PART	_	PartType=Vb	_	_	_	_
 6	beth	attá	VERB	_	Mood=Sub|Number=Sing|Person=3|Tense=Past|Voice=Act	_	_	_	_
 7	cum	_	X	_	Foreign=Yes	_	_	_	_
-8	fri	fri	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
+8	in	_	X	_	Foreign=Yes	_	_	_	_
 9	fine	_	X	_	Foreign=Yes	_	_	_	_
-10	sna	a	DET	_	Case=Acc|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
-11	sa	so	PART	_	PronType=Dem	_	_	_	_
+10	in	_	X	_	Foreign=Yes	_	_	_	_
+11	supradictis	_	X	_	Foreign=Yes	_	_	_	_
 12	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 13	choibnius	coibnius	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-14	comaccomla	comaccomol	NOUN	_	Case=Acc|Number=Plur	_	_	_	_
+14	fri	fri	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
+15	sna	a	DET	_	Case=Acc|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
+16	comaccomla	comaccomol	NOUN	_	Case=Acc|Number=Plur	_	_	_	_
+17	sa	so	PART	_	PronType=Dem	_	_	_	_
 
 # sent_id = 3050
 # reference = 203a11
@@ -35811,16 +35825,17 @@
 
 # sent_id = 3196
 # reference = 209b19–21
-# text = dú do neprennet .i. dú i air estar
+# text = .i. dú do neprennet .i. dú in air estar
 # translation = where they flow forth, i.e. where they remain
-1	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	do	do	PART	_	PartType=Vb	_	_	_	_
-3	neprennet	doeprinn	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-5	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-6	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-7	air	ar	PART	_	PartType=Vb	_	_	_	_
-8	estar	arsissedar	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+3	do	do	PART	_	PartType=Vb	_	_	_	_
+4	neprennet	doeprinn	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+5	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+6	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+7	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+8	air	ar	PART	_	PartType=Vb	_	_	_	_
+9	estar	arsissedar	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 3197
 # reference = 209b22
@@ -36023,7 +36038,7 @@
 43	sui	_	X	_	Foreign=Yes	_	_	_	_
 44	ce	cía	SCONJ	_	_	_	_	_	_
 45	nu	no	PART	_	PartType=Vb	_	_	_	_
-46	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+46	d	d	PRON	_	PronType=Void	_	_	_	_
 47	ḟil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 48	gním	gním	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 49	⁊	ocus	CCONJ	_	_	_	_	_	_
@@ -36976,7 +36991,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
 3	no	no	PART	_	PartType=Vb	_	_	_	_
-4	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+4	d	d	PRON	_	PronType=Void	_	_	_	_
 5	chosmailigetar	cosmailigidir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 6	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 7	cumscugud	cumscugud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
@@ -38272,24 +38287,25 @@
 
 # sent_id = 3391
 # reference = 218a6
-# text = .i. as id ruburt nand gnáth ci hi comsuidigud acht is con bis tar a hési
+# text = .i. ci as id ruburt nand gnáth cum hi comsuidigud acht is con bis tar a hési
 # translation = i.e. though I have said that cum is not usual in composition, but con is in place of it
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	as	as	PART	_	PartType=Vb	_	_	_	_
-3	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-4	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
-5	nand	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
-6	gnáth	gnáth	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-7	ci	cía	SCONJ	_	_	_	_	_	_
-8	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-9	comsuidigud	comṡuidigud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-10	acht	acht	SCONJ	_	_	_	_	_	_
-11	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-12	con	_	X	_	Foreign=Yes	_	_	_	_
-13	bis	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-14	tar	tar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-15	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-16	hési	éis	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
+2	ci	cía	SCONJ	_	_	_	_	_	_
+3	as	as	PART	_	PartType=Vb	_	_	_	_
+4	id	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+5	ruburt	asbeir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
+6	nand	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+7	gnáth	gnáth	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
+8	cum	_	X	_	Foreign=Yes	_	_	_	_
+9	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+10	comsuidigud	comṡuidigud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+11	acht	acht	SCONJ	_	_	_	_	_	_
+12	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+13	con	_	X	_	Foreign=Yes	_	_	_	_
+14	bis	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+15	tar	tar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+16	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+17	hési	éis	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
 # sent_id = 3392
 # reference = 218a7
@@ -38834,7 +38850,7 @@
 
 # sent_id = 3444
 # reference = 222a6
-# text = ar ma d hí comsuidigud is in bís and na luc som hi suidiu
+# text = ar ma d hí comsuidigud is con bís and in na luc som hi suidiu
 # translation = for if cum be in composition it is con that is in its place herein
 1	ar	ar	SCONJ	_	_	_	_	_	_
 2	ma	má	SCONJ	_	_	_	_	_	_
@@ -38842,14 +38858,15 @@
 4	hí	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	comsuidigud	comṡuidigud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 6	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-7	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+7	con	_	X	_	Foreign=Yes	_	_	_	_
 8	bís	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 9	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-10	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-11	luc	loc	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-12	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
-13	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-14	suidiu	suide	PRON	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Ana	_	_	_	_
+10	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+11	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+12	luc	loc	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+13	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
+14	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+15	suidiu	suide	PRON	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Ana	_	_	_	_
 
 # sent_id = 3445
 # reference = 222a7

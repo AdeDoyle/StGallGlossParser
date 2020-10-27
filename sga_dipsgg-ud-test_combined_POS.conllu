@@ -4137,7 +4137,7 @@
 6	quanquam	_	X	_	Foreign=Yes	_	_	_	_
 7	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 8	ci	cía	SCONJ	_	_	_	_	_	_
-9	nud	is	AUX	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+9	nud	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 10	…	_	X	_	Foreign=Yes	_	_	_	_
 11	ɫ	nó	CCONJ	_	_	_	_	_	_
 12	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -7526,7 +7526,7 @@
 # translation = i.e. although there is opposition between them.
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
-3	nod	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+3	nod	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 4	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 5	chotarsnataith	cotarsnatu	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 6	etarru	eter	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
@@ -12135,7 +12135,7 @@
 # text = ce nid ḟil comparit masculinus ɫ femininus leiss
 # translation = although it has not a masculine or feminine comparative
 1	ce	cía	SCONJ	_	_	_	_	_	_
-2	nid	ní	PART	_	Polarity=Neg|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+2	nid	ní	PART	_	Polarity=Neg|PronType=Void	_	_	_	_
 3	ḟil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 4	comparit	comparit	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	masculinus	_	X	_	Foreign=Yes	_	_	_	_
@@ -14912,7 +14912,7 @@
 # text = cia asidbiur a buith huand í as vitis
 # translation = though I say that it is from uitis
 1	cia	cía	SCONJ	_	_	_	_	_	_
-2	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+2	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Void|Tense=Pres|Voice=Act	_	_	_	_
 3	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 4	buith	both	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	huand	ó	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
@@ -21531,7 +21531,7 @@
 # translation = i.e. though I say to you that it is Athos and Atho, it is, however, in υς with Attic writers, and the u has then been converted into o so that it makes Athos
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ci	cía	SCONJ	_	_	_	_	_	_
-3	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+3	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Void|Tense=Pres|Voice=Act	_	_	_	_
 4	sa	sa	PRON	_	Number=Sing|Person=1|PronType=Emp	_	_	_	_
 5	frit	fri	ADP	_	AdpType=Prep|Definite=Ind|Number=Sing|Person=2|PronType=Prs	_	_	_	_
 6	su	so	PRON	_	Number=Sing|Person=2|PronType=Emp	_	_	_	_
@@ -21960,7 +21960,7 @@
 # text = cia asidbiur sa vetus
 # translation = though I say uetus
 1	cia	cía	SCONJ	_	_	_	_	_	_
-2	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs|Tense=Pres|Voice=Act	_	_	_	_
+2	asidbiur	asbeir	VERB	_	Mood=Ind|Number=Sing|Person=1|PronType=Void|Tense=Pres|Voice=Act	_	_	_	_
 3	sa	sa	PRON	_	Number=Sing|Person=1|PronType=Emp	_	_	_	_
 4	vetus	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -24878,7 +24878,7 @@
 
 # sent_id = 2436
 # reference = 148b8
-# text = delb tri tuisel foraib ɫ it rec tri tuisil hi
+# text = delb tri tuisel foraib ɫ it tri tuisil hi rec reliqua quod melius
 # translation = i.e. a paradigm of three cases upon them: or it is three cases simply, quod melius
 1	delb	delb	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 2	tri	trí	NUM	_	_	_	_	_	_
@@ -24886,10 +24886,13 @@
 4	foraib	for	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 5	ɫ	nó	CCONJ	_	_	_	_	_	_
 6	it	is	AUX	_	Mood=Ind|Number=Plur|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-7	rec	recc	ADJ	_	Degree=Pos	_	_	_	_
-8	tri	trí	NUM	_	_	_	_	_	_
-9	tuisil	tuisel	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
-10	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+7	tri	trí	NUM	_	_	_	_	_	_
+8	tuisil	tuisel	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
+9	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+10	rec	recc	ADJ	_	Degree=Pos	_	_	_	_
+11	reliqua	_	X	_	Foreign=Yes	_	_	_	_
+12	quod	_	X	_	Foreign=Yes	_	_	_	_
+13	melius	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2437
 # reference = 148b9
@@ -29725,7 +29728,7 @@
 # text = ce nod fil posit grecda do
 # translation = though there is a Greek positive to it
 1	ce	cía	SCONJ	_	_	_	_	_	_
-2	nod	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+2	nod	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 3	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 4	posit	posit	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 5	grecda	grécde	ADJ	_	Case=Acc|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
@@ -29875,7 +29878,7 @@
 # translation = i.e. though they (the present participle from verbs in or and the past participle from verbs in o) are wanting
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
-3	nod	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+3	nod	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 4	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 5	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	nerchre	airchrae	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
@@ -30422,7 +30425,7 @@
 # text = ma nud chinni
 # translation = if it determines
 1	ma	má	SCONJ	_	_	_	_	_	_
-2	nud	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+2	nud	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 3	chinni	cinnid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2885
@@ -34589,15 +34592,15 @@
 
 # sent_id = 3196
 # reference = 209b19–21
-# text = dú doneprennet .i. dú i airestar .i.
+# text = .i. dú doneprennet .i. dú in airestar
 # translation = where they flow forth, i.e. where they remain
-1	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	doneprennet	doeprinn	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-3	.i.	_	X	_	Foreign=Yes	_	_	_	_
-4	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-5	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-6	airestar	arsissedar	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-7	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+2	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+3	doneprennet	doeprinn	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
+5	dú	dú	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+6	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+7	airestar	arsissedar	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 3197
 # reference = 209b22
@@ -34787,7 +34790,7 @@
 38	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 39	sui	_	X	_	Foreign=Yes	_	_	_	_
 40	ce	cía	SCONJ	_	_	_	_	_	_
-41	nud	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+41	nud	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 42	ḟil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 43	gním	gním	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 44	⁊	ocus	CCONJ	_	_	_	_	_	_
@@ -35716,7 +35719,7 @@
 # translation = i.e. though they are alike in changing accents
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ce	cía	SCONJ	_	_	_	_	_	_
-3	nod	no	PART	_	PartType=Vb|PronClass=C|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
+3	nod	no	PART	_	PartType=Vb|PronType=Void	_	_	_	_
 4	chosmailigetar	cosmailigidir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 5	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 6	cumscugud	cumscugud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
@@ -37521,21 +37524,22 @@
 
 # sent_id = 3444
 # reference = 222a6
-# text = ar mad hí comsuidigud is in bís and na luc som hi suidiu
+# text = ar mad hí comsuidigud is con bís and in na luc som hi suidiu
 # translation = for if cum be in composition it is con that is in its place herein
 1	ar	ar	SCONJ	_	_	_	_	_	_
 2	mad	má	SCONJ	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	hí	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	comsuidigud	comṡuidigud	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 5	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
-6	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+6	con	_	X	_	Foreign=Yes	_	_	_	_
 7	bís	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 8	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-9	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-10	luc	loc	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-11	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
-12	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-13	suidiu	suide	PRON	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Ana	_	_	_	_
+9	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+10	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+11	luc	loc	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+12	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
+13	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+14	suidiu	suide	PRON	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Ana	_	_	_	_
 
 # sent_id = 3445
 # reference = 222a7

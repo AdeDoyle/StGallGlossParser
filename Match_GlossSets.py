@@ -1614,6 +1614,10 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 ['úare', '<SCONJ>', 'uare', 'óre'],
                                 ['huare', '<SCONJ>', 'huare', 'óre'],
                                 ['húare', '<SCONJ>', 'huare', 'óre']]
+    # list empty pronouns which follow some conjunctions by necessity but do not form the object of a verb
+    empty_pronouns = [['id', '<IFP PronType=Void>', 'id', 'd'],
+                      ['d', '<IFP PronType=Void>', 'd', 'd']]
+    # list particles which do not take conjunct forms of the verb
     independent_particles = [['i', '<PART PartType=Dct>', 'i', 'í'],
                              ['í', '<PART PartType=Dct>', 'i', 'í'],
                              ['hí', '<PART PartType=Dct>', 'hi', 'í'],
@@ -2415,6 +2419,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 first_affix_original = first_affix_data[0]
                                 first_affix_pos = first_affix_data[1]
                                 first_affix_standard = first_affix_data[2]
+                                first_affix_head = first_affix_data[3]
                                 split_first_affix = split_pos_feats(first_affix_pos)
                                 first_affix_short_pos = split_first_affix[0]
                                 first_affix_feats = split_first_affix[1]
@@ -2587,28 +2592,34 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                           last_head]
                                     replace_pron = False
                                     if not combine_wordtoks:
-                                        ifp_original = first_affix_original
-                                        ifp_pos = first_affix_pos
-                                        ifp_pos = remove_features(ifp_pos, ['PronClass=A', 'PronClass=C'])
-                                        ifp_standard = first_affix_standard
-                                        ifp_head = first_affix_data[3]
-                                        ifp_split_pos = split_pos_feats(ifp_pos)
-                                        ifp_feats = ifp_split_pos[1]
-                                        new_feats = list()
-                                        for old_feat in ifp_feats:
-                                            old_feat_split = old_feat.split("=")
-                                            old_key = old_feat_split[0]
-                                            old_val = old_feat_split[1]
-                                            if old_key in separate_feats_dict and old_key != "PronType":
-                                                new_feats.append("=".join([separate_feats_dict.get(old_key), old_val]))
-                                            elif old_key == "PronType":
-                                                new_feats.append(old_feat)
-                                            else:
-                                                raise RuntimeError("Could not convert features for split POS")
-                                        check_pron_pos = add_features("<PRON>", new_feats)
-                                        check_pronoun = [ifp_original, check_pron_pos,
-                                                         ifp_standard, ifp_head]
-                                        replace_pron = check_pronoun
+                                        if first_affix_data in empty_pronouns:
+                                            first_affix_pos = "<PRON PronType=Void>"
+                                            replace_pron = [first_affix_original, first_affix_pos,
+                                                            first_affix_standard, first_affix_head]
+                                        else:
+                                            ifp_original = first_affix_original
+                                            ifp_pos = first_affix_pos
+                                            ifp_pos = remove_features(ifp_pos, ['PronClass=A', 'PronClass=C'])
+                                            ifp_standard = first_affix_standard
+                                            ifp_head = first_affix_data[3]
+                                            ifp_split_pos = split_pos_feats(ifp_pos)
+                                            ifp_feats = ifp_split_pos[1]
+                                            new_feats = list()
+                                            for old_feat in ifp_feats:
+                                                old_feat_split = old_feat.split("=")
+                                                old_key = old_feat_split[0]
+                                                old_val = old_feat_split[1]
+                                                if old_key in separate_feats_dict and old_key != "PronType":
+                                                    new_feats.append("=".join([separate_feats_dict.get(old_key), old_val]))
+                                                elif old_key == "PronType":
+                                                    new_feats.append(old_feat)
+                                                else:
+                                                    print(first_affix_data)
+                                                    raise RuntimeError("Could not convert features for split POS")
+                                            check_pron_pos = add_features("<PRON>", new_feats)
+                                            check_pronoun = [ifp_original, check_pron_pos,
+                                                             ifp_standard, ifp_head]
+                                            replace_pron = check_pronoun
                                     # if the combined conjunct particle and now-suffixed pronoun were in the verb form
                                     # the conjunct particle will likely have been removed above
                                     # test to make sure their combination is not still at the beginning of the verb form
@@ -2797,7 +2808,11 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         raise RuntimeError("IFP found in unexpected position")
                                     elif verb_prefix_short_pos == "IFP":
                                         verb_start_pos = verb_prefix_place + 1
-                                        if not combine_wordtoks:
+                                        if not combine_wordtoks and verb_prefix_data in empty_pronouns:
+                                            verb_prefix_pos = "<PRON PronType=Void>"
+                                            replace_pron = [verb_prefix, verb_prefix_pos,
+                                                            verb_prefix_standard, verb_prefix_head]
+                                        elif not combine_wordtoks:
                                             ifp_original = verb_prefix_data[0]
                                             ifp_pos = verb_prefix_data[1]
                                             ifp_pos = remove_features(ifp_pos, ['PronClass=A',
@@ -2818,6 +2833,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                                 elif old_key == "PronType":
                                                     new_feats.append(old_feat)
                                                 else:
+                                                    print(verb_prefix_data)
                                                     print(old_key, old_val)
                                                     raise RuntimeError("Could not convert features for split POS")
                                             check_pron_pos = add_features("<PRON>", new_feats)
@@ -3544,6 +3560,12 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                     pos_list = pos_list[:i-1] + [combined_last_data] + pos_list[i+1:]
                     combine_subtract = True
                     break
+                elif tagged_word_data in empty_pronouns:
+                    tagged_pos = "<PRON PronType=Void>"
+                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                    pos_list[i] = tagged_word_data
+                    combine_subtract = True
+                    break
                 else:
                     tagged_pos = remove_features(tagged_pos, ["PronClass=A"])
                     split_tagged_pos = split_pos_feats(tagged_pos)
@@ -3559,6 +3581,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             new_feats.append(old_feat)
                         else:
                             print(old_key, old_val)
+                            print(tagged_word_data)
                             raise RuntimeError("Could not convert features for split POS")
                     tagged_pos = add_features("<PRON>", new_feats)
                     tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
@@ -4138,6 +4161,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             third_pos_data = False
             third_original = False
             third_tag = False
+            third_standard = False
             third_head = False
             third_combo_standard = False
             if pos_place < last_pos_place - 1 and pos_place + 1 not in used_pos and pos_place + 2 not in used_pos:
@@ -4147,6 +4171,19 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                 third_standard = third_pos_data[2]
                 third_head = third_pos_data[3]
                 third_combo_standard = word_standard + next_standard + third_standard
+            fourth_pos_data = False
+            fourth_original = False
+            fourth_tag = False
+            fourth_head = False
+            fourth_combo_standard = False
+            if pos_place < last_pos_place - 2 and pos_place + 1 not in used_pos \
+                    and pos_place + 2 not in used_pos and pos_place + 3 not in used_pos:
+                fourth_pos_data = pos_list[pos_place + 3]
+                fourth_original = fourth_pos_data[0]
+                fourth_tag = fourth_pos_data[1]
+                fourth_standard = fourth_pos_data[2]
+                fourth_head = fourth_pos_data[3]
+                fourth_combo_standard = word_standard + next_standard + third_standard + fourth_standard
             # check the edit distance between the standard form of the first POS tagged word in Bauer's analysis
             # and the standard form of the first (i.e. next) token in Hofman's gloss
             for token_list in reducable_standard_mapping:
@@ -4198,6 +4235,27 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             used_pos += [pos_place, pos_place + 1, pos_place + 2]
                             tagged_gloss += lowest_eddist
                             break
+                        elif fourth_pos_data:
+                            eddist = ed(fourth_combo_standard, token_standard, substitution_cost=2)
+                            if eddist == 0:
+                                reduce_by = reducable_standard_mapping.index(token_list) + 1
+                                token_place += reduce_by
+                                reducable_standard_mapping = reducable_standard_mapping[reduce_by:]
+                                lowest_eddist = [[word_original, word_tag, token_original, eddist, word_head,
+                                                  [token_place, pos_place]],
+                                                 [next_original, next_tag, token_original, eddist, next_head,
+                                                  [token_place, pos_place + 1]],
+                                                 [third_original, third_tag, token_original, eddist, third_head,
+                                                  [token_place, pos_place + 2]],
+                                                 [fourth_original, fourth_tag, token_original, eddist, fourth_head,
+                                                  [token_place, pos_place + 3]]]
+                                alignment_list += [(pos_place, token_place),
+                                                   (pos_place + 1, token_place),
+                                                   (pos_place + 2, token_place),
+                                                   (pos_place + 3, token_place)]
+                                used_pos += [pos_place, pos_place + 1, pos_place + 2, pos_place + 3]
+                                tagged_gloss += lowest_eddist
+                                break
     # if any words or word-combos have been aligned yet
     if alignment_list:
         # separate the list of words and word-combos which have been perfectly aligned into
@@ -4232,6 +4290,11 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             third_tag = False
             third_head = False
             third_combo_standard = False
+            fourth_pos_data = False
+            fourth_original = False
+            fourth_tag = False
+            fourth_head = False
+            fourth_combo_standard = False
             # if the tagged word is not the last word in the analysis, and the following word hasn't been used yet
             # get the following word's data also
             if pos_place < last_pos_place and pos_place + 1 not in used_pos:
@@ -4251,6 +4314,17 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                     third_standard = third_pos_data[2]
                     third_head = third_pos_data[3]
                     third_combo_standard = word_standard + next_standard + third_standard
+                    # if the tagged word is neither the last, second last, nor the third last wrd in the analysis
+                    # and neither the following word nor the next two words after that have been used yet
+                    # get the data of the following two words also
+                    if pos_place < last_pos_place - 2 and pos_place + 1 not in used_pos \
+                            and pos_place + 2 not in used_pos and pos_place + 3 not in used_pos:
+                        fourth_pos_data = pos_list[pos_place + 3]
+                        fourth_original = fourth_pos_data[0]
+                        fourth_tag = fourth_pos_data[1]
+                        fourth_standard = fourth_pos_data[2]
+                        fourth_head = fourth_pos_data[3]
+                        fourth_combo_standard = word_standard + next_standard + third_standard + fourth_standard
             # check the edit distance between the standard form of the first POS tagged word in Bauer's analysis
             # and the standard form of the first (i.e. next) token in Hofman's gloss
             for token_place, token_list in enumerate(standard_mapping):
@@ -4266,7 +4340,20 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         if max_poss_ed > eddist:
                             lowest_eddist = [word_original, word_tag, token_original, eddist, word_head,
                                              [token_place, pos_place]]
-                            if third_pos_data:
+                            if fourth_pos_data:
+                                max_poss_ed = len(fourth_combo_standard) + len(token_standard)
+                                eddist = ed(fourth_combo_standard, token_standard, substitution_cost=2)
+                                if max_poss_ed > eddist and eddist < lowest_eddist[3]:
+                                    lowest_eddist = False
+                                    lowest_edlist = [[word_original, word_tag, token_original, eddist, word_head,
+                                                      [token_place, pos_place]],
+                                                     [next_original, next_tag, token_original, eddist, next_head,
+                                                      [token_place, pos_place + 1]],
+                                                     [third_original, third_tag, token_original, eddist, third_head,
+                                                      [token_place, pos_place + 2]],
+                                                     [fourth_original, fourth_tag, token_original, eddist, fourth_head,
+                                                      [token_place, pos_place + 3]]]
+                            elif third_pos_data:
                                 max_poss_ed = len(third_combo_standard) + len(token_standard)
                                 eddist = ed(third_combo_standard, token_standard, substitution_cost=2)
                                 if max_poss_ed > eddist and eddist < lowest_eddist[3]:
@@ -4290,7 +4377,20 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         if max_poss_ed > eddist:
                             lowest_eddist = [word_original, word_tag, token_original, eddist, word_head,
                                              [token_place, pos_place]]
-                            if third_pos_data:
+                            if fourth_pos_data:
+                                max_poss_ed = len(fourth_combo_standard) + len(token_standard)
+                                eddist = ed(fourth_combo_standard, token_standard, substitution_cost=2)
+                                if max_poss_ed > eddist and eddist < lowest_eddist[3]:
+                                    lowest_eddist = False
+                                    lowest_edlist = [[word_original, word_tag, token_original, eddist, word_head,
+                                                      [token_place, pos_place]],
+                                                     [next_original, next_tag, token_original, eddist, next_head,
+                                                      [token_place, pos_place + 1]],
+                                                     [third_original, third_tag, token_original, eddist, third_head,
+                                                      [token_place, pos_place + 2]],
+                                                     [fourth_original, fourth_tag, token_original, eddist, fourth_head,
+                                                      [token_place, pos_place + 3]]]
+                            elif third_pos_data:
                                 max_poss_ed = len(third_combo_standard) + len(token_standard)
                                 eddist = ed(third_combo_standard, token_standard, substitution_cost=2)
                                 if max_poss_ed > eddist and eddist < lowest_eddist[3]:
