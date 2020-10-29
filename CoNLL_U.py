@@ -270,7 +270,7 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
             sgg_file = sgg_meta + compile_sent(wordlist)
         else:
             sgg_file = sgg_file + sgg_meta + compile_sent(wordlist)
-    sgg_file = sgg_file.strip("\n")
+    sgg_file = sgg_file.strip("\n") + "\n"
     if combine_wordtoks:
         with open("sga_dipsgg-ud-test_combined_POS.conllu", "w", encoding="utf-8") as text_file:
             print(f"{sgg_file}", file=text_file)
