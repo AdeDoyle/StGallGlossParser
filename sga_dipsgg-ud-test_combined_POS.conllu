@@ -2016,7 +2016,7 @@
 # reference = 7a12
 # text = cach la cein
 # translation = sometimes (.. sometimes)
-1	cach	cách	PRON	_	PronType=Ind	_	_	_	_
+1	cach	cach	PRON	_	PronType=Ind	_	_	_	_
 2	la	aile	ADJ	_	Degree=Pos	_	_	_	_
 3	cein	cían	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
@@ -3576,7 +3576,7 @@
 # translation = the l of the last syllable
 1	ind	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 2	l	_	X	_	Foreign=Yes	_	_	_	_
-3	inna	False	DET	_	Case=Gen|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
+3	inna	in	DET	_	Case=Gen|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 4	dédensillabe	déiden-sillab	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 328
@@ -29083,11 +29083,11 @@
 5	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 6	confodim	confodaim	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 7	in	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
-8	cách	cach	PRON	_	PronType=Ind	_	_	_	_
+8	cách	cách	PRON	_	PronType=Ind	_	_	_	_
 9	dobeir	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 10	frisin	fri	ADP	_	AdpType=Prep|Case=Acc|Definite=Def|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 11	sin	_	X	_	Foreign=Yes	_	_	_	_
-12	cách	cach	PRON	_	PronType=Ind	_	_	_	_
+12	cách	cách	PRON	_	PronType=Ind	_	_	_	_
 13	di	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 14	a	a	PART	_	PronType=Dem,Rel	_	_	_	_
 15	tabir	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
@@ -30936,7 +30936,7 @@
 11	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 12	coitchen	coitchenn	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 13	ade	side	PRON	_	PronType=Ana	_	_	_	_
-14	cacha	cách	PRON	_	PronType=Ind	_	_	_	_
+14	cacha	cach	PRON	_	PronType=Ind	_	_	_	_
 15	áirme	áirem	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 2923
@@ -31712,7 +31712,7 @@
 # reference = 200b4
 # text = cach oin folaid
 # translation = of every single substance
-1	cach	cách	PRON	_	PronType=Ind	_	_	_	_
+1	cach	cach	PRON	_	PronType=Ind	_	_	_	_
 2	oin	oín	NUM	_	_	_	_	_	_
 3	folaid	folad	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
@@ -31807,7 +31807,7 @@
 36	a	a	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 37	lleith	leth	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 38	…	_	X	_	Foreign=Yes	_	_	_	_
-39	ind	False	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
+39	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 40	í	í	PART	_	PartType=Dct	_	_	_	_
 41	aitreba	adtreba	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 42	extrinsecus	_	X	_	Foreign=Yes	_	_	_	_
@@ -31815,7 +31815,7 @@
 44	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 45	a	a	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 46	rrainn	rann	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-47	ind	False	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
+47	ind	in	DET	_	Case=Nom|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 48	i	í	PART	_	PartType=Dct	_	_	_	_
 49	attrebthar	adtreba	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 50	…	_	X	_	Foreign=Yes	_	_	_	_
@@ -32832,7 +32832,7 @@
 5	són	són	PRON	_	PronType=Ana	_	_	_	_
 6	ɫ	nó	CCONJ	_	_	_	_	_	_
 7	ó	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-8	cach	cách	PRON	_	PronType=Ind	_	_	_	_
+8	cach	cach	PRON	_	PronType=Ind	_	_	_	_
 9	mud	mod	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 10	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 11	ni	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -34773,7 +34773,7 @@
 21	genitivus	_	X	_	Foreign=Yes	_	_	_	_
 22	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 23	ar	ar	SCONJ	_	_	_	_	_	_
-24	cach	cách	PRON	_	PronType=Ind	_	_	_	_
+24	cach	cach	PRON	_	PronType=Ind	_	_	_	_
 25	genitiu	genitiu	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 26	di	dá	NUM	_	_	_	_	_	_
 27	chois	cóis	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
@@ -36878,7 +36878,7 @@
 # translation = i.e. beyond the definite time
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	sech	sech	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-3	in	in	DET	_	Case=Acc|Gender=Fem|Number=False|PronType=Art	_	_	_	_
+3	in	in	DET	_	Case=Acc|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 4	naimsir	aimser	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 5	crichnigthi	críchnaigthe	ADJ	_	Case=Acc|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 6	hínnunn	inunn	ADJ	_	Degree=Pos	_	_	_	_
