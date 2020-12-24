@@ -594,17 +594,11 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = "PRON PronType=Ind"
-    indpron_case = ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
-                    'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
-                    'gen.sg.', 'gen.sg.masc.', 'gen.sg.neut.', 'gen.sg. masc./neut.', 'gen.sg.fem.',
-                    'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
-                    'nom.pl.',
-                    'acc.pl.', 'acc.pl.masc.',
-                    'dat.pl.masc.', 'dat.pl.fem.',
-                    'nom.du.fem.',
-                    'composition form']
-    if An1 in ['adjective, pronominal (preceding noun)', 'adjective, indefinite pronominal',
-               'pronoun, indefinite', 'pronoun, indeclinable']:
+    indpron_case = ['nom.sg.',
+                    'acc.sg.', 'acc.sg.neut.',
+                    'gen.sg.',
+                    'dat.sg.']
+    if An1 in ['pronoun, indefinite', 'pronoun, indeclinable']:
         if not An2:
             if not An3:
                 if not actpas:
@@ -903,6 +897,40 @@ def clean_analysis(taglist, test_unknown=False):
                     if not rel:
                         pos = f'DET AdpType=Prep | Case={case.capitalize()[:-1]} | Gender={gender} ' \
                               f'| Number={number} | PronType=Art'
+
+    # Assign definite and indefinite Determiners (pronominal adjectives)
+    if An1 in ['adjective, pronominal (preceding noun)', 'adjective, indefinite pronominal']:
+        if not An2:
+            case = False
+            number = False
+            if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+                       'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                       'gen.sg.masc.', 'gen.sg.neut.', 'gen.sg. masc./neut.', 'gen.sg.fem.',
+                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
+                       'nom.du.fem.',
+                       'nom.pl.',
+                       'acc.pl.', 'acc.pl.masc.',
+                       'dat.pl.masc.', 'dat.pl.fem.']:
+                casepat = re.compile(r'^\w{3}\.')
+                casepatiter = casepat.finditer(An3)
+                for casefind in casepatiter:
+                    case = casefind.group()[:-1].capitalize()
+                numpat = re.compile(r'\.\w{2}\.')
+                numpatiter = numpat.finditer(An3)
+                for numfind in numpatiter:
+                    number = numdict.get(numfind.group())
+                if not actpas:
+                    if not rel:
+                        if "indefinite" in An1:
+                            defin = "PronType=Ind"
+                            pos = f"DET Case={case} | Number={number} | {defin}"
+                        else:
+                            defin = "Definite=Def"
+                            pos = f"DET Case={case} | {defin} | Number={number}"
+            elif not An3:
+                if not actpas:
+                    if not rel:
+                        pos = "DET PronType=Ind"
 
     #                                             ADJECTIVES
     # Assign Adjectives (ADJ)
