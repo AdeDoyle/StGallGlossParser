@@ -11106,7 +11106,7 @@
 # text = riagol són
 # translation = this (is the) rule
 1	riagol	ríagol	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	són	son	PRON	_	PronType=Ana	_	_	_	_
+2	són	són	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 1019
 # reference = 41a5
@@ -13335,7 +13335,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	medón	medón	NOUN	_	Prefix=Yes	_	_	_	_
 3	testemin	testimin	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-4	són	son	PRON	_	PronType=Ana	_	_	_	_
+4	són	són	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 1272
 # reference = 50b20
@@ -23612,7 +23612,7 @@
 # translation = i.e. beautiful, that
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	alind	álaind	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-3	son	son	PRON	_	PronType=Ana	_	_	_	_
+3	son	són	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 2319
 # reference = 138b4
@@ -27800,7 +27800,7 @@
 2	airi	ar	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 3	ni	ní	PART	_	Polarity=Neg|PronClass=A|PronGend=Neut|PronNum=Sing|PronPers=3|PronType=Prs	_	_	_	_
 4	thabur	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|Voice=Act	_	_	_	_
-5	son	son	PRON	_	PronType=Ana	_	_	_	_
+5	son	són	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 2678
 # reference = 179a3
@@ -29554,7 +29554,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	briathar	bríathar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 3	femin	femen	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-4	son	son	PRON	_	PronType=Ana	_	_	_	_
+4	son	són	PRON	_	PronType=Ana	_	_	_	_
 5	in	in	DET	_	Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 6	fecht	fecht	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 7	so	so	PART	_	PronType=Dem	_	_	_	_
@@ -31182,7 +31182,7 @@
 4	a	a	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	sa	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	nartocol	articol	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-7	son	son	PRON	_	PronType=Ana	_	_	_	_
+7	son	són	PRON	_	PronType=Ana	_	_	_	_
 8	ám	ám	INTJ	_	_	_	_	_	_
 
 # sent_id = 2940
