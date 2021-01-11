@@ -23438,7 +23438,7 @@
 4	aithirge	aithirge	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	cesad	césad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 6	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-7	fodaitiu	fodaitiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+7	fodaitiu	foditiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2302
 # reference = 138a1
@@ -34514,7 +34514,7 @@
 52	do	do	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 53	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 54	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-55	ḟodaitiu	fodaitiu	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+55	ḟodaitiu	foditiu	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 56	sidi	side	PRON	_	PronType=Ana	_	_	_	_
 
 # sent_id = 3190
