@@ -14904,7 +14904,7 @@
 2	da	dá	NUM	_	_	_	_	_	_
 3	n	_	X	_	Foreign=Yes	_	_	_	_
 4	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-5	ndá	da	NUM	_	_	_	_	_	_
+5	ndá	dá	NUM	_	_	_	_	_	_
 6	t	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 1451
@@ -15576,7 +15576,7 @@
 # text = conmescatar da cenél indib
 # translation = two genders are mixed in them
 1	conmescatar	conmesca	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
-2	da	da	NUM	_	_	_	_	_	_
+2	da	dá	NUM	_	_	_	_	_	_
 3	cenél	cenél	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 4	indib	i	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 
@@ -16287,7 +16287,7 @@
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	cummae	cummae	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	bíte	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
-5	dib	da	NUM	_	_	_	_	_	_
+5	dib	dá	NUM	_	_	_	_	_	_
 6	línaib	lín	NOUN	_	Case=Dat|Number=Dual	_	_	_	_
 
 # sent_id = 1598
@@ -16651,7 +16651,7 @@
 # reference = 65a14
 # text = dé dathaigthe
 # translation = two-coloured
-1	dé	da	NUM	_	_	_	_	_	_
+1	dé	dá	NUM	_	_	_	_	_	_
 2	dathaigthe	dathaigthe	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
 
 # sent_id = 1641
@@ -18937,7 +18937,7 @@
 1	coitchena	coitchenn	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Plur	_	_	_	_
 2	so	so	PART	_	PronType=Dem	_	_	_	_
 3	etir	eter	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-4	di	da	NUM	_	_	_	_	_	_
+4	di	dá	NUM	_	_	_	_	_	_
 5	árim	áirem	NOUN	_	Case=Acc|Number=Dual	_	_	_	_
 6	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 7	oen	oín	NUM	_	_	_	_	_	_
@@ -19275,7 +19275,7 @@
 # reference = 73b5
 # text = da son són
 # translation = that is, two (different) words
-1	da	da	NUM	_	_	_	_	_	_
+1	da	dá	NUM	_	_	_	_	_	_
 2	son	son	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 3	són	són	PRON	_	PronType=Ana	_	_	_	_
 
@@ -19380,7 +19380,7 @@
 2	tuasulcud	túasulcud	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 3	adi	side	PRON	_	PronType=Ana	_	_	_	_
 4	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-5	ndi	da	NUM	_	_	_	_	_	_
+5	ndi	dá	NUM	_	_	_	_	_	_
 6	rainn	rann	NOUN	_	Case=Acc|Number=Dual	_	_	_	_
 7	iṅgnaidi	ingnaidi	VERB	_	VerbForm=Gdv	_	_	_	_
 
@@ -19477,7 +19477,7 @@
 3	ó	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	chechtar	cechtar	PRON	_	PronType=Ind	_	_	_	_
 5	in	in	DET	_	Case=Gen|Gender=Fem|Number=Dual|PronType=Art	_	_	_	_
-6	da	da	NUM	_	_	_	_	_	_
+6	da	dá	NUM	_	_	_	_	_	_
 7	rann	rann	NOUN	_	Case=Gen|Number=Dual	_	_	_	_
 
 # sent_id = 1931
@@ -19606,7 +19606,7 @@
 3	dano	dano	ADV	_	_	_	_	_	_
 4	fo	fo	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	a	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-6	dá	da	NUM	_	_	_	_	_	_
+6	dá	dá	NUM	_	_	_	_	_	_
 7	nog	óg	ADJ	_	Case=Acc|Degree=Pos|Gender=Masc|Number=Dual	_	_	_	_
 8	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 9	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
@@ -19947,7 +19947,7 @@
 6	ni	ní	PART	_	Polarity=Neg	_	_	_	_
 7	techtat	techtaid	VERB	_	Mood=Sub|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 8	in	in	DET	_	Case=Acc|Gender=Masc|Number=Dual|PronType=Art	_	_	_	_
-9	da	da	NUM	_	_	_	_	_	_
+9	da	dá	NUM	_	_	_	_	_	_
 10	airdigtha	airdigud	NOUN	_	Case=Acc|Number=Dual	_	_	_	_
 
 # sent_id = 1968
@@ -20906,7 +20906,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	comṡuidigthe	comṡuidigthe	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 3	o	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-4	dib	da	NUM	_	_	_	_	_	_
+4	dib	dá	NUM	_	_	_	_	_	_
 5	nógaib	óg	ADJ	_	Case=Dat|Degree=Pos|Number=Dual	_	_	_	_
 6	in	_	X	_	Foreign=Yes	_	_	_	_
 7	feminino	_	X	_	Foreign=Yes	_	_	_	_
@@ -21689,7 +21689,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	biid	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 3	for	for	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-4	deib	da	NUM	_	_	_	_	_	_
+4	deib	dá	NUM	_	_	_	_	_	_
 5	ṅdíllib	díall	NOUN	_	Case=Dat|Number=Dual	_	_	_	_
 6	quando	_	X	_	Foreign=Yes	_	_	_	_
 7	fastus	_	X	_	Foreign=Yes	_	_	_	_
@@ -22275,7 +22275,7 @@
 # text = dechenda de mess
 # translation = two-headed, a pair of shears
 1	dechenda	déchendae	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
-2	de	da	NUM	_	_	_	_	_	_
+2	de	dá	NUM	_	_	_	_	_	_
 3	mess	mess	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 
 # sent_id = 2192
@@ -23630,11 +23630,11 @@
 # text = .i. da mod naturae ⁊ da mod furtunae
 # translation = i.e. two modes of nature and two modes of fortune
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	da	da	NUM	_	_	_	_	_	_
+2	da	dá	NUM	_	_	_	_	_	_
 3	mod	mod	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 4	naturae	_	X	_	Foreign=Yes	_	_	_	_
 5	⁊	ocus	CCONJ	_	_	_	_	_	_
-6	da	da	NUM	_	_	_	_	_	_
+6	da	dá	NUM	_	_	_	_	_	_
 7	mod	mod	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 8	furtunae	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -25250,7 +25250,7 @@
 8	ponc	ponc	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 9	bis	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 10	etir	eter	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-11	da	da	NUM	_	_	_	_	_	_
+11	da	dá	NUM	_	_	_	_	_	_
 12	ṡon	son	NOUN	_	Case=Acc|Number=Dual	_	_	_	_
 13	nand	ná	SCONJ	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 14	mmáa	már	ADJ	_	Degree=Cmp	_	_	_	_
@@ -26415,7 +26415,7 @@
 10	leo	la	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 11	som	som	PRON	_	Number=Plur|Person=3|PronType=Emp	_	_	_	_
 12	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-13	ndib	da	NUM	_	_	_	_	_	_
+13	ndib	dá	NUM	_	_	_	_	_	_
 14	sechmadachtib	sechmadachte	ADJ	_	Case=Dat|Degree=Pos|Number=Dual	_	_	_	_
 
 # sent_id = 2563
@@ -26786,7 +26786,7 @@
 10	bís	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 11	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 12	cechtar	cechtar	PRON	_	PronType=Ind	_	_	_	_
-13	da	da	NUM	_	_	_	_	_	_
+13	da	dá	NUM	_	_	_	_	_	_
 14	lino	lín	NOUN	_	Case=Gen|Number=Dual	_	_	_	_
 15	ar	ar	SCONJ	_	_	_	_	_	_
 16	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -28891,7 +28891,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ataat	attá	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 3	in	in	DET	_	Case=Nom|Gender=Masc|Number=Dual|PronType=Art	_	_	_	_
-4	da	da	NUM	_	_	_	_	_	_
+4	da	dá	NUM	_	_	_	_	_	_
 5	fere	_	X	_	Foreign=Yes	_	_	_	_
 6	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 7	fere	_	X	_	Foreign=Yes	_	_	_	_
@@ -29184,7 +29184,7 @@
 3	indi	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Fem|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 4	cosmilius	cosmailius	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 5	in	in	DET	_	Case=Gen|Gender=Fem|Number=Dual|PronType=Art	_	_	_	_
-6	da	da	NUM	_	_	_	_	_	_
+6	da	dá	NUM	_	_	_	_	_	_
 7	rann	rann	NOUN	_	Case=Gen|Number=Dual	_	_	_	_
 
 # sent_id = 2784
@@ -31154,7 +31154,7 @@
 # translation = i.e. there will be two anaphoras there in that case if there be an article and a pronoun there: which however is not needed
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	biet	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Fut|Voice=Act	_	_	_	_
-3	da	da	NUM	_	_	_	_	_	_
+3	da	dá	NUM	_	_	_	_	_	_
 4	atarcud	atárcud	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 5	and	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 6	amal	amal	SCONJ	_	_	_	_	_	_
@@ -35981,7 +35981,7 @@
 11	a	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 12	remsuidigthib	remṡuidigud	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
 13	in	in	DET	_	Case=Nom|Gender=Masc|Number=Dual|PronType=Art	_	_	_	_
-14	dí	da	NUM	_	_	_	_	_	_
+14	dí	dá	NUM	_	_	_	_	_	_
 15	greic	gréc	NOUN	_	Case=Nom|Number=Dual	_	_	_	_
 16	amal	amal	SCONJ	_	_	_	_	_	_
 17	ṡodain	suide	PRON	_	PronType=Ana	_	_	_	_
