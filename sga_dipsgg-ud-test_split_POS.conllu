@@ -22266,7 +22266,7 @@
 # translation = a leap or a run, etc.
 1	leim	léim	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 2	ɫ	nó	CCONJ	_	_	_	_	_	_
-3	riuth	riuth	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+3	riuth	rith	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	reliqua	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 2128
@@ -22605,7 +22605,7 @@
 # translation = in our acient course
 1	in	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	nar	ar	PRON	_	Number=Plur|Person=1|Poss=Yes|PronType=Prs	_	_	_	_
-3	rith	riuth	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+3	rith	rith	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 4	arsidni	arsaid	ADJ	_	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
 
 # sent_id = 2158
