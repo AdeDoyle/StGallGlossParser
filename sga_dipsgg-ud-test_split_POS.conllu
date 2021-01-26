@@ -10627,7 +10627,7 @@
 # text = .i. cian
 # translation = i.e. distant
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	cian	cían	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+2	cian	cían	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 937
 # reference = 39a8
@@ -10707,7 +10707,7 @@
 # reference = 39a17
 # text = cian
 # translation = far
-1	cian	cían	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+1	cian	cían	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 
 # sent_id = 947
 # reference = 39a18
@@ -24202,7 +24202,7 @@
 # translation = i.e. far absent, as ille
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ecṅdairc	écndairc	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
-3	cian	cían	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+3	cian	cían	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 4	ut	_	X	_	Foreign=Yes	_	_	_	_
 5	ille	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -24633,7 +24633,7 @@
 3	sisetar	fosisedar	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 4	in	in	DET	_	Case=Acc|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 5	gním	gním	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-6	gnither	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
+6	gnither	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 7	foraib	for	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 2342
@@ -24836,7 +24836,7 @@
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	hinonn	inunn	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 4	persan	persan	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-5	gnís	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+5	gnís	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 6	⁊	ocus	CCONJ	_	_	_	_	_	_
 7	fo	fo	PART	_	PartType=Vb	_	_	_	_
 8	daim	fodaim	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
@@ -26230,7 +26230,7 @@
 2	im	in	PART	_	PronType=Int	_	_	_	_
 3	fochróib	fochraíb	ADV	_	_	_	_	_	_
 4	bá	fa	SCONJ	_	_	_	_	_	_
-5	chían	cían	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+5	chían	cían	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
 # sent_id = 2476
 # reference = 151b3
@@ -26762,7 +26762,7 @@
 6	di	de	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
 7	n	in	DET	_	Case=Dat|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 8	gnim	gnim	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-9	gníte	gniid	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+9	gníte	gníid	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2522
 # reference = 156b7
@@ -26771,7 +26771,7 @@
 1	do	do	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
 2	naib	in	DET	_	Case=Dat|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
 3	hí	í	PART	_	PartType=Dct	_	_	_	_
-4	gníte	gniid	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+4	gníte	gníid	VERB	_	Mood=Ind|Number=Plur|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2523
 # reference = 157b1
@@ -30043,7 +30043,7 @@
 8	slond	slond	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 9	in	in	DET	_	Case=Gen|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 10	gnimo	gním	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
-11	gnither	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
+11	gnither	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Pass	_	_	_	_
 12	indi	i	ADP	_	AdpType=Prep|Definite=Ind|Gender=Fem|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 2774
@@ -32370,14 +32370,14 @@
 # text = .i. Gniid sem for nach naile hinunn ⁊ gniid side co nimmolṅgai side cesad fuiri sidi
 # translation = i.e. it acts on some other, and this (other) acts so as to cause passion on it
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	Gniid	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+2	Gniid	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 3	sem	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 4	for	for	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	nach	nach	DET	_	Case=Acc|Number=Sing|PronType=Ind	_	_	_	_
 6	naile	aile	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
 7	hinunn	inunn	ADJ	_	Case=Acc|Degree=Pos|Number=Sing	_	_	_	_
 8	⁊	ocus	CCONJ	_	_	_	_	_	_
-9	gniid	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+9	gniid	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 10	side	side	PRON	_	PronType=Ana	_	_	_	_
 11	co	co	SCONJ	_	_	_	_	_	_
 12	nimmolṅgai	immfolngai	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
@@ -35847,7 +35847,7 @@
 5	alia	_	X	_	Foreign=Yes	_	_	_	_
 6	no	no	PART	_	PartType=Vb	_	_	_	_
 7	d	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-8	gní	gniid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
+8	gní	gníid	VERB	_	Mood=Ind|Number=Sing|Person=3|PronType=Rel|Tense=Pres|Voice=Act	_	_	_	_
 9	anall	anall	ADV	_	_	_	_	_	_
 
 # sent_id = 3198
