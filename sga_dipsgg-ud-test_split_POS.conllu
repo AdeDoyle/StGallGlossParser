@@ -38053,7 +38053,7 @@
 # translation = in (the) true oath
 1	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	fír	fír	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
-3	lugu	lugae	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+3	lugu	luige	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 3368
 # reference = 217b2
