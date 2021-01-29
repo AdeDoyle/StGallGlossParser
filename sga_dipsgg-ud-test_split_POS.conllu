@@ -16436,7 +16436,7 @@
 34	hieronymus	_	X	_	Foreign=Yes	_	_	_	_
 35	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 36	con	co	SCONJ	_	_	_	_	_	_
-37	ná	ná	PART	_	Polarity=Neg|PronType=Rel	_	_	_	_
+37	ná	ná	SCONJ	_	Polarity=Neg	_	_	_	_
 38	sásad	saigid	VERB	_	Aspect=Imp|Mood=Sub|Number=Sing|Person=3|Tense=Past|Voice=Act	_	_	_	_
 39	nechtar	nechtar	PRON	_	PronType=Ind	_	_	_	_
 40	de	de	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
@@ -33693,8 +33693,8 @@
 # reference = 203a6
 # text = ar na derṅmis cum nobis air dia ndenmis cum me do genmis dano cum nobis
 # translation = that we might not make cum nobis: for if we made cum me, we should then make cum nobis
-1	ar	ar	SCONJ	_	_	_	_	_	_
-2	na	ná	PART	_	Polarity=Neg|PronType=Rel	_	_	_	_
+1	ar	ara	SCONJ	_	_	_	_	_	_
+2	na	ná	SCONJ	_	Polarity=Neg	_	_	_	_
 3	derṅmis	dogní	VERB	_	Aspect=Imp|Mood=Sub|Number=Plur|PartType=Aug|Person=1|Tense=Past|Voice=Act	_	_	_	_
 4	cum	_	X	_	Foreign=Yes	_	_	_	_
 5	nobis	_	X	_	Foreign=Yes	_	_	_	_

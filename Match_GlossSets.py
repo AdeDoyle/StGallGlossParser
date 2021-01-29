@@ -1575,6 +1575,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                               ['co', '<SCONJ>', 'co', 'co'],
                               ['con', '<SCONJ>', 'con', 'co'],
                               ['dia', '<SCONJ>', 'dia', 'dia'],
+                              ['ná', '<SCONJ Polarity=Neg>', 'na', 'ná'],
                               ['na', '<SCONJ Polarity=Neg>', 'na', 'ná'],
                               ['nna', '<SCONJ Polarity=Neg>', 'nna', 'ná'],
                               ['nná', '<SCONJ Polarity=Neg>', 'nna', 'ná'],
