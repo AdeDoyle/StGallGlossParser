@@ -8337,7 +8337,7 @@
 12	ar	ar	SCONJ	_	_	_	_	_	_
 13	iss	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 14	ed	ed	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
-15	laithe	lae	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
+15	laithe	laithe	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 16	in	in	DET	_	Case=Nom|Gender=Masc|Number=Sing|PronType=Art	_	_	_	_
 17	sin	sin	PART	_	PronType=Dem	_	_	_	_
 18	roṅgenair	gainithir	VERB	_	Mood=Ind|Number=Sing|PartType=Aug|Person=3|PronType=Rel|Tense=Past|Voice=Act	_	_	_	_
@@ -17621,7 +17621,7 @@
 21	derb	derb	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 22	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 23	lín	lín	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-24	lathe	lae	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+24	lathe	laithe	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 25	di	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 26	a	a	PART	_	PronType=Rel	_	_	_	_
 27	nd	d	PRON	_	Gender=Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
@@ -17765,7 +17765,7 @@
 # text = medon lathi
 # translation = middle of the day
 1	medon	medón	NOUN	_	Prefix=Yes	_	_	_	_
-2	lathi	lae	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+2	lathi	laithe	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 1702
 # reference = 66b22
@@ -23195,7 +23195,7 @@
 1	na	a	DET	_	Case=Nom|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
 2	tri	tri	NUM	_	_	_	_	_	_
 3	noi	noí	NUM	_	_	_	_	_	_
-4	laithe	lae	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
+4	laithe	laithe	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 
 # sent_id = 2215
 # reference = 117a1
@@ -39030,7 +39030,7 @@
 # text = medon lai
 # translation = mid-day
 1	medon	medón	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-2	lai	lae	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
+2	lai	lá	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
 
 # sent_id = 3463
 # reference = f.233 top marg. (TPH p.xxii)
