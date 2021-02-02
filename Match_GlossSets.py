@@ -1568,6 +1568,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                    ['r', '<PART PartType=Vb>', 'r', 'ro'],
                    ['ro', '<PART PartType=Vb>', 'ro', 'ro'],
                    ['ró', '<PART PartType=Vb>', 'ro', 'ro'],
+                   ['rr', '<PART PartType=Vb>', 'rr', 'ro'],
                    ['sechmo', '<PART PartType=Vb>', 'sechmo', 'sechmo']]
     # list conjunctions which take conjunct forms of the verb (cf. Stifter p.248-249, 49.6)
     dependent_conjunctions = [['Ara', '<SCONJ>', 'ara', 'ara'],

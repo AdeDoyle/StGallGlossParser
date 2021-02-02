@@ -32568,11 +32568,11 @@
 
 # sent_id = 2960
 # reference = 199b12
-# text = ce r ricc
+# text = ce rr icc
 # translation = why? (lit. what does it reach?)
 1	ce	cía	PRON	_	PronType=Int	_	_	_	_
-2	r	ro	PART	_	PartType=Vb	_	_	_	_
-3	ricc	roicc	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
+2	rr	ro	PART	_	PartType=Vb	_	_	_	_
+3	icc	roicc	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 
 # sent_id = 2961
 # reference = 199b13
