@@ -18322,7 +18322,7 @@
 18	friu	fri	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
 19	ɫ	nó	CCONJ	_	_	_	_	_	_
 20	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
-21	debuid	debaid	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+21	debuid	debuith	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 1762
 # reference = 68b10
