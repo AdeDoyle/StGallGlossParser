@@ -463,7 +463,7 @@
 # text = in nuile
 # translation = all
 1	in	a	DET	_	Case=Acc|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-2	nuile	uile	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
+2	nuile	uile	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 
 # sent_id = 42
 # reference = 3b10
@@ -16425,7 +16425,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	nomina	_	X	_	Foreign=Yes	_	_	_	_
 3	holerum	_	X	_	Foreign=Yes	_	_	_	_
-4	huili	uile	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
+4	huili	uile	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 
 # sent_id = 1616
 # reference = 64a16
@@ -18337,7 +18337,7 @@
 # translation = all below (are river-names)
 1	propria	_	X	_	Foreign=Yes	_	_	_	_
 2	fluminum	_	X	_	Foreign=Yes	_	_	_	_
-3	huili	uile	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
+3	huili	uile	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 4	sís	sís	ADV	_	_	_	_	_	_
 
 # sent_id = 1831
@@ -20125,10 +20125,10 @@
 # sent_id = 1985
 # reference = 90a4
 # text = .i. ni huile as derb
-# translation = i.e. not all is certain
+# translation = i.e. it is not everything that is certain
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	ni	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
-3	huile	uile	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
+3	huile	uile	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	as	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
 5	derb	derb	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 
@@ -29190,7 +29190,7 @@
 # sent_id = 2784
 # reference = f.189 top marg. (TPH p.xxi)
 # text = lathaeirt
-# translation = drunkenness
+# translation = massive hangover
 1	lathaeirt	laithirt	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2785
@@ -35643,7 +35643,7 @@
 # sent_id = 3272
 # reference = 212a13
 # text = .i. graif forsna huilib remṡuidigthib igitur in tan ṁbíte hi remthechtas acuit for a peneuilt in tan ṁbíte fo deid acht ma beith accuis dechuir ar isin uilt biid aiccend indib hi suidiu ut circum reliqua
-# translation = * no translation available *
+# translation = i.e. the grave accent on all the prepositions, then, when they are in anteposition: the acute on their penult when they are at the end, unless there be a cause of difference, for in this case the accent in them is on the ultima.
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	graif	graif	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 3	forsna	for	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
@@ -36644,7 +36644,7 @@
 # translation = all this (infra, intra, intus, is derived) from in
 1	o	ó	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	in	_	X	_	Foreign=Yes	_	_	_	_
-3	huile	uile	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
+3	huile	uile	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 4	sin	sin	PART	_	PronType=Dem	_	_	_	_
 
 # sent_id = 3359
@@ -37359,7 +37359,7 @@
 # translation = i.e. they all do these three things
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	dogniat	dogní	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-3	huili	uile	ADJ	_	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur	_	_	_	_
+3	huili	uile	NOUN	_	Case=Nom|Number=Plur	_	_	_	_
 4	a	a	DET	_	Case=Acc|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 5	tréde	tréide	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 6	sin	sin	PART	_	PronType=Dem	_	_	_	_

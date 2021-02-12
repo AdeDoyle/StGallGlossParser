@@ -432,23 +432,19 @@ def clean_analysis(taglist, test_unknown=False):
                    'f, i̯a (?)', 'f, i̯ā (?)', '[f, i̯ā]', 'f, i̯ā & m, i̯o',
                    'f, i (?)', 'f, i, ī', 'f, i and n', 'f, i, later also k', 'f, n (?)',
                    'gender not attested in OIr.', 'gender unknown, i-stem', 'uncertain gender',
-                   'unknown declension', 'irregular']:
-            if An3 in ['nom.sg.', 'nom.sg.masc.',
+                   'unknown declension', 'irregular', 'adjectival noun']:
+            if An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
                        'voc.sg.',
-                       'acc.sg.',
-                       'gen.sg.',
-                       'dat.sg.', 'dat.sg.masc.', 'dat.sg. (?)',
+                       'acc.sg.', 'acc.sg.neut.',
+                       'gen.sg.', 'gen.sg.neut.',
+                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg. (?)',
                        'nom.pl.', 'nom.pl.neut.',
                        'voc.pl.',
                        'acc.pl.', 'acc.pl.masc.', 'acc.pl.neut.',
-                       'gen.pl.',
+                       'gen.pl.', 'gen.pl.fem.',
                        'dat.pl.',
                        'nom.du.', 'acc.du.', 'gen.du.', 'dat.du.',
                        'acc./dat.sg.',
-                       'nom.sg.neut.', 'nom.sg.fem.',
-                       'gen.sg.neut.',
-                       'dat.sg.neut.',
-                       'gen.pl.fem.',
                        'composition form']:
                 if An3 == 'acc./dat.sg.':
                     An3 = 'dat.sg.'
