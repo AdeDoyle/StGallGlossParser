@@ -3057,6 +3057,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                             # if the second last POS before the verb is a preverbal particle and the zero particle
                             # is a relative particle, combine the relative particle's features with the verb's
                             # remove the relative particle and preceding preverb from the POS list
+                            # ***Deprecated*** (verbs can no longer be relative, only rel-particles and copula forms)
                             elif sl_short_pos == "PVP" and "PronType=Rel" in last_feats:
                                 if combine_wordtoks:
                                     if sl_original == tagged_original[:len(sl_original)]:
@@ -3087,7 +3088,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                         tagged_original = tagged_original[len(sl_original):]
                                         tagged_standard = tagged_standard[len(sl_standard):]
                                         tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                    elif second_last_data in verbal_particles and "PronType=Rel" in tagged_feats:
+                                    elif second_last_data in verbal_particles:
                                         tagged_original = sl_original + tagged_original
                                         tagged_standard = sl_standard + tagged_standard
                                         tagged_pos = add_features(tagged_pos, sl_feats)
@@ -3652,14 +3653,25 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 raise RuntimeError("Potentially doubled verb suffix found")
                             else:
                                 continue
+                        # if there is a suffixed pronoun following a simple verb form
                         elif "PronType=Prs" in next_feats:
-                            # if there is a suffixed pronoun following a simple verb form
                             if next_original == tagged_original[-len(next_original):] and "Poss=Yes" not in next_feats:
-                                tagged_pos = add_features(tagged_pos, next_feats, "combine", ["PronType"])
-                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
-                                pos_list[j] = tagged_word_data
-                                del pos_list[next_pos_place]
-                                combine_subtract = True
+                                if combine_wordtoks:
+                                    next_feats = "|".join(next_feats)
+                                    next_feats = "PronGend".join(next_feats.split("Gender"))
+                                    next_feats = "PronNum".join(next_feats.split("Number"))
+                                    next_feats = "PronPers".join(next_feats.split("Person"))
+                                    next_feats = next_feats.split("|")
+                                    tagged_pos = add_features(tagged_pos, next_feats)
+                                    tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                    pos_list[j] = tagged_word_data
+                                    del pos_list[next_pos_place]
+                                    combine_subtract = True
+                                else:
+                                    tagged_word_data = [tagged_original[:-len(next_original)], tagged_pos,
+                                                        tagged_standard[:-len(next_original)], tagged_head]
+                                    pos_list[j] = tagged_word_data
+                                    combine_subtract = True
                             else:
                                 continue
                         elif "PronType=Ind" in next_feats:

@@ -2,7 +2,7 @@
 from Clean_ExcelLists import create_data_combo
 from Pickle import open_obj, save_obj
 from OpenXlsx import list_xlsx
-from Clean_Glosses import clean_gloss, clean_word, clean_lemma
+from Clean_Glosses import clean_gloss, clean_word
 import matplotlib.pyplot as plt
 import re
 from conllu import parse
@@ -621,7 +621,7 @@ def clean_analysis(taglist, test_unknown=False):
                         pos = f"PRON Case={case} | Gender=Masc | Number={number} | PronType=Ind"
     # Assign Suffixed Pronouns (PRON)
     if An1 == 'pronoun, suffixed':
-        if An2 in ['3sg m, n', '3sg m, n (nasalizing)']:
+        if An2 == '3sg m, n':
             if not An3:
                 if not actpas:
                     if not rel:
@@ -677,28 +677,16 @@ def clean_analysis(taglist, test_unknown=False):
                     else:
                         gender = "Masc,Neut"
             feat_list = list()
-            if not An3:
-                if gender:
-                    feat_list.append(f'Gender={gender}')
-                if number:
-                    feat_list.append(f'Number={number}')
-                if person:
-                    feat_list.append(f'Person={person}')
-                features = " | ".join(feat_list)
-                if not actpas:
-                    if not rel:
-                        pos = f"PRON {features} | Poss=Yes | PronType=Prs"
-            elif An3 in ['neut.', '3sg.neut.']:
-                gender = "Neut"
+            if gender:
                 feat_list.append(f'Gender={gender}')
-                if number:
-                    feat_list.append(f'Number={number}')
-                if person:
-                    feat_list.append(f'Person={person}')
-                features = " | ".join(feat_list)
-                if not actpas:
-                    if not rel:
-                        pos = f"PRON {features} | Poss=Yes | PronType=Prs"
+            if number:
+                feat_list.append(f'Number={number}')
+            if person:
+                feat_list.append(f'Person={person}')
+            features = " | ".join(feat_list)
+            if not actpas:
+                if not rel:
+                    pos = f"PRON {features} | Poss=Yes | PronType=Prs"
     # Emphatic Pronouns
     if An1 == 'particle, emphatic pronominal':
         if An2 in ['1sg', '2sg', '3sg m, n', '3sg f',
@@ -715,27 +703,16 @@ def clean_analysis(taglist, test_unknown=False):
                 number = "Sing"
             elif "pl" in An2:
                 number = "Plur"
-            if not An3:
-                if gender:
-                    feat_list.append(f'Gender={gender}')
-                if number:
-                    feat_list.append(f'Number={number}')
-                feat_list.append(f'Person={person}')
-                feat_list.append("PronType=Emp")
-                features = " | ".join(feat_list)
-                if not actpas:
-                    if not rel:
-                        pos = f"PRON {features}"
-            elif An3 in ['masc.', '3sg.masc.']:
-                feat_list.append(f'Gender=Masc')
-                if number:
-                    feat_list.append(f'Number={number}')
-                feat_list.append(f'Person={person}')
-                feat_list.append("PronType=Emp")
-                features = " | ".join(feat_list)
-                if not actpas:
-                    if not rel:
-                        pos = f"PRON {features}"
+            if gender:
+                feat_list.append(f'Gender={gender}')
+            if number:
+                feat_list.append(f'Number={number}')
+            feat_list.append(f'Person={person}')
+            feat_list.append("PronType=Emp")
+            features = " | ".join(feat_list)
+            if not actpas:
+                if not rel:
+                    pos = f"PRON {features}"
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
         if An2 in ['stressed', 'neuter, stressed']:
@@ -1191,9 +1168,6 @@ def clean_analysis(taglist, test_unknown=False):
                     voice = "Act"
                 elif actpas in ['Passive', 'Pass']:
                     voice = "Pass"
-                relative = False
-                if rel in ['Y', 'Maybe']:
-                    relative = "Rel"
                 feat_list = list()
                 if aspect:
                     feat_list.append(f'Aspect={aspect}')
@@ -1205,8 +1179,6 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Number={number}')
                 if person:
                     feat_list.append(f'Person={person}')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 if tense:
                     feat_list.append(f'Tense={tense}')
                 elif mood == "Imp":
@@ -1236,9 +1208,6 @@ def clean_analysis(taglist, test_unknown=False):
                     voice = "Act"
                 elif actpas in ['Passive', 'Pass']:
                     voice = "Pass"
-                relative = False
-                if rel in ['Y', 'Maybe']:
-                    relative = "Rel"
                 feat_list = list()
                 if mood:
                     feat_list.append(f'Mood={mood}')
@@ -1246,8 +1215,6 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Number={number}')
                 if person:
                     feat_list.append(f'Person={person}')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 if tense:
                     feat_list.append(f'Tense={tense}')
                 if voice:
@@ -1352,9 +1319,6 @@ def clean_analysis(taglist, test_unknown=False):
                     voice = "Act"
                 elif actpas in ['Passive', 'Pass']:
                     voice = "Pass"
-                relative = False
-                if rel in ['Y', 'Maybe']:
-                    relative = "Rel"
                 feat_list = list()
                 if aspect:
                     feat_list.append(f'Aspect={aspect}')
@@ -1366,8 +1330,6 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Number={number}')
                 if person:
                     feat_list.append(f'Person={person}')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 if tense:
                     feat_list.append(f'Tense={tense}')
                 elif mood == "Imp":
@@ -1410,9 +1372,6 @@ def clean_analysis(taglist, test_unknown=False):
                     voice = "Act"
                 elif actpas in ['Passive', 'Pass']:
                     voice = "Pass"
-                relative = False
-                if rel in ['Y', 'Maybe']:
-                    relative = "Rel"
                 feat_list = list()
                 if aspect:
                     feat_list.append(f'Aspect={aspect}')
@@ -1424,8 +1383,6 @@ def clean_analysis(taglist, test_unknown=False):
                     feat_list.append(f'Number={number}')
                 if person:
                     feat_list.append(f'Person={person}')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 if tense:
                     feat_list.append(f'Tense={tense}')
                 elif mood == "Imp":
@@ -1444,15 +1401,10 @@ def clean_analysis(taglist, test_unknown=False):
                 tense = 'Pres'
                 mood = 'Ind'
                 voice = 'Act'
-                relative = False
-                if rel == 'Y':
-                    relative = "Rel"
                 feat_list = list()
                 feat_list.append(f'Mood={mood}')
                 feat_list.append(f'Number={number}')
                 feat_list.append(f'Person={person}')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 feat_list.append(f'Tense={tense}')
                 feat_list.append(f'Voice={voice}')
                 features = " | ".join(feat_list)
@@ -2047,15 +1999,10 @@ def clean_analysis(taglist, test_unknown=False):
     if An1 == 'particle':
         if An2 == 'preverb':
             if not An3:
-                relative = False
-                if rel == "Y":
-                    relative = "Rel"
                 feat_list = list()
                 if trans:
                     if trans in ["perfective particle", "subjunctive ro", "ro of possibility", "conditional ro"]:
                         feat_list.append('PartType=Aug')
-                if relative:
-                    feat_list.append(f'PronType={relative}')
                 if not actpas:
                     pos = "PVP"
                     if trans in ["dummy particle", "dummy particle: before secondary tenses"]:
