@@ -3135,7 +3135,7 @@
 # text = cach ae tar héisi araili
 # translation = each of them instead of the other
 1	cach	cach	DET	_	Case=Nom|Definite=Def|Number=Sing	_	_	_	_
-2	ae	ai	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+2	ae	aí	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 3	tar	tar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	héisi	éis	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
 5	araili	aile	ADJ	_	Case=Gen|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
@@ -3356,7 +3356,7 @@
 9	⁊	ocus	CCONJ	_	_	_	_	_	_
 10	bíid	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 11	cach	cach	DET	_	Case=Acc|Definite=Def|Number=Sing	_	_	_	_
-12	ae	ai	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+12	ae	aí	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 13	ar	ar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 14	alailiu	aile	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
 
@@ -4296,7 +4296,7 @@
 # text = co tom erchloither
 # translation = I am driven
 1	co	con	PART	_	PartType=Vb	_	_	_	_
-2	tom	dom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
+2	tom	tom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
 3	erchloither	conerchloí	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 391
@@ -5192,7 +5192,7 @@
 2	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 3	ind	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 4	ala	aile	ADJ	_	Degree=Pos	_	_	_	_
-5	nai	ai	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+5	nai	aí	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	lactantius	_	X	_	Foreign=Yes	_	_	_	_
 7	dicit	_	X	_	Foreign=Yes	_	_	_	_
 8	Utrum	_	X	_	Foreign=Yes	_	_	_	_
@@ -6484,7 +6484,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	proprium	_	X	_	Foreign=Yes	_	_	_	_
 3	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-4	ái	aí	PRON	_	Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+4	ái	aí	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 
 # sent_id = 578
 # reference = 27a6
@@ -7601,7 +7601,7 @@
 # translation = i.e. its own, i.e. what is proper to it [lit. her]
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	a	a	PRON	_	Gender=Fem|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
-3	nái	aí	PRON	_	Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+3	nái	aí	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 4	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 5	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	sainreth	sainred	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -24578,7 +24578,7 @@
 # translation = i.e. I am preserved
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	for	for	PART	_	PartType=Vb	_	_	_	_
-3	dom	dom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
+3	dom	tom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
 4	chomaither	forcomai	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 2336
@@ -24736,7 +24736,7 @@
 4	lán	lán	ADJ	_	Case=Nom|Degree=Pos|Gender=Fem|Number=Sing	_	_	_	_
 5	chiall	cíall	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 6	indib	i	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
-7	chenae	cen	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
+7	chenae	cen	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 2350
 # reference = 140b4
@@ -26221,7 +26221,7 @@
 5	chiál	ciall	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 6	i	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 7	nolḟoirbthiu	olfoirbthe	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-8	chene	cen	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+8	chene	cen	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 2475
 # reference = 151b2
@@ -28915,7 +28915,7 @@
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	samlid	amal	ADV	_	_	_	_	_	_
 4	a	ad	PART	_	PartType=Vb	_	_	_	_
-5	ta	ta	PRON	_	Number=Plur|Person=3|PronType=Prs	_	_	_	_
+5	ta	da	PRON	_	Number=Plur|Person=3|PronType=Prs	_	_	_	_
 6	daimet	addaim	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 7	cia	cía	SCONJ	_	_	_	_	_	_
 8	chrechtnigth	créchtnaigid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
@@ -29175,7 +29175,7 @@
 # translation = i.e. I am gone towards
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	fri	fris	PART	_	PartType=Vb	_	_	_	_
-3	tum	dom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
+3	tum	tom	PRON	_	Number=Sing|Person=1|PronType=Prs	_	_	_	_
 4	thiagar	fristét	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
 
 # sent_id = 2714
@@ -30875,7 +30875,7 @@
 # translation = each of them takes the place of the other, and it is the same for you to say legens est and qui legit, and qui legit, legens est
 1	Engraccigidir	engraicigidir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 2	cechtar	cechtar	PRON	_	PronType=Ind	_	_	_	_
-3	nai	ai	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+3	nai	aí	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 4	alaill	aile	ADJ	_	Case=Acc|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 5	⁊	ocus	CCONJ	_	_	_	_	_	_
 6	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -32023,7 +32023,7 @@
 # text = .i. ai .i. filius
 # translation = i.e. his
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	ai	ai	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+2	ai	aí	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 3	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 4	filius	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -34238,7 +34238,7 @@
 # reference = 204a3
 # text = ái .i. filius
 # translation = his
-1	ái	ai	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+1	ái	aí	PRON	_	Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 2	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 3	filius	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -34247,7 +34247,7 @@
 # text = inna ái .i. filius reliqua
 # translation = of theirs (or their)
 1	inna	in	DET	_	Case=Gen|Gender=Masc|Number=Plur|PronType=Art	_	_	_	_
-2	ái	ai	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
+2	ái	aí	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 3	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 4	filius	_	X	_	Foreign=Yes	_	_	_	_
 5	reliqua	_	X	_	Foreign=Yes	_	_	_	_
