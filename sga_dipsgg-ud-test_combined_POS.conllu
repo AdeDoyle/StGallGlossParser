@@ -2094,7 +2094,7 @@
 5	tóisech	toísech	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
 6	frisin	fri	ADP	_	AdpType=Prep|Case=Acc|Definite=Def|Gender=Fem|Number=Sing|PronType=Art	_	_	_	_
 7	gutai	guttae	NOUN	_	Case=Acc|Number=Sing	_	_	_	_
-8	remi	re	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+8	remi	re	ADP	_	AdpType=Prep|Definite=Ind|Gender=Fem|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 186
 # reference = 7b6
@@ -35240,7 +35240,7 @@
 2	bis	attá	VERB	_	Aspect=Hab|Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 3	isind	i	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
 4	anmmaim	ainm	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-5	riam	re	ADP	_	AdpType=Prep|Definite=Ind|Number=Sing|Person=3|PronType=Prs	_	_	_	_
+5	riam	re	ADP	_	AdpType=Prep|Definite=Ind|Gender=Masc,Neut|Number=Sing|Person=3|PronType=Prs	_	_	_	_
 
 # sent_id = 3239
 # reference = 211a12
