@@ -716,12 +716,9 @@ def clean_analysis(taglist, test_unknown=False):
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
         if An2 in ['stressed', 'neuter, stressed']:
-            if An3 in ['nom.sg.',
-                       'acc.sg.', 'acc.sg.masc.', 'acc.sg.neut.',
-                       'dat.sg.', 'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem',
-                       'acc.pl.', 'acc.pl.masc.',
-                       'dat.pl.', 'dat.pl.neut.']:
-                case = False
+            if An3 in ['acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
+                       'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem.',
+                       'acc.pl.', 'dat.pl.']:
                 gender = False
                 number = False
                 feat_list = list()
@@ -730,7 +727,7 @@ def clean_analysis(taglist, test_unknown=False):
                     gender = "Masc"
                 elif ".neut." in An3:
                     gender = "Neut"
-                elif ".fem" in An3:
+                elif ".fem." in An3:
                     gender = "Fem"
                 if ".sg." in An3:
                     number = "Sing"
@@ -747,10 +744,6 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = f"PRON {features}"
-            elif not An3:
-                if not actpas:
-                    if not rel:
-                        pos = "PRON PronType=Ana"
         if An2 == 'neuter, stressed':
             if An3 in ['acc.sg.', 'dat.sg.']:
                 if not actpas:
