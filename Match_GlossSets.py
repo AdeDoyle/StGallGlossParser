@@ -3647,6 +3647,15 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                                 combine_subtract = True
                             else:
                                 continue
+                        elif "Case=Acc|Gender=Neut|Number=Sing|PronType=Ana" in next_feats:
+                            if next_original == tagged_original[-len(next_original):]:
+                                tagged_original = tagged_original[:-len(next_original)]
+                                tagged_standard = tagged_standard[:-len(next_standard)]
+                                tagged_word_data = [tagged_original, tagged_pos, tagged_standard, tagged_head]
+                                pos_list[j] = tagged_word_data
+                                combine_subtract = True
+                            else:
+                                continue
                         # if the word following the verb is a demonstrative particle
                         elif "PronType=Dem" in next_feats:
                             if next_original == tagged_original[-len(next_original):]:

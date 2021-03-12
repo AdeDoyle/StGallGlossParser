@@ -715,7 +715,7 @@ def clean_analysis(taglist, test_unknown=False):
                     pos = f"PRON {features}"
     # Anaphoric Pronouns
     if An1 == 'pronoun, anaphoric':
-        if An2 in ['stressed', 'neuter, stressed']:
+        if An2 == 'stressed':
             if An3 in ['acc.sg.masc.', 'acc.sg.neut.', 'acc.sg.fem.',
                        'dat.sg.masc.', 'dat.sg.neut.', 'dat.sg.fem.',
                        'acc.pl.', 'dat.pl.']:
@@ -744,17 +744,23 @@ def clean_analysis(taglist, test_unknown=False):
                 if not actpas:
                     if not rel:
                         pos = f"PRON {features}"
-        if An2 == 'neuter, stressed':
+        elif An2 == 'neuter, stressed':
             if An3 in ['acc.sg.', 'dat.sg.']:
+                feat_list = list()
+                feat_list.append(f'Case={An3[:3].capitalize()}')
+                feat_list.append('Gender=Neut')
+                feat_list.append('Number=Sing')
+                feat_list.append("PronType=Ana")
+                features = " | ".join(feat_list)
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Ana"
+                        pos = f"PRON {features}"
         elif An2 == 'enclitic':
             if not An3:
                 if not actpas:
                     if not rel:
                         pos = "PRON PronType=Ana"
-            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.neut.', 'nom.sg.fem.',
+            elif An3 in ['nom.sg.', 'nom.sg.masc.', 'nom.sg.fem.',
                          'acc.sg.', 'acc.sg.fem.',
                          'gen.sg.', 'gen.sg.neut.', 'gen.sg.fem.',
                          'dat.sg.fem',
@@ -768,7 +774,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON PronType=Ana"
+                        pos = "PRON Case=Acc|Gender=Neut|Number=Sing|PronType=Ana"
     # Assign Interrogative Pronouns
     if An1 in ['pronoun, interrogative and indefinite']:
         if not An2:
