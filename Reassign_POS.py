@@ -774,7 +774,7 @@ def clean_analysis(taglist, test_unknown=False):
             if not An3:
                 if not actpas:
                     if not rel:
-                        pos = "PRON Case=Acc|Gender=Neut|Number=Sing|PronType=Ana"
+                        pos = "PRON Case=Acc | Gender=Neut | Number=Sing | PronType=Ana"
     # Assign Interrogative Pronouns
     if An1 in ['pronoun, interrogative and indefinite']:
         if not An2:
