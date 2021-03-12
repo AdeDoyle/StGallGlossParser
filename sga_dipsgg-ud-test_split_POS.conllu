@@ -38382,7 +38382,7 @@
 # translation = at the forum
 1	oco	oc	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
 2	n	a	DET	_	Case=Dat|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-3	dal	dál	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+3	dal	dál	NOUN	_	Prefix=Yes	_	_	_	_
 4	ṡuidiu	suide	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 3402

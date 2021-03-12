@@ -37069,7 +37069,7 @@
 # text = ocon dal ṡuidiu
 # translation = at the forum
 1	ocon	oc	ADP	_	AdpType=Prep|Case=Dat|Definite=Def|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-2	dal	dál	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
+2	dal	dál	NOUN	_	Prefix=Yes	_	_	_	_
 3	ṡuidiu	suide	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 3402
