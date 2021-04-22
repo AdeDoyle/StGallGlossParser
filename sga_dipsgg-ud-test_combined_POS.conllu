@@ -25331,11 +25331,11 @@
 
 # sent_id = 2470
 # reference = 151a2
-# text = statim ⁊ et iar na ḟorbo
+# text = statim facta ⁊ iar na ḟorbo
 # translation = done and after its completion
 1	statim	_	X	_	Foreign=Yes	_	_	_	_
-2	⁊	ocus	CCONJ	_	_	_	_	_	_
-3	et	_	X	_	Foreign=Yes	_	_	_	_
+2	facta	_	X	_	Foreign=Yes	_	_	_	_
+3	⁊	ocus	CCONJ	_	_	_	_	_	_
 4	iar	íar	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	na	a	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 6	ḟorbo	forbae	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
