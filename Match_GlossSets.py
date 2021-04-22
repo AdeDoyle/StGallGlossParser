@@ -4068,6 +4068,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             del pos_list[i]
             combine_subtract = True
     # change the POS tags of any word tagged as an unknown POS to <X> and add the typo feature
+    # if there is no headword, introduce "_"
     for i, tagged_word_data in enumerate(pos_list):
         tagged_original = tagged_word_data[0]
         tagged_standard = tagged_word_data[2]
@@ -4076,6 +4077,8 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
         tagged_pos = split_tagged_pos[0]
         if tagged_pos == "UNK":
             new_pos = "<X Typo=Yes>"
+            if not tagged_head:
+                tagged_head = "_"
             pos_list[i] = [tagged_original, new_pos, tagged_standard, tagged_head]
             combine_subtract = True
 

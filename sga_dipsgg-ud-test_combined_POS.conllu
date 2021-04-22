@@ -2453,7 +2453,7 @@
 # reference = 8b7
 # text = dáne
 # translation = Dané
-1	dáne	False	X	_	Typo=Yes	_	_	_	_
+1	dáne	_	X	_	Typo=Yes	_	_	_	_
 
 # sent_id = 222
 # reference = 8b8
@@ -5776,7 +5776,7 @@
 4	fil	attá	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 5	sillaib	sillab	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 6	ṅdiuit	díuit	ADJ	_	Case=Dat|Degree=Pos|Number=Sing	_	_	_	_
-7	fodl	False	X	_	Typo=Yes	_	_	_	_
+7	fodl	_	X	_	Typo=Yes	_	_	_	_
 8	sidi	side	PRON	_	PronType=Ana	_	_	_	_
 9	ir	_	X	_	Foreign=Yes	_	_	_	_
 10	rainn	rann	NOUN	_	_	_	_	_	_
@@ -11140,8 +11140,8 @@
 11	fir	fír	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
 12	son	side	PRON	_	Case=Acc|Gender=Neut|Number=Sing|PronType=Ana	_	_	_	_
 13	dano	dano	ADV	_	_	_	_	_	_
-14	airsisiu	False	X	_	Typo=Yes	_	_	_	_
-15	infae	False	X	_	Typo=Yes	_	_	_	_
+14	airsisiu	_	X	_	Typo=Yes	_	_	_	_
+15	infae	_	X	_	Typo=Yes	_	_	_	_
 16	thucad	dobeir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Past|Voice=Pass	_	_	_	_
 17	híc	_	X	_	Foreign=Yes	_	_	_	_
 
@@ -16885,7 +16885,7 @@
 # reference = 66a16
 # text = celini
 # translation = * no translation available *
-1	celini	False	X	_	Typo=Yes	_	_	_	_
+1	celini	_	X	_	Typo=Yes	_	_	_	_
 
 # sent_id = 1670
 # reference = 66a17
@@ -36186,7 +36186,7 @@
 # reference = f.214 top marg. (TPH p.xxii)
 # text = aan de droch dub faigde dim in diu
 # translation = ?a.an from bad ink, a begging of something today (?)
-1	aan	False	X	_	Typo=Yes	_	_	_	_
+1	aan	_	X	_	Typo=Yes	_	_	_	_
 2	de	de	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 3	droch	droch	ADJ	_	Degree=Pos|Prefix=Yes	_	_	_	_
 4	dub	dub	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
