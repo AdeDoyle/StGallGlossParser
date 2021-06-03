@@ -66,7 +66,7 @@ nonglossnumlist = list(i[0] for i in glosslist[1:] if i[0] not in recordnumlist)
 glosslist = list(i for i in glosslist if i[0] not in nonglossnumlist)
 # Combines data from glosslist with related info from analysis list in one combined list
 combolist = [['GlossNo', 'TPH_ref', 'Token', 'Headword', 'Meaning', 'POS', 'Sub_POS', 'Analysis', 'Voice', 'Relative',
-              "GlossText", "GlossTranslation"]]
+              "GlossText", "GlossTranslation", "GlossHand"]]
 for analysis in wordlist:
     wordnum = analysis[0]
     for gloss in glosslist:
@@ -126,7 +126,10 @@ for analysis in wordlist:
                     raise RuntimeError()
             else:
                 tph_ref = "Not in Thesaurus Palaeohibernicus"
-            combolist.append([analysis[0]] + [tph_ref] + analysis[1:] + gloss[3:5])
+            hand = "Main Glossator"
+            if "+" in gloss[3]:
+                hand = "Alternate Glossator"
+            combolist.append([analysis[0]] + [tph_ref] + analysis[1:] + gloss[3:5] + [hand])
             break
 
 

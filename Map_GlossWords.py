@@ -42,7 +42,8 @@ def map_glosswords(gloss, word_data_list):
     gloss_ref = gloss[0]
     glosstext = clean_gloss(gloss[1])
     glosstrans = gloss[2]
-    pos_gloss = [gloss_ref, glosstext, glosstrans]
+    glosshand = gloss[3]
+    pos_gloss = [gloss_ref, glosstext, glosstrans, glosshand]
     pos_analysis = list()
     for word_data in word_data_list:
         word = clean_word(word_data[0])

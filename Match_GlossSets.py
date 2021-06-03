@@ -205,6 +205,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     tph_ref = gloss_mapping[0]
     gloss_string = gloss_mapping[1]
     gloss_trans = gloss_mapping[2]
+    gloss_hand = gloss_mapping[3]
     if "ᚐ" in gloss_string:
         gloss_list = gloss_string.split(" ")
         if gloss_list[0][0] == "᚛":
@@ -219,7 +220,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     else:
         standard_list = standard_string.split(" ")
     standard_mapping = False
-    pos_list = gloss_mapping[3]
+    pos_list = gloss_mapping[4]
     tags_rating = 0
     tagged_gloss = list()
 
@@ -4569,7 +4570,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
             break
     # remove edit distances and original Hofman token from token data before output
     # then add reliability score for gloss and any possible word matches to the tagged-gloss list before output
-    tagged_gloss = [tags_rating, tph_ref, [[i[0], i[4], i[1]] for i in tagged_gloss], gloss_trans]
+    tagged_gloss = [tags_rating, tph_ref, [[i[0], i[4], i[1]] for i in tagged_gloss], gloss_trans, gloss_hand]
     return tagged_gloss
 
 

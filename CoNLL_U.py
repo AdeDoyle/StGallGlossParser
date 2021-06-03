@@ -257,6 +257,7 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
         sent_id += 1
         this_id = f'# sent_id = {sent_id}'
         ref = f'# reference = {i[0]}'
+        hand = f'# scribal_hand = {i[3]}'
         wordlist = i[1]
         full_gloss = " ".join([j[0] for j in wordlist])
         if "ᚐ" in full_gloss:
@@ -265,7 +266,7 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
             full_gloss = "᚛".join(full_gloss.split("᚛ "))
         full_gloss = f'# text = {full_gloss}'
         translation = f'# translation = {i[2]}'
-        sgg_meta = f'{this_id}\n{ref}\n{full_gloss}\n{translation}\n'
+        sgg_meta = f'{this_id}\n{ref}\n{hand}\n{full_gloss}\n{translation}\n'
         if not sgg_file:
             sgg_file = sgg_meta + compile_sent(wordlist)
         else:

@@ -2174,7 +2174,7 @@ def create_pos_taglist():
     return "Created file: 'POS_taglist.pkl'"
 
 
-# Create and save an ordered list of glosses (uncleaned) with translations and TPH references
+# Create and save an ordered list of glosses (uncleaned) with translations, TPH references and hands
 def create_glosslist(excel_combo):
     glosslist = list()
     lastgloss = ""
@@ -2182,9 +2182,10 @@ def create_glosslist(excel_combo):
         thisref = i[1]
         thisgloss = i[10]
         thistrans = i[11]
+        thishand = i[12]
         if thisgloss != lastgloss:
             lastgloss = thisgloss
-            glosslist.append([thisref, thisgloss, thistrans])
+            glosslist.append([thisref, thisgloss, thistrans, thishand])
     save_obj("Gloss_List", glosslist)
     return "Created file: 'Gloss_List.pkl'"
 

@@ -26,8 +26,7 @@ def save_xlsx(filename, datalists, headers=False):
     firstlen = len(datalists[0])
     for datalist in datalists:
         if len(datalist) != firstlen:
-            print("Error: Uneven Row Lengths in Table.")
-            return "Error: Uneven Row Lengths in Table."
+            raise RuntimeError("Error: Uneven Row Lengths in Table.")
     cols = firstlen
     rows = len(datalists)
     for row in range(rows):
