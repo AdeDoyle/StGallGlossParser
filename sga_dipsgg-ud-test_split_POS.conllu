@@ -3844,7 +3844,7 @@
 
 # sent_id = 313
 # reference = 13a3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C?
 # text = inill
 # translation = safe
 1	inill	inill	ADJ	_	Case=Nom|Degree=Pos|Gender=Masc|Number=Sing	_	_	_	_
@@ -4336,7 +4336,7 @@
 
 # sent_id = 359
 # reference = 15b11
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C+E
 # text = buaid lie vel lapis victorie
 # translation = a victory stone
 1	buaid	búaid	NOUN	_	Prefix=Yes	_	_	_	_
@@ -5266,7 +5266,7 @@
 
 # sent_id = 436
 # reference = 20b1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. sluag
 # translation = i.e. host
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -10837,7 +10837,7 @@
 
 # sent_id = 862
 # reference = 35b14
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. fiach
 # translation = i.e. crow
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -11000,7 +11000,7 @@
 
 # sent_id = 880
 # reference = 37a5
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = proprium ɫ derc
 # translation = i.e. a proper name, or red
 1	proprium	_	X	_	Foreign=Yes	_	_	_	_
@@ -13556,7 +13556,7 @@
 
 # sent_id = 1111
 # reference = 46a2
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = ɫ bóc
 # translation = or a kiss
 1	ɫ	nó	CCONJ	_	_	_	_	_	_
@@ -13584,7 +13584,7 @@
 
 # sent_id = 1114
 # reference = 46a5
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator D?
 # text = p… vel luasc reliqua
 # translation = oscillation
 1	p…	_	X	_	Foreign=Yes	_	_	_	_
@@ -13792,7 +13792,7 @@
 
 # sent_id = 1139
 # reference = 46b13
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = ingen
 # translation = nail
 1	ingen	ingen	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -14160,7 +14160,7 @@
 
 # sent_id = 1182
 # reference = 48b3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. srogell
 # translation = scourge
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -14209,14 +14209,14 @@
 
 # sent_id = 1187
 # reference = 49a2
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = lothor
 # translation = tub
 1	lothor	lóthar	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 1188
 # reference = 49a3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. derg
 # translation = i.e. red
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -14253,7 +14253,7 @@
 
 # sent_id = 1192
 # reference = 49a7
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. derg
 # translation = i.e. red
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -15049,7 +15049,7 @@
 
 # sent_id = 1273
 # reference = 50b21
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. féle
 # translation = i.e. modesty
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -15067,7 +15067,7 @@
 
 # sent_id = 1275
 # reference = 51a1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = écen
 # translation = violence
 1	écen	éicen	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -15521,7 +15521,7 @@
 
 # sent_id = 1326
 # reference = 52b9
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator G
 # text = cís rigdae
 # translation = the royal tax
 1	cís	cís	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -15669,7 +15669,7 @@
 
 # sent_id = 1339
 # reference = 53a11
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator D
 # text = is grec ind í as comprehensiva
 # translation = it is a Greek word comprehensiva
 1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -15693,7 +15693,7 @@
 
 # sent_id = 1341
 # reference = 53a13
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator G/C?
 # text = .i. cliab noiden o
 # translation = i.e. an infant’s cradle
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -15711,7 +15711,7 @@
 
 # sent_id = 1343
 # reference = 53a15
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = tened
 # translation = of fire
 1	tened	teine	NOUN	_	Case=Gen|Number=Sing	_	_	_	_
@@ -15803,7 +15803,7 @@
 
 # sent_id = 1354
 # reference = 53b6
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = áth
 # translation = ford
 1	áth	ath	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -16137,7 +16137,7 @@
 
 # sent_id = 1386
 # reference = 55a1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. as
 # translation = i.e. which is similis
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -18057,7 +18057,7 @@
 
 # sent_id = 1565
 # reference = 62b10
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. ligo .i. bacc buana fínime
 # translation = i.e. ‘ligo’ (sickle) i.e. a sickle for pruning vines
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -18165,7 +18165,7 @@
 
 # sent_id = 1577
 # reference = 63a12
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator C
 # text = .i. mocoll lín
 # translation = i.e. a mesh of a net
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -20553,7 +20553,7 @@
 
 # sent_id = 1810
 # reference = 70a4
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator G/C?
 # text = .i. trost
 # translation = i.e. beam
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -23864,7 +23864,7 @@
 
 # sent_id = 2081
 # reference = 100b3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = .i. feugud
 # translation = i.e. fading
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -23941,7 +23941,7 @@
 
 # sent_id = 2090
 # reference = 102b3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = giall unde obsido as
 # translation = a hostage
 1	giall	gíall	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -24160,7 +24160,7 @@
 
 # sent_id = 2107
 # reference = 105b1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = ⁊ capus sebocc
 # translation = and capus hawk
 1	⁊	ocus	CCONJ	_	_	_	_	_	_
@@ -25209,7 +25209,7 @@
 
 # sent_id = 2198
 # reference = f.114 top marg. (TPH p.xx)
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator _
 # text = bendacht for anmmain ferguso amen mar uar dom
 # translation = A blessing on the soul of Fergus. Amen. I am very cold
 1	bendacht	bendacht	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -25875,7 +25875,7 @@
 
 # sent_id = 2256
 # reference = 125a1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = .i. loon
 # translation = i.e. fat
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -26060,7 +26060,7 @@
 
 # sent_id = 2271
 # reference = 128a1
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = .i. lam brat
 # translation = i.e. a handkerchief
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -26078,7 +26078,7 @@
 
 # sent_id = 2273
 # reference = 128a3
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = .i. o nd lam brot
 # translation = i.e. from the handkerchief
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
@@ -27212,7 +27212,7 @@
 
 # sent_id = 2361
 # reference = 143b2
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = sástair quando passivum
 # translation = (meaning) it is fed when it is passive
 1	sástair	sásaid	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Pass	_	_	_	_
@@ -27559,7 +27559,7 @@
 
 # sent_id = 2394
 # reference = 146b14
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = ɫ fo algim
 # translation = * no translation available *
 1	ɫ	nó	CCONJ	_	_	_	_	_	_
@@ -31589,7 +31589,7 @@
 
 # sent_id = 2691
 # reference = 181a4
-# scribal_hand = Alternate Glossator
+# scribal_hand = Glossator +
 # text = vel origenistum .i. bunad gein
 # translation = see Translation Notes
 1	vel	_	X	_	Foreign=Yes	_	_	_	_
