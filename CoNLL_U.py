@@ -257,7 +257,7 @@ def compile_SGG(tagged_glosses, combine_wordtoks=True):
         sent_id += 1
         this_id = f'# sent_id = {sent_id}'
         ref = f'# reference = {i[0]}'
-        hand = f'# scribal_hand = {i[3]}'
+        hand = f'# scribe = {i[3]}'
         wordlist = i[1]
         full_gloss = " ".join([j[0] for j in wordlist])
         if "ᚐ" in full_gloss:
