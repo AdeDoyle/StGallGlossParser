@@ -4568,20 +4568,56 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
         if i != 0:
             tags_rating += 100
             break
-    # assign the correct glossator based on Moran's identification
-    hand_dict = {"13a3": "C?", "15b11": "C+E", "20b1": "C", "35b14": "C", "37a5": "C", "46a2": "C", "46a5": "D?",
-                 "46b13": "C", "48b3": "C", "49a2": "C", "49a3": "C", "49a7": "C", "50b21": "C", "51a1": "C",
-                 "52b9": "G", "53a11": "D", "53a13": "G/C?", "53a15": "C", "53b6": "C", "55a1": "C", "62b10": "C",
-                 "63a12": "C", "70a4": "G/C?", "100b3": "+", "102b3": "+", "105b1": "+",
-                 "f.114 top marg. (TPH p.xx)": "_", "125a1": "+", "128a1": "+", "128a3": "+", "143b2": "+",
-                 "146b14": "+", "181a4": "+"}
-    if gloss_hand == "Alternate Glossator":
-        if tph_ref in hand_dict:
-            gloss_hand = f'Glossator {hand_dict.get(tph_ref)}'
+    # # assign the correct glossator based on Moran's identification
+    # hand_dict = {"13a3": "C?", "15b11": "C+E", "20b1": "C", "35b14": "C", "37a5": "C", "46a2": "C", "46a5": "D?",
+    #              "46b13": "C", "48b3": "C", "49a2": "C", "49a3": "C", "49a7": "C", "50b21": "C", "51a1": "C",
+    #              "52b9": "G", "53a11": "D", "53a13": "G/C?", "53a15": "C", "53b6": "C", "55a1": "C", "62b10": "C",
+    #              "63a12": "C", "70a4": "G/C?", "100b3": "+", "102b3": "+", "105b1": "+",
+    #              "f.114 top marg. (TPH p.xx)": "_", "125a1": "+", "128a1": "+", "128a3": "+", "143b2": "+",
+    #              "146b14": "+", "181a4": "+"}
+    # if gloss_hand == "Alternate Glossator":
+    #     if tph_ref in hand_dict:
+    #         gloss_hand = f'Glossator {hand_dict.get(tph_ref)}'
+    #     else:
+    #         print(tph_ref)
+    #         print(" ".join([i[0] for i in tagged_gloss]))
+    #         raise RuntimeError("Could not identify alternate glossator")
+    # assign the correct glossator based on TPH's identification (p. xix)
+    hand_dict = {"65b6": "B", "65b7": "A", "67b19": "A", "67b22": "A", "15b11": "C", "33a24": "C", "49a2": "C",
+                 "54a12": "C", "57b5": "C", "62b10": "C", "63a12": "C", "67b14": "C", "69b10": "C", "144b2": "C",
+                 "46b13": "C", "50b21": "C", "63b17": "C", "46a2": "C", "53a15": "C", "92a4": "C"}
+    if tph_ref in hand_dict:
+        gloss_hand = f'Glossator {hand_dict.get(tph_ref)}'
+    elif tph_ref == "Not in Thesaurus Palaeohibernicus":
+        gloss_hand = "Glossator A"
+    else:
+        gloss_hand = False
+        this_folcol = False
+        folcolpat = re.compile(r'(^\d{1,3}[a-d,]|^f.\d{1,3})')
+        folcolpatiter = folcolpat.finditer(tph_ref)
+        for j in folcolpatiter:
+            this_folcol = j.group()
+        if this_folcol[:2] == "f.":
+            this_fol = int(this_folcol[2:])
         else:
-            print(tph_ref)
-            print(" ".join([i[0] for i in tagged_gloss]))
-            raise RuntimeError("Could not identify alternate glossator")
+            this_fol = int(this_folcol[:-1])
+        if this_fol < 65 or this_fol > 67:
+            gloss_hand = "Glossator A"
+        elif this_fol == 66:
+            gloss_hand = "Glossator B"
+        elif this_fol == 65:
+            this_col = this_folcol[-1:]
+            if this_col == "a":
+                gloss_hand = "Glossator A"
+            elif this_col == "b":
+                this_gloss_alphanum = tph_ref[len(this_folcol):]
+                this_glossnum = int(this_gloss_alphanum)
+                if this_glossnum <= 5:
+                    gloss_hand = "Glossator A"
+                elif this_glossnum > 5:
+                    gloss_hand = "Glossator B"
+        elif this_fol == 67:
+            gloss_hand = "Glossator B"
     # remove edit distances and original Hofman token from token data before output
     # then add reliability score for gloss and any possible word matches to the tagged-gloss list before output
     tagged_gloss = [tags_rating, tph_ref, [[i[0], i[4], i[1]] for i in tagged_gloss], gloss_trans, gloss_hand]
