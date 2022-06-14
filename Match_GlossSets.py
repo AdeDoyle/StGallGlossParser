@@ -4586,6 +4586,13 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     hand_dict = {"65b6": "B", "65b7": "A", "67b19": "A", "67b22": "A", "15b11": "C", "33a24": "C", "49a2": "C",
                  "54a12": "C", "57b5": "C", "62b10": "C", "63a12": "C", "67b14": "C", "69b10": "C", "144b2": "C",
                  "46b13": "C", "50b21": "C", "63b17": "C", "46a2": "C", "53a15": "C", "92a4": "C"}
+    alt_dict = {"f.50 bottom marg. (TPH p.xx)": "Ogam A", "f.70 top marg. (TPH p.xx)": "Ogam",
+                "f.158 top marg. (TPH p.xx)": "Main", "f.170 top marg. (TPH p.xxi)": "Ogam",
+                "f.182 top marg. (TPH p.xxi)": "Main", "f.189 top marg. (TPH p.xxi)": "Main",
+                "f.190 top marg. (TPH p.xxi)": "Main", "f.193 top marg. (TPH p.xxi)": "Ogam A",
+                "f.194 top marg. (TPH p.xxi)": "Ogam A", "f.195 top marg. (TPH p.xxi)": "Ogam A",
+
+                "f.196 top marg. (TPH p.xxi)": "Ogam A", "f.204 top marg. (TPH p.xxii)": "Ogam Main"}
     if tph_ref in hand_dict:
         gloss_hand = f'Glossator {hand_dict.get(tph_ref)}'
     elif tph_ref == "Not in Thesaurus Palaeohibernicus":
