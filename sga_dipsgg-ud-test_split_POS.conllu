@@ -15057,7 +15057,7 @@
 
 # sent_id = 1274
 # reference = f.50 bottom marg. (TPH p.xx)
-# scribe = Glossator A
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚃᚓᚏᚔᚐ ᚉᚐᚔ ᚆᚑᚇᚔᚓ
 # translation = * no translation available *
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -20518,7 +20518,7 @@
 
 # sent_id = 1806
 # reference = f.70 top marg. (TPH p.xx)
-# scribe = Glossator A
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚃᚓᚂ ᚋᚐᚏᚈᚐᚔᚅ
 # translation = feast of Martinus
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -29463,7 +29463,7 @@
 
 # sent_id = 2534
 # reference = f.158 top marg. (TPH p.xx)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = sén a nóib ingen
 # translation = Bless, Holy Virgin
 1	sén	sén	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -30892,7 +30892,7 @@
 
 # sent_id = 2632
 # reference = f.170 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚋᚔᚅ ᚉᚆᚐᚄᚉ
 # translation = little easter
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -31755,7 +31755,7 @@
 
 # sent_id = 2703
 # reference = f.182 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = finguine
 # translation = * no translation available *
 1	finguine	finguine	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -32980,7 +32980,7 @@
 
 # sent_id = 2784
 # reference = f.189 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = lathaeirt
 # translation = massive hangover
 1	lathaeirt	laithirt	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -33249,7 +33249,7 @@
 
 # sent_id = 2805
 # reference = f.190 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = fo llega
 # translation = it [the ink] leaks
 1	fo	fo	PART	_	PartType=Vb	_	_	_	_
@@ -33626,7 +33626,7 @@
 
 # sent_id = 2833
 # reference = f.193 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚉᚑᚉᚐᚏᚈ
 # translation = correction
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -33788,15 +33788,15 @@
 7	ranngabál	ranngabál	NOUN	_	Case=Gen|Number=Plur	_	_	_	_
 
 # sent_id = 2846
-# reference = f.194 top marg. (TPH p.xxi)
+# reference = f.194 top marg. I (TPH p.xxi)
 # scribe = Glossator A
-# text = donngus
+# text = donngvs
 # translation = Dongus
-1	donngus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
+1	donngvs	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2847
-# reference = f.194 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# reference = f.194 top marg. II (TPH p.xxi)
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚉᚑᚉᚐᚏᚈ
 # translation = correction
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -33862,15 +33862,15 @@
 9	choirbbre	coirbbre	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2853
-# reference = f.195 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# reference = f.195 top marg. I (TPH p.xxi)
+# scribe = Glossator A (Ogam)
 # text = ᚉᚑᚉᚐᚏᚈ
 # translation = correction
 1	ᚉᚑᚉᚐᚏᚈ	cocart	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 2854
-# reference = f.195 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# reference = f.195 top marg. II (TPH p.xxi)
+# scribe = Main Hand
 # text = is gann in memrum et a scribend
 # translation = The parchment is rough (? ’difficilis’ Nigra) and the writing
 1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -33950,7 +33950,7 @@
 
 # sent_id = 2861
 # reference = f.195 bottom marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = ní áer mall roscríbad in letráim so
 # translation = This page has not been written very slowly
 1	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -33963,7 +33963,7 @@
 
 # sent_id = 2862
 # reference = f.196 top marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Glossator A (Ogam)
 # text = ᚛ᚐ ᚙᚑᚉᚐᚏᚈ ᚔᚅ ᚄᚑ
 # translation = this is its correction
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -35546,7 +35546,7 @@
 
 # sent_id = 2962
 # reference = f.199 bottom marg. (TPH p.xxi)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = ní mmall
 # translation = it is not slow
 1	ní	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -37252,7 +37252,7 @@
 9	ainm	ainm	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3078
-# reference = f.203 bottom marg. (TPH p.xxi)
+# reference = f.203 bottom marg. I (TPH p.xxi)
 # scribe = Glossator A
 # text = maithas patric ⁊ brigtae ar máel brigtae na mba olcc a menma frimm ar in scribund roscribad in dul so
 # translation = the beneficence of Patrick and Brigit on Mael Brigte, that he may not be angry with me for the writing that has been written this time
@@ -37278,7 +37278,7 @@
 20	so	so	PART	_	PronType=Dem	_	_	_	_
 
 # sent_id = 3079
-# reference = f.203 bottom marg. (TPH p.xxii)
+# reference = f.203 bottom marg. II (TPH p.xxii)
 # scribe = Glossator A
 # text = maraith sercc céin mardda aithne a máelecán
 # translation = Love remains as long as property (lit. deposit, ,opes’ Nigra) remains, O Maellecan
@@ -37292,7 +37292,7 @@
 
 # sent_id = 3080
 # reference = f.204 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand (Ogam)
 # text = ᚛ᚂᚐᚈᚆᚓᚔᚏᚈ
 # translation = massive hangover
 1	᚛	᚛	PUNCT	_	_	_	_	_	_
@@ -37510,7 +37510,7 @@
 
 # sent_id = 3102
 # reference = f.203-204 bottom marg. (TPH p.290)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = Do m farcai fidbaidae fál fo m chain lóid luin lúad nad cél huas mo lebrán ind línech fo m chain trírech inna ṅén Fo mm chain cói menn medair mass hi ṁbrot glass de dindgnaib doss debrath no m choimmdiu cóima cáin scríbaimm fo róida ross
 # translation = A hedge of trees surrounds me: a blackbird’s lay sings to me—praise which I will not hide—above my booklet the lined one the trilling of the birds sings to me. In a gray mantle the cuckoo’s beautiful chant sings to me from the tops of bushes: may the Lord be kind to me! I write well under the greenwood
 1	Do	do	PART	_	PartType=Vb	_	_	_	_
@@ -37761,7 +37761,7 @@
 
 # sent_id = 3118
 # reference = f.207 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = dongus
 # translation = Dongus
 1	dongus	dongus	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -40018,7 +40018,7 @@
 
 # sent_id = 3259
 # reference = f.211 bottom marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = uch mo chliab a nóib ingen
 # translation = O my breast, Holy Virgin
 1	uch	uch	INTJ	_	_	_	_	_	_
@@ -40475,7 +40475,7 @@
 
 # sent_id = 3292
 # reference = f.213 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = grácad
 # translation = croaking
 1	grácad	grácad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -40786,7 +40786,7 @@
 
 # sent_id = 3316
 # reference = f.214 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = aan de droch dub faigde dim in diu
 # translation = ?a.an from bad ink, a begging of something today (?)
 1	aan	_	X	_	Typo=Yes	_	_	_	_
@@ -41617,7 +41617,7 @@
 
 # sent_id = 3385
 # reference = f.217 bottom marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = memmbrum naue droch dub ó ní epur na haill
 # translation = New parchment, bad ink. O I say nothing more.
 1	memmbrum	membrum	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -41795,18 +41795,18 @@
 2	quo	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3403
-# reference = f.219 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# reference = f.219 top marg. I (TPH p.xxii)
+# scribe = Main Hand
 # text = in maith
 # translation = is [the ink] good?
 1	in	a	PART	_	PronType=Int	_	_	_	_
 2	maith	maith	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
 # sent_id = 3404
-# reference = f.219 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# reference = f.219 top marg. II (TPH p.xxii)
+# scribe = Main Hand
 # text = cobthach
-# translation = * no translation available *
+# translation = Cobthach
 1	cobthach	cobthach	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3405
@@ -41827,7 +41827,7 @@
 
 # sent_id = 3407
 # reference = f.220 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = gracad
 # translation = croaking
 1	gracad	grácad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -42439,14 +42439,14 @@
 
 # sent_id = 3458
 # reference = f.223 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = gracad
 # translation = croaking
 1	gracad	grácad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3459
 # reference = f.226 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = mochoe noiṅdrommo
 # translation = Mochae of Oendrium
 1	mochoe	mochoe	PROPN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -42454,7 +42454,7 @@
 
 # sent_id = 3460
 # reference = f.228 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = is gann membrumm
 # translation = the parchment is scanty
 1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
@@ -42492,7 +42492,7 @@
 
 # sent_id = 3462
 # reference = f.231 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = medon lai
 # translation = mid-day
 1	medon	medón	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -42500,7 +42500,7 @@
 
 # sent_id = 3463
 # reference = f.233 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = satharnn sam chasc
 # translation = Saturday of Summer-Easter
 1	satharnn	satharnn	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -42547,14 +42547,14 @@
 
 # sent_id = 3468
 # reference = f.247 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = grácad
 # translation = croaking
 1	grácad	grácad	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
 
 # sent_id = 3469
 # reference = f.248 top marg. (TPH p.xxii)
-# scribe = Glossator A
+# scribe = Main Hand
 # text = is tana a ndub
 # translation = The ink is thin
 1	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_

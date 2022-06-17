@@ -4582,19 +4582,33 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
     #         print(tph_ref)
     #         print(" ".join([i[0] for i in tagged_gloss]))
     #         raise RuntimeError("Could not identify alternate glossator")
-    # assign the correct glossator based on TPH's identification (p. xix)
-    hand_dict = {"65b6": "B", "65b7": "A", "67b19": "A", "67b22": "A", "15b11": "C", "33a24": "C", "49a2": "C",
-                 "54a12": "C", "57b5": "C", "62b10": "C", "63a12": "C", "67b14": "C", "69b10": "C", "144b2": "C",
-                 "46b13": "C", "50b21": "C", "63b17": "C", "46a2": "C", "53a15": "C", "92a4": "C"}
-    alt_dict = {"f.50 bottom marg. (TPH p.xx)": "Ogam A", "f.70 top marg. (TPH p.xx)": "Ogam",
-                "f.158 top marg. (TPH p.xx)": "Main", "f.170 top marg. (TPH p.xxi)": "Ogam",
-                "f.182 top marg. (TPH p.xxi)": "Main", "f.189 top marg. (TPH p.xxi)": "Main",
-                "f.190 top marg. (TPH p.xxi)": "Main", "f.193 top marg. (TPH p.xxi)": "Ogam A",
-                "f.194 top marg. (TPH p.xxi)": "Ogam A", "f.195 top marg. (TPH p.xxi)": "Ogam A",
-
-                "f.196 top marg. (TPH p.xxi)": "Ogam A", "f.204 top marg. (TPH p.xxii)": "Ogam Main"}
+    # assign the correct glossator based on TPH's identification (pp. xix-xx) and exceptional glosses
+    # either those in ogam or those obviously written by the same hand as the main text
+    hand_dict = {"15b11": "C", "33a24": "C", "46a2": "C", "46b13": "C", "49a2": "C", "50b21": "C",
+                 "f.50 bottom marg. (TPH p.xx)": "A (Ogam)", "53a15": "C", "54a12": "C", "57b5": "C", "62b10": "C",
+                 "63a12": "C", "63b17": "C", "65b6": "B", "65b7": "A", "67b14": "C", "67b19": "A", "67b22": "A",
+                 "69b10": "C", "f.70 top marg. (TPH p.xx)": "A (Ogam)", "92a4": "C", "144b2": "C",
+                 "f.158 top marg. (TPH p.xx)": "Main Hand", "f.170 top marg. (TPH p.xxi)": "A (Ogam)",
+                 "f.182 top marg. (TPH p.xxi)": "Main Hand", "f.189 top marg. (TPH p.xxi)": "Main Hand",
+                 "f.190 top marg. (TPH p.xxi)": "Main Hand", "f.193 top marg. (TPH p.xxi)": "A (Ogam)",
+                 "f.194 top marg. II (TPH p.xxi)": "A (Ogam)", "f.195 top marg. I (TPH p.xxi)": "A (Ogam)",
+                 "f.195 top marg. II (TPH p.xxi)": "Main Hand", "f.195 bottom marg. (TPH p.xxi)": "Main Hand",
+                 "f.196 top marg. (TPH p.xxi)": "A (Ogam)", "f.199 bottom marg. (TPH p.xxi)": "Main Hand",
+                 "f.203-204 bottom marg. (TPH p.290)": "Main Hand", "f.204 top marg. (TPH p.xxii)": "Main Hand (Ogam)",
+                 "f.207 top marg. (TPH p.xxii)": "Main Hand", "f.211 bottom marg. (TPH p.xxii)": "Main Hand",
+                 "f.213 top marg. (TPH p.xxii)": "Main Hand", "f.214 top marg. (TPH p.xxii)": "Main Hand",
+                 "f.217 bottom marg. (TPH p.xxii)": "Main Hand", "f.219 top marg. I (TPH p.xxii)": "Main Hand",
+                 "f.219 top marg. II (TPH p.xxii)": "Main Hand", "f.220 top marg. (TPH p.xxii)": "Main Hand",
+                 "f.223 top marg. (TPH p.xxii)": "Main Hand", "f.226 top marg. (TPH p.xxii)": "Main Hand",
+                 "f.228 top marg. (TPH p.xxii)": "Main Hand", "f.229 top marg. (TPH p.xxii)": "Main Hand",
+                 "f.231 top marg. (TPH p.xxii)": "Main Hand", "f.233 top marg. (TPH p.xxii)": "Main Hand",
+                 "f.247 top marg. (TPH p.xxii)": "Main Hand", "f.248 top marg. (TPH p.xxii)": "Main Hand"}
     if tph_ref in hand_dict:
-        gloss_hand = f'Glossator {hand_dict.get(tph_ref)}'
+        found_hand = hand_dict.get(tph_ref)
+        if found_hand in ["Main Hand", "Main Hand (Ogam)"]:
+            gloss_hand = found_hand
+        else:
+            gloss_hand = f"Glossator {found_hand}"
     elif tph_ref == "Not in Thesaurus Palaeohibernicus":
         gloss_hand = "Glossator A"
     else:
