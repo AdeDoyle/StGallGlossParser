@@ -511,6 +511,7 @@ def matchword_levdist(gloss_mapping, combine_wordtoks=True):
                         ['cia', '<PRON PronType=Int>', 'cia', 'cía'],
                         ['Cia', '<PRON PronType=Int>', 'cia', 'cía'],
                         ['cid', '<PRON PronType=Int>', 'cid', 'cía'],
+                        ['ced', '<PRON PronType=Int>', 'ced', 'cía'],
                         ['sechi', '<PRON PronType=Ind>', 'sechi', 'sechi']]
     # count the instances of the compounded copula form(s) in the gloss
     cop_count = 0
@@ -4652,9 +4653,22 @@ def save_poslist(combine_wordtoks=True):
         tagged_gloss = matchword_levdist(map_glosswords(gloss, wordslist[glossnum]), combine_wordtoks)
         pos_list.append(tagged_gloss[1:])
     if combine_wordtoks:
+        # Solve known spacing issue problems
+        for glossnum, gloss in enumerate(pos_list):
+            if gloss[0] == "204a8":
+                gloss[1][1][0] = 'cia so'
+                gloss[1][3][0] = 'a'
+                gloss[1][4][0] = 'ṅ grammatice'
+                pos_list[glossnum] = gloss
         save_obj("SG POS-tagged combined", pos_list)
         return "Created File: 'SG POS-tagged combined.pkl'"
     else:
+        # Solve known spacing issue problems
+        for glossnum, gloss in enumerate(pos_list):
+            if gloss[0] == "204a8":
+                gloss[1][4][0] = 'a'
+                gloss[1][5][0] = 'ṅ grammatice'
+                pos_list[glossnum] = gloss
         save_obj("SG POS-tagged separated", pos_list)
         return "Created File: 'SG POS-tagged separated.pkl'"
 

@@ -23022,7 +23022,7 @@
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
 2	is	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	cumtubart	cumtubart	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
-4	ced	cía	PRON	_	Mood=Sub|Number=Sing|Person=3|Polarity=Pos|PronType=Int|Tense=Pres|VerbType=Cop	_	_	_	_
+4	ced	cía	PRON	_	PronType=Int	_	_	_	_
 5	dogní	dogní	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 6	a	a	PRON	_	Number=Plur|Person=3|Poss=Yes|PronType=Prs	_	_	_	_
 7	ngenitiu	genitiu	NOUN	_	Case=Nom|Number=Sing	_	_	_	_
@@ -36197,13 +36197,13 @@
 # sent_id = 3088
 # reference = 204a8
 # scribe = Glossator A
-# text = .i. ciaso doacaldmach aṅ grammatice
+# text = .i. cia so doacaldmach a ṅ grammatice
 # translation = i.e. though grammatice is appellative
 1	.i.	.i.	ADV	_	Abbr=Yes	_	_	_	_
-2	ciaso	cía	SCONJ	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
+2	cia so	cía	SCONJ	_	Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Pres|VerbType=Cop	_	_	_	_
 3	doacaldmach	doacaldmach	ADJ	_	Case=Nom|Degree=Pos|Number=Sing	_	_	_	_
-4	aṅ	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
-5	grammatice	_	X	_	Foreign=Yes	_	_	_	_
+4	a	a	DET	_	Case=Nom|Gender=Neut|Number=Sing|PronType=Art	_	_	_	_
+5	ṅ grammatice	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 3089
 # reference = 204b1
