@@ -154,7 +154,7 @@ def clean_gloss(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_gre
 
 @lru_cache(maxsize=3500)
 def clean_word(gloss, lowercase=False, ellipses=True, rem_hyphen=False, rem_greek=False):
-    """Takes a word and removes all instances of tags or undesirable characters within the it"""
+    """Takes a word and removes all instances of tags or undesirable characters within it"""
     # removes all unnecessary tags and tag content
     if lowercase:
         gloss = gloss.lower()
