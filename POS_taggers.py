@@ -226,13 +226,22 @@ def multi_test_random(corpora, test_percent, tests_range, verbose=True):
 
 
 def pos_percent(test_output, pos_totals_list):
-    """Determine the percentage of unique POS-tags correctly and incorrectly assigned per tokenisation style"""
+    """Determine the percentage of unique POS-tags occurring in the test-sets
+       Also calculate the percentage of tokens correctly and incorrectly POS-tagged within the test-sets"""
+
+    if isinstance(test_output[0], tuple):
+        test_output = [
+            [
+                info if isinstance(info, float) else [pos_info[0] for pos_info in info] for info in style
+            ] for style in test_output
+        ]
 
     percentages = list()
     for tok_standard_indx, output in enumerate(test_output):
-        percent_correct = 100 * (len(output[1]) / pos_totals_list[tok_standard_indx])
-        percent_incorrect = 100 * len(output[2]) / pos_totals_list[tok_standard_indx]
-        percentages.append([percent_correct, percent_incorrect])
+        percent_occurring = 100 * (len(sorted(list(set(output[1] + output[2])))) / pos_totals_list[tok_standard_indx])
+        percent_correct = 100 * (len(sorted(list(set(output[1])))) / pos_totals_list[tok_standard_indx])
+        percent_incorrect = 100 * (len(sorted(list(set(output[2])))) / pos_totals_list[tok_standard_indx])
+        percentages.append([percent_occurring, percent_correct, percent_incorrect])
 
     return percentages
 
@@ -269,12 +278,17 @@ if __name__ == "__main__":
     # for i in one_pass_results:
     #     print(i[0])
 
-    # Output the overall accuracy over 1 pass
-    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    # Output the overall accuracy over 1 pass, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
     one_pass_percentages = pos_percent(one_pass_results, sorted_pos_totals)
     for tok_style_indx, output in enumerate(one_pass_results):
-        print(output[0], one_pass_percentages[tok_style_indx][0] / 100,
-              one_pass_percentages[tok_style_indx][1] / 100)
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {one_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {one_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {one_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
 
     # Train taggers and test on random selection of glosses multiple times
     multi_pass_results = multi_test_random([combined_analyses, original_words, combined_tokens, split_tokens], 5, 1000)
@@ -283,12 +297,17 @@ if __name__ == "__main__":
     # for i in multi_pass_results:
     #     print(i[0])
 
-    # Output the overall accuracy over multiple passes
-    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
     multi_pass_percentages = pos_percent(multi_pass_results, sorted_pos_totals)
     for tok_style_indx, output in enumerate(multi_pass_results):
-        print(output[0], multi_pass_percentages[tok_style_indx][0] / 100,
-              multi_pass_percentages[tok_style_indx][1] / 100)
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
 
     ten_thousand_pass_test_results = [
         (0.47146099077543124, [
@@ -1858,9 +1877,13 @@ if __name__ == "__main__":
          )
     ]
 
-    # Output the overall accuracy over 10,000 passes
-    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    # Output the overall accuracy over 10,000 passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
     ten_thou_percentages = pos_percent(ten_thousand_pass_test_results, sorted_pos_totals)
     for tok_style_indx, output in enumerate(ten_thousand_pass_test_results):
-        print(output[0], ten_thou_percentages[tok_style_indx][0] / 100,
-              ten_thou_percentages[tok_style_indx][1] / 100)
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {ten_thou_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {ten_thou_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {ten_thou_percentages[tok_style_indx][2]}%"
+        )
