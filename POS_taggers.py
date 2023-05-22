@@ -56,7 +56,7 @@ def get_glosses(gloss_file, file_type, combined_analyses=False):
 
 
 def get_pos_tags(file):
-    """Extracts POS-tags from either Excel or CoNLL-U files"""
+    """Extracts words/tokens and associated analyses/POS-tags from either Excel or CoNLL-U files"""
 
     # extract UD POS-tags Excel files
     if isinstance(file[0][-1], list):
@@ -225,6 +225,18 @@ def multi_test_random(corpora, test_percent, tests_range, verbose=True):
     return zip(multi_test_accuracies, correct_pos_counts, incorrect_pos_counts)
 
 
+def pos_percent(test_output, pos_totals_list):
+    """Determine the percentage of unique POS-tags correctly and incorrectly assigned per tokenisation style"""
+
+    percentages = list()
+    for tok_style_indx, output in enumerate(test_output):
+        percent_correct = 100 * (len(output[1]) / pos_totals_list[tok_style_indx])
+        percent_incorrect = 100 * len(output[2]) / pos_totals_list[tok_style_indx]
+        percentages.append([percent_correct, percent_incorrect])
+
+    return percentages
+
+
 if __name__ == "__main__":
 
     # Get all original glosses and combined analyses
@@ -243,15 +255,40 @@ if __name__ == "__main__":
     split_glossdata = get_glosses("sga_dipsgg-ud-test_split_POS.conllu", "conllu")
     split_tokens = get_pos_tags(split_glossdata)
 
-    # Train taggers and test on random selection of glosses and test
-    # Print score for each corpus tested
-    for i in test_random_selection([combined_analyses, original_words, combined_tokens, split_tokens], 5):
-        print(i)
+    # Calculate the number of unique parts-of-speech for each word-separation/tokenisation style
+    unique_combo_anal = len(sorted(list(set([pair[1] for pair in [a for b in combined_analyses for a in b]]))))
+    unique_orig_words = len(sorted(list(set([pair[1] for pair in [a for b in original_words for a in b]]))))
+    unique_combo_toks = len(sorted(list(set([pair[1] for pair in [a for b in combined_tokens for a in b]]))))
+    unique_split_toks = len(sorted(list(set([pair[1] for pair in [a for b in split_tokens for a in b]]))))
+    sorted_pos_totals = [unique_combo_anal, unique_orig_words, unique_combo_toks, unique_split_toks]
 
-    # # Train taggers and test on random selection of glosses multiple times
+    # Train taggers and test on random selection of glosses and test once each
+    one_pass_results = test_random_selection([combined_analyses, original_words, combined_tokens, split_tokens], 5)
+
+    # # Print score for each corpus tested
+    # for i in one_pass_results:
+    #     print(i[0])
+
+    # Output the overall accuracy over 1 pass
+    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    one_pass_percentages = pos_percent(one_pass_results, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(one_pass_results):
+        print(output[0], one_pass_percentages[tok_style_indx][0] / 100,
+              one_pass_percentages[tok_style_indx][1] / 100)
+
+    # Train taggers and test on random selection of glosses multiple times
+    multi_pass_results = multi_test_random([combined_analyses, original_words, combined_tokens, split_tokens], 5, 1000)
+
     # # Print average score for each corpus tested
-    # for i in multi_test_random([combined_analyses, original_words, combined_tokens, split_tokens], 5, 1000):
-    #     print(i)
+    # for i in multi_pass_results:
+    #     print(i[0])
+
+    # Output the overall accuracy over multiple passes
+    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(multi_pass_results, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(multi_pass_results):
+        print(output[0], multi_pass_percentages[tok_style_indx][0] / 100,
+              multi_pass_percentages[tok_style_indx][1] / 100)
 
     ten_thousand_pass_test_results = [
         (0.47146099077543124, [
@@ -1821,4 +1858,9 @@ if __name__ == "__main__":
          )
     ]
 
-    print(len(ten_thousand_pass_test_results[0][1]))
+    # Output the overall accuracy over 10,000 passes
+    # Also output scores for unique POS-tags both correctly and incorrectly assigned
+    ten_thou_percentages = pos_percent(ten_thousand_pass_test_results, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(ten_thousand_pass_test_results):
+        print(output[0], ten_thou_percentages[tok_style_indx][0] / 100,
+              ten_thou_percentages[tok_style_indx][1] / 100)
