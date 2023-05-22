@@ -229,9 +229,9 @@ def pos_percent(test_output, pos_totals_list):
     """Determine the percentage of unique POS-tags correctly and incorrectly assigned per tokenisation style"""
 
     percentages = list()
-    for tok_style_indx, output in enumerate(test_output):
-        percent_correct = 100 * (len(output[1]) / pos_totals_list[tok_style_indx])
-        percent_incorrect = 100 * len(output[2]) / pos_totals_list[tok_style_indx]
+    for tok_standard_indx, output in enumerate(test_output):
+        percent_correct = 100 * (len(output[1]) / pos_totals_list[tok_standard_indx])
+        percent_incorrect = 100 * len(output[2]) / pos_totals_list[tok_standard_indx]
         percentages.append([percent_correct, percent_incorrect])
 
     return percentages
