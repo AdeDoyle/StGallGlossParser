@@ -222,7 +222,7 @@ def multi_test_random(corpora, test_percent, tests_range, verbose=True):
             ]
         )
 
-    return zip(multi_test_accuracies, correct_pos_counts, incorrect_pos_counts)
+    return list(zip(multi_test_accuracies, correct_pos_counts, incorrect_pos_counts))
 
 
 def pos_percent(test_output, pos_totals_list):
