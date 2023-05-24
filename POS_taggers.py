@@ -269,6 +269,11 @@ if __name__ == "__main__":
     unique_orig_words = len(sorted(list(set([pair[1] for pair in [a for b in original_words for a in b]]))))
     unique_combo_toks = len(sorted(list(set([pair[1] for pair in [a for b in combined_tokens for a in b]]))))
     unique_split_toks = len(sorted(list(set([pair[1] for pair in [a for b in split_tokens for a in b]]))))
+    print(f"Total unique combined analyses:\n    {unique_combo_anal}\n"
+          f"Total unique word classes:\n    {unique_orig_words}\n"
+          f"Total unique parts-of-speech (combined tokens):\n    {unique_combo_toks}\n"
+          f"Total unique parts-of-speech (separated tokens):\n    {unique_split_toks}")
+    print()
     sorted_pos_totals = [unique_combo_anal, unique_orig_words, unique_combo_toks, unique_split_toks]
 
     # Train taggers and test on random selection of glosses and test once each
