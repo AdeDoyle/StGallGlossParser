@@ -89,16 +89,48 @@ def separate_test(file, train_indices, test_indices):
     return [training_data, test_data]
 
 
-def train_pos_tagger(pos_file):
+def train_pos_tagger(pos_file, ngram=1):
     """Train's a POS-tagger model for a selected language"""
 
+    universal_cutoff = 0
+
     # train the tagger
-    pos_tagger = nltk.UnigramTagger(pos_file)
+    if ngram < 1:
+        raise RuntimeError(f"n value of {ngram} not possible")
+    elif ngram == 1:
+        pos_tagger = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+    elif ngram == 2:
+        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        pos_tagger = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+    elif ngram == 3:
+        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post2, cutoff=universal_cutoff)
+    elif ngram == 4:
+        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post3, cutoff=universal_cutoff)
+    elif ngram == 5:
+        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+        post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
+        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post4, cutoff=universal_cutoff)
+    elif ngram == 6:
+        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+        post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
+        post5 = nltk.NgramTagger(5, pos_file, backoff=post4, cutoff=universal_cutoff)
+        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post5, cutoff=universal_cutoff)
+    else:
+        raise RuntimeError(f"n value of {ngram} not possible")
 
     return pos_tagger
 
 
-def test_random_selection(corpora, test_set_percentage=10):
+def test_random_selection(corpora, test_set_percentage=10, ngram=1):
     """Tests NLTK unigram tagger on the same random selection of glosses for each corpus inputted"""
 
     # Ensure all corpora are the same length
@@ -127,7 +159,7 @@ def test_random_selection(corpora, test_set_percentage=10):
         test_pos = [[token[1] for token in sent] for sent in test_set]
 
         # Train a POS-tagger on the training files
-        tagger = train_pos_tagger(train_set)
+        tagger = train_pos_tagger(train_set, ngram)
 
         # Evaluate POS tagger on the test files
         correct = list()
@@ -157,7 +189,7 @@ def test_random_selection(corpora, test_set_percentage=10):
     return results
 
 
-def multi_test_random(corpora, test_percent, tests_range, verbose=True):
+def multi_test_random(corpora, test_percent, tests_range, ngram=1, verbose=True):
     """Tests NLTK unigram tagger on the same random selection of glosses for each corpus inputted
        Carries out this test several times for each corpus and averages the scores"""
 
@@ -167,7 +199,7 @@ def multi_test_random(corpora, test_percent, tests_range, verbose=True):
     for test_num in range(tests_range):
         if verbose:
             print(f"Test {test_num + 1} of {tests_range} in progress ...")
-        multi_test_results.append(test_random_selection(corpora, test_percent))
+        multi_test_results.append(test_random_selection(corpora, test_percent, ngram))
 
     # Extract the accuracies for each pass from the combined results
     multi_test_accuracies = [[results[0] for results in tagging_pass] for tagging_pass in multi_test_results]
@@ -276,8 +308,14 @@ if __name__ == "__main__":
     print()
     sorted_pos_totals = [unique_combo_anal, unique_orig_words, unique_combo_toks, unique_split_toks]
 
+    # Combine annotated corpora in a list
+    combined_corpora = [combined_analyses, original_words, combined_tokens, split_tokens]
+
+    # Set n for n-gram POS-tagger
+    tagger_n = 1
+
     # Train taggers and test on random selection of glosses and test once each
-    one_pass_results = test_random_selection([combined_analyses, original_words, combined_tokens, split_tokens], 5)
+    one_pass_results = test_random_selection(combined_corpora, 5, tagger_n)
 
     # # Print score for each corpus tested
     # for i in one_pass_results:
@@ -296,7 +334,7 @@ if __name__ == "__main__":
     print()
 
     # Train taggers and test on random selection of glosses multiple times
-    multi_pass_results = multi_test_random([combined_analyses, original_words, combined_tokens, split_tokens], 5, 1000)
+    multi_pass_results = multi_test_random(combined_corpora, 5, 1000, tagger_n)
 
     # # Print average score for each corpus tested
     # for i in multi_pass_results:
