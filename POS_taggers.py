@@ -2,6 +2,7 @@ from OpenXlsx import list_xlsx
 from Clean_Glosses import clean_gloss, clean_word
 from conllu import parse
 import nltk
+from nltk.tag import brill, brill_trainer
 import random
 
 
@@ -89,48 +90,84 @@ def separate_test(file, train_indices, test_indices):
     return [training_data, test_data]
 
 
-def train_pos_tagger(pos_file, ngram=1):
-    """Train's a POS-tagger model for a selected language"""
+def train_pos_tagger(pos_file, tagger_style="n-gram", ngram=1):
+    """Train's an n-gram POS-tagger model for a selected language"""
 
     universal_cutoff = 0
 
-    # train the tagger
-    if ngram < 1:
-        raise RuntimeError(f"n value of {ngram} not possible")
-    elif ngram == 1:
-        pos_tagger = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-    elif ngram == 2:
+    if tagger_style == "brill":
+
+        templates = [
+            brill.Template(brill.Pos([-1])),
+            brill.Template(brill.Pos([1])),
+            brill.Template(brill.Pos([-2])),
+            brill.Template(brill.Pos([2])),
+            brill.Template(brill.Pos([-2, -1])),
+            brill.Template(brill.Pos([1, 2])),
+            brill.Template(brill.Pos([-3, -2, -1])),
+            brill.Template(brill.Pos([1, 2, 3])),
+            brill.Template(brill.Pos([-1]), brill.Pos([1])),
+            brill.Template(brill.Word([-1])),
+            brill.Template(brill.Word([1])),
+            brill.Template(brill.Word([-2])),
+            brill.Template(brill.Word([2])),
+            brill.Template(brill.Word([-2, -1])),
+            brill.Template(brill.Word([1, 2])),
+            brill.Template(brill.Word([-3, -2, -1])),
+            brill.Template(brill.Word([1, 2, 3])),
+            brill.Template(brill.Word([-1]), brill.Word([1])),
+        ]
         post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-        pos_tagger = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
-    elif ngram == 3:
-        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
-        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post2, cutoff=universal_cutoff)
-    elif ngram == 4:
-        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
-        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
-        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post3, cutoff=universal_cutoff)
-    elif ngram == 5:
-        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
-        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
-        post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
-        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post4, cutoff=universal_cutoff)
-    elif ngram == 6:
-        post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
-        post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
-        post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
-        post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
-        post5 = nltk.NgramTagger(5, pos_file, backoff=post4, cutoff=universal_cutoff)
-        pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post5, cutoff=universal_cutoff)
+        trainer = brill_trainer.BrillTaggerTrainer(post1, templates, deterministic=True)
+        pos_tagger = trainer.train(pos_file)
+
+    elif tagger_style == "HMM":
+        pos_tagger = nltk.HiddenMarkovModelTagger.train(pos_file)
+
+    elif tagger_style == "n-gram":
+        if ngram < 1:
+            raise RuntimeError(f"n value of {ngram} not possible")
+        elif ngram == 1:
+            pos_tagger = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+        elif ngram == 2:
+            post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+            pos_tagger = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+        elif ngram == 3:
+            post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+            post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+            pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post2, cutoff=universal_cutoff)
+        elif ngram == 4:
+            post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+            post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+            post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+            pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post3, cutoff=universal_cutoff)
+        elif ngram == 5:
+            post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+            post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+            post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+            post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
+            pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post4, cutoff=universal_cutoff)
+        elif ngram == 6:
+            post1 = nltk.UnigramTagger(pos_file, cutoff=universal_cutoff)
+            post2 = nltk.BigramTagger(pos_file, backoff=post1, cutoff=universal_cutoff)
+            post3 = nltk.NgramTagger(3, pos_file, backoff=post2, cutoff=universal_cutoff)
+            post4 = nltk.NgramTagger(4, pos_file, backoff=post3, cutoff=universal_cutoff)
+            post5 = nltk.NgramTagger(5, pos_file, backoff=post4, cutoff=universal_cutoff)
+            pos_tagger = nltk.NgramTagger(ngram, pos_file, backoff=post5, cutoff=universal_cutoff)
+        else:
+            raise RuntimeError(f"n value of {ngram} not possible")
+
+    elif tagger_style == "perceptron":
+        pos_tagger = nltk.PerceptronTagger(load=False)
+        pos_tagger.train(pos_file)
+
     else:
-        raise RuntimeError(f"n value of {ngram} not possible")
+        raise RuntimeError(f"Style of POS-tagger not supported: {tagger_style}")
 
     return pos_tagger
 
 
-def test_random_selection(corpora, test_set_percentage=10, ngram=1):
+def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram", ngram=1):
     """Tests NLTK unigram tagger on the same random selection of glosses for each corpus inputted"""
 
     # Ensure all corpora are the same length
@@ -159,7 +196,7 @@ def test_random_selection(corpora, test_set_percentage=10, ngram=1):
         test_pos = [[token[1] for token in sent] for sent in test_set]
 
         # Train a POS-tagger on the training files
-        tagger = train_pos_tagger(train_set, ngram)
+        tagger = train_pos_tagger(train_set, tagger_style, ngram)
 
         # Evaluate POS tagger on the test files
         correct = list()
@@ -189,7 +226,7 @@ def test_random_selection(corpora, test_set_percentage=10, ngram=1):
     return results
 
 
-def multi_test_random(corpora, test_percent, tests_range, ngram=1, verbose=True):
+def multi_test_random(corpora, test_percent, tests_range, tagger_style="n-gram", ngram=1,  verbose=True):
     """Tests NLTK unigram tagger on the same random selection of glosses for each corpus inputted
        Carries out this test several times for each corpus and averages the scores"""
 
@@ -199,7 +236,7 @@ def multi_test_random(corpora, test_percent, tests_range, ngram=1, verbose=True)
     for test_num in range(tests_range):
         if verbose:
             print(f"Test {test_num + 1} of {tests_range} in progress ...")
-        multi_test_results.append(test_random_selection(corpora, test_percent, ngram))
+        multi_test_results.append(test_random_selection(corpora, test_percent, tagger_style, ngram))
 
     # Extract the accuracies for each pass from the combined results
     multi_test_accuracies = [[results[0] for results in tagging_pass] for tagging_pass in multi_test_results]
@@ -311,39 +348,96 @@ if __name__ == "__main__":
     # Combine annotated corpora in a list
     combined_corpora = [combined_analyses, original_words, combined_tokens, split_tokens]
 
+    # Set number of passes for Monte Carlo cross-validation
+    num_passes = 1000
+
     # Set n for n-gram POS-tagger
     tagger_n = 1
 
-    # Train taggers and test on random selection of glosses and test once each
-    one_pass_results = test_random_selection(combined_corpora, 5, tagger_n)
+    # Train Brill taggers and test on random selection of glosses multiple times
+    brill_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "brill")
 
-    # # Print score for each corpus tested
-    # for i in one_pass_results:
-    #     print(i[0])
-
-    # Output the overall accuracy over 1 pass, and percentage of all unique POS-tags occurring in test-set
-    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
-    one_pass_percentages = pos_percent(one_pass_results, sorted_pos_totals)
-    for tok_style_indx, output in enumerate(one_pass_results):
-        print(
-            f"Accuracy: {output[0]},\n"
-            f"  Unique POS-tags occurring in test-set: {one_pass_percentages[tok_style_indx][0]}%\n"
-            f"  Unique POS-tags occurring in test-set correctly tagged: {one_pass_percentages[tok_style_indx][1]}%\n"
-            f"  Unique POS-tags occurring in test-set incorrectly tagged: {one_pass_percentages[tok_style_indx][2]}%"
-        )
     print()
+    print(f"Brill tagging with {num_passes} passes.")
 
-    # Train taggers and test on random selection of glosses multiple times
-    multi_pass_results = multi_test_random(combined_corpora, 5, 1000, tagger_n)
-
-    # # Print average score for each corpus tested
-    # for i in multi_pass_results:
-    #     print(i[0])
+    # Print average score (with/without word-level breakdown) for each corpus tested
+    for i in brill_multi_pass[2:]:
+        print(i)
+        # print(i[0])
 
     # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
     # Also output percentage of unique POS-tags both correctly and incorrectly assigned
-    multi_pass_percentages = pos_percent(multi_pass_results, sorted_pos_totals)
-    for tok_style_indx, output in enumerate(multi_pass_results):
+    multi_pass_percentages = pos_percent(brill_multi_pass, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(brill_multi_pass):
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
+
+    # Train HMM taggers and test on random selection of glosses multiple times
+    hmm_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "HMM")
+
+    print()
+    print(f"HMM tagging with {num_passes} passes.")
+
+    # Print average score (with/without word-level breakdown) for each corpus tested
+    for i in hmm_multi_pass[2:]:
+        print(i)
+        # print(i[0])
+
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(hmm_multi_pass, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(hmm_multi_pass):
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
+
+    # Train n-gram taggers and test on random selection of glosses multiple times
+    ngram_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "n-gram", tagger_n)
+
+    print()
+    print(f"N-gram tagging with {num_passes} passes and n={tagger_n}.")
+
+    # Print average score for each corpus tested
+    for i in ngram_multi_pass[2:]:
+        print(i)
+        # print(i[0])
+
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(ngram_multi_pass, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(ngram_multi_pass):
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
+
+    # Train Perceptron taggers and test on random selection of glosses multiple times
+    perceptron_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "perceptron")
+
+    print()
+    print(f"Perceptron tagging with {num_passes} passes.")
+
+    # Print average score for each corpus tested
+    for i in perceptron_multi_pass[2:]:
+        print(i)
+        # print(i[0])
+
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(perceptron_multi_pass, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(perceptron_multi_pass):
         print(
             f"Accuracy: {output[0]},\n"
             f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
@@ -1881,11 +1975,12 @@ if __name__ == "__main__":
              ['pronoun, indeclinable, accented, deictic', 0.0707281187216658],
              ['pronoun, indefinite', 0.03791311300639659], ['pronoun, infixed, class A', 0.547700984609502],
              ['pronoun, infixed, class B', 1.0], ['pronoun, infixed, class C', 0.8138360241724543],
-             ['pronoun, interrogative and indefinite', 0.7268733072524827], ['pronoun, non-neuter', 0.27450980392156865],
-             ['pronoun, personal', 0.06420696988868099], ['pronoun, possessive, stressed', 0.2240829346092504],
+             ['pronoun, interrogative and indefinite', 0.7268733072524827],
+             ['pronoun, non-neuter', 0.27450980392156865], ['pronoun, personal', 0.06420696988868099],
+             ['pronoun, possessive, stressed', 0.2240829346092504],
              ['pronoun, possessive, unstressed', 0.06788657529759468], ['pronoun, reflexive', 0.2068445784200727],
-             ['pronoun, suffixed', 1.0], ['see amail', 0.9710884353741497], ['unclear', 1.0], ['verb', 0.4083493435676947],
-             ['verbal of necessity', 1.0]
+             ['pronoun, suffixed', 1.0], ['see amail', 0.9710884353741497], ['unclear', 1.0],
+             ['verb', 0.4083493435676947], ['verbal of necessity', 1.0]
          ]
          ),
         (0.7089022125393927, [
@@ -1920,13 +2015,14 @@ if __name__ == "__main__":
          )
     ]
 
-    # Output the overall accuracy over 10,000 passes, and percentage of all unique POS-tags occurring in test-set
-    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
-    ten_thou_percentages = pos_percent(ten_thousand_pass_test_results, sorted_pos_totals)
-    for tok_style_indx, output in enumerate(ten_thousand_pass_test_results):
-        print(
-            f"Accuracy: {output[0]},\n"
-            f"  Unique POS-tags occurring in test-set: {ten_thou_percentages[tok_style_indx][0]}%\n"
-            f"  Unique POS-tags occurring in test-set correctly tagged: {ten_thou_percentages[tok_style_indx][1]}%\n"
-            f"  Unique POS-tags occurring in test-set incorrectly tagged: {ten_thou_percentages[tok_style_indx][2]}%"
-        )
+    # # Output the overall accuracy over 10,000 passes, and percentage of all unique POS-tags occurring in test-set
+    # # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    # ten_thou_percentages = pos_percent(ten_thousand_pass_test_results, sorted_pos_totals)
+    # print(f"N-gram tagging with {num_passes} passes and n=10,000.")
+    # for tok_style_indx, output in enumerate(ten_thousand_pass_test_results):
+    #     print(
+    #         f"Accuracy: {output[0]},\n"
+    #         f"  Unique POS-tags occurring in test-set: {ten_thou_percentages[tok_style_indx][0]}%\n"
+    #         f"  Unique POS-tags occurring in test-set correctly tagged: {ten_thou_percentages[tok_style_indx][1]}%\n"
+    #         f"  Unique POS-tags occurring in test-set incorrectly tagged: {ten_thou_percentages[tok_style_indx][2]}%"
+    #     )
