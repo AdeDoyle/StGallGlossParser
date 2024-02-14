@@ -3,6 +3,7 @@ from Clean_Glosses import clean_gloss, clean_word
 from conllu import parse
 import nltk
 from nltk.tag import brill, brill_trainer
+from DNN_tagger import generate_xy_dataset, create_val_data, vectorise_x, encode_y, DataGenerator, trainDNN, dnn_tag
 import random
 
 
@@ -161,6 +162,9 @@ def train_pos_tagger(pos_file, tagger_style="n-gram", ngram=1):
         pos_tagger = nltk.PerceptronTagger(load=False)
         pos_tagger.train(pos_file)
 
+    elif tagger_style == "DNN":
+        pos_tagger = trainDNN(pos_file)
+
     else:
         raise RuntimeError(f"Style of POS-tagger not supported: {tagger_style}")
 
@@ -190,12 +194,41 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
         test_split = separate_test(corpus, train_gloss_indices, test_gloss_indices)
         train_set = test_split[0]
         test_set = test_split[1]
+        test_gen, batch_size, x_vectoriser, all_tags = None, None, None, None
 
-        # Separate the test set into tokens and correct POS-tags
-        test_toks = [[token[0] for token in sent] for sent in test_set]
-        test_pos = [[token[1] for token in sent] for sent in test_set]
+        if tagger_style == "DNN":
+            all_tags = [pos for sent in [[item[1] for item in sublist] for sublist in corpus] for pos in sent]
+            new_split = create_val_data(train_set)
+
+            train_set = new_split[0]
+            train_dataset = generate_xy_dataset(train_set)
+            train_toks = train_dataset[0]
+            train_labels = encode_y(train_dataset[1], all_tags)
+
+            val_set = new_split[1]
+            val_dataset = generate_xy_dataset(val_set)
+            val_toks = val_dataset[0]
+            val_labels = encode_y(val_dataset[1], all_tags)
+
+            test_pos = [[token[1] for token in sent] for sent in test_set]
+
+            x_vectoriser = vectorise_x(train_dataset[0])
+            batch_size = 256
+
+            train_gen = DataGenerator(train_toks, train_labels, batch_size, x_vectoriser)
+            val_gen = DataGenerator(val_toks, val_labels, batch_size, x_vectoriser)
+
+            input_dimension = len(x_vectoriser.get_feature_names_out())
+            output_dimension = train_labels.shape[1]
+            train_set = [train_gen, val_gen, input_dimension, output_dimension, batch_size]
+
+        else:
+            # Separate the test set into tokens and correct POS-tags
+            test_toks = [[token[0] for token in sent] for sent in test_set]
+            test_pos = [[token[1] for token in sent] for sent in test_set]
 
         # Train a POS-tagger on the training files
+        tagger = None
         if tagger_style != "all":
             tagger = train_pos_tagger(train_set, tagger_style, ngram)
         elif tagger_style == "all":
@@ -209,81 +242,99 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
         correct = list()
         incorrect = list()
         # Test the tagger on each gloss, and compile a list of POS "guesses" for each gloss in the test set
-        for gloss_indx, test_gloss in enumerate(test_toks):
-            # If only one tagger is being tested
-            if tagger_style != "all":
-                guesses = tagger.tag(test_gloss)
-                guesses = [guess[1] if guess[1] else "No Guess" for guess in guesses]
-            # If all taggers are being combined
-            elif tagger_style == "all":
-                uni_guesses = unigram_tagger.tag(test_gloss)
-                uni_guesses = [guess[1] if guess[1] else "No Guess" for guess in uni_guesses]
-                ngram_guesses = ngram_tagger.tag(test_gloss)
-                ngram_guesses = [guess[1] if guess[1] else "No Guess" for guess in ngram_guesses]
-                brill_guesses = brill_tagger.tag(test_gloss)
-                brill_guesses = [guess[1] if guess[1] else "No Guess" for guess in brill_guesses]
-                hmm_guesses = hmm_tagger.tag(test_gloss)
-                hmm_guesses = [guess[1] if guess[1] else "No Guess" for guess in hmm_guesses]
-                perceptron_guesses = perceptron_tagger.tag(test_gloss)
-                perceptron_guesses = [guess[1] if guess[1] else "No Guess" for guess in perceptron_guesses]
-                guesses = list()
-                # Identify POS accuracies for different taggers
-                uni_accs = {"ADV": 0.982, "CCONJ": 0.971}
-                ngram_accs = {"NUM": 0.790}
-                brill_accs = {"PRON": 0.817, "PROPN": 0.840}
-                hmm_accs = {"DET": 0.928, "PART": 0.971}
-                perceptron_accs = {"ADJ": 0.694, "ADP": 0.893, "ADV": 0.974, "AUX": 0.910, "CCONJ": 0.956, "DET": 0.922,
-                                   "INTJ": 0.678, "NOUN": 0.899, "NUM": 0.724, "PART": 0.833, "PRON": 0.814,
-                                   "PROPN": 0.055, "PUNCT": 1.0, "SCONJ": 0.861, "VERB": 0.814, "X": 0.846}
-                # Using perceptron tagger as the base tagger (as it is te best performing model in isolation)
-                # substitute in POS-tags from other taggers where those other taggers are better than the perceptron
-                # tagger at identifying those specific parts-of-speech
-                for guess_num, guess in enumerate(perceptron_guesses):
-                    uni_tagcheck = uni_guesses[guess_num]
-                    ngram_tagcheck = ngram_guesses[guess_num]
-                    brill_tagcheck = brill_guesses[guess_num]
-                    hmm_tagcheck = hmm_guesses[guess_num]
-                    if guess == "No Guess" and hmm_tagcheck != "No Guess":
-                        guess = hmm_tagcheck
-                    elif guess == "No Guess" and brill_tagcheck != "No Guess":
-                        guess = brill_tagcheck
-                    elif guess == "No Guess" and ngram_tagcheck != "No Guess":
-                        guess = ngram_tagcheck
-                    elif guess == "No Guess" and uni_tagcheck != "No Guess":
-                        guess = uni_tagcheck
-                    if guess != "No Guess":
-                        if uni_tagcheck in uni_accs and guess != uni_tagcheck:
-                            guess_acc = perceptron_accs.get(guess)
-                            alt_acc = uni_accs.get(uni_tagcheck)
-                            if guess_acc < alt_acc:
-                                guess = uni_tagcheck
-                        elif ngram_tagcheck in ngram_accs and guess != ngram_tagcheck:
-                            guess_acc = perceptron_accs.get(guess)
-                            alt_acc = ngram_accs.get(ngram_tagcheck)
-                            if guess_acc < alt_acc:
-                                guess = ngram_tagcheck
-                        elif brill_tagcheck in brill_accs and guess != brill_tagcheck:
-                            guess_acc = perceptron_accs.get(guess)
-                            alt_acc = brill_accs.get(brill_tagcheck)
-                            if guess_acc < alt_acc:
-                                guess = brill_tagcheck
-                        elif hmm_tagcheck in hmm_accs and guess != hmm_tagcheck:
-                            guess_acc = perceptron_accs.get(guess)
-                            alt_acc = hmm_accs.get(hmm_tagcheck)
-                            if guess_acc < alt_acc:
-                                guess = hmm_tagcheck
-                    guesses.append(guess)
-            true_tags = test_pos[gloss_indx]
-            # Combine POS "guesses" with the correct POS-tags in a list for each gloss
-            combined_guess_answers = zip(guesses, true_tags)
-            # Check whether each pair in the guesses-corrects match, indicating a correct guess by the tagger
-            for combo in combined_guess_answers:
-                # Add each correctly tagged POS to a list of correctly tagged parts-of-speech
-                if combo[0] == combo[1]:
-                    correct.append(combo[1])
-                # Add each incorrectly tagged POS to a list of incorrectly tagged parts-of-speech
-                else:
-                    incorrect.append(combo[1])
+        if tagger_style == "DNN":
+            tagged_sentences = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags)
+            for gloss_indx, test_gloss in enumerate(tagged_sentences):
+                guesses = [guess[1] for guess in test_gloss]
+
+                true_tags = test_pos[gloss_indx]
+                # Combine POS "guesses" with the correct POS-tags in a list for each gloss
+                combined_guess_answers = zip(guesses, true_tags)
+                # Check whether each pair in the guesses-corrects match, indicating a correct guess by the tagger
+                for combo in combined_guess_answers:
+                    # Add each correctly tagged POS to a list of correctly tagged parts-of-speech
+                    if combo[0] == combo[1]:
+                        correct.append(combo[1])
+                    # Add each incorrectly tagged POS to a list of incorrectly tagged parts-of-speech
+                    else:
+                        incorrect.append(combo[1])
+        else:
+            for gloss_indx, test_gloss in enumerate(test_toks):
+                # If only one tagger is being tested, and it's not a DNN
+                if tagger_style not in ["all", "DNN"]:
+                    guesses = tagger.tag(test_gloss)
+                    guesses = [guess[1] if guess[1] else "No Guess" for guess in guesses]
+                # If all taggers are being combined
+                elif tagger_style == "all":
+                    uni_guesses = unigram_tagger.tag(test_gloss)
+                    uni_guesses = [guess[1] if guess[1] else "No Guess" for guess in uni_guesses]
+                    ngram_guesses = ngram_tagger.tag(test_gloss)
+                    ngram_guesses = [guess[1] if guess[1] else "No Guess" for guess in ngram_guesses]
+                    brill_guesses = brill_tagger.tag(test_gloss)
+                    brill_guesses = [guess[1] if guess[1] else "No Guess" for guess in brill_guesses]
+                    hmm_guesses = hmm_tagger.tag(test_gloss)
+                    hmm_guesses = [guess[1] if guess[1] else "No Guess" for guess in hmm_guesses]
+                    perceptron_guesses = perceptron_tagger.tag(test_gloss)
+                    perceptron_guesses = [guess[1] if guess[1] else "No Guess" for guess in perceptron_guesses]
+                    guesses = list()
+                    # Identify POS accuracies for different taggers
+                    uni_accs = {"ADV": 0.982, "CCONJ": 0.971}
+                    ngram_accs = {"NUM": 0.790}
+                    brill_accs = {"PRON": 0.817, "PROPN": 0.840}
+                    hmm_accs = {"DET": 0.928, "PART": 0.971}
+                    perceptron_accs = {"ADJ": 0.694, "ADP": 0.893, "ADV": 0.974, "AUX": 0.910, "CCONJ": 0.956,
+                                       "DET": 0.922, "INTJ": 0.678, "NOUN": 0.899, "NUM": 0.724, "PART": 0.833,
+                                       "PRON": 0.814, "PROPN": 0.055, "PUNCT": 1.0, "SCONJ": 0.861, "VERB": 0.814,
+                                       "X": 0.846}
+                    # Using perceptron tagger as the base tagger (as it is te best performing model in isolation)
+                    # substitute in POS-tags from other taggers where those other taggers are better than the perceptron
+                    # tagger at identifying those specific parts-of-speech
+                    for guess_num, guess in enumerate(perceptron_guesses):
+                        uni_tagcheck = uni_guesses[guess_num]
+                        ngram_tagcheck = ngram_guesses[guess_num]
+                        brill_tagcheck = brill_guesses[guess_num]
+                        hmm_tagcheck = hmm_guesses[guess_num]
+                        if guess == "No Guess" and hmm_tagcheck != "No Guess":
+                            guess = hmm_tagcheck
+                        elif guess == "No Guess" and brill_tagcheck != "No Guess":
+                            guess = brill_tagcheck
+                        elif guess == "No Guess" and ngram_tagcheck != "No Guess":
+                            guess = ngram_tagcheck
+                        elif guess == "No Guess" and uni_tagcheck != "No Guess":
+                            guess = uni_tagcheck
+                        if guess != "No Guess":
+                            if uni_tagcheck in uni_accs and guess != uni_tagcheck:
+                                guess_acc = perceptron_accs.get(guess)
+                                alt_acc = uni_accs.get(uni_tagcheck)
+                                if guess_acc < alt_acc:
+                                    guess = uni_tagcheck
+                            elif ngram_tagcheck in ngram_accs and guess != ngram_tagcheck:
+                                guess_acc = perceptron_accs.get(guess)
+                                alt_acc = ngram_accs.get(ngram_tagcheck)
+                                if guess_acc < alt_acc:
+                                    guess = ngram_tagcheck
+                            elif brill_tagcheck in brill_accs and guess != brill_tagcheck:
+                                guess_acc = perceptron_accs.get(guess)
+                                alt_acc = brill_accs.get(brill_tagcheck)
+                                if guess_acc < alt_acc:
+                                    guess = brill_tagcheck
+                            elif hmm_tagcheck in hmm_accs and guess != hmm_tagcheck:
+                                guess_acc = perceptron_accs.get(guess)
+                                alt_acc = hmm_accs.get(hmm_tagcheck)
+                                if guess_acc < alt_acc:
+                                    guess = hmm_tagcheck
+                        guesses.append(guess)
+                true_tags = test_pos[gloss_indx]
+                # Combine POS "guesses" with the correct POS-tags in a list for each gloss
+                combined_guess_answers = zip(guesses, true_tags)
+                # Check whether each pair in the guesses-corrects match, indicating a correct guess by the tagger
+                for combo in combined_guess_answers:
+                    # Add each correctly tagged POS to a list of correctly tagged parts-of-speech
+                    if combo[0] == combo[1]:
+                        correct.append(combo[1])
+                    # Add each incorrectly tagged POS to a list of incorrectly tagged parts-of-speech
+                    else:
+                        incorrect.append(combo[1])
         total = len(correct + incorrect)
         accuracy = len(correct) / total
 
@@ -564,6 +615,31 @@ if __name__ == "__main__":
     # Also output percentage of unique POS-tags both correctly and incorrectly assigned
     multi_pass_percentages = pos_percent(combination_multi_pass, sorted_pos_totals)
     for tok_style_indx, output in enumerate(combination_multi_pass):
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
+
+    # *** DEEP NEURAL NETWORK TAGGER ***
+
+    # Train Perceptron taggers and test on random selection of glosses multiple times
+    dnn_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "DNN")
+
+    print()
+    print(f"DNN tagging with {num_passes} passes.")
+
+    # Print average score for each corpus tested
+    for i in dnn_multi_pass[2:]:
+        print(i)
+        # print(i[0])
+
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(dnn_multi_pass, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(dnn_multi_pass):
         print(
             f"Accuracy: {output[0]},\n"
             f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
