@@ -186,6 +186,7 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
     test_gloss_indices = split_indices[1]
 
     results = list()
+    results_plus = list()
 
     # For each corpus being tested
     for corpus in corpora:
@@ -194,7 +195,7 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
         test_split = separate_test(corpus, train_gloss_indices, test_gloss_indices)
         train_set = test_split[0]
         test_set = test_split[1]
-        test_gen, batch_size, x_vectoriser, all_tags = None, None, None, None
+        test_gen, batch_size, x_vectoriser, all_tags, new_split = None, None, None, None, None
 
         if tagger_style == "DNN":
             all_tags = [pos for sent in [[item[1] for item in sublist] for sublist in corpus] for pos in sent]
@@ -241,12 +242,60 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
         # Evaluate POS tagger on the test files
         correct = list()
         incorrect = list()
+        correct_plus = list()
+        incorrect_plus = list()
         # Test the tagger on each gloss, and compile a list of POS "guesses" for each gloss in the test set
         if tagger_style == "DNN":
-            tagged_sentences = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags)
+
+            # Test for UD POS-tags first
+            intj_split = sorted(list(set([i for j in [
+                [tok for tok in sent if tok[1] == "INTJ"] for sent in new_split[0]
+            ] for i in j])), key=lambda x: x[0])
+            false_pos_split = sorted(list(set([i for j in [
+                [tok[0] for tok in sent if tok[1] != "INTJ"] for sent in new_split[0]
+            ] for i in j])))
+            intj_split = [tok for tok in intj_split if tok[0] not in false_pos_split]
+
+            punct_list = ['!', '"', "'", '(', ')', '*', '+',
+                          ',', ',.', ',.,', ',.,.', ',.,.,', ',.,.,.', ',.,.,.,', ',.,.,.,.',
+                          ',·', ',·,', ',·,·', ',·,·,', ',·,·,·', ',·,·,·,', ',·,·,·,·',
+                          '-', '.', '.,', '.,.', '.,.,', '.,.,.', '.,.,.,', '.,.,.,.', '.,.,.,.,',
+                          '.-', '.~', '.–', '/', '<', '=', '>', '?', '[', ']', '_', '{', '|', '}', '~',
+                          '·', '·,', '·,·', '·,·,', '·,·,·', '·,·,·,', '·,·,·,·', '·,·,·,·,',
+                          '·-', '·~', '·–', '᚛', '᚜', '–']
+            ud_punct_list = [(punct, "PUNCT") for punct in punct_list]
+            punct_split = sorted(list(set([i for j in [
+                [tok for tok in sent if tok[1] == "PUNCT"] for sent in new_split[0]
+            ] for i in j])), key=lambda x: x[0])
+
+            prop_split = sorted(list(set([i for j in [
+                [tok for tok in sent if tok[1] == "PROPN"] for sent in new_split[0]
+            ] for i in j])), key=lambda x: x[0])
+            false_pos_split = sorted(list(set([i for j in [
+                [tok[0] for tok in sent if tok[1] != "PROPN"] for sent in new_split[0]
+            ] for i in j])))
+            prop_split = [tok for tok in prop_split if tok[0] not in false_pos_split]
+
+            # Next test for non-UD POS-tags
+            if not intj_split:
+                intj_split = sorted(list(set([i for j in [
+                    [tok for tok in sent if "interjection" in tok[1]] for sent in new_split[0]
+                ] for i in j])), key=lambda x: x[0])
+            if not prop_split:
+                prop_split = sorted(list(set([i for j in [
+                    [tok for tok in sent if "noun, proper" in tok[1]] for sent in new_split[0]
+                ] for i in j])), key=lambda x: x[0])
+
+            # If no non-UD POS-tags are in the punctuation split, assume UD-POS tags are in use
+            # Supplement found punctuation tokens with known Old Irish punctuation tokens
+            if sorted(list(set([label[1] for label in punct_split]))) == ["PUNCT"]:
+                punct_split = sorted(list(set(punct_split + ud_punct_list)))
+
+            # Find accuracies for DNN tagger first
+            tagged_sentences = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags,
+                                       intj_split=None, prop_split=None, punct_split=None)
             for gloss_indx, test_gloss in enumerate(tagged_sentences):
                 guesses = [guess[1] for guess in test_gloss]
-
                 true_tags = test_pos[gloss_indx]
                 # Combine POS "guesses" with the correct POS-tags in a list for each gloss
                 combined_guess_answers = zip(guesses, true_tags)
@@ -258,6 +307,18 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
                     # Add each incorrectly tagged POS to a list of incorrectly tagged parts-of-speech
                     else:
                         incorrect.append(combo[1])
+            # Next find accuracies for DNN-Plus tagger, using already-trained DNN tagger as a base tagger
+            tagged_sentences_plus = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags,
+                                            intj_split=intj_split, prop_split=prop_split, punct_split=punct_split)
+            for gloss_indx_plus, test_gloss_plus in enumerate(tagged_sentences_plus):
+                guesses_plus = [guess_plus[1] for guess_plus in test_gloss_plus]
+                true_tags_plus = test_pos[gloss_indx_plus]
+                combined_guess_answers_plus = zip(guesses_plus, true_tags_plus)
+                for combo_plus in combined_guess_answers_plus:
+                    if combo_plus[0] == combo_plus[1]:
+                        correct_plus.append(combo_plus[1])
+                    else:
+                        incorrect_plus.append(combo_plus[1])
         else:
             for gloss_indx, test_gloss in enumerate(test_toks):
                 # If only one tagger is being tested, and it's not a DNN
@@ -342,7 +403,13 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
         # Also add a list of all correctly guessed POS tags, and another of all incorrectly guessed POS tags
         results.append([accuracy, correct, incorrect])
 
-    return results
+        # Add results for DNN-Plus tagger if relevant
+        if tagger_style == "DNN":
+            total_plus = len(correct_plus + incorrect_plus)
+            accuracy_plus = len(correct_plus) / total_plus
+            results_plus.append([accuracy_plus, correct_plus, incorrect_plus])
+
+    return [results, results_plus]
 
 
 def multi_test_random(corpora, test_percent, tests_range, tagger_style="n-gram", ngram=1,  verbose=True):
@@ -356,61 +423,71 @@ def multi_test_random(corpora, test_percent, tests_range, tagger_style="n-gram",
         if verbose:
             print(f"Test {test_num + 1} of {tests_range} in progress ...")
         multi_test_results.append(test_random_selection(corpora, test_percent, tagger_style, ngram))
+    regular_test_results = [indie_test_result[0] for indie_test_result in multi_test_results]
+    plus_test_results = [indie_test_result[1] for indie_test_result in multi_test_results]
+    multi_test_results = [regular_test_results, plus_test_results]
 
-    # Extract the accuracies for each pass from the combined results
-    multi_test_accuracies = [[results[0] for results in tagging_pass] for tagging_pass in multi_test_results]
+    output_set = list()
+    for multi_test_result_set in multi_test_results:
 
-    # Average the accuracy results
-    multi_test_accuracies = [sum(elts) for elts in zip(*multi_test_accuracies)]
-    multi_test_accuracies = [(summed_test / tests_range) for summed_test in multi_test_accuracies]
+        # Extract the accuracies for each pass from the combined results
+        multi_test_accuracies = [[results[0] for results in tagging_pass] for tagging_pass in multi_test_result_set]
 
-    # Extract the correctly guessed parts-of-speech from the combined results
-    multi_test_corrects = [[results[1] for results in tagging_pass] for tagging_pass in multi_test_results]
-    combined_corrects = [[a for b in pos_pass for a in b] for pos_pass in zip(*multi_test_corrects)]
-    # Distill a sorted list of unique correctly tagged parts-of-speech for use in averaging correct guesses
-    all_correct_pos = list()
-    for tok_standard in combined_corrects:
-        all_correct_pos.append(sorted(list(set(tok_standard))))
+        # Average the accuracy results
+        multi_test_accuracies = [sum(elts) for elts in zip(*multi_test_accuracies)]
+        multi_test_accuracies = [(summed_test / tests_range) for summed_test in multi_test_accuracies]
 
-    # Extract the incorrectly guessed parts-of-speech from the combined results
-    multi_test_incorrects = [[results[2] for results in tagging_pass] for tagging_pass in multi_test_results]
-    combined_incorrects = [[a for b in pos_pass for a in b] for pos_pass in zip(*multi_test_incorrects)]
-    # Distill a sorted list of unique incorrectly tagged parts-of-speech for use in averaging incorrect guesses
-    all_incorrect_pos = list()
-    for tok_standard in combined_incorrects:
-        all_incorrect_pos.append(sorted(list(set(tok_standard))))
+        # Extract the correctly guessed parts-of-speech from the combined results
+        multi_test_corrects = [[results[1] for results in tagging_pass] for tagging_pass in multi_test_result_set]
+        combined_corrects = [[a for b in pos_pass for a in b] for pos_pass in zip(*multi_test_corrects)]
+        # Distill a sorted list of unique correctly tagged parts-of-speech for use in averaging correct guesses
+        all_correct_pos = list()
+        for tok_standard in combined_corrects:
+            all_correct_pos.append(sorted(list(set(tok_standard))))
 
-    # Average the accuracy of correctly guessed parts-of-speech
-    correct_pos_counts = list()
-    for std_indx, tok_standard in enumerate(all_correct_pos):
-        correct_pos_counts.append(
-            [
+        # Extract the incorrectly guessed parts-of-speech from the combined results
+        multi_test_incorrects = [[results[2] for results in tagging_pass] for tagging_pass in multi_test_result_set]
+        combined_incorrects = [[a for b in pos_pass for a in b] for pos_pass in zip(*multi_test_incorrects)]
+        # Distill a sorted list of unique incorrectly tagged parts-of-speech for use in averaging incorrect guesses
+        all_incorrect_pos = list()
+        for tok_standard in combined_incorrects:
+            all_incorrect_pos.append(sorted(list(set(tok_standard))))
+
+        # Average the accuracy of correctly guessed parts-of-speech
+        correct_pos_counts = list()
+        for std_indx, tok_standard in enumerate(all_correct_pos):
+            correct_pos_counts.append(
                 [
-                    pos_type,
-                    combined_corrects[std_indx].count(pos_type) /
-                    (
-                            combined_corrects[std_indx].count(pos_type) + combined_incorrects[std_indx].count(pos_type)
-                     )
-                ] for pos_type in tok_standard
-            ]
-        )
+                    [
+                        pos_type,
+                        combined_corrects[std_indx].count(pos_type) /
+                        (
+                                combined_corrects[std_indx].count(pos_type) +
+                                combined_incorrects[std_indx].count(pos_type)
+                         )
+                    ] for pos_type in tok_standard
+                ]
+            )
 
-    # Average the accuracy of incorrectly guessed parts-of-speech
-    incorrect_pos_counts = list()
-    for std_indx, tok_standard in enumerate(all_incorrect_pos):
-        incorrect_pos_counts.append(
-            [
+        # Average the accuracy of incorrectly guessed parts-of-speech
+        incorrect_pos_counts = list()
+        for std_indx, tok_standard in enumerate(all_incorrect_pos):
+            incorrect_pos_counts.append(
                 [
-                    pos_type,
-                    combined_incorrects[std_indx].count(pos_type) /
-                    (
-                            combined_corrects[std_indx].count(pos_type) + combined_incorrects[std_indx].count(pos_type)
-                    )
-                ] for pos_type in tok_standard
-            ]
-        )
+                    [
+                        pos_type,
+                        combined_incorrects[std_indx].count(pos_type) /
+                        (
+                                combined_corrects[std_indx].count(pos_type) +
+                                combined_incorrects[std_indx].count(pos_type)
+                        )
+                    ] for pos_type in tok_standard
+                ]
+            )
 
-    return list(zip(multi_test_accuracies, correct_pos_counts, incorrect_pos_counts))
+        output_set.append(list(zip(multi_test_accuracies, correct_pos_counts, incorrect_pos_counts)))
+
+    return output_set
 
 
 def pos_percent(test_output, pos_totals_list):
@@ -466,6 +543,11 @@ if __name__ == "__main__":
 
     # Combine annotated corpora in a list
     combined_corpora = [combined_analyses, original_words, combined_tokens, split_tokens]
+    # combined_corpora = [split_tokens]
+    if len(combined_corpora) == 4:
+        UD_tok_positions = 2
+    else:
+        UD_tok_positions = 0
 
     # Set number of passes for Monte Carlo cross-validation
     num_passes = 1000
@@ -476,13 +558,13 @@ if __name__ == "__main__":
     # *** UNIGRAM TAGGER ***
 
     # Train n-gram taggers and test on random selection of glosses multiple times
-    ngram_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "n-gram", 1)
+    ngram_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "n-gram", 1)[0]
 
     print()
     print(f"Unigram tagging with {num_passes} passes.")
 
     # Print average score for each corpus tested
-    for i in ngram_multi_pass[2:]:
+    for i in ngram_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -501,13 +583,13 @@ if __name__ == "__main__":
     # *** N-GRAM TAGGER ***
 
     # Train n-gram taggers and test on random selection of glosses multiple times
-    ngram_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "n-gram", tagger_n)
+    ngram_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "n-gram", tagger_n)[0]
 
     print()
     print(f"N-gram tagging with {num_passes} passes and n={tagger_n}.")
 
     # Print average score for each corpus tested
-    for i in ngram_multi_pass[2:]:
+    for i in ngram_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -526,13 +608,13 @@ if __name__ == "__main__":
     # *** BRILL TAGGER ***
 
     # Train Brill taggers and test on random selection of glosses multiple times
-    brill_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "brill")
+    brill_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "brill")[0]
 
     print()
     print(f"Brill tagging with {num_passes} passes.")
 
     # Print average score (with/without word-level breakdown) for each corpus tested
-    for i in brill_multi_pass[2:]:
+    for i in brill_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -551,13 +633,13 @@ if __name__ == "__main__":
     # *** HMM TAGGER ***
 
     # Train HMM taggers and test on random selection of glosses multiple times
-    hmm_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "HMM")
+    hmm_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "HMM")[0]
 
     print()
     print(f"HMM tagging with {num_passes} passes.")
 
     # Print average score (with/without word-level breakdown) for each corpus tested
-    for i in hmm_multi_pass[2:]:
+    for i in hmm_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -576,13 +658,13 @@ if __name__ == "__main__":
     # *** PERCEPTRON TAGGER ***
 
     # Train Perceptron taggers and test on random selection of glosses multiple times
-    perceptron_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "perceptron")
+    perceptron_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "perceptron")[0]
 
     print()
     print(f"Perceptron tagging with {num_passes} passes.")
 
     # Print average score for each corpus tested
-    for i in perceptron_multi_pass[2:]:
+    for i in perceptron_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -601,13 +683,13 @@ if __name__ == "__main__":
     # *** COMBINATION TAGGER ***
 
     # Train a combination of taggers and test on random selection of glosses multiple times
-    combination_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "all", tagger_n)
+    combination_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "all", tagger_n)[0]
 
     print()
     print(f"Combination Model tagging with {num_passes} passes and n={tagger_n}.")
 
     # Print average score for each corpus tested
-    for i in combination_multi_pass[2:]:
+    for i in combination_multi_pass[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
@@ -623,23 +705,45 @@ if __name__ == "__main__":
         )
     print()
 
-    # *** DEEP NEURAL NETWORK TAGGER ***
+    # *** DEEP NEURAL NETWORK TAGGER (Including DNN-Plus variant) ***
 
     # Train Perceptron taggers and test on random selection of glosses multiple times
     dnn_multi_pass = multi_test_random(combined_corpora, 5, num_passes, "DNN")
+    dnn_multi_pass_standard = dnn_multi_pass[0]
+    dnn_multi_pass_plus = dnn_multi_pass[1]
 
     print()
     print(f"DNN tagging with {num_passes} passes.")
 
     # Print average score for each corpus tested
-    for i in dnn_multi_pass[2:]:
+    for i in dnn_multi_pass_standard[UD_tok_positions:]:
         print(i)
         # print(i[0])
 
     # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
     # Also output percentage of unique POS-tags both correctly and incorrectly assigned
-    multi_pass_percentages = pos_percent(dnn_multi_pass, sorted_pos_totals)
-    for tok_style_indx, output in enumerate(dnn_multi_pass):
+    multi_pass_percentages = pos_percent(dnn_multi_pass_standard, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(dnn_multi_pass_standard):
+        print(
+            f"Accuracy: {output[0]},\n"
+            f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"
+            f"  Unique POS-tags occurring in test-set correctly tagged: {multi_pass_percentages[tok_style_indx][1]}%\n"
+            f"  Unique POS-tags occurring in test-set incorrectly tagged: {multi_pass_percentages[tok_style_indx][2]}%"
+        )
+    print()
+
+    print()
+    print(f"DNN-Plus tagging with {num_passes} passes.")
+
+    # Print average score for each corpus tested
+    for i in dnn_multi_pass_plus[UD_tok_positions:]:
+        print(i)
+        # print(i[0])
+
+    # Output the overall accuracy over multiple passes, and percentage of all unique POS-tags occurring in test-set
+    # Also output percentage of unique POS-tags both correctly and incorrectly assigned
+    multi_pass_percentages = pos_percent(dnn_multi_pass_plus, sorted_pos_totals)
+    for tok_style_indx, output in enumerate(dnn_multi_pass_plus):
         print(
             f"Accuracy: {output[0]},\n"
             f"  Unique POS-tags occurring in test-set: {multi_pass_percentages[tok_style_indx][0]}%\n"

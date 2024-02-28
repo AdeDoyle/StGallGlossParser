@@ -87,11 +87,15 @@ def get_word_features(words, word_index):
         'all_caps': unbuffered_word.upper() == unbuffered_word,
         'all_lower': unbuffered_word.lower() == unbuffered_word,
         'start_letter': unbuffered_word[0] if len(unbuffered_word) > 0 else "",
-        'start_letters-2': unbuffered_word[:2] if len(unbuffered_word) > 0 else "",
-        'start_letters-3': unbuffered_word[:3] if len(unbuffered_word) > 0 else "",
+        'start_letters-2': unbuffered_word[:2] if len(unbuffered_word) > 1 else "",
+        'start_letters-3': unbuffered_word[:3] if len(unbuffered_word) > 2 else "",
+        'start_letters-4': unbuffered_word[:4] if len(unbuffered_word) > 3 else "",
+        'start_letters-5': unbuffered_word[:5] if len(unbuffered_word) > 4 else "",
         'end_letter': unbuffered_word[-1] if len(unbuffered_word) > 0 else "",
-        'end_letters-2': unbuffered_word[-2:] if len(unbuffered_word) > 0 else "",
-        'end_letters-3': unbuffered_word[-3:] if len(unbuffered_word) > 0 else "",
+        'end_letters-2': unbuffered_word[-2:] if len(unbuffered_word) > 1 else "",
+        'end_letters-3': unbuffered_word[-3:] if len(unbuffered_word) > 2 else "",
+        'end_letters-4': unbuffered_word[-4:] if len(unbuffered_word) > 3 else "",
+        'end_letters-5': unbuffered_word[-5:] if len(unbuffered_word) > 4 else "",
         'previous_word': empty_token if word_index == 0 else words[word_index - 1].lower(),
         'previous_word2': empty_token if word_index <= 1 else words[word_index - 2].lower(),
         'following_word': empty_token if word_index == len(words) - 1 else words[word_index + 1].lower(),
@@ -263,8 +267,7 @@ def trainDNN(pos_set, save_model=False, mod_name="DNN_tagger"):
     train_gen, val_gen, input_dim, output_dim, batch_size = pos_set[0], pos_set[1], pos_set[2], pos_set[3], pos_set[4]
 
     # Create and train model
-    early_stopping = EarlyStopping(monitor="val_loss", mode='min', patience=7,
-                                   restore_best_weights=True, verbose=1)
+    early_stopping = EarlyStopping(monitor="val_loss", mode='min', patience=7, restore_best_weights=True, verbose=1)
     model_params = {
         'input_dim': input_dim,
         'hidden_neurons': 64,
@@ -333,7 +336,7 @@ def trainDNN(pos_set, save_model=False, mod_name="DNN_tagger"):
     return pos_model
 
 
-def dnn_tag(test_set, tagger, batch_size, x_vectoriser, tag_set):
+def dnn_tag(test_set, tagger, batch_size, x_vectoriser, tag_set, intj_split=False, prop_split=False, punct_split=False):
     """Uses a tagger model to POS-tag list of sentences"""
 
     # Turn list of sentences into a single list of tokens, then use this to create data generator
@@ -356,6 +359,30 @@ def dnn_tag(test_set, tagger, batch_size, x_vectoriser, tag_set):
     decoded_labels = decode_y(predictions, tag_set)
     labels_gen = iter(decoded_labels)
     tagged_sentences = [[(word, next(labels_gen)) for word in sent] for sent in test_sentences]
+
+    if intj_split:
+        intj_dict = {tok[0].lower(): tok[1] for tok in intj_split}
+        tagged_sentences = [
+            [
+                tok if tok[0].lower() not in intj_dict else (tok[0], intj_dict.get(tok[0].lower())) for tok in sent
+            ] for sent in tagged_sentences
+        ]
+
+    if prop_split:
+        prop_dict = {tok[0].lower(): tok[1] for tok in prop_split}
+        tagged_sentences = [
+            [
+                tok if tok[0].lower() not in prop_dict else (tok[0], prop_dict.get(tok[0].lower())) for tok in sent
+            ] for sent in tagged_sentences
+        ]
+
+    if punct_split:
+        punct_dict = {tok[0]: tok[1] for tok in punct_split}
+        tagged_sentences = [
+            [
+                tok if tok[0] not in punct_dict else (tok[0], punct_dict.get(tok[0])) for tok in sent
+            ] for sent in tagged_sentences
+        ]
 
     return tagged_sentences
 
