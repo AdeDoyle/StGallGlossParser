@@ -292,6 +292,7 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
                 punct_split = sorted(list(set(punct_split + ud_punct_list)))
 
             # Find accuracies for DNN tagger first
+            print("Testing DNN Tagger")
             tagged_sentences = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags,
                                        intj_split=None, prop_split=None, punct_split=None)
             for gloss_indx, test_gloss in enumerate(tagged_sentences):
@@ -308,6 +309,7 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
                     else:
                         incorrect.append(combo[1])
             # Next find accuracies for DNN-Plus tagger, using already-trained DNN tagger as a base tagger
+            print("Testing DNN+ Tagger")
             tagged_sentences_plus = dnn_tag(test_set, tagger, batch_size, x_vectoriser, all_tags,
                                             intj_split=intj_split, prop_split=prop_split, punct_split=punct_split)
             for gloss_indx_plus, test_gloss_plus in enumerate(tagged_sentences_plus):
@@ -408,6 +410,11 @@ def test_random_selection(corpora, test_set_percentage=10, tagger_style="n-gram"
             total_plus = len(correct_plus + incorrect_plus)
             accuracy_plus = len(correct_plus) / total_plus
             results_plus.append([accuracy_plus, correct_plus, incorrect_plus])
+
+    if results_plus:
+        print(f"Tested Results for DNN Tagger: {[result[0] for result in results][0]}")
+        print(f"Tested Results for DNN+ Tagger: {[result[0] for result in results_plus][0]}")
+        print()
 
     return [results, results_plus]
 
@@ -528,6 +535,16 @@ if __name__ == "__main__":
     # Get all separated-tokens glosses and tokens
     split_glossdata = get_glosses("sga_dipsgg-ud-test_split_POS.conllu", "conllu")
     split_tokens = get_pos_tags(split_glossdata)
+
+    # # Use up-to-date UD corpora instead of previously generated split-tokens CoNLL-U file
+    # split_glossdata = get_glosses(
+    #     "sga_dipsgg-ud-test.conllu", "conllu"
+    # ) + get_glosses(
+    #     "sga_dipsgg-ud-incomplete.conllu", "conllu"
+    # ) + get_glosses(
+    #     "sga_dipwbg-ud-test.conllu", "conllu"
+    # )
+    # split_tokens = [i for i in get_pos_tags(split_glossdata) if i != []]
 
     # Calculate the number of unique parts-of-speech for each word-separation/tokenisation style
     unique_combo_anal = len(sorted(list(set([pair[1] for pair in [a for b in combined_analyses for a in b]]))))

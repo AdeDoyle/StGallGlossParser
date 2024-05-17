@@ -79,8 +79,8 @@ def get_word_features(words, word_index):
     empty_token = buffer_character*len(word)
     return {
         'word': word.lower(),
-        'sent_len': len(words),
-        'word_len': len(unbuffered_word),
+        # 'sent_len': len(words),
+        # 'word_len': len(unbuffered_word),
         'first_word': word_index == 0,
         'last_word': word_index == len(words) - 1,
         'capitalised': unbuffered_word[0].upper() == unbuffered_word[0] if len(unbuffered_word) > 0 else False,
@@ -197,6 +197,9 @@ def construct_model(input_dim, hidden_neurons, output_dim):
 
     pos_model = Sequential([
         Dense(hidden_neurons, input_dim=input_dim),
+        Activation('relu'),
+        Dropout(0.2),
+        Dense(hidden_neurons),
         Activation('relu'),
         Dropout(0.2),
         Dense(hidden_neurons),

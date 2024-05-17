@@ -12200,9 +12200,10 @@
 16	a	a	SCONJ	_	_	_	_	_	_
 17	nas	as	PART	_	PartType=Vb	_	_	_	_
 18	berat	asbeir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|Voice=Act	_	_	_	_
-19	nadṁbed	is	AUX	_	Mood=Sub|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Past|VerbType=Cop	_	_	_	_
-20	ad	_	X	_	Foreign=Yes	_	_	_	_
-21	plures	_	X	_	Foreign=Yes	_	_	_	_
+19	nad	is	AUX	_	Mood=Ind|Number=Sing|Person=3|Polarity=Neg|PronType=Rel|Tense=Pres|VerbType=Cop	_	_	_	_
+20	ṁbed	attá	VERB	_	Mood=Sub|Number=Sing|Person=3|Tense=Past|Voice=Act	_	_	_	_
+21	ad	_	X	_	Foreign=Yes	_	_	_	_
+22	plures	_	X	_	Foreign=Yes	_	_	_	_
 
 # sent_id = 993
 # reference = 40a16
@@ -24715,7 +24716,7 @@
 2	riaguil	ríagol	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 3	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 4	buith	both	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
-5	tra	tra	ADV	_	_	_	_	_	_
+5	tra	trá	ADV	_	_	_	_	_	_
 6	i	i	ADP	_	AdpType=Prep|Definite=Def	_	_	_	_
 7	snaib	a	DET	_	Case=Dat|Gender=Neut|Number=Plur|PronType=Art	_	_	_	_
 8	anmanaib	ainm	NOUN	_	Case=Dat|Number=Plur	_	_	_	_
@@ -28535,7 +28536,7 @@
 1	Samlaid	samlaither	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|Voice=Act	_	_	_	_
 2	som	som	PRON	_	Gender=Masc,Neut|Number=Sing|Person=3|PronType=Emp	_	_	_	_
 3	hic	_	X	_	Foreign=Yes	_	_	_	_
-4	tra	tra	ADV	_	_	_	_	_	_
+4	tra	trá	ADV	_	_	_	_	_	_
 5	presentis	_	X	_	Foreign=Yes	_	_	_	_
 6	temporis	_	X	_	Foreign=Yes	_	_	_	_
 7	fri	fri	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
