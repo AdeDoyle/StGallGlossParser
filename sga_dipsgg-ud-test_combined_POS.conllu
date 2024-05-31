@@ -40487,7 +40487,7 @@
 # scribe = Main Hand
 # text = in maith
 # translation = is [the ink] good?
-1	in	a	PART	_	PronType=Int	_	_	_	_
+1	in	in	PART	_	PronType=Int	_	_	_	_
 2	maith	maith	ADJ	_	Case=Dat|Degree=Pos|Gender=Neut|Number=Sing	_	_	_	_
 
 # sent_id = 3404
