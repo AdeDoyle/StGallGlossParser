@@ -2920,7 +2920,7 @@
 4	do	do	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 5	dénom	dénum	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 6	díb	de	ADP	_	AdpType=Prep|Definite=Ind|Number=Plur|Person=3|PronType=Prs	_	_	_	_
-7	hi	í	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+7	hi	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 8	scríbunt	scríbend	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 
 # sent_id = 244
@@ -2948,7 +2948,7 @@
 # scribe = Glossator A
 # text = hí scríbiunt dá carachtar beos .i. carachtar consine ⁊ carachtar tinfith amal dondgnítis sen greic
 # translation = in still writing two characters, i.e. the character of a consonant and the character of aspiration, as the ancient Greeks used to do
-1	hí	í	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
+1	hí	i	ADP	_	AdpType=Prep|Definite=Ind	_	_	_	_
 2	scríbiunt	scríbend	NOUN	_	Case=Dat|Number=Sing	_	_	_	_
 3	dá	dá	NUM	_	_	_	_	_	_
 4	carachtar	cárachtar	NOUN	_	Case=Gen|Number=Dual	_	_	_	_
