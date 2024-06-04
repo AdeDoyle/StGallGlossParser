@@ -837,7 +837,7 @@
 # translation = five tens, fifty
 1	cóic	cóic	NUM	_	_	_	_	_	_
 2	deich	deich	NUM	_	_	_	_	_	_
-3	cóica	cóica	NUM	_	Case=Nom|Number=Sing	_	_	_	_
+3	cóica	cóica	NUM	_	NumType=Card	_	_	_	_
 
 # sent_id = 69
 # reference = 4a6

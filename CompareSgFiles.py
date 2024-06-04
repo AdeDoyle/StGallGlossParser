@@ -41,7 +41,7 @@ def test_conllu():
 
     # For each current UD file (test and incomplete)
     for conllu_file in os.listdir(base_files):
-        if conllu_file[-7:] == ".conllu":
+        if conllu_file[-7:] == ".conllu" and "combined_POS" not in conllu_file:
 
             # Parse the .conllu file, and add its contents to a list of base-file contents
             with open(os.path.join(base_files, conllu_file), "r", encoding="utf-8") as conllu_file_import:
